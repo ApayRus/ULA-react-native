@@ -1,12 +1,16 @@
 {
-  "name": "bagaudin",
-  "displayName": "bagaudin",
-  "expo": {
     "name": "bagaudin",
-    "slug": "bagaudin",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  }
+    "displayName": "bagaudin",
+    "expo": {
+        "name": "bagaudin",
+        "slug": "bagaudin",
+        "version": "1.0.0",
+        "assetBundlePatterns": [
+            "**/*"
+        ]
+    },
+    "splash": {
+        "image": "./src/assets/images/logo.png",
+        "backgroundColor": "#FEF9B0"
+    }
 }
