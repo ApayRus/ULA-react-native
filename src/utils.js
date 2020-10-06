@@ -1,4 +1,4 @@
-import { map } from 'lodash'
+import { map, orderBy } from 'lodash'
 
 /**
  * 
@@ -8,5 +8,6 @@ import { map } from 'lodash'
  // [{ id:'01', text:'bla1' }, { id:'02', text:'bla2' }]
  */
 export function objectToArray(object) {
-    return map(object, (elem, key) => ({ id: key, ...elem }))
+    const array = map(object, (elem, key) => ({ id: key, ...elem }))
+    return orderBy(array, 'id')
 }

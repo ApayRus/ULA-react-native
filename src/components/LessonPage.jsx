@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, ScrollView, View } from 'react-native'
-import { Text, Image } from 'react-native-elements'
-import { Header } from 'react-native-elements'
+import {
+	StyleSheet,
+	ScrollView,
+	View,
+	TouchableOpacity,
+	Alert
+} from 'react-native'
+import { Text, Image, Header, Icon } from 'react-native-elements'
 import { objectToArray } from '../utils'
 import wordImages from '../assets/images/words'
+import wordAudios from '../assets/audios/words'
+import phraseAudios from '../assets/audios/phrases'
 import { useFonts } from 'expo-font'
+import { Audio } from 'expo-av'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
@@ -17,9 +25,29 @@ export default function LessonScreen({ navigation, route }) {
 		lessonDoc || {}
 	const words = objectToArray(wordsObject)
 	const phrases = objectToArray(phrasesObject)
+	console.log('phrases', phrases)
 	const [fontLoaded] = useFonts({
 		Scheherazade: require('../assets/fonts/Scheherazade-Regular.ttf')
 	})
+
+	const playAudio = async (id, source) => {
+		// console.log('playAudio', id, source)
+		if (source[id]) {
+			const soundObject = new Audio.Sound()
+			await soundObject.loadAsync(source[id])
+			soundObject.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate(soundObject))
+			await soundObject.playAsync()
+		} else {
+			Alert.alert(`Audio ${id} doesn't exist`, `Please, contact the admin`)
+		}
+	}
+
+	const onPlaybackStatusUpdate = soundObject => playbackStatus => {
+		if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0)
+			soundObject.unloadAsync()
+		// console.log('playbackStatus', playbackStatus)
+	}
+
 	return (
 		<ScrollView>
 			<StatusBar style='auto' />
@@ -36,14 +64,16 @@ export default function LessonScreen({ navigation, route }) {
 			/>
 
 			<View style={{ padding: 5 }}>
-				<Text h2Style style={{ fontSize: 20 }}>
+				<Text h2 h2Style={{ fontSize: 20 }}>
 					Words
 				</Text>
 				{words.map(elem => {
-					const image = wordImages[lessonId + '_' + elem.id]
+					const wordId = lessonId + '_' + elem.id
+					const image = wordImages[wordId]
 					// console.log('image.getSize()', image.getSize())
 					return (
-						<View
+						<TouchableOpacity
+							onPress={() => playAudio(wordId, wordAudios)}
 							key={`word-${elem.id}`}
 							style={{
 								display: 'flex',
@@ -57,34 +87,52 @@ export default function LessonScreen({ navigation, route }) {
 									style={{ width: 100, height: 100, resizeMode: 'contain' }}
 								/>
 							)}
-							<Text style={{ fontSize: 35, fontFamily: 'Scheherazade' }}>
-								{elem.text}
-							</Text>
-						</View>
+							<View
+								style={{
+									flexDirection: 'row',
+									flexWrap: 'wrap',
+									alignItems: 'baseline'
+								}}
+							>
+								<Text style={{ fontSize: 35, fontFamily: 'Scheherazade' }}>
+									{elem.text}
+								</Text>
+								{/* <Icon
+									type='material'
+									name='play-arrow'
+									style={{ marginLeft: 20 }}
+									onPress={() => console.log('play!!!')}
+								/> */}
+							</View>
+						</TouchableOpacity>
 					)
 				})}
 			</View>
 			<View style={{ marginBottom: 20, padding: 5 }}>
-				<Text h2Style style={{ fontSize: 20 }}>
+				<Text h2 h2Style={{ fontSize: 20 }}>
 					Phrases
 				</Text>
-				{phrases.map(elem => (
-					<View
-						key={`phrase-${elem.id}`}
-						// style={{ display: 'flex', alignItems: 'center' }}
-					>
-						<Text
-							style={{
-								fontSize: 35,
-								marginTop: 10,
-								marginRight: 20,
-								fontFamily: 'Scheherazade'
-							}}
+				{phrases.map(elem => {
+					const phraseId = lessonId + '_' + elem.id
+					return (
+						<TouchableOpacity
+							onPress={() => playAudio(phraseId, phraseAudios)}
+							key={`phrase-${elem.id}`}
+							// style={{ display: 'flex', alignItems: 'center' }}
 						>
-							{elem.text}
-						</Text>
-					</View>
-				))}
+							<Text
+								style={{
+									fontSize: 35,
+									marginTop: 10,
+									marginRight: 20,
+									fontFamily: 'Scheherazade'
+								}}
+							>
+								{elem.text}
+							</Text>
+						</TouchableOpacity>
+					)
+				})}
 			</View>
 		</ScrollView>
 	)
