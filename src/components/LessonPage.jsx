@@ -12,8 +12,13 @@ import { objectToArray } from '../utils'
 import wordImages from '../assets/images/words'
 import wordAudios from '../assets/audios/words'
 import phraseAudios from '../assets/audios/phrases'
-import { useFonts } from 'expo-font'
+import {
+	useFonts,
+	Scheherazade_400Regular,
+	Scheherazade_700Bold
+} from '@expo-google-fonts/scheherazade'
 import { Audio } from 'expo-av'
+import { AppLoading } from 'expo'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
@@ -27,7 +32,7 @@ export default function LessonScreen({ navigation, route }) {
 	const phrases = objectToArray(phrasesObject)
 	console.log('phrases', phrases)
 	const [fontLoaded] = useFonts({
-		Scheherazade: require('../assets/fonts/Scheherazade-Regular.ttf')
+		Scheherazade_400Regular
 	})
 
 	const playAudio = async (id, source) => {
@@ -48,7 +53,7 @@ export default function LessonScreen({ navigation, route }) {
 		// console.log('playbackStatus', playbackStatus)
 	}
 
-	return (
+	return fontLoaded ? (
 		<ScrollView>
 			<StatusBar style='auto' />
 			<Header
@@ -59,7 +64,11 @@ export default function LessonScreen({ navigation, route }) {
 				}}
 				centerComponent={{
 					text: title,
-					style: { color: '#fff', fontFamily: 'Scheherazade', fontSize: 25 }
+					style: {
+						color: '#fff',
+						fontFamily: 'Scheherazade_400Regular',
+						fontSize: 25
+					}
 				}}
 			/>
 
@@ -94,15 +103,20 @@ export default function LessonScreen({ navigation, route }) {
 									alignItems: 'baseline'
 								}}
 							>
-								<Text style={{ fontSize: 35, fontFamily: 'Scheherazade' }}>
+								<Text
+									style={{
+										fontSize: 35,
+										fontFamily: 'Scheherazade_400Regular'
+									}}
+								>
 									{elem.text}
 								</Text>
 								{/* <Icon
-									type='material'
-									name='play-arrow'
-									style={{ marginLeft: 20 }}
-									onPress={() => console.log('play!!!')}
-								/> */}
+								type='material'
+								name='play-arrow'
+								style={{ marginLeft: 20 }}
+								onPress={() => console.log('play!!!')}
+							/> */}
 							</View>
 						</TouchableOpacity>
 					)
@@ -125,7 +139,7 @@ export default function LessonScreen({ navigation, route }) {
 									fontSize: 35,
 									marginTop: 10,
 									marginRight: 20,
-									fontFamily: 'Scheherazade'
+									fontFamily: 'Scheherazade_400Regular'
 								}}
 							>
 								{elem.text}
@@ -135,5 +149,7 @@ export default function LessonScreen({ navigation, route }) {
 				})}
 			</View>
 		</ScrollView>
+	) : (
+		<AppLoading />
 	)
 }
