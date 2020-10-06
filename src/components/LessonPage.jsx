@@ -43,7 +43,11 @@ export default function LessonScreen({ navigation, route }) {
 			soundObject.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate(soundObject))
 			await soundObject.playAsync()
 		} else {
-			Alert.alert(`Audio ${id} doesn't exist`, `Please, contact the admin`)
+			const sourceType = source == wordAudios ? 'word' : 'phrase'
+			Alert.alert(
+				`Audio for ${sourceType} ${id} doesn't exist`,
+				`Please, contact the admin`
+			)
 		}
 	}
 
