@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useContext } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import {
 	StyleSheet,
@@ -7,18 +7,21 @@ import {
 	TouchableOpacity,
 	Alert
 } from 'react-native'
-import { Text, Image, Header, Icon } from 'react-native-elements'
+import { Text, Image, Header } from 'react-native-elements'
 import { objectToArray } from '../utils'
 import wordImages from '../assets/images/words'
 import wordAudios from '../assets/audios/words'
 import phraseAudios from '../assets/audios/phrases'
 import { Audio } from 'expo-av'
+// import globalStyles from '../config/globalStyles'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
 		// name: lessonTitle,
-		params: { chapterId, chapterDoc }
+		params: { chapterId, chapterDoc, globalStyles }
 	} = route
+
+	console.log('globalStyles', globalStyles)
 
 	const { title = '', words: wordsObject = '', phrases: phrasesObject = '' } =
 		chapterDoc || {}
@@ -97,14 +100,7 @@ export default function LessonScreen({ navigation, route }) {
 									alignItems: 'baseline'
 								}}
 							>
-								<Text
-									style={{
-										fontSize: 35,
-										fontFamily: 'Scheherazade_400Regular'
-									}}
-								>
-									{elem.text}
-								</Text>
+								<Text style={[globalStyles.body1]}>{elem.text}</Text>
 								{/* <Icon
 								type='material'
 								name='play-arrow'
@@ -129,12 +125,7 @@ export default function LessonScreen({ navigation, route }) {
 							// style={{ display: 'flex', alignItems: 'center' }}
 						>
 							<Text
-								style={{
-									fontSize: 35,
-									marginTop: 10,
-									marginRight: 20,
-									fontFamily: 'Scheherazade_400Regular'
-								}}
+								style={[{ marginTop: 10, marginRight: 20 }, globalStyles.body1]}
 							>
 								{elem.text}
 							</Text>

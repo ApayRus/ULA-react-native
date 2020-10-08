@@ -2,7 +2,7 @@ export default {
     info: {
         title: 'الدروس الأولية',
         author: 'بهاء الدين محمد الداغستاني',
-        language: 'ar',
+        language: 'arabic',
         level: 'beginner',
         website: 'github.com'
     },

@@ -16,6 +16,8 @@ import {
 	Scheherazade_700Bold
 } from '@expo-google-fonts/scheherazade'
 
+import globalStyles from './src/config/globalStyles'
+
 // package bug fix
 if (colors.platform.web == null) {
 	// @ts-ignore The typings are also missing "web"
@@ -29,12 +31,16 @@ if (colors.platform.web == null) {
 		warning: '#faad14'
 	}
 }
-const theme = { colors }
+const theme = {
+	colors
+}
 
 const Drawer = createDrawerNavigator()
 
+const { info, chapters: chaptersRaw } = textContent
+
 export default function App() {
-	const chapters = map(textContent.chapters, (elem, key) => ({
+	const chapters = map(chaptersRaw, (elem, key) => ({
 		id: key,
 		title: elem.title
 	}))
@@ -48,7 +54,12 @@ export default function App() {
 				<Drawer.Navigator
 					initialRouteName='Home'
 					drawerContent={props => (
-						<DrawerContent {...props} chapters={chapters} />
+						<DrawerContent
+							{...props}
+							chapters={chapters}
+							info={info}
+							globalStyles={globalStyles(info.language)}
+						/>
 					)}
 				>
 					<Drawer.Screen
@@ -66,7 +77,8 @@ export default function App() {
 							component={ChapterScreen}
 							initialParams={{
 								chapterId: elem.id,
-								chapterDoc: textContent.chapters[elem.id]
+								chapterDoc: textContent.chapters[elem.id],
+								globalStyles: globalStyles(info.language)
 							}}
 						/>
 					))}
