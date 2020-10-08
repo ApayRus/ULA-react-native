@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import HomeScreen from './src/components/HomePage'
 import ContactsScreen from './src/components/ContactsPage'
-import ChapterScreen from './src/components/LessonPage'
+import ChapterScreen from './src/components/ChapterScreen'
 import DrawerContent from './src/components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
