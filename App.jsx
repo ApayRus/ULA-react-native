@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import HomeScreen from './src/components/HomePage'
 import ContactsScreen from './src/components/ContactsPage'
-import LessonScreen from './src/components/LessonPage'
+import ChapterScreen from './src/components/LessonPage'
 import DrawerContent from './src/components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ThemeProvider, colors } from 'react-native-elements'
 import { map } from 'lodash'
-import lessonsContent from './src/assets/lessons/lessonsContent'
+import textContent from './src/assets/lessons/lessonsContent'
 import { AppLoading } from 'expo'
 import {
 	useFonts,
@@ -34,7 +34,7 @@ const theme = { colors }
 const Drawer = createDrawerNavigator()
 
 export default function App() {
-	const lessons = map(lessonsContent, (elem, key) => ({
+	const chapters = map(textContent.chapters, (elem, key) => ({
 		id: key,
 		title: elem.title
 	}))
@@ -48,7 +48,7 @@ export default function App() {
 				<Drawer.Navigator
 					initialRouteName='Home'
 					drawerContent={props => (
-						<DrawerContent {...props} lessons={lessons} />
+						<DrawerContent {...props} chapters={chapters} />
 					)}
 				>
 					<Drawer.Screen
@@ -59,14 +59,14 @@ export default function App() {
 						}}
 					/>
 					<Drawer.Screen name='Contacts' component={ContactsScreen} />
-					{lessons.map(elem => (
+					{chapters.map(elem => (
 						<Drawer.Screen
 							key={`lesson-${elem.id}`}
 							name={elem.title}
-							component={LessonScreen}
+							component={ChapterScreen}
 							initialParams={{
-								lessonId: elem.id,
-								lessonDoc: lessonsContent[elem.id]
+								chapterId: elem.id,
+								chapterDoc: textContent.chapters[elem.id]
 							}}
 						/>
 					))}

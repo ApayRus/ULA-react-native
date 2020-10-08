@@ -17,11 +17,11 @@ import { Audio } from 'expo-av'
 export default function LessonScreen({ navigation, route }) {
 	const {
 		// name: lessonTitle,
-		params: { lessonId, lessonDoc }
+		params: { chapterId, chapterDoc }
 	} = route
 
 	const { title = '', words: wordsObject = '', phrases: phrasesObject = '' } =
-		lessonDoc || {}
+		chapterDoc || {}
 	const words = objectToArray(wordsObject)
 	const phrases = objectToArray(phrasesObject)
 
@@ -71,7 +71,7 @@ export default function LessonScreen({ navigation, route }) {
 					Words
 				</Text>
 				{words.map(elem => {
-					const wordId = lessonId + '_' + elem.id
+					const wordId = chapterId + '_' + elem.id
 					const image = wordImages[wordId]
 					// console.log('image.getSize()', image.getSize())
 					return (
@@ -121,7 +121,7 @@ export default function LessonScreen({ navigation, route }) {
 					Phrases
 				</Text>
 				{phrases.map(elem => {
-					const phraseId = lessonId + '_' + elem.id
+					const phraseId = chapterId + '_' + elem.id
 					return (
 						<TouchableOpacity
 							onPress={() => playAudio(phraseId, phraseAudios)}

@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native'
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 
 export default function Drawer(props) {
-	const { lessons, navigation } = props
+	const { chapters, navigation } = props
 
 	return (
 		<DrawerContentScrollView>
@@ -14,7 +14,7 @@ export default function Drawer(props) {
 					source={require('../assets/images/logo.png')}
 				></Image>
 			</View>
-			{lessons.map(elem => (
+			{chapters.map(elem => (
 				<ListItem
 					key={`lesson-${elem.id}`}
 					onPress={() => navigation.navigate(elem.title)}
