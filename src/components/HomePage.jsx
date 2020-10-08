@@ -8,12 +8,18 @@ export default function HomeScreen({ navigation }) {
 		<>
 			<StatusBar style='auto' />
 			<Header
+				backgroundColor='#fff'
 				rightComponent={{
 					icon: 'menu',
-					color: '#fff',
+					// color: '#fff',
 					onPress: () => navigation.toggleDrawer()
 				}}
-				centerComponent={{ text: 'Home', style: { color: '#fff' } }}
+				centerComponent={{
+					text: 'Home',
+					style: {
+						/*  color: '#fff' */
+					}
+				}}
 			/>
 			<View style={styles.container}>
 				<Image

@@ -1,43 +1,79 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HomeScreen from './src/components/HomePage'
 import ContactsScreen from './src/components/ContactsPage'
 import LessonScreen from './src/components/LessonPage'
+import DrawerContent from './src/components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Icon from 'react-native-vector-icons/Ionicons'
-import lessonsContent from './src/assets/lessons/lessonsContent'
+import { ThemeProvider, colors } from 'react-native-elements'
 import { map } from 'lodash'
+import lessonsContent from './src/assets/lessons/lessonsContent'
+import { AppLoading } from 'expo'
+import {
+	useFonts,
+	Scheherazade_400Regular,
+	Scheherazade_700Bold
+} from '@expo-google-fonts/scheherazade'
+
+// package bug fix
+if (colors.platform.web == null) {
+	// @ts-ignore The typings are also missing "web"
+	colors.platform.web = {
+		primary: '#2089dc',
+		secondary: '#ca71eb',
+		grey: '#393e42',
+		searchBg: '#303337',
+		success: '#52c41a',
+		error: '#ff190c',
+		warning: '#faad14'
+	}
+}
+const theme = { colors }
+
 const Drawer = createDrawerNavigator()
 
-const lessons = map(lessonsContent, (elem, key) => ({
-	id: key,
-	title: elem.title
-}))
-
 export default function App() {
-	return (
-		<NavigationContainer>
-			<Drawer.Navigator initialRouteName='Home'>
-				<Drawer.Screen
-					name='Home'
-					component={HomeScreen}
-					options={{
-						headerLeft: () => <Icon.Button name='ios-menu' size={25} />
-					}}
-				/>
-				<Drawer.Screen name='Contacts' component={ContactsScreen} />
-				{lessons.map(elem => (
+	const lessons = map(lessonsContent, (elem, key) => ({
+		id: key,
+		title: elem.title
+	}))
+
+	const [fontLoaded] = useFonts({
+		Scheherazade_400Regular
+	})
+	return fontLoaded ? (
+		<ThemeProvider theme={theme}>
+			<NavigationContainer>
+				<Drawer.Navigator
+					initialRouteName='Home'
+					drawerContent={props => (
+						<DrawerContent {...props} lessons={lessons} />
+					)}
+				>
 					<Drawer.Screen
-						key={`lesson-${elem.id}`}
-						name={elem.title}
-						component={LessonScreen}
-						initialParams={{
-							lessonId: elem.id,
-							lessonDoc: lessonsContent[elem.id]
+						name='Home'
+						component={HomeScreen}
+						options={{
+							headerLeft: () => <Icon.Button name='ios-menu' size={25} />
 						}}
 					/>
-				))}
-			</Drawer.Navigator>
-		</NavigationContainer>
+					<Drawer.Screen name='Contacts' component={ContactsScreen} />
+					{lessons.map(elem => (
+						<Drawer.Screen
+							key={`lesson-${elem.id}`}
+							name={elem.title}
+							component={LessonScreen}
+							initialParams={{
+								lessonId: elem.id,
+								lessonDoc: lessonsContent[elem.id]
+							}}
+						/>
+					))}
+				</Drawer.Navigator>
+			</NavigationContainer>
+		</ThemeProvider>
+	) : (
+		<AppLoading />
 	)
 }

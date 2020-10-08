@@ -12,13 +12,7 @@ import { objectToArray } from '../utils'
 import wordImages from '../assets/images/words'
 import wordAudios from '../assets/audios/words'
 import phraseAudios from '../assets/audios/phrases'
-import {
-	useFonts,
-	Scheherazade_400Regular,
-	Scheherazade_700Bold
-} from '@expo-google-fonts/scheherazade'
 import { Audio } from 'expo-av'
-import { AppLoading } from 'expo'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
@@ -30,10 +24,6 @@ export default function LessonScreen({ navigation, route }) {
 		lessonDoc || {}
 	const words = objectToArray(wordsObject)
 	const phrases = objectToArray(phrasesObject)
-	console.log('phrases', phrases)
-	const [fontLoaded] = useFonts({
-		Scheherazade_400Regular
-	})
 
 	const playAudio = async (id, source) => {
 		// console.log('playAudio', id, source)
@@ -57,7 +47,7 @@ export default function LessonScreen({ navigation, route }) {
 		// console.log('playbackStatus', playbackStatus)
 	}
 
-	return fontLoaded ? (
+	return (
 		<ScrollView>
 			<StatusBar style='auto' />
 			<Header
@@ -153,7 +143,5 @@ export default function LessonScreen({ navigation, route }) {
 				})}
 			</View>
 		</ScrollView>
-	) : (
-		<AppLoading />
 	)
 }
