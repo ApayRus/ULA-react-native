@@ -7,8 +7,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ThemeProvider, colors } from 'react-native-elements'
-import { map } from 'lodash'
-import textContent from './src/assets/lessons/lessonsContent'
+import { map, orderBy } from 'lodash'
+import textContent from './src/assets/lessons/content'
 import { AppLoading } from 'expo'
 import {
 	useFonts,
@@ -38,16 +38,19 @@ const theme = {
 const Drawer = createDrawerNavigator()
 
 const { info, chapters: chaptersRaw } = textContent
+const { language = '' } = info
+const gStyles = globalStyles(language.toLocaleLowerCase())
 
 export default function App() {
-	const chapters = map(chaptersRaw, (elem, key) => ({
-		id: key,
-		title: elem.title
-	}))
-
+	let chapters = map(chaptersRaw, (elem, key) => {
+		const {title='???'} = elem
+		return {id: key, title}
+	})
+	chapters = orderBy(chapters, 'id')
 	const [fontLoaded] = useFonts({
 		Scheherazade_400Regular
 	})
+
 	return fontLoaded ? (
 		<ThemeProvider theme={theme}>
 			<NavigationContainer>
@@ -58,7 +61,7 @@ export default function App() {
 							{...props}
 							chapters={chapters}
 							info={info}
-							globalStyles={globalStyles(info.language)}
+							globalStyles={gStyles}
 						/>
 					)}
 				>
@@ -78,7 +81,7 @@ export default function App() {
 							initialParams={{
 								chapterId: elem.id,
 								chapterDoc: textContent.chapters[elem.id],
-								globalStyles: globalStyles(info.language)
+								globalStyles: gStyles
 							}}
 						/>
 					))}
