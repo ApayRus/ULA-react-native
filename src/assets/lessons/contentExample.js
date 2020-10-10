@@ -1,6 +1,9 @@
+// info is the paragraph after first h1 title 
+// chapters is the looped elements, h2 appears in main menu 
+
 export default {
     info: {
-        title: 'الدروس الأولية',
+        'title': 'الدروس الأولية',
         author: 'بهاء الدين محمد الداغستاني',
         language: 'arabic',
         level: 'beginner',
