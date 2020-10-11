@@ -1,5 +1,5 @@
-import fs from "fs";
-import marked from "marked";
+const marked = require("marked");
+const fs = require('fs')
 const mdFileContent = fs.readFileSync("./content.md", "utf-8");
 
 const makeArrayFromMarkdown = (mdFileContent) =>
@@ -94,6 +94,6 @@ const chapters = parseChaptersArray(chaptersArray);
 
 const content = { info, chapters };
 
-// console.log(JSON.stringify(content, null, "\t"));
+console.log(JSON.stringify(info, null, "\t"));
 
 fs.writeFileSync('./content.js', 'export default ' + JSON.stringify(content, null, "\t"), 'utf-8')

@@ -1,6 +1,5 @@
 {
     "main": "index.js",
-    "type": "module",
     "scripts": {
         "android": "react-native run-android",
         "ios": "react-native run-ios",
