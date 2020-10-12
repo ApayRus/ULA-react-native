@@ -17,7 +17,7 @@ const getFileMapOfDir = (dir) => fs.readdirSync(dir)
     .filter(elem => isFile(path.join(dir, elem)))
     .reduce((prev, elem) => {
         const fileId = elem.replace(/\.[^.]+$/, '')
-        const filePath = path.join(dir, elem)
+        const filePath = path.join('../../', dir, elem)
         return {...prev, [fileId]: `require("${filePath}")` }
     }, {})
 
