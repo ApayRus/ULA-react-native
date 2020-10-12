@@ -70,7 +70,7 @@ export default function App() {
 						component={HomeScreen}
 						options={{
 							headerLeft: () => <Icon.Button name='ios-menu' size={25} />
-						}}
+						}} initialParams={{ info: info, globalStyles: gStyles }} 
 					/>
 					<Drawer.Screen name='Contacts' component={ContactsScreen} />
 					{chapters.map(elem => (

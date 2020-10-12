@@ -21,8 +21,6 @@ export default function LessonScreen({ navigation, route }) {
 		params: { chapterId, chapterDoc, globalStyles }
 	} = route
 
-	console.log('globalStyles', globalStyles)
-
 	const { title = '', words: wordsObject = '', phrases: phrasesObject = '' } =
 		chapterDoc || {}
 	const words = objectToArray(wordsObject)

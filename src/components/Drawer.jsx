@@ -1,6 +1,6 @@
 import React from 'react'
-import { Image, ListItem } from 'react-native-elements'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { Image, ListItem, Icon } from 'react-native-elements'
+import { View, ScrollView } from 'react-native'
 
 export default function Drawer(props) {
 	const { chapters, navigation, globalStyles } = props
@@ -14,6 +14,19 @@ export default function Drawer(props) {
 				></Image>
 			</View>
 			<View>
+			<ListItem style={{marginBottom:5}}
+						// topDivider
+						bottomDivider
+						containerStyle={styles.listItem}
+						onPress={() => navigation.navigate('Home')}
+					>
+						<Icon name='home' color="grey" /> 
+						<ListItem.Content>
+							<ListItem.Title>
+								Home
+							</ListItem.Title>
+						</ListItem.Content>
+					</ListItem>
 				{chapters.map(elem => (
 					<ListItem
 						bottomDivider
