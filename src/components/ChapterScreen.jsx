@@ -8,10 +8,10 @@ import {
 	Alert
 } from 'react-native'
 import { Text, Image, Header } from 'react-native-elements'
-import { objectToArray } from '../utils'
-import wordImages from '../assets/images/words'
-import wordAudios from '../assets/audios/words'
-import phraseAudios from '../assets/audios/phrases'
+import { objectToArray } from '../utils/utils'
+import wordImages from '../../assets/images/words'
+import wordAudios from '../../assets/audios/words'
+import phraseAudios from '../../assets/audios/phrases'
 import { Audio } from 'expo-av'
 // import globalStyles from '../config/globalStyles'
 

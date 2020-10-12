@@ -8,7 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { ThemeProvider, colors } from 'react-native-elements'
 import { map, orderBy } from 'lodash'
-import textContent from './src/assets/lessons/content'
+import textContent from './assets/content'
 import { AppLoading } from 'expo'
 import {
 	useFonts,
