@@ -3,6 +3,7 @@
     "scripts": {
         "android": "react-native run-android",
         "ios": "react-native run-ios",
+        "generate-assets": "node src/utils/createMapOfMedia.js && node src/utils/createContent.js",
         "web": "expo start --web",
         "start": "react-native start",
         "test": "jest"

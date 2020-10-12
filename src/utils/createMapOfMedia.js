@@ -21,7 +21,7 @@ const getFileMapOfDir = (dir) => fs.readdirSync(dir)
         return {...prev, [fileId]: `require("${filePath}")` }
     }, {})
 
-const baseDir = '../../content'
+const baseDir = './content'
 
 // types of files, like: /audio, /images, etc. 
 const mediaTypes = getSubDirsOfDir(baseDir)
@@ -51,5 +51,7 @@ mediaMaps.forEach(elem => {
 export default `
     fs.mkdirSync(path.join('../../assets', mediaType), { recursive: true })
     const jsString = JSON.stringify(elem.mapFiles, null, "\t").replace(/"(require\(.+\))"/g, '$1').replace(/\\"/g, '"')
-    fs.writeFileSync(`${path.join('../../assets', mediaType, subchapter)}.js`, beforeContent + jsString, 'utf-8')
+    fs.writeFileSync(`${path.join('./assets', mediaType, subchapter)}.js`, beforeContent + jsString, 'utf-8')
 })
+
+console.log('maps of media updated')
