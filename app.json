@@ -1,16 +1,19 @@
 {
+  "name": "bagaudin",
+  "displayName": "bagaudin",
+  "expo": {
     "name": "bagaudin",
-    "displayName": "bagaudin",
-    "expo": {
-        "name": "bagaudin",
-        "slug": "bagaudin",
-        "version": "1.0.0",
-        "assetBundlePatterns": [
-            "**/*"
-        ]
-    },
-    "splash": {
-        "image": "./src/assets/images/logo.png",
-        "backgroundColor": "#FEF9B0"
+    "slug": "bagaudin",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.github.aparus"
     }
+  },
+  "splash": {
+    "image": "./src/assets/images/logo.png",
+    "backgroundColor": "#FEF9B0"
+  }
 }
