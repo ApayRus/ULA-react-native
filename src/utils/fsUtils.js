@@ -14,7 +14,11 @@ const getFileMapOfDir = (dir) => fs.readdirSync(dir)
         return {...prev, [fileId]: `require("${filePath}")` }
     }, {})
 
+const getFilesOfDir = (dir) => fs.readdirSync(dir)
+    .filter(elem => isFile(path.join(dir, elem)))
+
 module.exports = {
     getSubDirsOfDir,
-    getFileMapOfDir
+    getFileMapOfDir,
+    getFilesOfDir
 }
