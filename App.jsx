@@ -37,14 +37,14 @@ const theme = {
 
 const Drawer = createDrawerNavigator()
 
-const { info, chapters: chaptersRaw } = textContent
+const { info, chapters: chaptersRaw, translations } = textContent
 const { language = '' } = info
 const gStyles = globalStyles(language.toLocaleLowerCase())
 
 export default function App() {
 	let chapters = map(chaptersRaw, (elem, key) => {
-		const {title='???'} = elem
-		return {id: key, title}
+		const { title = '???' } = elem
+		return { id: key, title }
 	})
 	chapters = orderBy(chapters, 'id')
 	const [fontLoaded] = useFonts({
@@ -70,7 +70,12 @@ export default function App() {
 						component={HomeScreen}
 						options={{
 							headerLeft: () => <Icon.Button name='ios-menu' size={25} />
-						}} initialParams={{ info: info, globalStyles: gStyles }} 
+						}}
+						initialParams={{
+							info: info,
+							translations: translations,
+							globalStyles: gStyles
+						}}
 					/>
 					<Drawer.Screen name='Contacts' component={ContactsScreen} />
 					{chapters.map(elem => (
