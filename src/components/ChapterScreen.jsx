@@ -1,12 +1,6 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import {
-	StyleSheet,
-	ScrollView,
-	View,
-	TouchableOpacity,
-	Alert
-} from 'react-native'
+import { ScrollView, View, TouchableOpacity, Alert, Switch } from 'react-native'
 import { Text, Image, Header } from 'react-native-elements'
 import { objectToArray } from '../utils/utils'
 import wordImages from '../../assets/images/words'
@@ -20,6 +14,8 @@ export default function LessonScreen({ navigation, route }) {
 		// name: lessonTitle,
 		params: { chapterId, chapterDoc, globalStyles }
 	} = route
+
+	const [switchValue, toggleSwitch] = useState(false)
 
 	const { title = '', words: wordsObject = '', phrases: phrasesObject = '' } =
 		chapterDoc || {}
@@ -49,88 +45,111 @@ export default function LessonScreen({ navigation, route }) {
 	}
 
 	return (
-		<ScrollView>
-			<StatusBar style='auto' />
-			<Header
-				rightComponent={{
-					icon: 'menu',
-					color: '#fff',
-					onPress: () => navigation.toggleDrawer()
-				}}
-				centerComponent={{
-					text: title,
-					style: {
+		<View style={{ flex: 1 }}>
+			<ScrollView>
+				<StatusBar style='auto' />
+				<Header
+					rightComponent={{
+						icon: 'menu',
 						color: '#fff',
-						fontFamily: 'Scheherazade_400Regular',
-						fontSize: 25
-					}
-				}}
-			/>
-
-			<View style={{ padding: 5 }}>
-				<Text h2 h2Style={{ fontSize: 20 }}>
-					Words
-				</Text>
-				{words.map(elem => {
-					const wordId = chapterId + '_' + elem.id
-					const image = wordImages[wordId]
-					// console.log('image.getSize()', image.getSize())
-					return (
-						<TouchableOpacity
-							onPress={() => playAudio(wordId, wordAudios)}
-							key={`word-${elem.id}`}
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								marginBottom: 20
-							}}
-						>
-							{image && (
-								<Image
-									source={image}
-									style={{ width: 100, height: 100, resizeMode: 'contain' }}
-								/>
-							)}
-							<View
+						onPress: () => navigation.toggleDrawer()
+					}}
+					centerComponent={{
+						text: title,
+						style: {
+							color: '#fff',
+							fontFamily: 'Scheherazade_400Regular',
+							fontSize: 25
+						}
+					}}
+				/>
+				<View style={{ padding: 5 }}>
+					<Text h2 h2Style={{ fontSize: 20 }}>
+						Words
+					</Text>
+					{words.map(elem => {
+						const wordId = chapterId + '_' + elem.id
+						const image = wordImages[wordId]
+						// console.log('image.getSize()', image.getSize())
+						return (
+							<TouchableOpacity
+								onPress={() => playAudio(wordId, wordAudios)}
+								key={`word-${elem.id}`}
 								style={{
-									flexDirection: 'row',
-									flexWrap: 'wrap',
-									alignItems: 'baseline'
+									display: 'flex',
+									alignItems: 'center',
+									marginBottom: 20
 								}}
 							>
-								<Text style={[globalStyles.body1]}>{elem.text}</Text>
-								{/* <Icon
+								{image && (
+									<Image
+										source={image}
+										style={{ width: 100, height: 100, resizeMode: 'contain' }}
+									/>
+								)}
+								<View
+									style={{
+										flexDirection: 'row',
+										flexWrap: 'wrap',
+										alignItems: 'baseline'
+									}}
+								>
+									<Text style={[globalStyles.body1]}>{elem.text}</Text>
+									{/* <Icon
 								type='material'
 								name='play-arrow'
 								style={{ marginLeft: 20 }}
 								onPress={() => console.log('play!!!')}
 							/> */}
-							</View>
-						</TouchableOpacity>
-					)
-				})}
-			</View>
-			<View style={{ marginBottom: 20, padding: 5 }}>
-				<Text h2 h2Style={{ fontSize: 20 }}>
-					Phrases
-				</Text>
-				{phrases.map(elem => {
-					const phraseId = chapterId + '_' + elem.id
-					return (
-						<TouchableOpacity
-							onPress={() => playAudio(phraseId, phraseAudios)}
-							key={`phrase-${elem.id}`}
-							// style={{ display: 'flex', alignItems: 'center' }}
-						>
-							<Text
-								style={[{ marginTop: 10, marginRight: 20 }, globalStyles.body1]}
+								</View>
+							</TouchableOpacity>
+						)
+					})}
+				</View>
+				<View style={{ marginBottom: 20, padding: 5 }}>
+					<Text h2 h2Style={{ fontSize: 20 }}>
+						Phrases
+					</Text>
+					{phrases.map(elem => {
+						const phraseId = chapterId + '_' + elem.id
+						return (
+							<TouchableOpacity
+								onPress={() => playAudio(phraseId, phraseAudios)}
+								key={`phrase-${elem.id}`}
+								// style={{ display: 'flex', alignItems: 'center' }}
 							>
-								{elem.text}
-							</Text>
-						</TouchableOpacity>
-					)
-				})}
+								<Text
+									style={[
+										{ marginTop: 10, marginRight: 20 },
+										globalStyles.body1
+									]}
+								>
+									{elem.text}
+								</Text>
+							</TouchableOpacity>
+						)
+					})}
+				</View>
+			</ScrollView>
+			<View
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					flexWrap: 'wrap',
+					justifyContent: 'flex-end',
+					alignItems: 'flex-end',
+					alignContent: 'flex-end'
+				}}
+			>
+				<Text>translation: </Text>
+				<Switch
+					style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
+					onValueChange={() => {
+						toggleSwitch(!switchValue)
+					}}
+					value={switchValue}
+				/>
 			</View>
-		</ScrollView>
+		</View>
 	)
 }
