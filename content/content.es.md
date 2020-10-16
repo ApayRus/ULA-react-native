@@ -2,7 +2,7 @@
 
 author: بهاء الدين محمد الداغستاني
 description: Textbook with the simplest method in the world
-language: ar
+language: Arabic
 level: beginner
 website: github.com/Aparus/ulla
 
@@ -10,26 +10,26 @@ website: github.com/Aparus/ulla
 
 ### words
 
-هُوَ, هُمْ.
-أَنْتَ, أَنْتُمْ.
-أَنَا, نَحْنُ.
-كَبِيرٌ, كِبَارٌ.
-صَغِيرٌ, صِغَارٌ
+El ellos.
+tu tu
+Yo Nosotros.
+grande grande.
+pequeño pequeño.
 
 ### phrases
 
-هُوَ كَبِيرٌ.
-هُمْ كِبَارٌ.
-أَنْتَ صَغِيرٌ.
-اَنْتُمْ صِغَارٌ.
-اَنَا كَبِيرٌ.
-نَحْنُ كِبَارٌ.
-هُوَ صَغِيرٌ.
-هُمْ صِغَارٌ.
-اَنْتَ كَبِيرٌ.
-اَنْتُمْ كِبَارٌ.
-اَنَا صَغِيرٌ.
-نَحْنُ صِغَارٌ.
+el es grande.
+ellos son grandes.
+eres pequeño.
+eres pequeño.
+Soy grande.
+Somos grandes.
+es pequeño.
+somos pequeños.
+Eres grande.
+eres grande.
+Soy pequeño.
+somos pequeños.
 
 ## اَلدَّرْسُ الثَّانِي 2
 
