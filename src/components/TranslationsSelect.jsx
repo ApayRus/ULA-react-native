@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, colors } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { View, StyleSheet } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 

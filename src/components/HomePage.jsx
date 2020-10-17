@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Image, Text, Button, colors } from 'react-native-elements'
+import { View } from 'react-native'
+import { Image, Text, Button } from 'react-native-elements'
 import TranslationsSelect from './TranslationsSelect'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
 		params: { info, translations, globalStyles }
 	} = route
-	const { title, author, description, website } = info || {}
+	const { title, author, description } = info || {}
 	delete info.title
 	delete info.author
 	delete info.description
@@ -56,7 +56,7 @@ export default function HomeScreen({ navigation, route }) {
 	)
 }
 
-const styles = StyleSheet.create({
+const styles = {
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	tableOfContentButton: { paddingRight: 20 }
-})
+}

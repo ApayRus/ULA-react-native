@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+// import { StyleSheet } from 'react-native'
 
 export default lang => {
     const fontFamilyByLang = lang => {
@@ -45,5 +45,5 @@ export default lang => {
         }
     }
 
-    return StyleSheet.create(styles)
+    return styles
 }
