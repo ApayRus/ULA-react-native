@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { StyleSheet, View, Linking } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Image, Text, Button, colors } from 'react-native-elements'
-import AsyncStorage from '@react-native-community/async-storage'
+import TranslationsSelect from './TranslationsSelect'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
@@ -42,41 +42,15 @@ export default function HomeScreen({ navigation, route }) {
 						// size: 15,
 						color: 'white'
 					}}
+					buttonStyle={styles.tableOfContentButton}
 					title='Table of contents'
 				/>
 				<Text>{'\n'}</Text>
 				<Text>Available translations (choose one)</Text>
 				<Text>{'\n'}</Text>
-				<View
-					style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}
-				>
-					{translations.map(elem => (
-						<View
-							style={{
-								flex: 1,
-								backgroundColor: colors.grey5,
-								alignItems: 'center',
-								borderRadius: 12,
-								padding: 5,
-								marginLeft: 5
-							}}
-						>
-							<Text>{elem}</Text>
-						</View>
-					))}
-				</View>
-				<Text>{'\n'}</Text>
 
-				<Button
-					type='clear'
-					onPress={() => Linking.openURL(`https://${website}`)}
-					icon={{
-						name: 'language',
-						size: 15,
-						color: colors.primary
-					}}
-					title='website'
-				/>
+				<TranslationsSelect translations={translations} />
+				<Text>{'\n'}</Text>
 			</View>
 		</>
 	)
@@ -88,5 +62,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center'
-	}
+	},
+	tableOfContentButton: { paddingRight: 20 }
 })
