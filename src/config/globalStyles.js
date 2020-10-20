@@ -2,14 +2,14 @@
 
 export default lang => {
     const fontFamilyByLang = lang => {
-        if (lang === 'arabic') {
+        if (lang === 'ar') {
             return 'Scheherazade_400Regular'
         }
         return null
     }
 
     const directionByLang = lang => {
-        const rtlLanguages = ['arabic', 'hebrew']
+        const rtlLanguages = ['ar', 'he']
         if (rtlLanguages.includes(lang)) {
             return 'rtl'
         }
@@ -21,7 +21,7 @@ export default lang => {
     const fontFamily = fontFamilyByLang(lang)
 
     const fontSizeDelta = lang => {
-        if (lang === 'arabic') {
+        if (lang === 'ar') {
             return 10
         }
         return 0

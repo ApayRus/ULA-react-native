@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { ScrollView, View, TouchableOpacity, Alert, Switch } from 'react-native'
 import { Text, Image, Header } from 'react-native-elements'
@@ -7,6 +7,8 @@ import wordImages from '../../assets/images/words'
 import wordAudios from '../../assets/audios/words'
 import phraseAudios from '../../assets/audios/phrases'
 import { Audio } from 'expo-av'
+import translations from '../../assets/translations'
+import { useSelector } from 'react-redux'
 // import globalStyles from '../config/globalStyles'
 
 export default function LessonScreen({ navigation, route }) {
@@ -14,6 +16,27 @@ export default function LessonScreen({ navigation, route }) {
 		// name: lessonTitle,
 		params: { chapterId, chapterDoc, globalStyles }
 	} = route
+
+	const { trLang } = useSelector(state => state.translation)
+
+	const [trWords, setTrWords] = useState({})
+	const [trPhrases, setTrPhrases] = useState({})
+
+	useEffect(() => {
+		const getTranslationAsync = async () => {
+			// const trLang = await AsyncStorage('trLang')
+			// const trFilePath = `../../assets/content.ru.js`
+			const trDoc = translations[trLang]['default']['chapters'][chapterId] || {}
+			const { words, phrases } = trDoc
+			setTrWords(words)
+			setTrPhrases(phrases)
+		}
+		getTranslationAsync()
+		return () => {
+			setTrWords({})
+			setTrPhrases({})
+		}
+	}, [trLang])
 
 	const [switchValue, toggleSwitch] = useState(false)
 
@@ -64,12 +87,16 @@ export default function LessonScreen({ navigation, route }) {
 					}}
 				/>
 				<View style={{ padding: 5 }}>
+					<Text>{trLang}</Text>
 					<Text h2 h2Style={{ fontSize: 20 }}>
 						Words
 					</Text>
+
 					{words.map(elem => {
 						const wordId = chapterId + '_' + elem.id
 						const image = wordImages[wordId]
+						// console.log(chapterTrDoc)
+						const trText = trWords[elem.id]?.text
 						// console.log('image.getSize()', image.getSize())
 						return (
 							<TouchableOpacity
@@ -95,6 +122,7 @@ export default function LessonScreen({ navigation, route }) {
 									}}
 								>
 									<Text style={[globalStyles.body1]}>{elem.text}</Text>
+									<Text>{trText}</Text>
 									{/* <Icon
 								type='material'
 								name='play-arrow'
@@ -112,6 +140,7 @@ export default function LessonScreen({ navigation, route }) {
 					</Text>
 					{phrases.map(elem => {
 						const phraseId = chapterId + '_' + elem.id
+						const trText = trPhrases[elem.id]?.text
 						return (
 							<TouchableOpacity
 								onPress={() => playAudio(phraseId, phraseAudios)}
@@ -126,6 +155,7 @@ export default function LessonScreen({ navigation, route }) {
 								>
 									{elem.text}
 								</Text>
+								<Text>{trText}</Text>
 							</TouchableOpacity>
 						)
 					})}

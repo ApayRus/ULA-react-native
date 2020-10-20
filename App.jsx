@@ -10,12 +10,14 @@ import { ThemeProvider, colors } from 'react-native-elements'
 import { map, orderBy } from 'lodash'
 import textContent from './assets/content'
 import { AppLoading } from 'expo'
+import AsyncStorage from '@react-native-community/async-storage'
+import { useDispatch } from 'react-redux'
+import { changeTrLang } from './src/store/translationActions'
 import {
 	useFonts,
 	Scheherazade_400Regular,
 	Scheherazade_700Bold
 } from '@expo-google-fonts/scheherazade'
-
 import globalStyles from './src/config/globalStyles'
 
 // package bug fix
@@ -41,15 +43,28 @@ const { info, chapters: chaptersRaw, translations } = textContent
 const { language = '' } = info
 const gStyles = globalStyles(language.toLocaleLowerCase())
 
+let chapters = map(chaptersRaw, (elem, key) => {
+	const { title = '???' } = elem
+	return { id: key, title }
+})
+
+chapters = orderBy(chapters, 'id')
+
 export default function App() {
-	let chapters = map(chaptersRaw, (elem, key) => {
-		const { title = '???' } = elem
-		return { id: key, title }
-	})
-	chapters = orderBy(chapters, 'id')
 	const [fontLoaded] = useFonts({
 		Scheherazade_400Regular
 	})
+	const dispatch = useDispatch()
+	useEffect(() => {
+		const getTranslationAsync = async () => {
+			// const trLang = await AsyncStorage('trLang')
+			// const trFilePath = `../../assets/content.ru.js`
+			const trLang = await AsyncStorage.getItem('trLang')
+			dispatch(changeTrLang({ trLang }))
+		}
+		getTranslationAsync()
+		return () => {}
+	}, [])
 
 	return fontLoaded ? (
 		<ThemeProvider theme={theme}>
@@ -68,9 +83,6 @@ export default function App() {
 					<Drawer.Screen
 						name='Home'
 						component={HomeScreen}
-						options={{
-							headerLeft: () => <Icon.Button name='ios-menu' size={25} />
-						}}
 						initialParams={{
 							info: info,
 							translations: translations,

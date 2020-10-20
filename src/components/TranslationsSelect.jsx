@@ -1,35 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-native-elements'
 import { View, StyleSheet } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeTrLang } from '../store/translationActions'
 
-export default function TranslationsSelect({ translations }) {
-	const [trLang, setTrLang] = useState()
+export default function TranslationsSelect(props) {
+	const { translations } = props
+	const dispatch = useDispatch()
 
-	useEffect(() => {
-		const readTrLangAsync = async () => {
-			const storageTrLang = await AsyncStorage.getItem('trLang')
-			setTrLang(storageTrLang)
-		}
-		readTrLangAsync()
-	}, [])
+	const { trLang } = useSelector(state => state.translation)
 
-	const changeTrLang = langCode => () => {
-		AsyncStorage.setItem('trLang', langCode)
-		setTrLang(langCode)
+	const handleTrLang = langCode => () => {
+		dispatch(changeTrLang({ trLang: langCode }))
 	}
 
 	return (
 		<View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
-			{translations.map(elem => (
-				<Button
-					key={`trLang-${elem}`}
-					type={trLang === elem ? 'solid' : 'outline'}
-					style={styles.trLangButton}
-					title={elem}
-					onPress={changeTrLang(elem)}
-				></Button>
-			))}
+			{translations.map(elem => {
+				console.log('elem, trLang: ', elem, trLang)
+				return (
+					<Button
+						key={`trLang-${elem}`}
+						type={trLang === elem ? 'solid' : 'outline'}
+						style={styles.trLangButton}
+						title={elem}
+						onPress={handleTrLang(elem)}
+					></Button>
+				)
+			})}
 		</View>
 	)
 }

@@ -3,6 +3,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Image, Text, Button } from 'react-native-elements'
 import TranslationsSelect from './TranslationsSelect'
+import { useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
@@ -14,10 +15,14 @@ export default function HomeScreen({ navigation, route }) {
 	delete info.description
 	delete info.website
 	const infoArray = Object.entries(info)
+
+	const { trLang } = useSelector(state => state.translation)
+
 	return (
 		<>
 			<StatusBar style='auto' />
 			<View style={styles.container}>
+				<Text>trLang: {trLang}</Text>
 				<Text style={globalStyles.body1}>{title}</Text>
 				<Text style={globalStyles.body3}>{author}</Text>
 				<Text>{'\n'}</Text>
