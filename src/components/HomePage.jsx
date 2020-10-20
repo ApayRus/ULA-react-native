@@ -9,12 +9,7 @@ export default function HomeScreen({ navigation, route }) {
 	const {
 		params: { info, translations, globalStyles }
 	} = route
-	const { title, author, description } = info || {}
-	delete info.title
-	delete info.author
-	delete info.description
-	delete info.website
-	const infoArray = Object.entries(info)
+	const { title, author, description, language, level } = info || {}
 
 	const { trLang } = useSelector(state => state.translation)
 
@@ -22,7 +17,6 @@ export default function HomeScreen({ navigation, route }) {
 		<>
 			<StatusBar style='auto' />
 			<View style={styles.container}>
-				<Text>trLang: {trLang}</Text>
 				<Text style={globalStyles.body1}>{title}</Text>
 				<Text style={globalStyles.body3}>{author}</Text>
 				<Text>{'\n'}</Text>
@@ -33,12 +27,8 @@ export default function HomeScreen({ navigation, route }) {
 				<Text>{'\n'}</Text>
 				<Text>{description}</Text>
 				<Text>{'\n'}</Text>
-				{infoArray &&
-					infoArray.map(elem => {
-						const [key, value] = elem
-						return <Text key={`info-${key}`}>{`${key}: ${value}`}</Text>
-					})}
-				<Text>{'\n'}</Text>
+				<Text>language: {language}</Text>
+				<Text>level: {level}</Text>
 				<Text>{'\n'}</Text>
 				<Button
 					onPress={() => navigation.toggleDrawer()}

@@ -1,4 +1,5 @@
 // import { StyleSheet } from 'react-native'
+import { colors } from 'react-native-elements'
 
 export default lang => {
     const fontFamilyByLang = lang => {
@@ -16,9 +17,27 @@ export default lang => {
         return null
     }
 
-    const writingDirection = directionByLang(lang)
+    const marginByLang = lang => {
+        const rtlLanguages = ['ar']
+        if (rtlLanguages.includes(lang)) {
+            return { marginTop: -10 }
+        }
+        return null
+    }
 
+    const alignByLang = lang => {
+        const rtlLanguages = ['ar', 'he']
+        if (rtlLanguages.includes(lang)) {
+            return { textAlign: 'right', marginRight: 15 }
+        }
+        return { textAlign: 'left', marginLeft: 15 }
+    }
+
+    const writingDirection = directionByLang(lang)
     const fontFamily = fontFamilyByLang(lang)
+    const margin = marginByLang(lang)
+    const align = alignByLang(lang)
+
 
     const fontSizeDelta = lang => {
         if (lang === 'ar') {
@@ -42,6 +61,29 @@ export default lang => {
         },
         writingDirection: {
             writingDirection
+        },
+        translation: {
+            fontSize: 14,
+            color: colors.grey2,
+            ...margin
+        },
+        align: {
+            ...align
+        },
+        subchapter: {
+            backgroundColor: colors.primary,
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 5,
+            paddingBottom: 5,
+            borderRadius: 10,
+            width: 'min-content',
+            fontSize: 20,
+            color: 'white'
+        },
+        chapterHeader: {
+            color: colors.primary,
+            textAlign: 'center'
         }
     }
 

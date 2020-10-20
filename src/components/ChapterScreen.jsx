@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { ScrollView, View, TouchableOpacity, Alert, Switch } from 'react-native'
-import { Text, Image, Header } from 'react-native-elements'
+import { Text, Image, Header, colors } from 'react-native-elements'
 import { objectToArray } from '../utils/utils'
 import wordImages from '../../assets/images/words'
 import wordAudios from '../../assets/audios/words'
@@ -19,6 +19,7 @@ export default function LessonScreen({ navigation, route }) {
 
 	const { trLang } = useSelector(state => state.translation)
 
+	const [trTitle, setTrTitle] = useState('')
 	const [trWords, setTrWords] = useState({})
 	const [trPhrases, setTrPhrases] = useState({})
 
@@ -27,7 +28,8 @@ export default function LessonScreen({ navigation, route }) {
 			// const trLang = await AsyncStorage('trLang')
 			// const trFilePath = `../../assets/content.ru.js`
 			const trDoc = translations[trLang]['default']['chapters'][chapterId] || {}
-			const { words, phrases } = trDoc
+			const { words, phrases, title = '' } = trDoc
+			setTrTitle(title)
 			setTrWords(words)
 			setTrPhrases(phrases)
 		}
@@ -77,27 +79,29 @@ export default function LessonScreen({ navigation, route }) {
 						color: '#fff',
 						onPress: () => navigation.toggleDrawer()
 					}}
-					centerComponent={{
-						text: title,
-						style: {
-							color: '#fff',
-							fontFamily: 'Scheherazade_400Regular',
-							fontSize: 25
-						}
+					leftComponent={{
+						icon: 'home',
+						color: '#fff',
+						onPress: () => navigation.navigate('Home')
 					}}
 				/>
+				<View style={globalStyles.chapterHeader}>
+					<Text h1 h1Style={[globalStyles.body1, { color: colors.primary }]}>
+						{title}
+					</Text>
+					<Text h1 h1Style={[globalStyles.translation]}>
+						{trTitle}
+					</Text>
+				</View>
 				<View style={{ padding: 5 }}>
-					<Text>{trLang}</Text>
-					<Text h2 h2Style={{ fontSize: 20 }}>
+					<Text h2 h2Style={globalStyles.subchapter}>
 						Words
 					</Text>
 
 					{words.map(elem => {
 						const wordId = chapterId + '_' + elem.id
 						const image = wordImages[wordId]
-						// console.log(chapterTrDoc)
 						const trText = trWords[elem.id]?.text
-						// console.log('image.getSize()', image.getSize())
 						return (
 							<TouchableOpacity
 								onPress={() => playAudio(wordId, wordAudios)}
@@ -116,26 +120,21 @@ export default function LessonScreen({ navigation, route }) {
 								)}
 								<View
 									style={{
-										flexDirection: 'row',
+										flexDirection: 'column',
 										flexWrap: 'wrap',
-										alignItems: 'baseline'
+										alignItems: 'center'
 									}}
 								>
 									<Text style={[globalStyles.body1]}>{elem.text}</Text>
-									<Text>{trText}</Text>
-									{/* <Icon
-								type='material'
-								name='play-arrow'
-								style={{ marginLeft: 20 }}
-								onPress={() => console.log('play!!!')}
-							/> */}
+									{/* <Text style={{ width: '100%', height: 0 }}></Text> */}
+									<Text style={[globalStyles.translation]}>{trText}</Text>
 								</View>
 							</TouchableOpacity>
 						)
 					})}
 				</View>
 				<View style={{ marginBottom: 20, padding: 5 }}>
-					<Text h2 h2Style={{ fontSize: 20 }}>
+					<Text h2 h2Style={globalStyles.subchapter}>
 						Phrases
 					</Text>
 					{phrases.map(elem => {
@@ -145,17 +144,11 @@ export default function LessonScreen({ navigation, route }) {
 							<TouchableOpacity
 								onPress={() => playAudio(phraseId, phraseAudios)}
 								key={`phrase-${elem.id}`}
-								// style={{ display: 'flex', alignItems: 'center' }}
+								style={globalStyles.align}
 							>
-								<Text
-									style={[
-										{ marginTop: 10, marginRight: 20 },
-										globalStyles.body1
-									]}
-								>
-									{elem.text}
-								</Text>
-								<Text>{trText}</Text>
+								<Text style={globalStyles.body1}>{elem.text}</Text>
+								{/* <Text style={{ flexBasis: '100%', height: 0 }}></Text> */}
+								<Text style={[globalStyles.translation]}>{trText}</Text>
 							</TouchableOpacity>
 						)
 					})}
@@ -171,7 +164,7 @@ export default function LessonScreen({ navigation, route }) {
 					alignContent: 'flex-end'
 				}}
 			>
-				<Text>translation: </Text>
+				<Text>translation ({trLang}): </Text>
 				<Switch
 					style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
 					onValueChange={() => {
