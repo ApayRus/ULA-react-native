@@ -7,7 +7,7 @@ import wordImages from '../../assets/images/words'
 import wordAudios from '../../assets/audios/words'
 import phraseAudios from '../../assets/audios/phrases'
 import { Audio } from 'expo-av'
-import translations from '../../assets/translations'
+import { getTrChapter } from '../utils/manageTextContent'
 import { useSelector } from 'react-redux'
 // import globalStyles from '../config/globalStyles'
 
@@ -27,7 +27,7 @@ export default function LessonScreen({ navigation, route }) {
 		const getTranslationAsync = async () => {
 			// const trLang = await AsyncStorage('trLang')
 			// const trFilePath = `../../assets/content.ru.js`
-			const trDoc = translations[trLang]['default']['chapters'][chapterId] || {}
+			const trDoc = getTrChapter(trLang, chapterId)
 			const { words, phrases, title = '' } = trDoc
 			setTrTitle(title)
 			setTrWords(words)
@@ -86,12 +86,10 @@ export default function LessonScreen({ navigation, route }) {
 					}}
 				/>
 				<View style={globalStyles.chapterHeader}>
-					<Text h1 h1Style={[globalStyles.body1, { color: colors.primary }]}>
+					<Text style={[globalStyles.body1, { color: colors.primary }]}>
 						{title}
 					</Text>
-					<Text h1 h1Style={[globalStyles.translation]}>
-						{trTitle}
-					</Text>
+					<Text style={[globalStyles.translation]}>{trTitle}</Text>
 				</View>
 				<View style={{ padding: 5 }}>
 					<Text h2 h2Style={globalStyles.subchapter}>

@@ -5,18 +5,21 @@ import ChapterScreen from './src/components/ChapterScreen'
 import DrawerContent from './src/components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
-import Icon from 'react-native-vector-icons/Ionicons'
 import { ThemeProvider, colors } from 'react-native-elements'
-import { map, orderBy } from 'lodash'
-import textContent from './assets/content'
+import {
+	getInfo,
+	getTranslations,
+	getChapters,
+	getChapter,
+	getTrChapters
+} from './src/utils/manageTextContent'
 import { AppLoading } from 'expo'
 import AsyncStorage from '@react-native-community/async-storage'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { changeTrLang } from './src/store/translationActions'
 import {
 	useFonts,
-	Scheherazade_400Regular,
-	Scheherazade_700Bold
+	Scheherazade_400Regular
 } from '@expo-google-fonts/scheherazade'
 import globalStyles from './src/config/globalStyles'
 
@@ -39,26 +42,24 @@ const theme = {
 
 const Drawer = createDrawerNavigator()
 
-const { info, chapters: chaptersRaw, translations } = textContent
+const info = getInfo()
+const translations = getTranslations()
+const chapters = getChapters()
+
 const { language = '' } = info
 const gStyles = globalStyles(language.toLocaleLowerCase())
-
-let chapters = map(chaptersRaw, (elem, key) => {
-	const { title = '???' } = elem
-	return { id: key, title }
-})
-
-chapters = orderBy(chapters, 'id')
 
 export default function App() {
 	const [fontLoaded] = useFonts({
 		Scheherazade_400Regular
 	})
 	const dispatch = useDispatch()
+	const { trLang } = useSelector(state => state.translation)
+
+	const trChapters = getTrChapters(trLang)
+
 	useEffect(() => {
 		const getTranslationAsync = async () => {
-			// const trLang = await AsyncStorage('trLang')
-			// const trFilePath = `../../assets/content.ru.js`
 			const trLang = await AsyncStorage.getItem('trLang')
 			dispatch(changeTrLang({ trLang }))
 		}
@@ -75,6 +76,7 @@ export default function App() {
 						<DrawerContent
 							{...props}
 							chapters={chapters}
+							trChapters={trChapters}
 							info={info}
 							globalStyles={gStyles}
 						/>
@@ -97,7 +99,7 @@ export default function App() {
 							component={ChapterScreen}
 							initialParams={{
 								chapterId: elem.id,
-								chapterDoc: textContent.chapters[elem.id],
+								chapterDoc: getChapter(elem.id),
 								globalStyles: gStyles
 							}}
 						/>

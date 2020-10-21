@@ -3,15 +3,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { Image, Text, Button } from 'react-native-elements'
 import TranslationsSelect from './TranslationsSelect'
-import { useSelector } from 'react-redux'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
 		params: { info, translations, globalStyles }
 	} = route
 	const { title, author, description, language, level } = info || {}
-
-	const { trLang } = useSelector(state => state.translation)
 
 	return (
 		<>
