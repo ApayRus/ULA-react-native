@@ -77,7 +77,6 @@ export default lang => {
             paddingTop: 5,
             paddingBottom: 5,
             borderRadius: 10,
-            width: 'min-content',
             fontSize: 20,
             color: 'white'
         },
