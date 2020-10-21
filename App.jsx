@@ -16,7 +16,7 @@ import {
 import { AppLoading } from 'expo'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeTrLang } from './src/store/translationActions'
+import { setTranslation } from './src/store/translationActions'
 import {
 	useFonts,
 	Scheherazade_400Regular
@@ -61,7 +61,7 @@ export default function App() {
 	useEffect(() => {
 		const getTranslationAsync = async () => {
 			const trLang = await AsyncStorage.getItem('trLang')
-			dispatch(changeTrLang({ trLang }))
+			dispatch(setTranslation({ trLang }))
 		}
 		getTranslationAsync()
 		return () => {}
