@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
 
 export default function TranslationOnOffSwitcher() {
-	const { trLang, show } = useSelector(state => state.translation)
+	const { trLang, showTranslation } = useSelector(state => state.translation)
 	const dispatch = useDispatch()
 	const toggleSwitch = () => {
-		dispatch(setTranslation({ show: !show }))
+		dispatch(setTranslation({ showTranslation: !showTranslation }))
 	}
 
 	return (
@@ -25,7 +25,7 @@ export default function TranslationOnOffSwitcher() {
 			<Switch
 				// style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
 				onValueChange={toggleSwitch}
-				value={show}
+				value={showTranslation}
 			/>
 		</View>
 	)

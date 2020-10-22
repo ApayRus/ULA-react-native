@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { ScrollView, View, TouchableOpacity, Alert, Switch } from 'react-native'
+import { ScrollView, View, TouchableOpacity, Alert } from 'react-native'
 import { Text, Image, Header, colors } from 'react-native-elements'
 import { objectToArray } from '../utils/utils'
 import wordImages from '../../assets/images/words'
@@ -16,7 +16,7 @@ export default function LessonScreen({ navigation, route }) {
 		params: { chapterId, chapterDoc, globalStyles }
 	} = route
 
-	const { trLang } = useSelector(state => state.translation)
+	const { trLang, showTranslation } = useSelector(state => state.translation)
 
 	const [trTitle, setTrTitle] = useState('')
 	const [trWords, setTrWords] = useState({})
@@ -82,7 +82,15 @@ export default function LessonScreen({ navigation, route }) {
 					<Text style={[globalStyles.body1, { color: colors.primary }]}>
 						{title}
 					</Text>
-					<Text style={[globalStyles.translation]}>{trTitle}</Text>
+
+					<Text
+						style={[
+							globalStyles.translation,
+							{ opacity: showTranslation ? 1 : 0 }
+						]}
+					>
+						{trTitle}
+					</Text>
 				</View>
 				<View style={{ padding: 5 }}>
 					<Text h2 h2Style={globalStyles.subchapter}>
@@ -117,7 +125,15 @@ export default function LessonScreen({ navigation, route }) {
 									}}
 								>
 									<Text style={[globalStyles.body1]}>{elem.text}</Text>
-									<Text style={[globalStyles.translation]}>{trText}</Text>
+
+									<Text
+										style={[
+											globalStyles.translation,
+											{ opacity: showTranslation ? 1 : 0 }
+										]}
+									>
+										{trText}
+									</Text>
 								</View>
 							</TouchableOpacity>
 						)
@@ -137,7 +153,15 @@ export default function LessonScreen({ navigation, route }) {
 								style={globalStyles.align}
 							>
 								<Text style={globalStyles.body1}>{elem.text}</Text>
-								<Text style={[globalStyles.translation]}>{trText}</Text>
+
+								<Text
+									style={[
+										globalStyles.translation,
+										{ opacity: showTranslation ? 1 : 0 }
+									]}
+								>
+									{trText}
+								</Text>
 							</TouchableOpacity>
 						)
 					})}

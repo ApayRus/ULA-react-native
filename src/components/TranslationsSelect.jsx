@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button } from 'react-native-elements'
 import { View, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import AsyncStorage from '@react-native-community/async-storage'
 import { setTranslation } from '../store/translationActions'
 
 export default function TranslationsSelect(props) {
@@ -13,7 +12,6 @@ export default function TranslationsSelect(props) {
 
 	const handleTrLang = langCode => () => {
 		dispatch(setTranslation({ trLang: langCode }))
-		AsyncStorage.setItem('trLang', langCode)
 	}
 
 	return (

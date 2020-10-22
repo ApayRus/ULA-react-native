@@ -2,9 +2,12 @@ import React from 'react'
 import { Image, ListItem, Icon } from 'react-native-elements'
 import { View, ScrollView } from 'react-native'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
+import { useSelector } from 'react-redux'
 
 export default function Drawer(props) {
 	const { chapters, trChapters, navigation, globalStyles } = props
+	const { showTranslation } = useSelector(state => state.translation)
+
 	return (
 		<View style={{ flex: 1 }}>
 			<ScrollView style={globalStyles.writingDirection}>
@@ -38,9 +41,11 @@ export default function Drawer(props) {
 								<ListItem.Title style={globalStyles.body2}>
 									{elem.title}
 								</ListItem.Title>
-								<ListItem.Subtitle>
-									{trChapters[elem.id]?.title}
-								</ListItem.Subtitle>
+								{showTranslation && (
+									<ListItem.Subtitle>
+										{trChapters[elem.id]?.title}
+									</ListItem.Subtitle>
+								)}
 							</ListItem.Content>
 						</ListItem>
 					))}

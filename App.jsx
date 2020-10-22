@@ -50,9 +50,7 @@ const { language = '' } = info
 const gStyles = globalStyles(language.toLocaleLowerCase())
 
 export default function App() {
-	const [fontLoaded] = useFonts({
-		Scheherazade_400Regular
-	})
+	const [fontLoaded] = useFonts({ Scheherazade_400Regular })
 	const dispatch = useDispatch()
 	const { trLang } = useSelector(state => state.translation)
 
@@ -61,7 +59,11 @@ export default function App() {
 	useEffect(() => {
 		const getTranslationAsync = async () => {
 			const trLang = await AsyncStorage.getItem('trLang')
-			dispatch(setTranslation({ trLang }))
+			let showTranslation = await AsyncStorage.getItem('showTranslation')
+			showTranslation =
+				showTranslation === 'true' || showTranslation === null ? true : false
+			console.log('showTranslation', showTranslation)
+			dispatch(setTranslation({ trLang, showTranslation }))
 		}
 		getTranslationAsync()
 		return () => {}
