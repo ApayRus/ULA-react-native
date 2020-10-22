@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { ScrollView, View, TouchableOpacity, Alert, Switch } from 'react-native'
 import { Text, Image, Header, colors } from 'react-native-elements'
@@ -9,11 +9,10 @@ import phraseAudios from '../../assets/audios/phrases'
 import { Audio } from 'expo-av'
 import { getTrChapter } from '../utils/manageTextContent'
 import { useSelector } from 'react-redux'
-// import globalStyles from '../config/globalStyles'
+import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
-		// name: lessonTitle,
 		params: { chapterId, chapterDoc, globalStyles }
 	} = route
 
@@ -25,8 +24,6 @@ export default function LessonScreen({ navigation, route }) {
 
 	useEffect(() => {
 		const getTranslationAsync = async () => {
-			// const trLang = await AsyncStorage('trLang')
-			// const trFilePath = `../../assets/content.ru.js`
 			const trDoc = getTrChapter(trLang, chapterId)
 			const { words, phrases, title = '' } = trDoc
 			setTrTitle(title)
@@ -40,15 +37,12 @@ export default function LessonScreen({ navigation, route }) {
 		}
 	}, [trLang])
 
-	const [switchValue, toggleSwitch] = useState(false)
-
 	const { title = '', words: wordsObject = '', phrases: phrasesObject = '' } =
 		chapterDoc || {}
 	const words = objectToArray(wordsObject)
 	const phrases = objectToArray(phrasesObject)
 
 	const playAudio = async (id, source) => {
-		// console.log('playAudio', id, source)
 		if (source[id]) {
 			const soundObject = new Audio.Sound()
 			await soundObject.loadAsync(source[id])
@@ -66,7 +60,6 @@ export default function LessonScreen({ navigation, route }) {
 	const onPlaybackStatusUpdate = soundObject => playbackStatus => {
 		if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0)
 			soundObject.unloadAsync()
-		// console.log('playbackStatus', playbackStatus)
 	}
 
 	return (
@@ -124,7 +117,6 @@ export default function LessonScreen({ navigation, route }) {
 									}}
 								>
 									<Text style={[globalStyles.body1]}>{elem.text}</Text>
-									{/* <Text style={{ width: '100%', height: 0 }}></Text> */}
 									<Text style={[globalStyles.translation]}>{trText}</Text>
 								</View>
 							</TouchableOpacity>
@@ -145,32 +137,13 @@ export default function LessonScreen({ navigation, route }) {
 								style={globalStyles.align}
 							>
 								<Text style={globalStyles.body1}>{elem.text}</Text>
-								{/* <Text style={{ flexBasis: '100%', height: 0 }}></Text> */}
 								<Text style={[globalStyles.translation]}>{trText}</Text>
 							</TouchableOpacity>
 						)
 					})}
 				</View>
 			</ScrollView>
-			<View
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					flexWrap: 'wrap',
-					justifyContent: 'flex-end',
-					alignItems: 'flex-end',
-					alignContent: 'flex-end'
-				}}
-			>
-				<Text>translation ({trLang}): </Text>
-				<Switch
-					style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-					onValueChange={() => {
-						toggleSwitch(!switchValue)
-					}}
-					value={switchValue}
-				/>
-			</View>
+			<TranslationOnOffSwitcher />
 		</View>
 	)
 }
