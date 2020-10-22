@@ -82,7 +82,10 @@ export default lang => {
         },
         chapterHeader: {
             color: colors.primary,
-            textAlign: 'center'
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: 10,
+            marginBottom: 10
         }
     }
 
