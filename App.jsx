@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import HomeScreen from './src/components/HomePage'
+import AboutScreen from './src/components/AboutScreen'
 import ContactsScreen from './src/components/ContactsPage'
 import ChapterScreen from './src/components/ChapterScreen'
 import DrawerContent from './src/components/Drawer'
@@ -90,6 +91,13 @@ export default function App() {
 						initialParams={{
 							info: info,
 							translations: translations,
+							globalStyles: gStyles
+						}}
+					/>
+					<Drawer.Screen
+						name='About'
+						component={AboutScreen}
+						initialParams={{
 							globalStyles: gStyles
 						}}
 					/>

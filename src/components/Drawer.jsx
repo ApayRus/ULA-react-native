@@ -30,6 +30,18 @@ export default function Drawer(props) {
 							<ListItem.Title>Home</ListItem.Title>
 						</ListItem.Content>
 					</ListItem>
+					<ListItem
+						style={{ marginBottom: 5 }}
+						// topDivider
+						bottomDivider
+						containerStyle={styles.listItem}
+						onPress={() => navigation.navigate('About')}
+					>
+						<Icon name='info' color='grey' />
+						<ListItem.Content>
+							<ListItem.Title>About</ListItem.Title>
+						</ListItem.Content>
+					</ListItem>
 					{chapters.map(elem => (
 						<ListItem
 							bottomDivider
