@@ -3,12 +3,17 @@
         "node": true, // this is the best starting point
         "browser": true, // for react web
         "es6": true // enables es6 features
-    },
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended"
+	], 
 	"parser": "babel-eslint", // needed to make babel stuff work properly, 
 	"rules":{
 		"no-undef":"error", 
 		"no-unused-expressions":"warn", 
 		"no-unused-vars":"warn", 
-		"no-unused-labels":"warn"
+		"no-unused-labels":"warn", 
+		"react/prop-types": "off"
 	}
 }
