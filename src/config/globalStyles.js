@@ -28,9 +28,9 @@ export default lang => {
     const alignByLang = lang => {
         const rtlLanguages = ['ar', 'he']
         if (rtlLanguages.includes(lang)) {
-            return { textAlign: 'right', marginRight: 15 }
+            return { alignItems: 'flex-end', flex: 1, marginRight: 15, }
         }
-        return { textAlign: 'left', marginLeft: 15 }
+        return { alignItems: 'flex-start', flex: 1, marginLeft: 15 }
     }
 
     const writingDirection = directionByLang(lang)

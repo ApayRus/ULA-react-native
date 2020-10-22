@@ -11,7 +11,7 @@ const translationReducer = (state = initState, action) => {
             {
                 Object.entries(action.payload).forEach(elem => {
                     const [key, value] = elem
-                    AsyncStorage.setItem(key, value)
+                    AsyncStorage.setItem(key, String(value)).catch(error => console.log('AsyncStorage', error))
                 })
                 return {...state, ...action.payload }
             }
