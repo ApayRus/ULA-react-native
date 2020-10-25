@@ -16,17 +16,17 @@ export default function HomeScreen({ navigation, route }) {
 			<View style={styles.container}>
 				<Text style={globalStyles.body1}>{title}</Text>
 				<Text style={globalStyles.body3}>{author}</Text>
-				<Text>{'\n'}</Text>
+				{/* <Text>{'\n'}</Text> */}
 				<Image
 					style={{ width: 200, height: 200 }}
 					source={require('../../content/images/logo.png')}
 				></Image>
-				<Text>{'\n'}</Text>
+				{/* <Text>{'\n'}</Text> */}
 				<Text>{description}</Text>
-				<Text>{'\n'}</Text>
+				<Text style={styles.lineBreak}>{'\n'}</Text>
 				<Text>language: {language}</Text>
 				<Text>level: {level}</Text>
-				<Text>{'\n'}</Text>
+				<Text style={styles.lineBreak}>{'\n'}</Text>
 				<Button
 					onPress={() => navigation.toggleDrawer()}
 					icon={{
@@ -37,12 +37,12 @@ export default function HomeScreen({ navigation, route }) {
 					buttonStyle={styles.tableOfContentButton}
 					title='Table of contents'
 				/>
-				<Text>{'\n'}</Text>
+				<Text style={styles.lineBreak}>{'\n'}</Text>
 				<Text>Available translations (choose one)</Text>
-				<Text>{'\n'}</Text>
+				<Text style={styles.lineBreak}>{'\n'}</Text>
 
 				<TranslationsSelect translations={translations} />
-				<Text>{'\n'}</Text>
+				{/* <Text>{'\n'}</Text> */}
 			</View>
 		</>
 	)
@@ -54,6 +54,9 @@ const styles = {
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center'
+	},
+	lineBreak: {
+		fontSize: 8
 	},
 	tableOfContentButton: { paddingRight: 20 }
 }
