@@ -98,7 +98,7 @@ export default function LessonScreen({ navigation, route }) {
 					</Text>
 
 					{words.map(elem => {
-						const wordId = chapterId + '_' + elem.id
+						const wordId = chapterId + '-' + elem.id
 						const image = wordImages[wordId]
 						const trText = trWords[elem.id]?.text
 						return (
@@ -144,7 +144,7 @@ export default function LessonScreen({ navigation, route }) {
 						Phrases
 					</Text>
 					{phrases.map(elem => {
-						const phraseId = chapterId + '_' + elem.id
+						const phraseId = chapterId + '-' + elem.id
 						const trText = trPhrases[elem.id]?.text
 						return (
 							<TouchableOpacity

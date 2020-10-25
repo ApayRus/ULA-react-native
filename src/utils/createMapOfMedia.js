@@ -1,6 +1,6 @@
 /**
 	react-native can't import files dynamically through generated names 
-	than it needs a map of all files in format { 001_003: require('files/001_003.mp3') }
+	than it needs a map of all files in format { 001-003: require('files/001-003.mp3') }
 
 	this node module reads files in /content and writes map of them to /src/assets
  */
