@@ -1,6 +1,5 @@
 # الدروس الأولية
 
-author: بهاء الدين محمد الداغستاني
 description: Textbook with the simplest method in the world
 language: ar
 level: beginner

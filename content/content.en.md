@@ -1,12 +1,11 @@
 # الدروس الأولية
 
-author: بهاء الدين محمد الداغستاني
 description: Textbook with the simplest method in the world
 language: Arabic
 level: beginner
 website: github.com/Aparus/ulla
 
-## اَلدَّرْسُ الأَوَّلُ 1
+## Lesson One
 
 ### words
 
@@ -31,7 +30,7 @@ you are big.
 I am small.
 we are small.
 
-## اَلدَّرْسُ الثَّانِي 2
+## Lesson Two
 
 ### words
 
@@ -56,7 +55,7 @@ we are small.
 اَنَا صَغِيرَةٌ.
 نَحْنُ صَغِيرَاتٌ.
 
-## اَلدَّرْسُ الثَّالِثُ 3
+## Lesson Three
 
 ### words
 
@@ -85,7 +84,7 @@ we are small.
 اَنَا طَوِيلٌ.
 نَحْنُ طِوَالٌ.
 
-## اَلدَّرْسُ الرَّابِعُ 4
+## Lesson Four
 
 ### words
 
@@ -123,7 +122,7 @@ we are small.
   مَنْ اَنْتُمْ؟
   مَنْ هُمْ؟
 
-## اَلدَّرْسُ الْخَامِسُ 5
+## Lesson Five
 
 ### words
 
@@ -157,7 +156,7 @@ we are small.
 لِمَنْ هَذِهِ الْمِحْفَظَةُ؟
 لِلتِّلْمِيذَةِ.
 
-## اَلدَّرْسُ السَّادِسُ 6
+## Lesson Six
 
 ### words
 
