@@ -17,8 +17,18 @@ const getFileMapOfDir = (dir) => fs.readdirSync(dir)
 const getFilesOfDir = (dir) => fs.readdirSync(dir)
     .filter(elem => isFile(path.join(dir, elem)))
 
+const writeFileSyncRecursive = (filename, content, charset) => {
+    const folders = filename.split(path.sep).slice(0, -1)
+    folders.forEach((elem, index, array) => {
+        const folderPath = path.join(...array.slice(0, index + 1))
+        fs.mkdirSync(folderPath, { recursive: true })
+    })
+    fs.writeFileSync(filename, content, charset)
+}
+
 module.exports = {
     getSubDirsOfDir,
     getFileMapOfDir,
-    getFilesOfDir
+    getFilesOfDir,
+    writeFileSyncRecursive
 }

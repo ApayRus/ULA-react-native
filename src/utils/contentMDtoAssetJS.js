@@ -1,5 +1,6 @@
 const marked = require("marked");
 
+
 const makeArrayFromMarkdown = (mdFileContent) =>
     marked
     .lexer(mdFileContent) // raw array with many unnecessary fields
