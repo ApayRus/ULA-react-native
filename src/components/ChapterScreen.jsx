@@ -100,7 +100,7 @@ export default function LessonScreen({ navigation, route }) {
 					{words.map(elem => {
 						const wordId = chapterId + '-' + elem.id
 						const image = wordImages[wordId]
-						const trText = trWords[elem.id]?.text
+						const trText = trWords ? trWords[elem.id]?.text : ''
 						return (
 							<TouchableOpacity
 								onPress={() => playAudio(wordId, wordAudios)}
@@ -145,7 +145,7 @@ export default function LessonScreen({ navigation, route }) {
 					</Text>
 					{phrases.map(elem => {
 						const phraseId = chapterId + '-' + elem.id
-						const trText = trPhrases[elem.id]?.text
+						const trText = trPhrases ? trPhrases[elem.id]?.text : ''
 						return (
 							<TouchableOpacity
 								onPress={() => playAudio(phraseId, phraseAudios)}
