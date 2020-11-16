@@ -1,55 +1,55 @@
 {
-    "main": "index.js",
-    "scripts": {
-        "android": "react-native run-android",
-        "ios": "react-native run-ios",
-        "generate-assets": "node src/utils/createMapOfMedia.js && node src/utils/createContent.js",
-        "web": "expo start --web",
-        "start": "react-native start",
-        "test": "jest"
-    },
-    "dependencies": {
-        "@expo-google-fonts/inter": "^0.1.0",
-        "@expo-google-fonts/scheherazade": "^0.1.0",
-        "@react-native-community/async-storage": "~1.12.0",
-        "@react-native-community/masked-view": "0.1.10",
-        "@react-navigation/drawer": "^5.9.2",
-        "@react-navigation/native": "^5.7.5",
-        "@react-navigation/stack": "^5.9.2",
-        "expo": "^39.0.3",
-        "expo-av": "~8.6.0",
-        "expo-font": "~8.3.0",
-        "expo-splash-screen": "~0.6.2",
-        "expo-status-bar": "~1.0.2",
-        "expo-updates": "~0.3.3",
-        "marked": "^1.2.0",
-        "react": "16.13.1",
-        "react-dom": "16.13.1",
-        "react-native": "~0.63.3",
-        "react-native-elements": "^2.3.2",
-        "react-native-gesture-handler": "~1.7.0",
-        "react-native-reanimated": "~1.13.0",
-        "react-native-safe-area-context": "3.1.4",
-        "react-native-screens": "~2.10.1",
-        "react-native-unimodules": "~0.11.0",
-        "react-native-web": "~0.13.12",
-        "react-redux": "^7.2.1",
-        "redux": "^4.0.5"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.9.6",
-        "babel-eslint": "^10.1.0",
-        "babel-jest": "~25.2.6",
-        "eslint": "^7.11.0",
-        "eslint-config-airbnb": "^18.2.0",
-        "eslint-plugin-import": "^2.22.1",
-        "eslint-plugin-jsx-a11y": "^6.3.1",
-        "eslint-plugin-react": "^7.21.4",
-        "jest": "~25.2.6",
-        "react-test-renderer": "~16.13.1"
-    },
-    "jest": {
-        "preset": "react-native"
-    },
-    "private": true
+  "main": "index.js",
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "generate-assets": "node src/utils/createMapOfMedia.js && node src/utils/createContent.js",
+    "web": "expo start --web",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@expo-google-fonts/inter": "^0.1.0",
+    "@expo-google-fonts/scheherazade": "^0.1.0",
+    "@react-native-community/async-storage": "~1.12.0",
+    "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/drawer": "^5.9.2",
+    "@react-navigation/native": "^5.7.5",
+    "@react-navigation/stack": "^5.9.2",
+    "expo": "^39.0.3",
+    "expo-av": "~8.6.0",
+    "expo-font": "~8.3.0",
+    "expo-splash-screen": "~0.6.2",
+    "expo-status-bar": "~1.0.2",
+    "expo-updates": "~0.3.3",
+    "marked": "^1.2.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "0.63.3",
+    "react-native-elements": "^2.3.2",
+    "react-native-gesture-handler": "~1.7.0",
+    "react-native-reanimated": "~1.13.0",
+    "react-native-safe-area-context": "3.1.4",
+    "react-native-screens": "~2.10.1",
+    "react-native-unimodules": "~0.11.0",
+    "react-native-web": "^0.14.4",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "~25.2.6",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.4",
+    "jest": "~25.2.6",
+    "react-test-renderer": "~16.13.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "private": true
 }
