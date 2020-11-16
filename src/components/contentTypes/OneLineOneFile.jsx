@@ -20,11 +20,6 @@ function OneLineOneFile(props) {
 	const contentTypeAudios = audios[type] || {}
 	const contentTypeImages = images[type] || {}
 
-	console.log('subchapterTr', subchapterTr)
-
-	// console.log('audios', type, audios[type])
-	// console.log('images', type, images[type])
-
 	const onUpdate = soundObject => playbackStatus => {
 		if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0)
 			soundObject.unloadAsync()
