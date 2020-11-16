@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { View } from 'react-native'
 import { Image, Text, Button } from 'react-native-elements'
-import TranslationsSelect from './TranslationsSelect'
+import TranslationsSelect from '../TranslationsSelect'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation, route }) {
 				{/* <Text>{'\n'}</Text> */}
 				<Image
 					style={{ width: 200, height: 200 }}
-					source={require('../../content/images/logo.png')}
+					source={require('../../../content/images/logo.png')}
 				></Image>
 				{/* <Text>{'\n'}</Text> */}
 				<Text>{description}</Text>

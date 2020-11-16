@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import HomeScreen from './src/components/HomePage'
-import AboutScreen from './src/components/AboutScreen'
-import ContactsScreen from './src/components/ContactsPage'
-import ChapterScreen from './src/components/ChapterScreen'
+import HomeScreen from './src/components/screens/HomeScreen'
+import AboutScreen from './src/components/screens/AboutScreen'
+import ChapterScreen from './src/components/screens/ChapterScreen'
 import DrawerContent from './src/components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
@@ -62,7 +61,6 @@ export default function App() {
 			let showTranslation = await AsyncStorage.getItem('showTranslation')
 			showTranslation =
 				showTranslation === 'true' || showTranslation === null ? true : false
-			console.log('showTranslation', showTranslation)
 			dispatch(setTranslation({ trLang, showTranslation }))
 		}
 		getTranslationAsync()
@@ -100,7 +98,6 @@ export default function App() {
 							globalStyles: gStyles
 						}}
 					/>
-					<Drawer.Screen name='Contacts' component={ContactsScreen} />
 					{chapters.map(elem => (
 						<Drawer.Screen
 							key={`lesson-${elem.id}`}
