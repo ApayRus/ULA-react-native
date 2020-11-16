@@ -11,7 +11,6 @@ import {
 	getInfo,
 	getTranslations,
 	getChapters,
-	getChapter,
 	getTrChapters
 } from './src/utils/manageTextContent'
 import { AppLoading } from 'expo'
@@ -109,7 +108,6 @@ export default function App() {
 							component={ChapterScreen}
 							initialParams={{
 								chapterId: elem.id,
-								chapterDoc: getChapter(elem.id),
 								globalStyles: gStyles
 							}}
 						/>

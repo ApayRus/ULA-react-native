@@ -17,27 +17,17 @@ export default lang => {
         return null
     }
 
-    const marginByLang = lang => {
-        const rtlLanguages = ['ar']
-        if (rtlLanguages.includes(lang)) {
-            return { marginTop: -10 }
-        }
-        return null
-    }
-
     const alignByLang = lang => {
         const rtlLanguages = ['ar', 'he']
         if (rtlLanguages.includes(lang)) {
-            return { alignItems: 'flex-end', flex: 1, marginRight: 15, }
+            return { alignItems: 'flex-end' }
         }
-        return { alignItems: 'flex-start', flex: 1, marginLeft: 15 }
+        return { alignItems: 'flex-start' }
     }
 
     const writingDirection = directionByLang(lang)
     const fontFamily = fontFamilyByLang(lang)
-    const margin = marginByLang(lang)
     const align = alignByLang(lang)
-
 
     const fontSizeDelta = lang => {
         if (lang === 'ar') {
@@ -64,8 +54,7 @@ export default lang => {
         },
         translation: {
             fontSize: 14,
-            color: colors.grey2,
-            ...margin
+            color: colors.grey2
         },
         align: {
             ...align
