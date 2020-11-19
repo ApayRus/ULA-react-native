@@ -49,25 +49,29 @@ const parseChaptersArray = markdownArray => {
     const chaptersArray = []
     let chapter = {}
     let subchapterName = ''
+    let subchapterIndex = 0
 
     markdownArray.forEach((elem, index, array) => {
         const { type, text } = elem
         const { type: nextType } = array[index + 1] || {}
         const isEndOfChapter = nextType === 'h2' || !array[index + 1]
         if (type === 'h2') {
-            chapter = { title: text }
+            chapter = { title: text, subchapters: {} }
         }
         if (type === 'h3') {
             subchapterName = text
         }
         if (type === 'p') {
-            const subchapter = {
-                [subchapterName]: parseParagraph(text)
+            subchapterIndex++
+            const subchapterId = prefixedIndex(subchapterIndex)
+            chapter.subchapters[subchapterId] = {
+                title: subchapterName,
+                content: parseParagraph(text)
             }
-            chapter = {...chapter, ...subchapter }
         }
         if (isEndOfChapter) {
             chaptersArray.push(chapter)
+            subchapterIndex = 0
         }
     })
 
