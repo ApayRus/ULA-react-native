@@ -8,7 +8,10 @@ const makeArrayFromMarkdown = mdFileContent =>
     .filter(elem => elem.type !== 'space')
     .map(elem => {
         const { type, depth, tokens = [] } = elem
-        const { text } = tokens[0] || {}
+        // only in tokens appears "smartpants"
+        // oftern tokens.lenght == 1,
+        // but if text has [brackets] they split tokens into array with length > 1
+        const text = tokens.map(elem => elem.text).join('')
         const joinedType = depth ? type[0] + depth : type[0]
         return { type: joinedType, text }
     })
@@ -45,10 +48,23 @@ const parseInfoArray = infoArray => {
     }, {})
 }
 
+const extractSubchapterBrackets = text => {
+    if (!text) return {}
+    const bracketsTemplate = RegExp(/\[(.+)\]/)
+    const bracketsMatch = text.match(bracketsTemplate)
+    if (!bracketsMatch) return { title: text }
+    else {
+        const type = bracketsMatch[1].toLowerCase()
+        const title = text.replace(bracketsTemplate, '')
+        return { title, type }
+    }
+}
+
 const parseChaptersArray = markdownArray => {
     const chaptersArray = []
     let chapter = {}
     let subchapterName = ''
+    let subchapterType = ''
     let subchapterIndex = 0
 
     markdownArray.forEach((elem, index, array) => {
@@ -59,19 +75,25 @@ const parseChaptersArray = markdownArray => {
             chapter = { title: text, subchapters: {} }
         }
         if (type === 'h3') {
-            subchapterName = text
+            const { type, title } = extractSubchapterBrackets(text)
+            subchapterName = title
+            subchapterType = type
         }
         if (type === 'p') {
             subchapterIndex++
             const subchapterId = prefixedIndex(subchapterIndex)
-            chapter.subchapters[subchapterId] = {
+            const subchapterObject = {
                 title: subchapterName,
                 content: parseParagraph(text)
             }
+            if (subchapterType) subchapterObject['type'] = subchapterType
+            chapter.subchapters[subchapterId] = subchapterObject
         }
         if (isEndOfChapter) {
             chaptersArray.push(chapter)
             subchapterIndex = 0
+            subchapterName = ''
+            subchapterType = ''
         }
     })
 
