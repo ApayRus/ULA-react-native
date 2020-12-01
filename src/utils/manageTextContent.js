@@ -6,7 +6,7 @@ import { map, orderBy } from 'lodash'
 
 // main content
 export const getChapters = () => {
-    const { chapters: chaptersRaw } = textContent
+    const { content: chaptersRaw } = textContent
     let chapters = map(chaptersRaw, (elem, key) => {
         const { title = '???' } = elem
         return { id: key, title }
@@ -16,7 +16,7 @@ export const getChapters = () => {
 }
 
 export const getChapter = chapterId => {
-    const chapterDoc = textContent.chapters[chapterId]
+    const chapterDoc = textContent.content[chapterId]
     return chapterDoc
 }
 
@@ -35,7 +35,7 @@ export const getTranslations = () => {
 // array [ { id, title }, ... ]
 export const getTrChapter = (trLang, chapterId) => {
     try {
-        const trDoc = translations[trLang]['default']['chapters'][chapterId] || {}
+        const trDoc = translations[trLang]['default']['content'][chapterId] || {}
         return trDoc
     } catch (e) {
         console.log('translation error, ', e)
@@ -46,7 +46,7 @@ export const getTrChapter = (trLang, chapterId) => {
 // object { chapterId: { title: "Chapter title" }, ... }
 export const getTrChapters = trLang => {
     try {
-        let chapters = translations[trLang]['default']['chapters']
+        let chapters = translations[trLang]['default']['content']
         chapters = map(chapters, (elem, key) => {
             const { title = '???' } = elem
             return { id: key, title }

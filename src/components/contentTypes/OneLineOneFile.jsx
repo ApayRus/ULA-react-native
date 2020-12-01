@@ -1,21 +1,40 @@
 import React from 'react'
-import { ScrollView, View, TouchableOpacity, Alert } from 'react-native'
-import { Text, Image, Header, colors } from 'react-native-elements'
+import { View, TouchableOpacity, Alert } from 'react-native'
+import { Text, Image } from 'react-native-elements'
 import { Audio } from 'expo-av'
-import { objectToArray } from '../../utils/utils'
+import { objectToArray, prefixedIndex } from '../../utils/utils'
 import audios from '../../../assets/audios'
 import images from '../../../assets/images'
 
 function OneLineOneFile(props) {
 	const {
-		subchapter,
-		subchapterTr,
+		subchapterDoc,
+		subchapterTrDoc = {},
 		globalStyles,
 		chapterId,
 		showTranslation
 	} = props
 
-	const { title, content, type, style: contentTypeStyle } = subchapter
+	const parseContent = pText => {
+		if (!pText) return {}
+		const rowsArray = pText.split('\n')
+		const info = rowsArray.reduce((prev, item, index) => {
+			const rowIndex = prefixedIndex(index + 1)
+			return { ...prev, [rowIndex]: { text: item.trim() } }
+		}, {})
+		return info
+	}
+
+	const {
+		title,
+		content: rawContent,
+		type,
+		style: contentTypeStyle
+	} = subchapterDoc
+	const { content: rawContentTr } = subchapterTrDoc
+	const content = parseContent(rawContent)
+	const contentTr = parseContent(rawContentTr)
+
 	const contentLines = objectToArray(content)
 	const contentTypeAudios = audios[type] || {}
 	const contentTypeImages = images[type] || {}
@@ -61,9 +80,7 @@ function OneLineOneFile(props) {
 				{contentLines.map(elem => {
 					const contentLineId = chapterId + '-' + elem.id
 					const image = contentTypeImages[contentLineId]
-					const trText = subchapterTr
-						? subchapterTr?.content[elem.id]?.text
-						: ''
+					const trText = subchapterTrDoc ? contentTr[elem.id]?.text : ''
 					return (
 						<TouchableOpacity
 							onPress={handlePlay(contentLineId)}

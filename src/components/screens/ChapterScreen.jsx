@@ -23,7 +23,7 @@ export default function LessonScreen({ navigation, route }) {
 	const { title } = chapterDoc
 	const { title: trTitle } = chapterTrDoc
 
-	const subchapters = objectToArray(chapterDoc?.subchapters)
+	const subchapters = objectToArray(chapterDoc?.content)
 
 	// set proper component by subchapter type
 	const interactiveSubchapter = subchapter => {
@@ -31,27 +31,27 @@ export default function LessonScreen({ navigation, route }) {
 		const type = subchapter.type ? subchapter.type : subchapter.title // if type not set, it is the same as title
 		const contentType = getContentType(type)
 		const { interactivity } = contentType
-		const subchapterTr = chapterTrDoc['subchapters'][id]
+		const subchapterTrDoc = chapterTrDoc['content'][id]
 
 		const key = `subchapter-${id}`
 
-		const contentTypeComponents = {
-			oneLineOneFile: (
-				<OneLineOneFile
-					{...{
-						key,
-						subchapter: { ...subchapter, ...contentType },
-						subchapterTr,
-						showTranslation,
-						chapterId,
-						globalStyles
-					}}
-				/>
-			),
-			inText: <InText />,
-			timing: <Timing />,
-			default: <NotSet />
+		const subchapterComponentProps = {
+			key,
+			subchapterDoc: { ...subchapter, ...contentType },
+			subchapterTrDoc,
+			showTranslation,
+			chapterId,
+			globalStyles
 		}
+
+		// interactivity ==> component
+		const contentTypeComponents = {
+			oneLineOneFile: <OneLineOneFile {...subchapterComponentProps} />,
+			inText: <InText {...subchapterComponentProps} />,
+			timing: <Timing {...subchapterComponentProps} />,
+			default: <NotSet {...subchapterComponentProps} />
+		}
+
 		return (
 			contentTypeComponents[interactivity] || contentTypeComponents['default']
 		)
@@ -60,18 +60,18 @@ export default function LessonScreen({ navigation, route }) {
 	const InteractiveSubchapters = () =>
 		subchapters.map(elem => interactiveSubchapter(elem))
 
+	const chapterHeaderProps = {
+		navigation,
+		globalStyles,
+		title,
+		trTitle,
+		showTranslation
+	}
+
 	return (
 		<View style={{ flex: 1 }}>
 			<ScrollView>
-				<ChapterHeader
-					{...{
-						navigation,
-						globalStyles,
-						title,
-						trTitle,
-						showTranslation
-					}}
-				/>
+				<ChapterHeader {...chapterHeaderProps} />
 				<InteractiveSubchapters />
 			</ScrollView>
 			<TranslationOnOffSwitcher />
