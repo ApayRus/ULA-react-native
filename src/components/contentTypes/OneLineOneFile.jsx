@@ -87,9 +87,9 @@ function OneLineOneFile(props) {
 							key={`${type}-${contentLineId}`}
 							style={[
 								{
-									flex: 1,
-									alignItems: 'inherit'
+									flex: 1
 								},
+								globalStyles.align,
 								contentTypeStyle.item
 							]}
 						>
@@ -102,7 +102,7 @@ function OneLineOneFile(props) {
 									]}
 								/>
 							)}
-							<View style={{ flex: 1, alignItems: 'inherit' }}>
+							<View style={[{ flex: 1 }]}>
 								<Text
 									style={[
 										{ flex: 1 },

@@ -7,10 +7,10 @@ export default {
             container: {
                 alignItems: 'center'
             },
-            item: { marginBottom: 20 },
+            item: { marginBottom: 20, alignItems: 'center' },
             image: { width: 100, height: 100, resizeMode: 'contain' },
-            // text: { color: 'red' },
-            translation: { marginTop: -10 }
+            text: { alignSelf: 'center' },
+            translation: { marginTop: -10, alignSelf: 'center' }
         }
     },
 
@@ -21,7 +21,7 @@ export default {
             }
         }
     },
-    grammar: {
+    text: {
         interactivity: 'inText'
     },
     listening: {
