@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, TouchableOpacity, Alert } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import { Text, Image } from 'react-native-elements'
-import { Audio } from 'expo-av'
 import { objectToArray, prefixedIndex } from '../../utils/utils'
 import audios from '../../../assets/audios'
 import images from '../../../assets/images'
+import { playAudio } from '../../utils/media'
 
 function OneLineOneFile(props) {
 	const {
@@ -38,25 +38,6 @@ function OneLineOneFile(props) {
 	const contentLines = objectToArray(content)
 	const contentTypeAudios = audios[type] || {}
 	const contentTypeImages = images[type] || {}
-
-	const onUpdate = soundObject => playbackStatus => {
-		if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0)
-			soundObject.unloadAsync()
-	}
-
-	const playAudio = async (id, source) => {
-		if (source[id]) {
-			const soundObject = new Audio.Sound()
-			await soundObject.loadAsync(source[id])
-			soundObject.setOnPlaybackStatusUpdate(onUpdate(soundObject))
-			await soundObject.playAsync()
-		} else {
-			Alert.alert(
-				`Audio for ${type} ${id} doesn't exist`,
-				`Please, contact the admin`
-			)
-		}
-	}
 
 	const handlePlay = contentLineId => e =>
 		playAudio(contentLineId, contentTypeAudios)
