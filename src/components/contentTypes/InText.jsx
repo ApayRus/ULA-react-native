@@ -22,7 +22,7 @@ function InText(props) {
 		showTranslation
 	} = props
 
-	const { content } = subchapterDoc
+	const { title, content } = subchapterDoc
 
 	let html = marked(content)
 	const contentWidth = useWindowDimensions().width
@@ -48,7 +48,10 @@ function InText(props) {
 	}
 
 	return (
-		<View>
+		<View style={{ padding: 5 }}>
+			<Text h2 h2Style={globalStyles.subchapter}>
+				{title}
+			</Text>
 			<HTML
 				renderers={{ intext: { renderer: inTextRenderer, wrapper: 'Text' } }}
 				html={html}
