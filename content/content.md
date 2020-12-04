@@ -30,6 +30,26 @@ website: github.com/Aparus/ulla
 اَنَا صَغِيرٌ.
 نَحْنُ صِغَارٌ.
 
+## Theory lesson
+
+### Grammar [text]
+
+#### This is first h4 header
+
+And this is the paragraph with some of text. It aims to show you power of using markdown everywhere.
+
+- with list
+- with **bold**, _italic_, ~~deleted~~
+- with some smart content
+
+#### this is second h4 header
+
+Here we provide some [link](https://google.com).
+
+Here is a word with interactivity [[كتاب, كتب]]. And also: [[دفتر, دفاتر]].
+
+And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346_.jpg)
+
 ## اَلدَّرْسُ الثَّانِي 2
 
 ### words

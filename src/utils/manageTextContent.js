@@ -59,3 +59,24 @@ export const getTrChapters = trLang => {
         return {}
     }
 }
+
+/**
+ *
+ * @param {string} htmlText - multiline text
+ * @returns {string}
+ * @example
+ * const exampleText = 'There is some text with [[ sounded word ]] or [[sounded phrase | path to file]]'
+ * convertInTextShortcutIntoTags(exampleText)
+ * // 'There is some text with <inText text="sounded word" path="" /> or <inText text="sounded phrase" path="path to file" />'
+ * // () ===> <inText text="some text" path="path to file" />
+ */
+export const convertInTextShortcutIntoTags = htmlText => {
+    const inTextShortcutTemplate = new RegExp(
+            /\[\[\s*(.+?)\s*(\|\s*(.+?)\s*)?\]\]/gm
+        ) // [[ sounded word ]] or [[sounded phrase | path to file]]
+
+    return htmlText.replace(
+        inTextShortcutTemplate,
+        '<intext text="$1" path="$3"></intext>'
+    )
+}
