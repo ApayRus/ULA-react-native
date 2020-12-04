@@ -37,13 +37,12 @@ function InText(props) {
 	const inTextRenderer = htmlAttribs => {
 		const { text, path } = htmlAttribs
 		return (
-			<Text
+			<TouchableOpacity
 				onPress={handlePress(text, path)}
-				style={[globalStyles.body2, { color: 'darkblue' }]}
 				key={`intext-${text}`}
 			>
-				{text}
-			</Text>
+				<Text style={[globalStyles.body2, { color: 'darkblue' }]}>{text}</Text>
+			</TouchableOpacity>
 		)
 	}
 
