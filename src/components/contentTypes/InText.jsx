@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements'
 import marked from 'marked'
 import HTML from 'react-native-render-html'
 import audios from '../../../assets/audios'
-import { playAudio } from '../../utils/media'
+import { playAudio } from '../../utils/playerShortAudios'
 import { convertInTextShortcutIntoTags } from '../../utils/manageTextContent'
 
 function InText(props) {

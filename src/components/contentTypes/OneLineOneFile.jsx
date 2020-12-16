@@ -2,15 +2,14 @@ import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Text, Image } from 'react-native-elements'
 import { objectToArray, prefixedIndex } from '../../utils/utils'
-import audios from '../../../assets/audios'
 import images from '../../../assets/images'
-import { playAudio } from '../../utils/media'
+import { playAudio } from '../../utils/playerShortAudios'
 import marked from 'marked'
 
 function OneLineOneFile(props) {
 	const {
 		subchapterDoc,
-		contentType,
+		contentTypeDoc,
 		subchapterTrDoc = {},
 		globalStyles,
 		chapterId,
@@ -36,17 +35,15 @@ function OneLineOneFile(props) {
 	}
 
 	const { title, content: rawContent } = subchapterDoc
-	const { style: contentTypeStyle, type } = contentType
+	const { style: contentTypeStyle, type: contentType } = contentTypeDoc
 	const { content: rawContentTr } = subchapterTrDoc
 	const content = parseContent(rawContent)
 	const contentTr = parseContent(rawContentTr)
 
 	const contentLines = objectToArray(content)
-	const contentTypeAudios = audios[type] || {}
-	const contentTypeImages = images[type] || {}
+	const contentTypeImages = images[contentType] || {}
 
-	const handlePlay = contentLineId => e =>
-		playAudio(contentLineId, contentTypeAudios)
+	const handlePlay = contentLineId => e => playAudio(contentLineId, contentType)
 
 	return (
 		<View style={{ paddingLeft: 5, paddingRight: 5 }}>
@@ -71,7 +68,7 @@ function OneLineOneFile(props) {
 					return (
 						<TouchableOpacity
 							onPress={handlePlay(contentLineId)}
-							key={`${type}-${contentLineId}`}
+							key={`${contentType}-${contentLineId}`}
 							style={[
 								{
 									flex: 1
