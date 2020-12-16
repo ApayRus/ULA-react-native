@@ -12,6 +12,7 @@ import HTML from 'react-native-render-html'
 import audios from '../../../assets/audios'
 import { playAudio } from '../../utils/media'
 import { convertInTextShortcutIntoTags } from '../../utils/manageTextContent'
+import { testFunction } from 'frazy-parser'
 
 function InText(props) {
 	const {
@@ -21,6 +22,11 @@ function InText(props) {
 		chapterId,
 		showTranslation
 	} = props
+
+	marked.use({ smartypants: true })
+	//additional typography symbols support like --> , -- , etc
+
+	testFunction()
 
 	const { title, content } = subchapterDoc
 
