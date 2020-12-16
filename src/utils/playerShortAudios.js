@@ -3,10 +3,9 @@ import audios from '../../assets/audios'
 import { Alert } from 'react-native'
 
 const onAudioUpdate = soundObject => playbackStatus => {
-	if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0)
-		if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0) {
-			soundObject.unloadAsync()
-		}
+	if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0) {
+		soundObject.unloadAsync()
+	}
 }
 
 export const playAudio = async (id, contentType) => {
