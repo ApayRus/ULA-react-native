@@ -5,6 +5,7 @@ import { objectToArray, prefixedIndex } from '../../utils/utils'
 import audios from '../../../assets/audios'
 import images from '../../../assets/images'
 import { playAudio } from '../../utils/media'
+import marked from 'marked'
 
 function OneLineOneFile(props) {
 	const {
@@ -15,12 +16,20 @@ function OneLineOneFile(props) {
 		showTranslation
 	} = props
 
+	marked.use({
+		renderer: {
+			paragraph: text => text //by default renderer returns <p></p> for any text line
+		},
+		smartypants: true // additional typography like long tire -- , etc
+	})
+
 	const parseContent = pText => {
 		if (!pText) return {}
 		const rowsArray = pText.split('\n')
 		const info = rowsArray.reduce((prev, item, index) => {
 			const rowIndex = prefixedIndex(index + 1)
-			return { ...prev, [rowIndex]: { text: item.trim() } }
+			const text = marked(item.trim())
+			return { ...prev, [rowIndex]: { text } }
 		}, {})
 		return info
 	}
