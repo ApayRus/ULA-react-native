@@ -26,10 +26,9 @@ export default function LessonScreen({ navigation, route }) {
 	const subchapters = objectToArray(chapterDoc?.content)
 
 	// set proper component by subchapter type
-	const interactiveSubchapter = subchapter => {
-		const { id } = subchapter
-		const type = subchapter.type ? subchapter.type : subchapter.title // if type not set, it is the same as title
-		const contentType = getContentType(type)
+	const interactiveSubchapter = subchapterDoc => {
+		const { id, title, type } = subchapterDoc
+		const contentType = getContentType(type ? type : title) // if type not set, it is the same as title
 		const { interactivity } = contentType
 		const subchapterTrDoc = chapterTrDoc['content'][id]
 
@@ -37,7 +36,8 @@ export default function LessonScreen({ navigation, route }) {
 
 		const subchapterComponentProps = {
 			key,
-			subchapterDoc: { ...subchapter, ...contentType },
+			subchapterDoc,
+			contentType,
 			subchapterTrDoc,
 			showTranslation,
 			chapterId,

@@ -10,6 +10,7 @@ import marked from 'marked'
 function OneLineOneFile(props) {
 	const {
 		subchapterDoc,
+		contentType,
 		subchapterTrDoc = {},
 		globalStyles,
 		chapterId,
@@ -34,12 +35,8 @@ function OneLineOneFile(props) {
 		return info
 	}
 
-	const {
-		title,
-		content: rawContent,
-		type,
-		style: contentTypeStyle
-	} = subchapterDoc
+	const { title, content: rawContent } = subchapterDoc
+	const { style: contentTypeStyle, type } = contentType
 	const { content: rawContentTr } = subchapterTrDoc
 	const content = parseContent(rawContent)
 	const contentTr = parseContent(rawContentTr)
