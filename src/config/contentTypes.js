@@ -24,7 +24,7 @@ export default {
     text: {
         interactivity: 'inText'
     },
-    listening: {
+    timing: {
         interactivity: 'timing'
     }
 }

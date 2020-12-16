@@ -30,26 +30,6 @@ website: github.com/Aparus/ulla
 اَنَا صَغِيرٌ.
 نَحْنُ صِغَارٌ.
 
-## Theory lesson
-
-### Grammar [text]
-
-#### This is first h4 header
-
-And this is the paragraph with some of text. It aims to show you power of using markdown everywhere.
-
-- with list
-- with **bold**, _italic_, ~~deleted~~
-- with some smart content
-
-#### this is second h4 header
-
-Here we provide some [link](https://google.com).
-
-Here is a word with interactivity [[كتاب, كتب]]. And also: [[دفتر, دفاتر]].
-
-And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346_.jpg)
-
 ## اَلدَّرْسُ الثَّانِي 2
 
 ### words
@@ -216,6 +196,59 @@ And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346
 -- لِتِلْكَ الْمَرْأَةِ.
 أُولَئِكَ الرِّجَالُ مُعَلِّمُونَ.
 أُولَئِكَ النِّسَاءُ مُعَلِّمَاتٌ.
+
+## Theory lesson
+
+### Grammar [text]
+
+#### This is first h4 header
+
+And this is the paragraph with some of text. It aims to show you power of using markdown everywhere.
+
+- with list
+- with **bold**, _italic_.
+- with some smart content
+
+#### this is second h4 header
+
+Here we provide some [link](https://google.com).
+
+Here is a word with interactivity [[كتاب, كتب]]. And also -- [[دفتر, دفاتر]].
+
+And here is some image: ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346_.jpg)
+
+## Timing lesson
+
+### dialog 1.1. [timing]
+
+WEBVTT
+
+0:00:00.080 --> 0:00:01.630
+<v خالِد> السَّلامُ عَلَيْكُم .
+
+0:00:02.160 --> 0:00:04.050
+<v خَلِيل> وَعَلَيْكُمُ السَّلام .
+
+0:00:05.590 --> 0:00:06.840
+<v خالِد> اِسْمي خالِد ,
+
+0:00:07.860 --> 0:00:08.720
+ما اسْمُكَ ؟
+
+0:00:09.480 --> 0:00:10.800
+<v خَلِيل> اِسْمي خَليل .
+
+0:00:12.380 --> 0:00:13.520
+<v خالِد> كَيْفَ حالُكَ ؟
+
+0:00:14.150 --> 0:00:16.640
+<v خَلِيل> بِحَيْرٍ , وَالحَمْدُ لِلَّه .
+
+0:00:17.460 --> 0:00:19.330
+وَكَيْفَ حالُكَ أَنْتَ ؟
+
+0:00:20.590 --> 0:00:23.900
+<v خالِد> بِخَيْرٍ , وَالحَمْدُ لِلَّه .
 
 ## 7 اَلدَّرْسُ السَّابِعُ
 
@@ -1464,7 +1497,7 @@ And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346
 -- نَعَمْ, هِيَ طَالِبَةٌ اَيْضًا.
 -- هَلْ اَنْتَ طَالِبٌ فِي الْمَعْهَدِ؟
 -- لَا, اَنَا طَالِبٌ فِي الْجَامِعَةِ.
--- اَيْنَ جَامِعَتُكُمْ؟
+-- اَيْنَ ج��امِعَتُكُمْ؟
 -- جَامِعَتُنَا قُرْبَ الْمَلْعَبِ.
 طُلاَّبُ جَامِعَتِنَا الآنَ فِي الْمَلْعَبِ يَلْعَبُونَ بِكُرَةِ الْقَدَمِ.
 طُلاَّبُ جَامِعَتِنَا كُلُّهُمْ نُشَطَاءُ مُجْتَهِدُونَ وَ كُلُّهُمْ مُسْلِمُونَ يُحِبُّونَ دِينَ الإِسْلَامِ وَ يُحِبُّونَ الْجِهَادَ.
@@ -3564,7 +3597,7 @@ And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346
 مُنْذُ وَقْتٍ قَرِيبٍ.
 تَرْتِيلٌ.
 رَتَّلَ الْقُرْآنَ.
-أَصْغَى اِلَى...
+أَصْغَى اِ��َى...
 تِلَاوَةٌ.
 طَبْعًا.
 وَ لِمَ لَا؟

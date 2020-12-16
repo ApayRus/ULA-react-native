@@ -30,24 +30,6 @@ website: github.com/Aparus/ulla
 я маленький.
 мы маленькие.
 
-## Теоретический урок
-
-### Грамматика [text]
-
-#### This is first h4 header
-
-And this is the paragraph with some of text. It aims to show you power of using markdown everywhere.
-
-- with list
-- with **bold**, _italic_, ~~deleted~~
-- with some smart content
-
-#### this is second h4 header
-
-Here we provide some [link](https://google.com).
-
-And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346_.jpg)
-
 ## Урок второй
 
 ### words
@@ -175,6 +157,57 @@ And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346
 Ученицы.
 
 ## Урок шестой
+
+## Теоретический урок
+
+### Грамматика [text]
+
+#### This is first h4 header
+
+And this is the paragraph with some of text. It aims to show you power of using markdown everywhere.
+
+- with list
+- with **bold**, _italic_, ~~deleted~~
+- with some smart content
+
+#### this is second h4 header
+
+Here we provide some [link](https://google.com).
+
+And here is some ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346_.jpg)
+
+## Timing lesson
+
+### dialog 1.1. [timing]
+
+WEBVTT
+
+0:00:00.080 --> 0:00:01.630
+<v Халид> Мир вам!
+
+0:00:02.160 --> 0:00:04.050
+<v Халил>И вам мир!
+
+0:00:05.590 --> 0:00:06.840
+<v Халид> Меня зовут Халид.
+
+0:00:07.860 --> 0:00:08.720
+Какое твоё имя?
+
+0:00:09.480 --> 0:00:10.800
+<v Халил> Меня зовут Халил.
+
+0:00:12.380 --> 0:00:13.520
+<v Халид> Как дела?
+
+0:00:14.150 --> 0:00:16.640
+<v Халил> Хорошо, слава Богу!
+
+0:00:17.460 --> 0:00:19.330
+А у тебя как дела?
+
+0:00:20.590 --> 0:00:23.900
+<v Халид> Хорошо, слава Богу!
 
 ## Урок седьмой
 
