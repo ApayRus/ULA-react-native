@@ -1,18 +1,11 @@
 import React from 'react'
-import {
-	ScrollView,
-	View,
-	TouchableOpacity,
-	Alert,
-	useWindowDimensions
-} from 'react-native'
-import { Image, Header, colors, Text } from 'react-native-elements'
+import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
+import { Text } from 'react-native-elements'
 import marked from 'marked'
 import HTML from 'react-native-render-html'
 import audios from '../../../assets/audios'
 import { playAudio } from '../../utils/media'
 import { convertInTextShortcutIntoTags } from '../../utils/manageTextContent'
-import { testFunction } from 'frazy-parser'
 
 function InText(props) {
 	const {
@@ -23,10 +16,7 @@ function InText(props) {
 		showTranslation
 	} = props
 
-	marked.use({ smartypants: true })
-	//additional typography symbols support like --> , -- , etc
-
-	testFunction()
+	marked.use({ smartypants: true }) //additional typography support like --> , -- , etc
 
 	const { title, content } = subchapterDoc
 
