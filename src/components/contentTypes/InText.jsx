@@ -3,7 +3,6 @@ import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Text } from 'react-native-elements'
 import marked from 'marked'
 import HTML from 'react-native-render-html'
-import audios from '../../../assets/audios'
 import { playAudio } from '../../utils/playerShortAudios'
 import { convertInTextShortcutIntoTags } from '../../utils/manageTextContent'
 
@@ -13,19 +12,22 @@ function InText(props) {
 		subchapterTrDoc = {},
 		globalStyles,
 		chapterId,
-		showTranslation
+		showTranslation,
+		contentTypeDoc
 	} = props
 
 	marked.use({ smartypants: true }) //additional typography support like --> , -- , etc
 
 	const { title, content } = subchapterDoc
+	const { type: contentType } = contentTypeDoc
+	console.log('contentType', contentType)
 
 	let html = marked(content)
 	const contentWidth = useWindowDimensions().width
 
 	const handlePress = (text, path) => () => {
 		const fileName = path || text
-		playAudio(fileName, audios['intext'])
+		playAudio(fileName, 'intext')
 	}
 
 	html = convertInTextShortcutIntoTags(html)

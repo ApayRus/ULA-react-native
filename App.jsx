@@ -71,7 +71,7 @@ export default function App() {
 		<ThemeProvider theme={theme}>
 			<NavigationContainer>
 				<Drawer.Navigator
-					initialRouteName='Home'
+					initialRouteName='Timing lesson'
 					drawerContent={props => (
 						<DrawerContent
 							{...props}
