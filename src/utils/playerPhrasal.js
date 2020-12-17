@@ -86,10 +86,12 @@ class PhrasalPlayer {
     async playPhrase(phraseNum) {
         this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayPhraseAudioUpdate)
         this.currentPhraseNum = phraseNum
-        this.events.emit('play-phrase', {
+        const eventBody = {
             ...this.phrases[this.currentPhraseNum],
             order: this.currentPhraseNum
-        })
+        }
+        this.events.emit('play-phrase', eventBody)
+        this.events.emit('phrase-in', eventBody)
         const { start } = this.phrases[phraseNum]
         await this.mediaObject.setStatusAsync({ positionMillis: start * 1000 })
         this.mediaObject.playAsync()
@@ -117,9 +119,6 @@ class PhrasalPlayer {
         // replay
         this.playPhrase(this.currentPhraseNum)
     }
-    isPlaying() {
-        return this.isPlaying
-    }
 }
 
 const phrasalPlayer = new PhrasalPlayer()
@@ -132,6 +131,10 @@ phrasalPlayer.events.on('*', (type, event) => {
     }
     if (pauseEvents.includes(type)) {
         store.dispatch(setPlayerState({ isPlaying: false }))
+    }
+    if (type === 'phrase-in') {
+        const { currentPhraseNum } = phrasalPlayer
+        store.dispatch(setPlayerState({ currentPhraseNum }))
     }
 })
 

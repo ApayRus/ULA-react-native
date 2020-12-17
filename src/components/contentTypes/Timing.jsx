@@ -16,15 +16,17 @@ function Timing(props) {
 		showTranslation
 	} = props
 
-	const { isPlaying } = useSelector(state => state.playerState) || {}
+	const { isPlaying, currentPhraseNum } =
+		useSelector(state => state.playerState) || {}
 
 	const { id: subchapterId, title, content } = subchapterDoc
 
 	const phrases = parseSubs(content)
+	const phrasesArray = objectToArray(phrases)
 
 	useEffect(() => {
 		const audioId = `${chapterId}-${subchapterId}`
-		phrasalPlayer.init(audioId, 'timing', objectToArray(phrases))
+		phrasalPlayer.init(audioId, 'timing', phrasesArray)
 	}, [])
 
 	return (
@@ -36,6 +38,7 @@ function Timing(props) {
 				phrasalPlayer={phrasalPlayer}
 				isPlaying={isPlaying}
 			/>
+			<Text>{JSON.stringify(phrasesArray[currentPhraseNum])}</Text>
 			<Text>{JSON.stringify(subchapterDoc, null, '\t')}</Text>
 			<Text>{JSON.stringify(phrases, null, '\t')}</Text>
 		</View>
