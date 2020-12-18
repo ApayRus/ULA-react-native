@@ -1,5 +1,4 @@
 import React from 'react'
-import { StatusBar } from 'expo-status-bar'
 import { View } from 'react-native'
 import { Text, Header, colors } from 'react-native-elements'
 
@@ -8,18 +7,19 @@ function ChapterHeader(props) {
 
 	return (
 		<>
-			<StatusBar style='auto' />
 			<Header
-				rightComponent={{
-					icon: 'menu',
-					color: '#fff',
-					onPress: () => navigation.toggleDrawer()
-				}}
+				barStyle='default'
 				leftComponent={{
 					icon: 'home',
 					color: '#fff',
 					onPress: () => navigation.navigate('Home')
 				}}
+				rightComponent={{
+					icon: 'menu',
+					color: '#fff',
+					onPress: () => navigation.toggleDrawer()
+				}}
+				containerStyle={{ width: '100%' }}
 			/>
 			<View style={globalStyles?.chapterHeader}>
 				<Text style={[globalStyles?.body1, { color: colors.primary }]}>

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Image, ListItem, Icon } from 'react-native-elements'
-import { View, ScrollView } from 'react-native'
+import { ListItem, Icon } from 'react-native-elements'
+import { View, Image, ScrollView } from 'react-native'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import { useSelector } from 'react-redux'
 

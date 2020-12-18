@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { View } from 'react-native'
-import { Image, Text, Button } from 'react-native-elements'
+import { Image, View } from 'react-native'
+import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
 
 export default function HomeScreen({ navigation, route }) {
