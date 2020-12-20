@@ -126,14 +126,14 @@ we are small.
 
 ### words
 
-كِتَابٌ, كُتُبٌ.
-دَفْتَرٌ, دَفَاتِرُ.
-مِحْفَظَةٌ, مَحَافِظُ.
-قَلَمٌ, اَقْلَامٌ.
-مَا؟
-مَا هَذَا؟
-لِمَنْ؟
-لِلْمُعَلِّمِ.
+a book
+a notebook
+a portfolio
+a pen
+what?
+what is that?
+whose?
+teacher's.
 
 ### phrases
 
