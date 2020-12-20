@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 import { Text, Header, colors } from 'react-native-elements'
 
 function ChapterHeader(props) {
@@ -7,8 +8,8 @@ function ChapterHeader(props) {
 
 	return (
 		<>
+			<StatusBar style='auto' />
 			<Header
-				barStyle='default'
 				leftComponent={{
 					icon: 'home',
 					color: '#fff',
