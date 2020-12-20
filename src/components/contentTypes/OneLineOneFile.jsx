@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, TouchableOpacity, Image } from 'react-native'
-import { Text } from 'react-native-elements'
+import { View, TouchableOpacity } from 'react-native'
+import { Text, Image } from 'react-native-elements'
 import { objectToArray, prefixedIndex } from '../../utils/utils'
 import images from '../../../assets/images'
 import { playAudio } from '../../utils/playerShortAudios'

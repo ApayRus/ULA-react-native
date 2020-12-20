@@ -19,7 +19,6 @@ function ChapterHeader(props) {
 					color: '#fff',
 					onPress: () => navigation.toggleDrawer()
 				}}
-				containerStyle={{ width: '100%' }}
 			/>
 			<View style={globalStyles?.chapterHeader}>
 				<Text style={[globalStyles?.body1, { color: colors.primary }]}>
