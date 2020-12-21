@@ -20,17 +20,17 @@ export default function LessonScreen({ navigation, route }) {
 	const { trLang, showTranslation } = useSelector(state => state.translation)
 	const chapterDoc = getChapter(chapterId)
 	const chapterTrDoc = getTrChapter(trLang, chapterId)
-	const { title } = chapterDoc
-	const { title: trTitle } = chapterTrDoc
+	const { title, content = {} } = chapterDoc
+	const { title: trTitle, content: contentTr = {} } = chapterTrDoc
 
-	const subchapters = objectToArray(chapterDoc?.content)
+	const subchapters = objectToArray(content)
 
 	// set proper component by subchapter type
 	const interactiveSubchapter = subchapterDoc => {
 		const { id, title, type } = subchapterDoc
 		const contentTypeDoc = getContentType(type ? type : title) // if type not set, it is the same as title
 		const { interactivity } = contentTypeDoc || {}
-		const subchapterTrDoc = chapterTrDoc?.content[id] || {}
+		const subchapterTrDoc = contentTr[id] || {}
 
 		const key = `subchapter-${id}`
 

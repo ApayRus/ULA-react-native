@@ -17,20 +17,28 @@ class PhrasalPlayer {
     phrases = []
 
     onPlayAudioUpdate = playbackStatus => {
-        const { positionMillis } = playbackStatus
+        const { positionMillis, didJustFinish } = playbackStatus
+        console.log('playbackStatus', playbackStatus)
         const currentTime = positionMillis / 1000
+        const phrasesCount = this.phrases.length
             // const { isPlaying } = playbackStatus
             // this.isPlaying = isPlaying
         this.currentTime = currentTime
         const { end: currentPhaseEnd } = this.phrases[this.currentPhraseNum] || {}
 
-        if (currentTime > currentPhaseEnd) {
+        if (
+            currentTime > currentPhaseEnd &&
+            this.currentPhraseNum < phrasesCount - 1
+        ) {
             this.events.emit('phrase-out', this.phrases[this.currentPhraseNum])
             this.currentPhraseNum++
                 this.events.emit('phrase-in', {
                     ...this.phrases[this.currentPhraseNum],
                     order: this.currentPhraseNum
                 })
+        }
+        if (didJustFinish) {
+            this.events.emit('didJustFinish')
         }
     }
 
@@ -125,7 +133,7 @@ const phrasalPlayer = new PhrasalPlayer()
 
 phrasalPlayer.events.on('*', (type, event) => {
     const playEvents = ['play', 'play-phrase']
-    const pauseEvents = ['pause', 'pause-phrase']
+    const pauseEvents = ['pause', 'pause-phrase', 'didJustFinish']
     if (playEvents.includes(type)) {
         store.dispatch(setPlayerState({ isPlaying: true }))
     }
