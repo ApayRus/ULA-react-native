@@ -1,7 +1,6 @@
 import { Audio } from 'expo-av'
 import mitt from 'mitt'
 import audios from '../../assets/audios'
-import { dispatch } from 'redux'
 import { setPlayerState } from '../store/playerStateActions'
 import store from '../store/rootReducer'
 
@@ -18,7 +17,7 @@ class PhrasalPlayer {
 
     onPlayAudioUpdate = playbackStatus => {
         const { positionMillis, didJustFinish } = playbackStatus
-        console.log('playbackStatus', playbackStatus)
+        // console.log('playbackStatus', playbackStatus)
         const currentTime = positionMillis / 1000
         const phrasesCount = this.phrases.length
             // const { isPlaying } = playbackStatus
