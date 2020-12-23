@@ -38,22 +38,26 @@ export default function PhrasesBlock(props) {
 		)
 	}
 
-	const Voice = ({ voiceName }) => {
-		return <Text>{voiceName}</Text>
+	const Voice = ({ voiceName, voiceNameTr }) => {
+		return (
+			<Text>
+				{voiceName}
+				{voiceNameTr ? ` (${voiceNameTr})` : ''}
+			</Text>
+		)
 	}
 
 	return (
 		<View>
 			{phrasesArray.map((elem, index) => {
-				const { text } = elem.body[0]
-				const { voice: { name: voiceName = '' } = {} } = elem.body[0] || {}
-				const { text: trText } = phrasesTrArray[index]['body'][0]
+				const { text, voiceName } = elem
+				const { text: trText, voiceName: voiceNameTr } = phrasesTrArray[index]
 				const phraseNum = index
 
 				return (
 					index > 0 && (
 						<View key={`phrase-${phraseNum}`}>
-							<Voice voiceName={voiceName} />
+							<Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />
 							<Phrase
 								{...{
 									text,
