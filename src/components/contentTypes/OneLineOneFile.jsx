@@ -37,11 +37,13 @@ function OneLineOneFile(props) {
 	const { title, content: rawContent } = subchapterDoc
 	const { style: contentTypeStyle, type: contentType } = contentTypeDoc
 	const { content: rawContentTr } = subchapterTrDoc
-	const content = parseContent(rawContent)
-	const contentTr = parseContent(rawContentTr)
+	const phrasesObject = parseContent(rawContent)
+	const phrasesTrObject = parseContent(rawContentTr)
 
-	const contentLines = objectToArray(content)
+	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 	const contentTypeImages = images[contentType] || {}
+
+	console.log('phrases', phrasesArray)
 
 	const handlePlay = contentLineId => e => playAudio(contentLineId, contentType)
 
@@ -61,10 +63,10 @@ function OneLineOneFile(props) {
 					contentTypeStyle.container
 				]}
 			>
-				{contentLines.map(elem => {
+				{phrasesArray.map(elem => {
 					const contentLineId = chapterId + '-' + elem.id
 					const image = contentTypeImages[contentLineId]
-					const trText = subchapterTrDoc ? contentTr[elem.id]?.text : ''
+					const trText = subchapterTrDoc ? phrasesTrObject[elem.id]?.text : ''
 					return (
 						<TouchableOpacity
 							onPress={handlePlay(contentLineId)}
