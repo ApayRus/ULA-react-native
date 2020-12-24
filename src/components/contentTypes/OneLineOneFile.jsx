@@ -43,8 +43,6 @@ function OneLineOneFile(props) {
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 	const contentTypeImages = images[contentType] || {}
 
-	console.log('phrases', phrasesArray)
-
 	const handlePlay = contentLineId => e => playAudio(contentLineId, contentType)
 
 	return (
