@@ -10,7 +10,7 @@ import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
 import Timing from '../contentTypes/Timing'
 import NotSet from '../contentTypes/NotSet'
-import { getChapter, getTrChapter } from '../../utils/manageTextContent'
+import content from '../../utils/content'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
@@ -18,19 +18,19 @@ export default function LessonScreen({ navigation, route }) {
 	} = route
 
 	const { trLang, showTranslation } = useSelector(state => state.translation)
-	const chapterDoc = getChapter(chapterId)
-	const chapterTrDoc = getTrChapter(trLang, chapterId)
-	const { title, content = {} } = chapterDoc
-	const { title: trTitle, content: contentTr = {} } = chapterTrDoc
+	const chapterDoc = content.getChapter(chapterId)
+	const chapterTrDoc = content.getChapterTr(trLang, chapterId)
+	const { title, content: chapterContent = {} } = chapterDoc
+	const { title: trTitle, content: chapterContentTr = {} } = chapterTrDoc
 
-	const subchapters = objectToArray(content)
+	const subchapters = objectToArray(chapterContent)
 
 	// set proper component by subchapter type
 	const interactiveSubchapter = subchapterDoc => {
 		const { id, title, type } = subchapterDoc
 		const contentTypeDoc = getContentType(type ? type : title) // if type not set, it is the same as title
 		const { interactivity } = contentTypeDoc || {}
-		const subchapterTrDoc = contentTr[id] || {}
+		const subchapterTrDoc = chapterContentTr[id] || {}
 
 		const key = `subchapter-${id}`
 

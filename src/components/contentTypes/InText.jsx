@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements'
 import marked from 'marked'
 import HTML from 'react-native-render-html'
 import { playAudio } from '../../utils/playerShortAudios'
-import { convertInTextShortcutIntoTags } from '../../utils/manageTextContent'
+import { Content } from '../../utils/content'
 
 function InText(props) {
 	const {
@@ -30,7 +30,7 @@ function InText(props) {
 		playAudio(fileName, 'intext')
 	}
 
-	html = convertInTextShortcutIntoTags(html)
+	html = Content.extractIntextShortcutIntoTags(html)
 
 	const inTextRenderer = htmlAttribs => {
 		const { text, path } = htmlAttribs
