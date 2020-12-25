@@ -19,9 +19,7 @@ mediaTypes.forEach(mediaType => {
     let fileContent = ''
     const contentTypes = getSubDirsOfDir(path.join(baseDir, mediaType))
     contentTypes.forEach(contentType => {
-        const mapFiles = getFileMapOfDir(
-            path.join(path.join(baseDir, mediaType, contentType))
-        )
+        const mapFiles = getFileMapOfDir(path.join(baseDir, mediaType, contentType))
         fileContent += `"${contentType}": {${mapFiles}},`
     })
     fileContent = `export default { ${fileContent}}`

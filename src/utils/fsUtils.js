@@ -20,7 +20,10 @@ const getFileMapOfDir = dir =>
     .filter(elem => isFile(path.join(dir, elem)))
     .reduce((prev, elem) => {
         const fileId = elem.replace(/\.[^.]+$/, '')
-        const filePath = path.join('../../', dir, elem)
+        const filePath = `../../${dir}/${elem}`
+            // path.join('../../', dir, elem) -- causes error on windows:
+            // the only valid numeric escape in strict mode is '\0'
+
         return prev + `"${fileId}": require("${filePath}"), `
     }, '')
 
