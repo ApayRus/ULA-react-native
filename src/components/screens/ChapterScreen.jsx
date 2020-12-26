@@ -9,6 +9,7 @@ import { getContentType } from '../../utils/getContentType'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
 import Timing from '../contentTypes/Timing'
+import Audio from '../contentTypes/Audio'
 import NotSet from '../contentTypes/NotSet'
 import content from '../../utils/content'
 
@@ -49,6 +50,7 @@ export default function LessonScreen({ navigation, route }) {
 			oneLineOneFile: <OneLineOneFile {...subchapterComponentProps} />,
 			inText: <InText {...subchapterComponentProps} />,
 			timing: <Timing {...subchapterComponentProps} />,
+			audio: <Audio {...subchapterComponentProps} />,
 			default: <NotSet {...subchapterComponentProps} />
 		}
 

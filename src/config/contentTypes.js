@@ -27,5 +27,8 @@ export default {
 	},
 	timing: {
 		interactivity: 'timing'
+	},
+	audio: {
+		interactivity: 'audio'
 	}
 }
