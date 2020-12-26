@@ -30,12 +30,14 @@ function Timing(props) {
 		// then we extract it into plain object {start, end, text, voiceName}
 
 		const parsedSubs = frazyParseSubs(subsText)
+		if (!parsedSubs) return {}
 		const phrasesObject = {}
 
 		for (let key in parsedSubs) {
 			const { start, end, body = [] } = parsedSubs[key] || {}
 			const [bodyFirstObject] = body
-			const { voice: { name: voiceName } = {}, text } = bodyFirstObject
+			const { voice: { name: voiceName } = {}, text = '' } =
+				bodyFirstObject || {}
 			phrasesObject[key] = { start, end, text, voiceName }
 		}
 

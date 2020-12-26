@@ -51,7 +51,8 @@ export default function PhrasesBlock(props) {
 		<View>
 			{phrasesArray.map((elem, index) => {
 				const { text, voiceName } = elem
-				const { text: trText, voiceName: voiceNameTr } = phrasesTrArray[index]
+				const { text: trText, voiceName: voiceNameTr } =
+					phrasesTrArray[index] || {}
 				const phraseNum = index
 
 				return (
