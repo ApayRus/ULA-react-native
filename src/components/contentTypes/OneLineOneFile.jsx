@@ -1,44 +1,32 @@
 import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
-import { objectToArray, prefixedIndex } from '../../utils/utils'
+import { objectToArray } from '../../utils/utils'
 import images from '../../../assets/images'
 import { playAudio } from '../../utils/playerShortAudios'
-import marked from 'marked'
+import content from '../../utils/content'
 
 function OneLineOneFile(props) {
 	const {
-		subchapterDoc,
 		contentTypeDoc,
-		subchapterTrDoc = {},
 		globalStyles,
 		chapterId,
+		subchapterId,
+		trLang,
 		showTranslation
 	} = props
 
-	marked.use({
-		renderer: {
-			paragraph: text => text //by default renderer returns <p></p> for any text line
-		},
-		smartypants: true // additional typography like long tire -- , etc
-	})
+	const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
+	const subchapterTrDoc = content.getSubchapterTr(
+		trLang,
+		chapterId,
+		subchapterId
+	)
 
-	const parseContent = pText => {
-		if (!pText) return {}
-		const rowsArray = pText.split('\n')
-		const info = rowsArray.reduce((prev, item, index) => {
-			const rowIndex = prefixedIndex(index + 1)
-			const text = marked(item.trim())
-			return { ...prev, [rowIndex]: { text } }
-		}, {})
-		return info
-	}
+	const { title, content: phrasesObject = {} } = subchapterDoc
+	const { content: phrasesTrObject = {} } = subchapterTrDoc
 
-	const { title, content: rawContent } = subchapterDoc
 	const { style: contentTypeStyle, type: contentType } = contentTypeDoc
-	const { content: rawContentTr } = subchapterTrDoc
-	const phrasesObject = parseContent(rawContent)
-	const phrasesTrObject = parseContent(rawContentTr)
 
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 	const contentTypeImages = images[contentType] || {}
@@ -64,7 +52,7 @@ function OneLineOneFile(props) {
 				{phrasesArray.map(elem => {
 					const contentLineId = chapterId + '-' + elem.id
 					const image = contentTypeImages[contentLineId]
-					const trText = subchapterTrDoc ? phrasesTrObject[elem.id]?.text : ''
+					const { text: trText } = phrasesTrObject[elem.id] || {}
 					return (
 						<TouchableOpacity
 							onPress={handlePlay(contentLineId)}
