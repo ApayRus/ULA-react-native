@@ -3,10 +3,11 @@ import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Text } from 'react-native-elements'
 import HTML from 'react-native-render-html'
 import { playAudio } from '../../utils/playerShortAudios'
-import content from '../../utils/content'
 
 function InText(props) {
 	const {
+		subchapterDoc,
+		subchapterTrDoc,
 		globalStyles,
 		chapterId,
 		subchapterId,
@@ -14,8 +15,6 @@ function InText(props) {
 		contentTypeDoc,
 		trLang
 	} = props
-
-	const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
 
 	const { title, content: html } = subchapterDoc
 

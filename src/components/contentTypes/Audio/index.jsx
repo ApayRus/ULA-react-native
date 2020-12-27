@@ -7,10 +7,7 @@ import PlayerControls from './PlayerControls'
 import player from './playerClass'
 
 export default function Audio(props) {
-	const {
-		chapterId,
-		subchapterDoc: { id: subchapterId }
-	} = props
+	const { chapterId, subchapterId } = props
 
 	const dispatch = useDispatch()
 

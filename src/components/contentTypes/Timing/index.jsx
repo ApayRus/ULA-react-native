@@ -7,11 +7,11 @@ import Slideshow from './Slideshow'
 import PhrasesBlock from './PhrasesBlock'
 import phrasalPlayer from '../../../utils/playerPhrasal'
 import { objectToArray } from '../../../utils/utils'
-import content from '../../../utils/content'
 
 function Timing(props) {
 	const {
-		trLang,
+		subchapterDoc,
+		subchapterTrDoc,
 		globalStyles,
 		chapterId,
 		subchapterId,
@@ -20,13 +20,6 @@ function Timing(props) {
 
 	const { isPlaying, currentPhraseNum } =
 		useSelector(state => state.playerState) || {}
-
-	const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
-	const subchapterTrDoc = content.getSubchapterTr(
-		trLang,
-		chapterId,
-		subchapterId
-	)
 
 	const { title, content: phrases } = subchapterDoc
 	const { title: titleTr, content: phrasesTr } = subchapterTrDoc

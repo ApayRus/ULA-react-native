@@ -25,14 +25,23 @@ export default function LessonScreen({ navigation, route }) {
 	const subchapters = objectToArray(chapterContent)
 
 	// set proper component by subchapter type
-	const interactiveSubchapter = subchapterId => {
+	const interactiveSubchapter = (chapterId, subchapterId) => {
 		const contentTypeDoc = content.getContentType(chapterId, subchapterId)
 		const { interactivity } = contentTypeDoc || {}
 
 		const key = `subchapter-${subchapterId}`
 
+		const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
+		const subchapterTrDoc = content.getSubchapterTr(
+			trLang,
+			chapterId,
+			subchapterId
+		)
+
 		const subchapterComponentProps = {
 			key,
+			subchapterDoc,
+			subchapterTrDoc,
 			contentTypeDoc,
 			showTranslation,
 			chapterId,
@@ -58,7 +67,7 @@ export default function LessonScreen({ navigation, route }) {
 	const InteractiveSubchapters = () =>
 		subchapters.map(elem => {
 			const { id: subchapterId } = elem
-			return interactiveSubchapter(subchapterId)
+			return interactiveSubchapter(chapterId, subchapterId)
 		})
 
 	const chapterHeaderProps = {

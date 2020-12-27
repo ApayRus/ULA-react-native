@@ -4,10 +4,11 @@ import { Text } from 'react-native-elements'
 import { objectToArray } from '../../utils/utils'
 import images from '../../../assets/images'
 import { playAudio } from '../../utils/playerShortAudios'
-import content from '../../utils/content'
 
 function OneLineOneFile(props) {
 	const {
+		subchapterDoc,
+		subchapterTrDoc,
 		contentTypeDoc,
 		globalStyles,
 		chapterId,
@@ -15,13 +16,6 @@ function OneLineOneFile(props) {
 		trLang,
 		showTranslation
 	} = props
-
-	const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
-	const subchapterTrDoc = content.getSubchapterTr(
-		trLang,
-		chapterId,
-		subchapterId
-	)
 
 	const { title, content: phrasesObject = {} } = subchapterDoc
 	const { content: phrasesTrObject = {} } = subchapterTrDoc
