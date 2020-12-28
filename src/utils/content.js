@@ -9,9 +9,6 @@ import marked from 'marked'
 import contentTypes from '../config/contentTypes'
 
 marked.use({
-    renderer: {
-        paragraph: text => text //by default renderer returns <p></p> for any text line
-    },
     smartypants: true // additional typography like long tire -- , etc
 })
 
@@ -180,7 +177,11 @@ export class Content {
         const rowsArray = text.split('\n')
         const obj = rowsArray.reduce((prev, item, index) => {
             const rowIndex = prefixedIndex(index + 1)
-            const text = marked(item.trim())
+            const renderer = new marked.Renderer()
+            renderer.paragraph = text => text //by default renderer returns <p></p> for any text line
+            const text = marked(item.trim(), {
+                renderer
+            })
             return {...prev, [rowIndex]: { text } }
         }, {})
         return obj
