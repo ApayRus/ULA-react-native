@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import HomeScreen from '../components/screens/HomeScreen'
 import AboutScreen from '../components/screens/AboutScreen'
+import TypographyScreen from '../components/screens/TypographyScreen'
 import ChapterScreen from '../components/screens/ChapterScreen'
 import DrawerContent from '../components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
@@ -41,7 +42,7 @@ export default function RootNavigation() {
 	return (
 		<NavigationContainer>
 			<Drawer.Navigator
-				initialRouteName='Home'
+				initialRouteName='Typography'
 				drawerContent={props => (
 					<DrawerContent
 						{...props}
@@ -68,6 +69,7 @@ export default function RootNavigation() {
 						globalStyles: gStyles
 					}}
 				/>
+				<Drawer.Screen name='Typography' component={TypographyScreen} />
 				{chapters.map(elem => (
 					<Drawer.Screen
 						key={`lesson-${elem.id}`}
