@@ -1,5 +1,5 @@
-import { map, orderBy } from 'lodash'
-
+import lodash from 'lodash'
+const { map, orderBy } = lodash
 /**
  * 
  * @param {Object} object 
@@ -7,9 +7,16 @@ import { map, orderBy } from 'lodash'
  objectToArray( { 01:{ text:'bla1' }, 02:{ text:'bla2' }} ) 
  // [{ id:'01', text:'bla1' }, { id:'02', text:'bla2' }]
  */
-export function objectToArray(object) {
+export const objectToArray = object => {
     const array = map(object, (elem, key) => ({ id: key, ...elem }))
     return orderBy(array, 'id')
+}
+
+export const arrayToObject = array => {
+    return array.reduce((prev, item, index) => {
+        const id = prefixedIndex(index + 1)
+        return {...prev, [id]: item }
+    }, {})
 }
 
 /**

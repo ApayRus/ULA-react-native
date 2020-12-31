@@ -1,10 +1,10 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 const isFile = path => fs.statSync(path).isFile()
 const isDirectory = path => fs.statSync(path).isDirectory()
 
-const getSubDirsOfDir = dir =>
+export const getSubDirsOfDir = dir =>
     fs.readdirSync(dir).filter(elem => isDirectory(path.join(dir, elem)))
 
 /**
@@ -14,7 +14,7 @@ const getSubDirsOfDir = dir =>
         '005-002': require('../../content/audios/phrases/005-002.mp3'),
         '005-003': require('../../content/audios/phrases/005-003.mp3'),
  */
-const getFileMapOfDir = dir =>
+export const getFileMapOfDir = dir =>
     fs
     .readdirSync(dir)
     .filter(elem => isFile(path.join(dir, elem)))
@@ -27,21 +27,14 @@ const getFileMapOfDir = dir =>
         return prev + `"${fileId}": require("${filePath}"), `
     }, '')
 
-const getFilesOfDir = dir =>
+export const getFilesOfDir = dir =>
     fs.readdirSync(dir).filter(elem => isFile(path.join(dir, elem)))
 
-const writeFileSyncRecursive = (filename, content, charset) => {
+export const writeFileSyncRecursive = (filename, content, charset) => {
     const folders = filename.split(path.sep).slice(0, -1)
     folders.forEach((elem, index, array) => {
         const folderPath = path.join(...array.slice(0, index + 1))
         fs.mkdirSync(folderPath, { recursive: true })
     })
     fs.writeFileSync(filename, content, charset)
-}
-
-module.exports = {
-    getSubDirsOfDir,
-    getFileMapOfDir,
-    getFilesOfDir,
-    writeFileSyncRecursive
 }

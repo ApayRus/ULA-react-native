@@ -1,4 +1,5 @@
-const yaml = require('yaml')
+import yaml from 'yaml'
+import { arrayToObject } from './utils.js'
 
 const h1template = new RegExp(/^\s*#{1}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'm')
 const h2template = new RegExp(/^\s*#{2}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
@@ -30,17 +31,6 @@ const splitMarkdownIntoPartsByTemplate = (text, template) => {
             content: input.slice(curIndex, nextIndex).replace(headerText, '').trim()
         }
     })
-}
-
-const prefixedIndex = index => {
-    return index.toString().padStart(3, '0')
-}
-
-const arrayToObject = array => {
-    return array.reduce((prev, item, index) => {
-        const id = prefixedIndex(index + 1)
-        return {...prev, [id]: item }
-    }, {})
 }
 
 const extractContent = (markdownText, h2template, h3template) => {
@@ -78,7 +68,5 @@ const parseMarkdown = (mdFileContent, h1template, h2template, h3template) => {
     return { info, content }
 }
 
-module.exports = {
-    contentMDtoAssetJS: text =>
-        parseMarkdown(text, h1template, h2template, h3template)
-}
+export const contentMDtoAssetJS = text =>
+    parseMarkdown(text, h1template, h2template, h3template)

@@ -3,29 +3,31 @@
 	than it needs a map of all files in format { '001-003': require('files/001-003.mp3') }
 	this node module reads files in /content and writes map of them to /src/assets
  */
-
-const path = require('path')
-const { writeFileSyncRecursive } = require('./fsUtils')
+import path from 'path'
+import {
+    writeFileSyncRecursive,
+    getSubDirsOfDir,
+    getFileMapOfDir
+} from './fsUtils.js'
 
 const baseDir = 'content'
 
-const { getSubDirsOfDir, getFileMapOfDir } = require('./fsUtils')
 // types of files, like: /audio, /images, etc.
 const mediaTypes = getSubDirsOfDir(baseDir)
 
 //each mediaType has separate file
 mediaTypes.forEach(mediaType => {
-	// contentType (semantic types of files, like: /words, /phrases, etc. )
-	let fileContent = ''
-	const contentTypes = getSubDirsOfDir(path.join(baseDir, mediaType))
-	contentTypes.forEach(contentType => {
-		const mapFiles = getFileMapOfDir(
-			[baseDir, mediaType, contentType].join('/')
-		)
-		fileContent += `"${contentType}": {${mapFiles}},`
-	})
-	fileContent = `export default { ${fileContent}}`
-	const filePath = path.join('./assets', mediaType, 'index.js')
+    // contentType (semantic types of files, like: /words, /phrases, etc. )
+    let fileContent = ''
+    const contentTypes = getSubDirsOfDir(path.join(baseDir, mediaType))
+    contentTypes.forEach(contentType => {
+        const mapFiles = getFileMapOfDir(
+            [baseDir, mediaType, contentType].join('/')
+        )
+        fileContent += `"${contentType}": {${mapFiles}},`
+    })
+    fileContent = `export default { ${fileContent}}`
+    const filePath = path.join('./assets', mediaType, 'index.js')
 
-	writeFileSyncRecursive(filePath, fileContent, 'utf-8')
+    writeFileSyncRecursive(filePath, fileContent, 'utf-8')
 })
