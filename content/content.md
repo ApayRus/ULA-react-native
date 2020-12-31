@@ -253,7 +253,7 @@ And this is the paragraph with some of text. It aims to show you power of using 
 
 Here we provide some [link](https://google.com).
 
-Here is a word with interactivity [[كتاب, كتب]]. And also -- [[دفتر, دفاتر]].
+Here is a word with interactivity [[daftar]]. And also -- [[kitab]].
 
 And here is some image: ![image](https://m.media-amazon.com/images/I/416VUDuqTML._SY346_.jpg)
 
