@@ -6,7 +6,7 @@ import { styles as globalStyles } from '../../config/globalStyles'
 import marked from 'marked'
 import ChapterHeader from '../ChapterHeader'
 
-import { Content } from '../../utils/content'
+import { parseTypeInText } from '../../utils/contentType'
 
 const TypographyScreen = ({ navigation }) => {
 	const contentWidth = useWindowDimensions().width
@@ -66,7 +66,7 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit ipsum expedita d
 		</>
 	)
 
-	const html = Content.parseTypeInText(markdownText)
+	const html = parseTypeInText(markdownText)
 
 	const html2 = `<blockquote>
 <p>Blockquote line1 </p>

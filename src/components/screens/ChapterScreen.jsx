@@ -10,6 +10,7 @@ import Timing from '../contentTypes/Timing'
 import Audio from '../contentTypes/Audio'
 import NotSet from '../contentTypes/NotSet'
 import content from '../../utils/content'
+import { getContentType } from '../../utils/contentType'
 
 export default function LessonScreen({ navigation, route }) {
 	const {
@@ -26,12 +27,14 @@ export default function LessonScreen({ navigation, route }) {
 
 	// set proper component by subchapter type
 	const interactiveSubchapter = (chapterId, subchapterId) => {
-		const contentTypeDoc = content.getContentType(chapterId, subchapterId)
+		const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
+		const { title, type: typeRaw } = subchapterDoc
+		const type = typeRaw ? typeRaw : title
+		const contentTypeDoc = getContentType(type)
 		const { interactivity } = contentTypeDoc || {}
 
 		const key = `subchapter-${subchapterId}`
 
-		const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
 		const subchapterTrDoc = content.getSubchapterTr(
 			trLang,
 			chapterId,
