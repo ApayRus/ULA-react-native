@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
-import { Button } from 'react-native-elements'
+import { Button, Icon } from 'react-native-elements'
 import Randomizer from '../../../utils/exercises'
 import content from '../../../utils/content'
 import { playAudio } from '../../../utils/playerShortAudios'
@@ -123,16 +123,9 @@ const Exercise = props => {
 		<View>
 			<View style={[styles.container]}>
 				<View style={[styles.playButtonContainer]}>
-					<Button
-						style={[styles.playButton]}
-						type='clear'
-						onPress={handlePlay}
-						icon={{
-							name: 'play-arrow',
-							color: 'red',
-							size: 18
-						}}
-					/>
+					<TouchableOpacity style={[styles.playButton]} onPress={handlePlay}>
+						<Icon name='play-arrow' color='red' size={24} />
+					</TouchableOpacity>
 				</View>
 				<View style={[styles.variantsRow]}>
 					{phrases.map((phrase, index) => (
@@ -169,14 +162,14 @@ const styles = {
 		paddingRight: 5
 	},
 	playButtonContainer: {
-		flex: 1
+		flex: 1,
+		flexDirection: 'column'
 	},
 	playButton: {
-		flex: 1,
-		borderRadius: 20,
-		width: 40,
 		borderWidth: 3,
 		borderColor: 'red',
+		borderStyle: 'solid',
+		borderRadius: 20,
 		alignSelf: 'center'
 	},
 	variantsRow: {
