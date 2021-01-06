@@ -47,6 +47,18 @@ export default function Drawer(props) {
 						// topDivider
 						bottomDivider
 						containerStyle={styles.listItem}
+						onPress={() => navigation.navigate('Exercise')}
+					>
+						<Icon name='info' color='grey' />
+						<ListItem.Content>
+							<ListItem.Title>Exercise</ListItem.Title>
+						</ListItem.Content>
+					</ListItem>
+					<ListItem
+						style={{ marginBottom: 5 }}
+						// topDivider
+						bottomDivider
+						containerStyle={styles.listItem}
 						onPress={() => navigation.navigate('Typography')}
 					>
 						<Icon name='text-fields' color='grey' />

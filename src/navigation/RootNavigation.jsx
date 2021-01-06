@@ -43,7 +43,7 @@ export default function RootNavigation() {
 	return (
 		<NavigationContainer>
 			<Drawer.Navigator
-				initialRouteName='Exercise'
+				initialRouteName='Home'
 				drawerContent={props => (
 					<DrawerContent
 						{...props}
