@@ -1,12 +1,15 @@
 import React from 'react'
 import { ListItem, Icon } from 'react-native-elements'
 import { View, Image, ScrollView } from 'react-native'
-import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import { useSelector } from 'react-redux'
+import TranslationOnOffSwitcher from './TranslationShowSwitcher'
+import content from '../utils/content'
 
 export default function Drawer(props) {
-	const { chapters, trChapters, navigation, globalStyles } = props
-	const { showTranslation } = useSelector(state => state.translation)
+	const { chapters, navigation, globalStyles } = props
+	const { showTranslation, trLang } = useSelector(state => state.translation)
+
+	const trChapters = content.getChapterTitlesTr(trLang)
 
 	return (
 		<View style={{ flex: 1 }}>

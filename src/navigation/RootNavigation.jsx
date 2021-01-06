@@ -9,7 +9,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import content from '../utils/content'
 import AsyncStorage from '@react-native-community/async-storage'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
 import globalStyles from '../config/globalStyles'
 
@@ -17,16 +17,14 @@ const Drawer = createDrawerNavigator()
 
 const info = content.getInfo()
 const translations = content.getTranslations() // list of available langs
-const chapters = content.getChapterTitles()
 
 const { language = '' } = info
 const gStyles = globalStyles(language.toLocaleLowerCase())
 
 export default function RootNavigation() {
 	const dispatch = useDispatch()
-	const { trLang } = useSelector(state => state.translation)
 
-	const trChapters = content.getChapterTitlesTr(trLang)
+	const chapters = content.getChapterTitles()
 
 	useEffect(() => {
 		const getTranslationAsync = async () => {
@@ -48,7 +46,6 @@ export default function RootNavigation() {
 					<DrawerContent
 						{...props}
 						chapters={chapters}
-						trChapters={trChapters}
 						info={info}
 						globalStyles={gStyles}
 					/>
