@@ -27,9 +27,11 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit.
 Dignissimos veniam id tempora blanditiis incidunt dolores alias ullam quae. 
 Sint, iure unde cumque vero dolorem exercitationem?
 
-- list item 1
-- list item 2
-- list item 3
+- list item 1 with **bold** text
+- list item 2 with *italic* text
+- list item 3 with nothing
+
+[media | videos/videoplayback-1.mp4]
 
 #### Header 5
 
