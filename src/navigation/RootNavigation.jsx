@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import HomeScreen from '../components/screens/HomeScreen'
 import AboutScreen from '../components/screens/AboutScreen'
 import TypographyScreen from '../components/screens/TypographyScreen'
-import Exercise from '../components/contentTypes/Exercise'
 import ChapterScreen from '../components/screens/ChapterScreen'
 import DrawerContent from '../components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
@@ -12,6 +11,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
 import globalStyles from '../config/globalStyles'
+import Exercise from '../components/contentTypes/Exercise'
+import Video from '../components/contentTypes/Video'
 
 const Drawer = createDrawerNavigator()
 
@@ -70,6 +71,13 @@ export default function RootNavigation() {
 				<Drawer.Screen
 					name='Exercise'
 					component={Exercise}
+					initialParams={{
+						globalStyles: gStyles
+					}}
+				/>
+				<Drawer.Screen
+					name='Video'
+					component={Video}
 					initialParams={{
 						globalStyles: gStyles
 					}}
