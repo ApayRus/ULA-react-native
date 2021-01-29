@@ -294,6 +294,49 @@ WEBVTT
 
 ### listen to audio [audio]
 
+## 11. Quiz example
+
+### Quiz [text]
+
+Question 1. Multiple choice
+
+- [v] variant 1
+- [ ] variant 2
+- [v] variant 3
+- [ ] variant 4
+
+Question 2. Single choice
+
+- ( ) variant 1
+- (o) variant 2
+- ( ) variant 3
+
+Not a question. Just a list.
+
+- Item One.
+- Item two.
+- Item three.
+
+Question 3. Single choice
+
+- ( ) variant 1
+- ( ) variant 2
+- (v) variant 3
+
+Question 4. Multiple choice
+
+- [ ] Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et quo unde necessitatibus perspiciatis est eum natus iste nostrum eligendi harum.
+- [x] consectetur adipisicing elit. Et quo unde necessitatibus perspiciatis est eum natus
+- [ ] Et quo unde necessitatibus perspiciatis est eum natus iste nostrum eligendi harum.
+- [x] ipsum dolor sit amet, consectetur adipisicing elit. Et quo unde necessitatibus perspiciatis
+
+Question 5. Multiple choice as Q1
+
+- [v] variant 1
+- [ ] variant 2
+- [v] variant 3
+- [ ] variant 4
+
 ## 8 اَلدَّرْسُ الثَّامِنُ
 
 ### words
