@@ -8,6 +8,7 @@ import contentTypes from '../config/contentTypes.js'
 import marked from 'marked'
 
 marked.use({
+    gfm: false,
     smartypants: true // additional typography like long tire -- , etc
 })
 
@@ -96,7 +97,8 @@ const parseTypeOneLineOneFile = text => {
 export const parseTypeInText = textContent => {
     let html = marked(textContent)
     html = extractIntextShortcutIntoTags(html)
-    return html
+    const content = extractQuizzes(html) // { html, quizKeys }
+    return content
 }
 
 /**
@@ -118,6 +120,57 @@ const extractIntextShortcutIntoTags = htmlText => {
         inTextShortcutTemplate,
         '<intext text="$1" path="$3"></intext>'
     )
+}
+
+// for examples look at https://codesandbox.io/s/markedjs-klt1h?file=/src/marked6.js
+/**
+ *
+ * @param {string} html - after markdown parsed to html
+ * @returns {object} - {html, quizKeys = []}
+ */
+const extractQuizzes = html => {
+    //general quiz both: () and [] for make ids for them
+    const quizUlRegex = new RegExp(
+        /<ul>(\s*<li>[\(\[][\s\S]*?[\]\)][\s\S]+?)<\/ul>/gm
+    )
+    const quizKeys = [] // right answers
+    const quizUlMatches = [...html.matchAll(quizUlRegex)]
+
+    quizUlMatches.forEach((elem, quizIndex) => {
+        const [outerText, innerText] = elem
+        quizKeys.push([]) //nested array of right indexes for this quiz
+        const firstCheckboxRegex = new RegExp(/<ul>\s*?<li>\s*?\[/)
+        const type = outerText.match(firstCheckboxRegex) ? 'multiple' : 'single'
+
+        const replaceLiTagToVariantWithIndex = text => {
+            const checkboxOrRadiobuttonRegex = new RegExp(
+                    /^\s*?[\(\[]([\s\S]*?)[\]\)]\s+?/
+                )
+                // change <li> into <variant ...>
+                // because custom tags more easy to custom render in react-native
+            const variantRegex = new RegExp(/<li>(.+?)<\/li>/g)
+            const variantsMatch = [...text.matchAll(variantRegex)]
+            const variantsArray = variantsMatch.map((elem, variantIndex) => {
+                let [, text] = elem
+                // console.log(text);
+                const [, answerSign = ''] = text.match(checkboxOrRadiobuttonRegex)
+                if (answerSign.trim()) {
+                    quizKeys[quizIndex].push(variantIndex)
+                }
+                text = text.replace(checkboxOrRadiobuttonRegex, '')
+                return `<variant type="${type}" quizId="${quizIndex}" variantId="${variantIndex}">${text}</variant>`
+            })
+            const variantsText = '\n' + variantsArray.join('\n') + '\n'
+            return variantsText
+        }
+        const variantsText = replaceLiTagToVariantWithIndex(innerText)
+        html = html.replace(
+            outerText,
+            `<quiz type="${type}" quizId="${quizIndex}">${variantsText}</quiz>`
+        )
+    })
+
+    return { html, quizKeys }
 }
 
 /**
