@@ -143,7 +143,7 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit ipsum expedita d
 						br: { renderer: brRenderer, wrapper: 'View' }
 						// p: { renderer: pRenderer, wrapper: 'View' }
 					}}
-					html={html}
+					source={{ html: html.html }}
 				/>
 			</View>
 		</ScrollView>

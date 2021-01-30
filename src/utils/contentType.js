@@ -155,7 +155,7 @@ const extractQuizzes = html => {
                 // console.log(text);
                 const [, answerSign = ''] = text.match(checkboxOrRadiobuttonRegex)
                 if (answerSign.trim()) {
-                    quizKeys[quizIndex].push(variantIndex)
+                    quizKeys[quizIndex].push('' + variantIndex)
                 }
                 text = text.replace(checkboxOrRadiobuttonRegex, '')
                 return `<variant type="${type}" quizId="${quizIndex}" variantId="${variantIndex}">${text}</variant>`

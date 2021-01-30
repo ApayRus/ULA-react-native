@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Text, CheckBox } from 'react-native-elements'
-import HTML from 'react-native-render-html'
+import HTML, { defaultHTMLElementModels } from 'react-native-render-html'
 import { playAudio } from '../../utils/playerShortAudios'
 
 function InText(props) {
@@ -21,8 +21,6 @@ function InText(props) {
 		content: { html, quizKeys }
 	} = subchapterDoc
 
-	console.log('quizKeys', quizKeys)
-
 	const contentWidth = useWindowDimensions().width
 
 	const handlePress = (text, path) => () => {
@@ -30,12 +28,10 @@ function InText(props) {
 		playAudio(fileName, 'intext')
 	}
 
-	const handlePressQuizVariant = (quizId, variantId) => () => {
-		console.log('quizId', chapterId, subchapterId, quizId, variantId)
-	}
-
-	const inTextRenderer = htmlAttribs => {
-		const { text, path } = htmlAttribs
+	const inTextRenderer = ({ tnode }) => {
+		const {
+			attributes: { text, path }
+		} = tnode
 		return (
 			<TouchableOpacity
 				onPress={handlePress(text, path)}
@@ -45,27 +41,7 @@ function InText(props) {
 			</TouchableOpacity>
 		)
 	}
-
-	const quizRenderer = (htmlAttribs, children) => {
-		const { type, quizid: quizId } = htmlAttribs
-		return <View key={`quiz-${quizId}`}>{children}</View>
-	}
-
-	const variantRenderer = (htmlAttribs, children) => {
-		const { quizid: quizId, variantid: variantId, type } = htmlAttribs
-
-		return (
-			<TouchableOpacity
-				key={`variant-${quizId}-${variantId}`}
-				onPress={handlePressQuizVariant(quizId, variantId)}
-			>
-				<Text>
-					<CheckBox size={18} containerStyle={{ margin: 0, padding: 0 }} />{' '}
-					{children}
-				</Text>
-			</TouchableOpacity>
-		)
-	}
+	inTextRenderer.model = defaultHTMLElementModels.span
 
 	return (
 		<View style={{ padding: 5 }}>
@@ -74,11 +50,9 @@ function InText(props) {
 			</Text>
 			<HTML
 				renderers={{
-					intext: { renderer: inTextRenderer, wrapper: 'Text' },
-					quiz: { renderer: quizRenderer, wrapper: 'View' },
-					variant: { renderer: variantRenderer, wrapper: 'Text' }
+					intext: inTextRenderer
 				}}
-				html={html}
+				source={{ html }}
 				contentWidth={contentWidth}
 			/>
 		</View>
