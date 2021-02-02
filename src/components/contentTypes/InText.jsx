@@ -2,6 +2,7 @@ import React from 'react'
 import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Text, CheckBox } from 'react-native-elements'
 import HTML, { defaultHTMLElementModels } from 'react-native-render-html'
+import Quiz from './Quiz'
 import { playAudio } from '../../utils/playerShortAudios'
 
 function InText(props) {
@@ -18,7 +19,7 @@ function InText(props) {
 
 	const {
 		title,
-		content: { html, quizKeys }
+		content // different type of blocks: 'text', 'quiz', 'media'
 	} = subchapterDoc
 
 	const contentWidth = useWindowDimensions().width
@@ -48,13 +49,24 @@ function InText(props) {
 			<Text h2 h2Style={globalStyles.subchapter}>
 				{title}
 			</Text>
-			<HTML
-				renderers={{
-					intext: inTextRenderer
-				}}
-				source={{ html }}
-				contentWidth={contentWidth}
-			/>
+			{content.map((elem, index) => {
+				const { label, text: html, data } = elem
+				if (label === 'text') {
+					return (
+						<HTML
+							renderers={{
+								intext: inTextRenderer
+							}}
+							key={`${label}-${index}`}
+							source={{ html }}
+							contentWidth={contentWidth}
+						/>
+					)
+				}
+				if (label === 'quiz') {
+					return <Quiz key={`${label}-${index}`} />
+				}
+			})}
 		</View>
 	)
 }
