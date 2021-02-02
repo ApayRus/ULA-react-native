@@ -25,7 +25,7 @@
         "expo-splash-screen": "~0.8.1",
         "expo-status-bar": "~1.0.3",
         "expo-updates": "~0.4.1",
-        "frazy-parser": "^1.3.3",
+        "frazy-parser": "^1.4.7",
         "marked": "^1.2.8",
         "mitt": "^2.1.0",
         "random-js": "^2.1.0",
