@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Text, View } from 'react-native'
 import Slider from '@react-native-community/slider'
-
 import PlayerControls from './PlayerControls'
 import Player from './playerClass'
+import content from '../../../utils/content'
 
-export default function Audio(props) {
-	const { chapterId, subchapterId } = props
+const Media = props => {
+	const {
+		data: { path }
+	} = props
+
+	console.log('path', path)
 
 	const [playerState, setPlayerState] = useState({
 		isPlaying: false,
@@ -21,9 +25,10 @@ export default function Audio(props) {
 	useEffect(() => {
 		// const audioId = `${chapterId}-${subchapterId}`
 		const initMedia = async () => {
-			const audioId = `009-001`
+			const audioFile = content.getFilesByPathString(path)
+			console.log('audioFile', audioFile)
 			player.current = new Player()
-			await player.current.init(audioId, 'timing', setPlayerState)
+			await player.current.init(audioFile, setPlayerState)
 			setPlayerState(prevState => ({ ...prevState, isReady: true }))
 		}
 		initMedia()
@@ -47,11 +52,6 @@ export default function Audio(props) {
 	return (
 		playerState.isReady && (
 			<View>
-				<Text>
-					{chapterId}-{subchapterId}{' '}
-				</Text>
-				<Text>Audio!!! </Text>
-
 				<Slider
 					minimumValue={0}
 					value={currentTime}
@@ -71,3 +71,5 @@ export default function Audio(props) {
 		)
 	)
 }
+
+export default Media

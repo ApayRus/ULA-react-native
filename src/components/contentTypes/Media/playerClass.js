@@ -1,9 +1,9 @@
 import { Audio } from 'expo-av'
+import { Alert } from 'react-native'
 import mitt from 'mitt'
-import audios from '../../../../assets/audios'
 
 class Player {
-	constructor(audioId, contentType, phrases) {
+	constructor(audioFile, phrases) {
 		// this.init(audioId, contentType)
 	}
 
@@ -38,26 +38,29 @@ class Player {
 		}
 	}
 
-	async init(mediaId, contentType, setPlayerState) {
-		const audioAsset = audios[contentType][mediaId]
-		const mediaObject = new Audio.Sound()
-		await mediaObject.loadAsync(audioAsset, {
-			shouldCorrectPitch: true,
-			pitchCorrectionQuality: 'High',
-			progressUpdateIntervalMillis: 100
-		})
-		this.setPlayerState = setPlayerState
-		this.mediaObject = mediaObject
-		this.contentType = contentType
-		this.mediaId = mediaId
-		this.events.emit('isReady', this)
-		setTimeout(() => {
-			mediaObject.getStatusAsync().then(status => {
-				const { durationMillis } = status
-				const duration = durationMillis / 1000
-				setPlayerState(prevState => ({ ...prevState, duration }))
+	async init(audioFile, setPlayerState) {
+		if (audioFile) {
+			const mediaObject = new Audio.Sound()
+			await mediaObject.loadAsync(audioFile, {
+				shouldCorrectPitch: true,
+				pitchCorrectionQuality: 'High',
+				progressUpdateIntervalMillis: 100
 			})
-		}, 1000)
+			this.setPlayerState = setPlayerState
+			this.mediaObject = mediaObject
+			this.events.emit('isReady', this)
+			setTimeout(() => {
+				mediaObject.getStatusAsync().then(status => {
+					const { durationMillis } = status
+					const duration = durationMillis / 1000
+					setPlayerState(prevState => ({ ...prevState, duration }))
+				})
+			}, 1000)
+		} else {
+			const messages = [`Audio doesn't exist`, `Please, contact the admin`]
+			console.log(...messages)
+			Alert(...messages)
+		}
 	}
 
 	async play() {

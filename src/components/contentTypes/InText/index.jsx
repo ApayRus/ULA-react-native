@@ -68,7 +68,7 @@ function InText(props) {
 					return <Quiz key={`${label}-${index}`} />
 				}
 				if (label === 'media') {
-					return <Media key={`${label}-${index}`} />
+					return <Media key={`${label}-${index}`} data={data} />
 				}
 			})}
 		</View>

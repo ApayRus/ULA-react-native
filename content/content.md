@@ -305,7 +305,7 @@ Question 1. Multiple choice
 - [v] variant 3
 - [ ] variant 4
 
-[media | path/to/file.mp3]
+[media | content/audios/audios/010-001]
 
 Question 2. Single choice
 
