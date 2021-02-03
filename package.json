@@ -4,7 +4,7 @@
 	"scripts": {
 		"android": "react-native run-android",
 		"ios": "react-native run-ios",
-		"generate-assets": "node --experimental-vm-modules src/utils/createMapOfMedia.js && node  --experimental-vm-modules  src/utils/createContent.js",
+		"generate-assets": "node --experimental-vm-modules src/utils/createMapOfContentFiles.js && node  --experimental-vm-modules  src/utils/createContent.js",
 		"web": "expo start --web",
 		"start": "react-native start",
 		"test": "jest"
