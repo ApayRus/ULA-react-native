@@ -2,8 +2,9 @@ import React from 'react'
 import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Text, CheckBox } from 'react-native-elements'
 import HTML, { defaultHTMLElementModels } from 'react-native-render-html'
-import Quiz from './Quiz'
-import { playAudio } from '../../utils/playerShortAudios'
+import Quiz from '../Quiz'
+import Media from '../Media/MediaBasic'
+import { playAudio } from '../../../utils/playerShortAudios'
 
 function InText(props) {
 	const {
@@ -65,6 +66,9 @@ function InText(props) {
 				}
 				if (label === 'quiz') {
 					return <Quiz key={`${label}-${index}`} />
+				}
+				if (label === 'media') {
+					return <Media key={`${label}-${index}`} />
 				}
 			})}
 		</View>
