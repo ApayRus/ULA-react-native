@@ -68,7 +68,7 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit ipsum expedita d
 		</>
 	)
 
-	const html = parseTypeInText(markdownText)
+	const intextContent = parseTypeInText(markdownText)
 
 	const html2 = `<blockquote>
 <p>Blockquote line1 </p>
@@ -79,7 +79,7 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit ipsum expedita d
 
 	const markedHtml = marked(markdownText, { breaks: true })
 
-	console.log('html', html)
+	// console.log('html', html)
 	console.log('markedHtml', markedHtml)
 
 	const chapterHeaderProps = {
@@ -136,15 +136,25 @@ Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit ipsum expedita d
 		<ScrollView>
 			<ChapterHeader {...chapterHeaderProps} />
 			<View>
-				<HTML
-					tagsStyles={tagsStyles}
-					contentWidth={contentWidth}
-					renderers={{
-						br: { renderer: brRenderer, wrapper: 'View' }
-						// p: { renderer: pRenderer, wrapper: 'View' }
-					}}
-					source={{ html: html.html }}
-				/>
+				{intextContent.map((elem, index) => {
+					const { label, text: html, data } = elem
+					if (label === 'text') {
+						return (
+							<HTML
+								tagsStyles={tagsStyles}
+								contentWidth={contentWidth}
+								renderers={{
+									br: { renderer: brRenderer, wrapper: 'View' }
+									// p: { renderer: pRenderer, wrapper: 'View' }
+								}}
+								source={{ html }}
+							/>
+						)
+					}
+					// if (label === 'quiz') {
+					// 	return <Quiz key={`${label}-${index}`} />
+					// }
+				})}
 			</View>
 		</ScrollView>
 	)

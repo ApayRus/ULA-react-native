@@ -7,7 +7,7 @@ import DrawerContent from '../components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import content from '../utils/content'
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
 import globalStyles from '../config/globalStyles'
@@ -42,7 +42,7 @@ export default function RootNavigation() {
 	return (
 		<NavigationContainer>
 			<Drawer.Navigator
-				initialRouteName='Home'
+				initialRouteName='11. Quiz example'
 				drawerContent={props => (
 					<DrawerContent
 						{...props}
