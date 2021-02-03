@@ -11,10 +11,14 @@ const collapseItem = (item, prefix) => {
 }
 
 const collapseDirTreeToObject = (dirTree, obj, prefix = '') => {
-	const { children = [], name } = dirTree || {}
+	const { children = [], name: nameWithExtension } = dirTree || {}
 	const noMoreChildren = !children.length
-
-	obj[name] = noMoreChildren ? collapseItem(dirTree, prefix) : {}
+	const name = nameWithExtension.replace(/\..+?$/, '')
+	if (noMoreChildren) {
+		obj[name] = collapseItem(dirTree, prefix)
+	} else {
+		obj[name] = {}
+	}
 
 	children.forEach(elem => {
 		collapseDirTreeToObject(elem, obj[name], prefix)
