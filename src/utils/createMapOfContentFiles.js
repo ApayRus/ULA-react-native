@@ -1,5 +1,4 @@
 import makeDirTree from 'directory-tree'
-import path from 'path'
 import { writeFileSyncRecursive } from './fsUtils.js'
 
 const collapseItem = (item, prefix) => {
@@ -15,23 +14,19 @@ const collapseDirTreeToObject = (dirTree, obj, prefix = '') => {
 	const { children = [], name } = dirTree || {}
 	const noMoreChildren = !children.length
 
-	if (noMoreChildren) {
-		{
-			obj[name] = collapseItem(dirTree, prefix)
-		}
-	} else {
-		obj[name] = {}
-	}
+	obj[name] = noMoreChildren ? collapseItem(dirTree, prefix) : {}
+
 	children.forEach(elem => {
 		collapseDirTreeToObject(elem, obj[name], prefix)
 	})
+
+	return obj
 }
 
-const obj = {}
-
-collapseDirTreeToObject(makeDirTree('content'), obj, '../')
+const treeObject = collapseDirTreeToObject(makeDirTree('content'), {}, '../')
 
 const fileContent =
-	'export default ' + JSON.stringify(obj).replace(/"(require\(.+?\))"/g, '$1')
+	'export default ' +
+	JSON.stringify(treeObject).replace(/"(require\(.+?\))"/g, '$1')
 
 writeFileSyncRecursive('./assets/contentFilesMap.js', fileContent, 'utf-8')
