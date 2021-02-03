@@ -1,5 +1,4 @@
 import { Audio } from 'expo-av'
-import audios from '../../assets/audios'
 import { Alert } from 'react-native'
 
 const onAudioUpdate = soundObject => playbackStatus => {
@@ -8,21 +7,23 @@ const onAudioUpdate = soundObject => playbackStatus => {
 	}
 }
 
-export const playAudio = async (id, contentType) => {
-	const contentTypeAudios = audios[contentType] || {}
-
-	if (contentTypeAudios[id]) {
+/**
+ *
+ * @param {*} audioFile - require('../file.mp3')
+ * @param {string[]} pathArray - [chapterId, subchapterId, lineId]
+ */
+export const playAudio = async (audioFile, pathArray) => {
+	if (audioFile) {
 		const soundObject = new Audio.Sound()
-		await soundObject.loadAsync(contentTypeAudios[id])
+		await soundObject.loadAsync(audioFile)
 		soundObject.setOnPlaybackStatusUpdate(onAudioUpdate(soundObject))
 		await soundObject.playAsync()
 	} else {
 		const messages = [
-			`Audio for ${contentType} ${id} doesn't exist`,
+			`Audio for ${pathArray} doesn't exist`,
 			`Please, contact the admin`
 		]
 		console.log(...messages)
-
 		Alert(...messages)
 	}
 }

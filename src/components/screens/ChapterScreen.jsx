@@ -41,6 +41,12 @@ export default function LessonScreen({ navigation, route }) {
 			subchapterId
 		)
 
+		const files = content.getFilesByPathArray([
+			'content',
+			chapterId,
+			subchapterId
+		])
+
 		const subchapterComponentProps = {
 			key,
 			subchapterDoc,
@@ -49,6 +55,7 @@ export default function LessonScreen({ navigation, route }) {
 			showTranslation,
 			chapterId,
 			subchapterId,
+			files,
 			globalStyles,
 			trLang
 		}

@@ -2,7 +2,6 @@ import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
 import { objectToArray } from '../../utils/utils'
-import images from '../../../assets/images'
 import { playAudio } from '../../utils/playerShortAudios'
 
 function OneLineOneFile(props) {
@@ -11,21 +10,21 @@ function OneLineOneFile(props) {
 		subchapterTrDoc,
 		contentTypeDoc,
 		globalStyles,
-		chapterId,
-		subchapterId,
-		trLang,
+		files,
 		showTranslation
 	} = props
 
 	const { title, content: phrasesObject = {} } = subchapterDoc
 	const { content: phrasesTrObject = {} } = subchapterTrDoc
+	const { audios = {}, images = {} } = files || {}
 
 	const { style: contentTypeStyle, type: contentType } = contentTypeDoc
 
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
-	const contentTypeImages = images[contentType] || {}
 
-	const handlePlay = contentLineId => e => playAudio(contentLineId, contentType)
+	const handlePlay = contentLineId => () => {
+		playAudio(audios[`${contentLineId}`])
+	}
 
 	return (
 		<View style={{ paddingLeft: 5, paddingRight: 5 }}>
@@ -44,8 +43,8 @@ function OneLineOneFile(props) {
 				]}
 			>
 				{phrasesArray.map(elem => {
-					const contentLineId = chapterId + '-' + elem.id
-					const image = contentTypeImages[contentLineId]
+					const { id: contentLineId } = elem
+					const image = images[`${contentLineId}`]
 					const { text: trText } = phrasesTrObject[elem.id] || {}
 					return (
 						<TouchableOpacity
