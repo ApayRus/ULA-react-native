@@ -44,6 +44,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "~7.9.0",
+		"@babel/plugin-proposal-class-properties": "^7.12.13",
 		"babel-eslint": "^10.1.0",
 		"babel-jest": "~25.2.6",
 		"directory-tree": "^2.2.6",
