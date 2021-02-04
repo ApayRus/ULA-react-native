@@ -2,18 +2,19 @@ import makeDirTree from 'directory-tree'
 import { writeFileSyncRecursive } from './fsUtils.js'
 
 const collapseItem = (item, prefix) => {
-	const { name, type, path } = item
+	const { name, type, path, extension } = item
 	if (type === 'directory') {
 		return { [name]: {} }
 	} else if (type === 'file') {
-		return `require('${prefix + path}')`
+		const file = `require('${prefix + path}')`
+		return { extension, file }
 	}
 }
 
 const collapseDirTreeToObject = (dirTree, obj, prefix = '') => {
 	const { children = [], name: nameWithExtension } = dirTree || {}
 	const noMoreChildren = !children.length
-	const name = nameWithExtension.replace(/\..+?$/, '')
+	const name = nameWithExtension.replace(/\.([^.]+?)$/, '') //removed extension
 	if (noMoreChildren) {
 		obj[name] = collapseItem(dirTree, prefix)
 	} else {

@@ -23,7 +23,8 @@ function OneLineOneFile(props) {
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 
 	const handlePlay = contentLineId => () => {
-		playAudio(audios[`${contentLineId}`])
+		const { file } = audios[`${contentLineId}`] || {}
+		playAudio(file)
 	}
 
 	return (
@@ -44,7 +45,7 @@ function OneLineOneFile(props) {
 			>
 				{phrasesArray.map(elem => {
 					const { id: contentLineId } = elem
-					const image = images[`${contentLineId}`]
+					const { file: image } = images[`${contentLineId}`] || {}
 					const { text: trText } = phrasesTrObject[elem.id] || {}
 					return (
 						<TouchableOpacity
