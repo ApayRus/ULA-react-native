@@ -10,6 +10,7 @@ class Player {
 	mediaObject = null
 	currentPhraseNum = 0
 	currentTime = 0
+	rate = 1
 	events = mitt()
 
 	onPlayAudioUpdate = playbackStatus => {
@@ -46,7 +47,9 @@ class Player {
 				pitchCorrectionQuality: 'High',
 				progressUpdateIntervalMillis: 100
 			})
+			mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
 			this.setPlayerState = setPlayerState
+
 			this.mediaObject = mediaObject
 			this.events.emit('isReady', this)
 			setTimeout(() => {
@@ -64,7 +67,6 @@ class Player {
 	}
 
 	async play() {
-		this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
 		this.mediaObject.playAsync()
 		this.events.emit('play')
 	}
@@ -78,6 +80,24 @@ class Player {
 	}
 	playMinus10() {
 		this.setStatus({ positionMillis: (this.currentTime - 10) * 1000 })
+	}
+	changeRate() {
+		this.rate = this.rate + 0.25
+		if (this.rate > 2) this.rate = 0.25
+		const rate = this.rate
+		this.setStatus({
+			rate,
+			shouldCorrectPitch: true,
+			pitchCorrectionQuality: 'Medium'
+		})
+		this.setPlayerState(prevState => ({ ...prevState, rate }))
+	}
+	unload() {
+		if (this.mediaObject) {
+			this.mediaObject.unloadAsync()
+			this.mediaObject = null
+		}
+		this.events.all.clear()
 	}
 
 	async setStatus(settings) {
