@@ -7,7 +7,6 @@ import ChapterHeader from '../ChapterHeader'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
 import Timing from '../contentTypes/Timing'
-import Audio from '../contentTypes/Audio'
 import NotSet from '../contentTypes/NotSet'
 import content from '../../utils/content'
 import { getContentType } from '../../utils/contentType'
@@ -65,7 +64,6 @@ export default function LessonScreen({ navigation, route }) {
 			oneLineOneFile: <OneLineOneFile {...subchapterComponentProps} />,
 			inText: <InText {...subchapterComponentProps} />,
 			timing: <Timing {...subchapterComponentProps} />,
-			audio: <Audio {...subchapterComponentProps} />,
 			default: <NotSet {...subchapterComponentProps} />
 		}
 
@@ -73,12 +71,6 @@ export default function LessonScreen({ navigation, route }) {
 			contentTypeComponents[interactivity] || contentTypeComponents['default']
 		)
 	}
-
-	const InteractiveSubchapters = () =>
-		subchapters.map(elem => {
-			const { id: subchapterId } = elem
-			return interactiveSubchapter(chapterId, subchapterId)
-		})
 
 	const chapterHeaderProps = {
 		navigation,
@@ -92,7 +84,10 @@ export default function LessonScreen({ navigation, route }) {
 		<View style={{ flex: 1 }}>
 			<ScrollView>
 				<ChapterHeader {...chapterHeaderProps} />
-				<InteractiveSubchapters />
+				{subchapters.map(elem => {
+					const { id: subchapterId } = elem
+					return interactiveSubchapter(chapterId, subchapterId)
+				})}
 			</ScrollView>
 			<TranslationOnOffSwitcher />
 		</View>
