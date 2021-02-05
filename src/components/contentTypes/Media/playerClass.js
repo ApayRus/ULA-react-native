@@ -39,10 +39,10 @@ class Player {
 		}
 	}
 
-	async init(audioFile, setPlayerState) {
-		if (audioFile) {
+	async init(source, setPlayerState) {
+		if (source) {
 			const mediaObject = new Audio.Sound()
-			await mediaObject.loadAsync(audioFile, {
+			await mediaObject.loadAsync(source, {
 				shouldCorrectPitch: true,
 				pitchCorrectionQuality: 'High',
 				progressUpdateIntervalMillis: 100

@@ -28,19 +28,42 @@ const Media = props => {
 
 	useEffect(() => {
 		const initMedia = async () => {
-			const { file: source, extension } = content.getFilesByPathString(path) // file or uri
-			const videoExtensions = ['.mp4']
-			const isVideo = videoExtensions.includes(extension)
-			const isAudio = !isVideo
-			if (isAudio) {
-				player.current = new Player()
-				await player.current.init(source, setPlayerState)
-				setPlayerState(prevState => ({ ...prevState, isReady: true }))
+			const getSourceAndExtensionFromPath = path => {
+				// === is file local and we need require,
+				// or it is external and we need uri ?
+				// for now we check it by .ext - local files don't have it ===
+				const extractFileFromPath = uri => {
+					const [extension] = uri.match(new RegExp(/(\.mp3)|(\.mp4)$/)) || []
+					if (extension) {
+						// it is external file, direct link, we get from it uri param
+						return { uri, extension }
+					} else {
+						//it's local file and we get it from assets
+						const { file, extension } = content.getFilesByPathString(uri) || {} // file = require(../content/...)
+						return { file, extension }
+					}
+				}
+				const { file, uri, extension } = extractFileFromPath(path) || {} // file or uri
+				const source = file ? file : { uri }
+				return { source, extension }
 			}
-			if (isVideo) {
-				videoSource.current = source
-				setPlayerState(prevState => ({ ...prevState, isVideo: true }))
+			const { source, extension } = getSourceAndExtensionFromPath(path)
+
+			const chooseAndSetVideoOrAudio = async (source, extension) => {
+				const videoExtensions = ['.mp4'] // for now just one
+				const isVideo = videoExtensions.includes(extension)
+				const isAudio = !isVideo
+				if (isAudio) {
+					player.current = new Player()
+					await player.current.init(source, setPlayerState)
+					setPlayerState(prevState => ({ ...prevState, isReady: true }))
+				}
+				if (isVideo) {
+					videoSource.current = source
+					setPlayerState(prevState => ({ ...prevState, isVideo: true }))
+				}
 			}
+			chooseAndSetVideoOrAudio(source, extension)
 		}
 		initMedia()
 		// on unmount
