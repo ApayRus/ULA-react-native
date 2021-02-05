@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, useWindowDimensions } from 'react-native'
 import Slider from '@react-native-community/slider'
 import PlayerControls from './PlayerControls'
 import Player from './playerClass'
 import content from '../../../utils/content'
+import { Video } from 'expo-av'
 
 const Media = props => {
 	const {
 		data: { path }
 	} = props
+
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
 	const [playerState, setPlayerState] = useState({
 		isPlaying: false,
@@ -21,15 +24,23 @@ const Media = props => {
 	})
 
 	const player = useRef()
+	const videoSource = useRef()
 
 	useEffect(() => {
 		const initMedia = async () => {
 			const { file: source, extension } = content.getFilesByPathString(path) // file or uri
 			const videoExtensions = ['.mp4']
 			const isVideo = videoExtensions.includes(extension)
-			player.current = new Player()
-			await player.current.init(source, setPlayerState)
-			setPlayerState(prevState => ({ ...prevState, isReady: true, isVideo }))
+			const isAudio = !isVideo
+			if (isAudio) {
+				player.current = new Player()
+				await player.current.init(source, setPlayerState)
+				setPlayerState(prevState => ({ ...prevState, isReady: true }))
+			}
+			if (isVideo) {
+				videoSource.current = source
+				setPlayerState(prevState => ({ ...prevState, isVideo: true }))
+			}
 		}
 		initMedia()
 		// on unmount
@@ -55,16 +66,31 @@ const Media = props => {
 	)
 
 	return (
-		playerState.isReady && (
-			<View
-				style={{
-					flexDirection: 'row',
-					marginTop: 10,
-					marginBottom: 10,
-					justifyContent: 'center'
-				}}
-			>
-				<Text>{playerState.ext}</Text>
+		<View
+			style={{
+				flexDirection: 'row',
+				marginTop: 10,
+				marginBottom: 10,
+				justifyContent: 'center',
+				flexWrap: 'wrap'
+			}}
+		>
+			{playerState.isVideo && (
+				<View>
+					<Video
+						resizeMode='stretch'
+						useNativeControls
+						style={{
+							width: screenWidth,
+							height: (screenWidth * 9) / 16
+						}}
+						// ref={player}
+						// source={require('../../../../content/audios/words/005-001.mp3')}
+						source={videoSource.current}
+					/>
+				</View>
+			)}
+			{playerState.isReady && (
 				<View style={{ width: '100%' }}>
 					<Slider
 						minimumValue={0}
@@ -80,8 +106,8 @@ const Media = props => {
 					/>
 					{playerControlsMemo}
 				</View>
-			</View>
-		)
+			)}
+		</View>
 	)
 }
 
