@@ -298,12 +298,18 @@ WEBVTT
 
 ### Quiz [text]
 
+#### Видео Ютуба (ютуб не дает прямой доступ к видео, но мы обходными путями получаем его)
+
+[media | https://youtu.be/00Q2FociAaM]
+
 Question 1. Multiple choice
 
 - [v] variant 1
 - [ ] variant 2
 - [v] variant 3
 - [ ] variant 4
+
+#### Аудио локальное (внутри приложения)
 
 [media | content/audios/audios/010-001]
 
@@ -318,6 +324,8 @@ Not a question. Just a list.
 - Item One.
 - Item two.
 - Item three.
+
+#### Видео локальное (внутри приложения)
 
 [media | content/videos/videoplayback-1]
 
@@ -334,7 +342,7 @@ Question 4. Multiple choice
 - [ ] Et quo unde necessitatibus perspiciatis est eum natus iste nostrum eligendi harum.
 - [x] ipsum dolor sit amet, consectetur adipisicing elit. Et quo unde necessitatibus perspiciatis
 
-#### What makes a good story (6 minute English from BBC)
+#### Аудио онлайн (на чужом сайте)
 
 [media | https://downloads.bbc.co.uk/learningenglish/features/6min/210121_6min_english_storytelling_download.mp3]
 
@@ -345,15 +353,11 @@ Question 5. Multiple choice as Q1
 - [v] variant 3
 - [ ] variant 4
 
-#### Video from uri (online)
+#### Видео Онлайн (на чужом сайте)
 
 Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org
 
 [media | http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4]
-
-#### Video from Youtube (online)
-
-[media | https://youtu.be/00Q2FociAaM]
 
 ## 8 اَلدَّرْسُ الثَّامِنُ
 
