@@ -134,7 +134,8 @@ export class Content {
 		try {
 			return pathArray.reduce((prev, item) => prev[item], this.files)
 		} catch (err) {
-			console.log('getFilesByPathArray', err)
+			// console.log('getFilesByPathArray', err)
+			return null
 		}
 	}
 	getFilesByPathString = pathString => {
