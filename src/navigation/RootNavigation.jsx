@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
 import globalStyles from '../config/globalStyles'
 import Exercise from '../components/contentTypes/Exercise'
-import Video from '../components/contentTypes/Video'
 
 const Drawer = createDrawerNavigator()
 
@@ -71,13 +70,6 @@ export default function RootNavigation() {
 				<Drawer.Screen
 					name='Exercise'
 					component={Exercise}
-					initialParams={{
-						globalStyles: gStyles
-					}}
-				/>
-				<Drawer.Screen
-					name='Video'
-					component={Video}
 					initialParams={{
 						globalStyles: gStyles
 					}}
