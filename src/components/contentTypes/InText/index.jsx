@@ -1,10 +1,11 @@
 import React from 'react'
 import { View, TouchableOpacity, useWindowDimensions } from 'react-native'
-import { Text, CheckBox } from 'react-native-elements'
+import { Text } from 'react-native-elements'
 import HTML, { defaultHTMLElementModels } from 'react-native-render-html'
 import Quiz from '../Quiz'
 import Media from '../Media/MediaBasic'
 import { playAudio } from '../../../utils/playerShortAudios'
+import { prefixedIndex } from '../../../utils/utils'
 
 function InText(props) {
 	const {
@@ -52,6 +53,7 @@ function InText(props) {
 			</Text>
 			{content.map((elem, index) => {
 				const { label, text: html, data } = elem
+				let quizIndex = 0
 				if (label === 'text') {
 					return (
 						<HTML
@@ -65,7 +67,10 @@ function InText(props) {
 					)
 				}
 				if (label === 'quiz') {
-					return <Quiz key={`${label}-${index}`} />
+					quizIndex++
+					const quizId = prefixedIndex(quizIndex)
+					const quizProps = { chapterId, subchapterId, quizId, data }
+					return <Quiz key={`${label}-${index}`} {...quizProps} />
 				}
 				if (label === 'media') {
 					return <Media key={`${label}-${index}`} data={data} />

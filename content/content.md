@@ -296,30 +296,30 @@ WEBVTT
 
 ## 11. Quiz example
 
-### Quiz [text]
+### Опрос/тест [text]
 
-#### Видео Ютуба (ютуб не дает прямой доступ к видео, но мы обходными путями получаем его)
+#### Видео с Ютуба
 
 [media | https://youtu.be/00Q2FociAaM]
 
-Question 1. Multiple choice
+Вопрос 1. Посмотрите видео и ответьте на вопрос. Сколько чего кого когда?
 
-- [v] variant 1
-- [ ] variant 2
-- [v] variant 3
-- [ ] variant 4
+- [v] 1. много
+- [ ] 2. мало
+- [v] 3. всегда
+- [ ] 4. не было
 
 #### Аудио локальное (внутри приложения)
 
 [media | content/audios/audios/010-001]
 
-Question 2. Single choice
+Вопрос 2. Выберите только один ответ. Больше не сможете.
 
 - ( ) variant 1
 - (o) variant 2
 - ( ) variant 3
 
-Not a question. Just a list.
+Это просто какой-то текст.
 
 - Item One.
 - Item two.
@@ -329,13 +329,7 @@ Not a question. Just a list.
 
 [media | content/videos/videoplayback-1]
 
-Question 3. Single choice
-
-- ( ) variant 1
-- ( ) variant 2
-- (v) variant 3
-
-Question 4. Multiple choice
+Вопрос 3. Длинные вопросы. Правильный ответ можно отмечать любым знаком
 
 - [ ] Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et quo unde necessitatibus perspiciatis est eum natus iste nostrum eligendi harum.
 - [x] consectetur adipisicing elit. Et quo unde necessitatibus perspiciatis est eum natus
