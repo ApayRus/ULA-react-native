@@ -1,6 +1,5 @@
 import lodash from 'lodash'
 const { map, orderBy } = lodash
-import axios from 'axios'
 /**
  * 
  * @param {Object} object 
@@ -56,23 +55,27 @@ const getYoutubeId = url => {
  * @param {string} url
  */
 export const isYoutube = url => {
-	return url.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)
+	return Boolean(
+		url.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)
+	)
 }
 
-/**
- *
- * @param {string} youtubeId
- * @returns {promise} - with direct link to mp4 file from youtube
- */
-const getYoutubeVideoById = youtubeId => {
-	return axios({
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		method: 'get',
-		url: `https://direct-link.vercel.app/api/video/${youtubeId}`
-	})
-}
-
-export const getYoutubeVideoByUrl = url => {
+export const fetchYoutubeVideoByUrl = async url => {
 	const youtubeId = getYoutubeId(url)
-	return getYoutubeVideoById(youtubeId)
+	let response = null
+	try {
+		response = await fetch(
+			`https://direct-link.vercel.app/api/video/${youtubeId}`,
+			{
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
+			}
+		)
+		response = await response.json()
+	} catch (err) {
+		console.log('TRY/CATCH ERROR', err)
+	}
+	return response
 }
