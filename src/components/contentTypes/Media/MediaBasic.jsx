@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { View, Text, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 import Slider from '@react-native-community/slider'
 import PlayerControls from './PlayerControls'
 import Player from './playerClass'
-import content from '../../../utils/content'
-import { getYoutubeVideoByUrl, isYoutube } from '../../../utils/utils'
+import { getSourceAndExtensionFromPath } from './utils'
+
 import { Video } from 'expo-av'
 
 const Media = props => {
@@ -12,7 +12,7 @@ const Media = props => {
 		data: { path }
 	} = props
 
-	const { width: screenWidth, height: screenHeight } = useWindowDimensions()
+	const { width: screenWidth } = useWindowDimensions()
 
 	const [playerState, setPlayerState] = useState({
 		isPlaying: false,
@@ -29,36 +29,6 @@ const Media = props => {
 
 	useEffect(() => {
 		const initMedia = async () => {
-			const getSourceAndExtensionFromPath = async path => {
-				// === is file local and we need require,
-				// or it is external and we need uri ?
-				// for now we check it by .ext - local files don't have it ===
-				const extractFileFromPath = async uri => {
-					if (isYoutube(uri)) {
-						const {
-							data: { urlVideo: uriDirect, thumbnails = [] }
-						} = await getYoutubeVideoByUrl(uri)
-						const uriPoster = thumbnails[thumbnails.length - 1]
-						// console.log(uriDirect)
-
-						const extension = '.mp4' // just guess for small youtube videos
-						return { uri: uriDirect, extension, uriPoster }
-					}
-					const [extension] = uri.match(new RegExp(/(\.mp3)|(\.mp4)$/)) || []
-					if (extension) {
-						// it is external file, direct link, we get from it uri param
-						return { uri, extension }
-					} else {
-						//it's local file and we get it from assets
-						const { file, extension } = content.getFilesByPathString(uri) || {} // file = require(../content/...)
-						return { file, extension }
-					}
-				}
-				const { file, uri, extension, uriPoster } =
-					(await extractFileFromPath(path)) || {} // file or uri
-				const source = file ? file : { uri }
-				return { source, extension, posterSource: { uri: uriPoster } }
-			}
 			const {
 				source,
 				extension,
@@ -76,7 +46,7 @@ const Media = props => {
 				}
 				if (isVideo) {
 					videoSources.current = { source, posterSource }
-					console.log('videoSources.current', videoSources.current)
+					// console.log('videoSources.current', videoSources.current)
 					setPlayerState(prevState => ({ ...prevState, isVideo: true }))
 				}
 			}
