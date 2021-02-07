@@ -14,24 +14,14 @@ class Player {
 	events = mitt()
 
 	onPlayAudioUpdate = playbackStatus => {
-		const {
-			positionMillis,
-			durationMillis,
-			isPlaying,
-			didJustFinish
-		} = playbackStatus
-		// console.log('playbackStatus', playbackStatus)
+		const { positionMillis, isPlaying, didJustFinish } = playbackStatus
 		const currentTime = positionMillis / 1000
-		const playingProgressPercent = (positionMillis / durationMillis) * 100
-		// const { isPlaying } = playbackStatus
-		// this.isPlaying = isPlaying
 		this.currentTime = currentTime
 
 		this.setPlayerState(prevState => ({
 			...prevState,
 			isPlaying,
-			currentTime,
-			playingProgressPercent
+			currentTime
 		}))
 
 		if (didJustFinish) {
@@ -39,30 +29,49 @@ class Player {
 		}
 	}
 
-	async init(source, setPlayerState) {
+	async init(mode, source, setPlayerState) {
 		if (source) {
-			const mediaObject = new Audio.Sound()
-			await mediaObject.loadAsync(source, {
-				shouldCorrectPitch: true,
-				pitchCorrectionQuality: 'High',
-				progressUpdateIntervalMillis: 100
-			})
+			let mediaObject = {}
+			if (mode === 'audio') {
+				mediaObject = new Audio.Sound()
+				await mediaObject.loadAsync(source, {
+					shouldCorrectPitch: true,
+					pitchCorrectionQuality: 'High',
+					progressUpdateIntervalMillis: 100
+				})
+			}
+			if (mode === 'video') {
+				mediaObject = source // videoRef
+			}
 			mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
+
 			this.setPlayerState = setPlayerState
 
 			this.mediaObject = mediaObject
 			this.events.emit('isReady', this)
-			setTimeout(() => {
-				mediaObject.getStatusAsync().then(status => {
-					const { durationMillis } = status
-					const duration = durationMillis / 1000
-					setPlayerState(prevState => ({ ...prevState, duration }))
-				})
-			}, 1000)
+			this.updateDuration()
 		} else {
 			const messages = [`Audio doesn't exist`, `Please, contact the admin`]
 			console.log(...messages)
 			Alert(...messages)
+		}
+	}
+
+	async updateDuration() {
+		// there isn't event as audioIsReady, that we can get duration
+		// therefore we'll be trying until we get it.
+		const { durationMillis } = await this.getStatus()
+		if (durationMillis) {
+			const duration = durationMillis / 1000
+			this.duration = duration
+			this.setPlayerState(prevState => ({
+				...prevState,
+				duration
+			}))
+		} else {
+			setTimeout(() => {
+				this.updateDuration()
+			}, 1000)
 		}
 	}
 
@@ -80,6 +89,10 @@ class Player {
 	}
 	playMinus10() {
 		this.setStatus({ positionMillis: (this.currentTime - 10) * 1000 })
+	}
+	seek(time) {
+		this.setPlayerState(prevState => ({ ...prevState, time }))
+		this.setStatus({ positionMillis: time * 1000 })
 	}
 	changeRate() {
 		this.rate = this.rate + 0.25

@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Button, Text, colors } from 'react-native-elements'
+import Slider from '@react-native-community/slider'
+import { formatSecondsToTime } from '../../../utils/utils'
 
 export default function PhrasalPlayerControls(props) {
 	const { player, isPlaying, currentTime, duration, rate } = props
@@ -20,6 +22,9 @@ export default function PhrasalPlayerControls(props) {
 	const handleChangeRate = () => {
 		player.changeRate()
 	}
+	const handleSeek = time => {
+		player.seek(time)
+	}
 
 	// useEffect(() => {
 	// 	return () => {
@@ -27,16 +32,6 @@ export default function PhrasalPlayerControls(props) {
 	// 	}
 	// }, [])
 
-	const formatSecondsToTime = inputSeconds => {
-		let totalSeconds = +inputSeconds.toFixed(0)
-		const hours = Math.floor(totalSeconds / 3600)
-		const hoursString = hours ? hours + ':' : ''
-		totalSeconds %= 3600
-		const minutes = Math.floor(totalSeconds / 60)
-		const seconds = totalSeconds % 60
-		const secondsString = seconds.toString().padStart(2, '0')
-		return `${hoursString}${minutes}:${secondsString}`
-	}
 	const currentTimeFormatted = formatSecondsToTime(currentTime)
 	const durationFormatted = duration ? formatSecondsToTime(duration) : ''
 
@@ -54,6 +49,15 @@ export default function PhrasalPlayerControls(props) {
 		</TouchableOpacity>
 	)
 
+	const playerButton = (iconName, onPressHandler) => (
+		<Button
+			type='clear'
+			icon={{ name: iconName, color: 'grey' }}
+			onPress={onPressHandler}
+			buttonStyle={styles.playerButton}
+		/>
+	)
+
 	const PlayerButtons = (
 		<View
 			style={{
@@ -61,58 +65,52 @@ export default function PhrasalPlayerControls(props) {
 				justifyContent: 'space-around'
 			}}
 		>
-			<Button
-				type='clear'
-				icon={{ name: 'fast-rewind', color: 'grey' }}
-				onPress={handlePlayMinus10}
-				buttonStyle={styles.playerButtonStyle}
-			/>
+			{playerButton('fast-rewind', handlePlayMinus10)}
 
-			{isPlaying ? (
-				<Button
-					type='clear'
-					icon={{ name: 'pause', color: 'grey' }}
-					onPress={handlePause}
-					buttonStyle={styles.playerButtonStyle}
-				/>
-			) : (
-				<Button
-					type='clear'
-					icon={{ name: 'play-arrow', color: 'grey' }}
-					onPress={handlePlay}
-					buttonStyle={styles.playerButtonStyle}
-				/>
-			)}
-			<Button
-				type='clear'
-				icon={{ name: 'fast-forward', color: 'grey' }}
-				onPress={handlePlayPlus10}
-				buttonStyle={styles.playerButtonStyle}
-			/>
+			{isPlaying
+				? playerButton('pause', handlePause)
+				: playerButton('play-arrow', handlePlay)}
+
+			{playerButton('fast-forward', handlePlayPlus10)}
 		</View>
 	)
 
 	return (
-		<View
-			style={{
-				flexDirection: 'row',
-				alignItems: 'center',
-				justifyContent: 'space-between',
-				paddingLeft: 10
-				// paddingRight: 10
-			}}
-		>
-			<View style={{ flex: 1 }}>{TimeIndicator}</View>
-			<View style={{ flex: 2 }}>{PlayerButtons}</View>
-			<View style={{ flex: 1, paddingLeft: 10, paddingRight: 10 }}>
-				{SpeedChangeButton}
+		<View>
+			<Slider
+				minimumValue={0}
+				value={currentTime}
+				maximumValue={duration ? duration : 100}
+				onSlidingComplete={value => handleSeek(value)}
+				style={styles.slider}
+				// minimumTrackTintColor='blue'
+				// maximumTrackTintColor='gray'
+			/>
+			<View
+				style={{
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					paddingLeft: 10
+					// paddingRight: 10
+				}}
+			>
+				<View style={{ flex: 1 }}>{TimeIndicator}</View>
+				<View style={{ flex: 2 }}>{PlayerButtons}</View>
+				<View style={{ flex: 1, paddingLeft: 10, paddingRight: 10 }}>
+					{SpeedChangeButton}
+				</View>
 			</View>
 		</View>
 	)
 }
 
 const styles = {
-	// playerButtonIconContainer: { padding: 2 },
-	// playerButtonContainer: { padding: 2, height: 20 },
-	playerButtonStyle: { padding: 2 }
+	playerButton: { padding: 2 },
+	slider: {
+		paddingLeft: 4,
+		paddingRight: 4,
+		width: '100%',
+		alignSelf: 'center'
+	}
 }

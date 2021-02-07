@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions } from 'react-native'
-import Slider from '@react-native-community/slider'
 import PlayerControls from './PlayerControls'
 import Player from './playerClass'
 import { getSourceAndExtensionFromPath } from './utils'
@@ -25,7 +24,13 @@ const Media = props => {
 	})
 
 	const player = useRef()
+	const videoRef = useRef()
 	const videoSources = useRef()
+
+	const handleVideoIsReady = () => {
+		player.current = new Player()
+		player.current.init('video', videoRef.current, setPlayerState)
+	}
 
 	useEffect(() => {
 		const initMedia = async () => {
@@ -41,7 +46,7 @@ const Media = props => {
 				const isAudio = !isVideo
 				if (isAudio) {
 					player.current = new Player()
-					await player.current.init(source, setPlayerState)
+					await player.current.init('audio', source, setPlayerState)
 					setPlayerState(prevState => ({ ...prevState, isReady: true }))
 				}
 				if (isVideo) {
@@ -60,11 +65,6 @@ const Media = props => {
 	}, [])
 
 	const playerProps = { player: player.current, ...playerState, setPlayerState }
-
-	const handleSeek = currentTime => {
-		setPlayerState(prevState => ({ ...prevState, currentTime }))
-		player.current.setStatus({ positionMillis: currentTime * 1000 })
-	}
 
 	const { currentTime, duration, isPlaying, rate } = playerState
 
@@ -94,27 +94,15 @@ const Media = props => {
 							width: screenWidth,
 							height: (screenWidth * 9) / 16
 						}}
-						// ref={player}
+						onReadyForDisplay={handleVideoIsReady}
+						ref={videoRef}
 						{...videoSources.current} // {source, posterSource}
 					/>
+					<View>{playerControlsMemo}</View>
 				</View>
 			)}
 			{playerState.isReady && (
-				<View style={{ width: '100%' }}>
-					<Slider
-						minimumValue={0}
-						value={currentTime}
-						maximumValue={duration ? duration : 100}
-						onSlidingComplete={value => handleSeek(value)}
-						style={{
-							width: '100%',
-							alignSelf: 'center'
-						}}
-						// minimumTrackTintColor='blue'
-						// maximumTrackTintColor='gray'
-					/>
-					{playerControlsMemo}
-				</View>
+				<View style={{ width: '100%' }}>{playerControlsMemo}</View>
 			)}
 		</View>
 	)
