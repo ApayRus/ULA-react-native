@@ -6,6 +6,7 @@ import Quiz from '../Quiz'
 import Media from '../Media/MediaBasic'
 import { playAudio } from '../../../utils/playerShortAudios'
 import { prefixedIndex } from '../../../utils/utils'
+import content from '../../../utils/content'
 
 function InText(props) {
 	const {
@@ -21,14 +22,15 @@ function InText(props) {
 
 	const {
 		title,
-		content // different type of blocks: 'text', 'quiz', 'media'
+		content: subchapterContent // different type of blocks: 'text', 'quiz', 'media'
 	} = subchapterDoc
 
 	const contentWidth = useWindowDimensions().width
 
 	const handlePress = (text, path) => () => {
-		const fileName = path || text
-		playAudio(fileName, 'intext')
+		const filePath = path || `${chapterId}/${subchapterId}/audios/${text}`
+		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
+		playAudio(audioFile)
 	}
 
 	const inTextRenderer = ({ tnode }) => {
@@ -51,7 +53,7 @@ function InText(props) {
 			<Text h2 h2Style={globalStyles.subchapter}>
 				{title}
 			</Text>
-			{content.map((elem, index) => {
+			{subchapterContent.map((elem, index) => {
 				const { label, text: html, data } = elem
 				let quizIndex = 0
 				if (label === 'text') {
