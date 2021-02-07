@@ -139,7 +139,7 @@ export class Content {
 		}
 	}
 	getFilesByPathString = pathString => {
-		const pathArray = pathString.split('/')
+		const pathArray = ['content', ...pathString.split('/')]
 		return this.getFilesByPathArray(pathArray)
 	}
 }
