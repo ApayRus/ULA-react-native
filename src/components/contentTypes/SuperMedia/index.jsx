@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react'
 import { ScrollView, View, TouchableOpacity, Alert } from 'react-native'
 import { Text, Image, Header, colors } from 'react-native-elements'
-import { useSelector } from 'react-redux'
 import PhrasalPlayerControls from './PlayerControls'
 import PhrasesBlock from './PhrasesBlock'
 import { objectToArray } from '../../../utils/utils'
@@ -36,7 +35,8 @@ function SuperMedia(props) {
 
 	const mediaPath = param || `audios/timing/009-001`
 
-	const { title: titleTr, content: phrasesTr } = subchapterTrDoc
+	const { title: titleTr, content: { phrases: phrasesTr = {} } = {} } =
+		subchapterTrDoc || {}
 
 	const phrasesArray = objectToArray(phrases)
 	const phrasesTrArray = objectToArray(phrasesTr)
@@ -60,16 +60,8 @@ function SuperMedia(props) {
 				/>
 			</View>
 		),
-		[isPlaying, currentPhraseNum]
+		[isPlaying, currentPhraseNum, phrasesTrArray]
 	)
-
-	// console.log('mediaRef', mediaRef)
-
-	useEffect(() => {
-		const audioId = `${chapterId}-${subchapterId}`
-		console.log(audioId, phrases)
-		// phrasalPlayer.init(audioId, 'timing', phrasesArray)
-	}, [])
 
 	return (
 		<View>
