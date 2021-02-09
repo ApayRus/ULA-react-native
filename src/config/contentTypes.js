@@ -25,8 +25,8 @@ export default {
 	text: {
 		interactivity: 'inText'
 	},
-	timing: {
-		interactivity: 'timing'
+	supermedia: {
+		interactivity: 'superMedia'
 	},
 	audio: {
 		interactivity: 'audio'

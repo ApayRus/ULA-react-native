@@ -11,17 +11,19 @@ import { parseSubchapter } from './contentType.js'
 const h1template = new RegExp(/^\s*#{1}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
 const h2template = new RegExp(/^\s*#{2}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
 
-const splitMarkdownIntoPartsByTemplate = (text, template) => {
+export const splitMarkdownIntoPartsByTemplate = (text, template) => {
 	const matches = text.matchAll(template)
 	if (!text.match(template)) return [{ content: text }]
 	return [...matches].map((elem, index, array) => {
 		const nextElem = array[index + 1] || {}
 		const nextIndex = nextElem.index || text.length
-		const [headerText, title = '', , type = ''] = elem
+		const [headerText, title = '', , typeString = ''] = elem
+		const [type, param] = typeString.split('|').map(elem => elem.trim())
 		const { index: curIndex, input } = elem
 		return {
 			title,
 			type,
+			param,
 			content: input.slice(curIndex, nextIndex).replace(headerText, '').trim()
 		}
 	})

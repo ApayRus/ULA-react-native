@@ -259,7 +259,9 @@ And here is some image: ![image](https://m.media-amazon.com/images/I/416VUDuqTML
 
 # 9. Timing lesson
 
-## dialog 1.1. [timing]
+## Dialog 1.1. [media | path/to/file]
+
+### Phrases [timing]
 
 WEBVTT
 
@@ -289,6 +291,10 @@ WEBVTT
 
 0:00:20.590 --> 0:00:23.900
 <v خالِد> بِخَيْرٍ , وَالحَمْدُ لِلَّه .
+
+### Questions [quiz]
+
+Just example of text in quiz paragraph
 
 # 10. lesson with audio type
 

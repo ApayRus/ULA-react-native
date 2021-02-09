@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Text, CheckBox } from 'react-native-elements'
 import CheckAnswersButton from '../../CheckAnswersButton'
+// import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Quiz = props => {
 	const {
@@ -14,6 +15,7 @@ const Quiz = props => {
 	const [userAnswers, setUserAnswers] = useState([])
 	const [correctState, setCorrectState] = useState('unknown') // isRight || isWrong
 	const [errorCount, setErrorCount] = useState(0)
+	// const [stopCounting, setStopCounting] = useState(false)
 
 	const handleCheckAnswers = () => {
 		const isCorrect = String(correctAnswers) === String(userAnswers)
@@ -101,4 +103,20 @@ const data = {
 		correctAnswers: ['0', '2'],
 		type: 'multiple'
 	}
-} */
+} 
+*/
+
+/* 
+const incorrectAnswers = {
+	[chapterId]:{
+		[subchapterId]:{
+			quiz: {
+				[quizId]: {
+					errorCount,
+					stopCounting
+				}
+			}
+		}
+	}
+} 
+*/

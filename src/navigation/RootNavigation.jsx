@@ -41,7 +41,7 @@ export default function RootNavigation() {
 	return (
 		<NavigationContainer>
 			<Drawer.Navigator
-				initialRouteName='11. Quiz example'
+				initialRouteName='9. Timing lesson'
 				drawerContent={props => (
 					<DrawerContent
 						{...props}

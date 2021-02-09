@@ -29,7 +29,7 @@ class Player {
 		}
 	}
 
-	async init(mode, source, setPlayerState) {
+	async init(mode, source, setPlayerState, phrases, setPhrasalPlayerState) {
 		if (source) {
 			let mediaObject = {}
 			if (mode === 'audio') {
@@ -48,6 +48,9 @@ class Player {
 			this.setPlayerState = setPlayerState
 
 			this.mediaObject = mediaObject
+			this.phrases = phrases
+			this.setPhrasalPlayerState = setPhrasalPlayerState
+
 			this.events.emit('isReady', this)
 			this.updateDuration()
 		} else {

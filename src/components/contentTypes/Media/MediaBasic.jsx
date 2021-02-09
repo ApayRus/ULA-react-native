@@ -1,14 +1,18 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions } from 'react-native'
 import PlayerControls from './PlayerControls'
-import Player from './playerClass'
+import PlayerBasic from './playerClass'
+import PlayerPhrasal from '../SuperMedia/playerPhrasal'
 import { getSourceAndExtensionFromPath } from './utils'
 
 import { Video } from 'expo-av'
 
 const Media = props => {
 	const {
-		data: { path }
+		data: { path },
+		phrases,
+		setPhrasalPlayerState,
+		setPhrasalPlayerRef = () => {}
 	} = props
 
 	const { width: screenWidth } = useWindowDimensions()
@@ -27,9 +31,18 @@ const Media = props => {
 	const videoRef = useRef()
 	const videoSources = useRef()
 
+	const Player = setPhrasalPlayerState ? PlayerPhrasal : PlayerBasic
+
 	const handleVideoIsReady = () => {
 		player.current = new Player()
-		player.current.init('video', videoRef.current, setPlayerState)
+		player.current.init(
+			'video',
+			videoRef.current,
+			setPlayerState,
+			phrases,
+			setPhrasalPlayerState
+		)
+		setPhrasalPlayerRef(player.current)
 	}
 
 	useEffect(() => {
@@ -46,7 +59,14 @@ const Media = props => {
 				const isAudio = !isVideo
 				if (isAudio) {
 					player.current = new Player()
-					await player.current.init('audio', source, setPlayerState)
+					await player.current.init(
+						'audio',
+						source,
+						setPlayerState,
+						phrases,
+						setPhrasalPlayerState
+					)
+					setPhrasalPlayerRef(player.current)
 					setPlayerState(prevState => ({ ...prevState, isReady: true }))
 				}
 				if (isVideo) {
