@@ -2,17 +2,13 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions } from 'react-native'
 import PlayerControls from './PlayerControls'
 import PlayerBasic from './playerClass'
-import PlayerPhrasal from '../SuperMedia/playerPhrasal'
 import { getSourceAndExtensionFromPath } from './utils'
 
-import { Video } from 'expo-av'
+import { Audio, Video } from 'expo-av'
 
 const Media = props => {
 	const {
-		data: { path },
-		phrases,
-		setPhrasalPlayerState,
-		setPhrasalPlayerRef = () => {}
+		data: { path }
 	} = props
 
 	const { width: screenWidth } = useWindowDimensions()
@@ -24,26 +20,12 @@ const Media = props => {
 		duration: 0,
 		isReady: false,
 		rate: 1,
-		isVideo: false
+		isVideo: true
 	})
 
 	const player = useRef()
-	const videoRef = useRef()
-	const videoSources = useRef()
-
-	const Player = setPhrasalPlayerState ? PlayerPhrasal : PlayerBasic
-
-	const handleVideoIsReady = () => {
-		player.current = new Player()
-		player.current.init(
-			'video',
-			videoRef.current,
-			setPlayerState,
-			phrases,
-			setPhrasalPlayerState
-		)
-		setPhrasalPlayerRef(player.current)
-	}
+	const mediaRef = useRef()
+	const mediaSource = useRef()
 
 	useEffect(() => {
 		const initMedia = async () => {
@@ -53,29 +35,36 @@ const Media = props => {
 				posterSource
 			} = await getSourceAndExtensionFromPath(path)
 
-			const chooseAndSetVideoOrAudio = async (source, extension) => {
+			const chooseAndSetVideoOrAudio = async (
+				player,
+				mediaRef,
+				mediaSource,
+				source,
+				extension
+			) => {
 				const videoExtensions = ['.mp4'] // for now just one
 				const isVideo = videoExtensions.includes(extension)
-				const isAudio = !isVideo
-				if (isAudio) {
-					player.current = new Player()
-					await player.current.init(
-						'audio',
-						source,
-						setPlayerState,
-						phrases,
-						setPhrasalPlayerState
-					)
-					setPhrasalPlayerRef(player.current)
-					setPlayerState(prevState => ({ ...prevState, isReady: true }))
+
+				if (!isVideo) {
+					mediaRef.current = new Audio.Sound()
 				}
-				if (isVideo) {
-					videoSources.current = { source, posterSource }
-					// console.log('videoSources.current', videoSources.current)
-					setPlayerState(prevState => ({ ...prevState, isVideo: true }))
-				}
+
+				await mediaRef.current.loadAsync(source)
+
+				player.current = new PlayerBasic()
+				await player.current.init(mediaRef, setPlayerState)
+				// setPlayerState(prevState => ({ ...prevState, isReady: true }))
+				mediaSource.current = { source, posterSource }
+				return isVideo
 			}
-			chooseAndSetVideoOrAudio(source, extension)
+			const isVideo = await chooseAndSetVideoOrAudio(
+				player,
+				mediaRef,
+				mediaSource,
+				source,
+				extension
+			)
+			setPlayerState(prevState => ({ ...prevState, isVideo }))
 		}
 		initMedia()
 		// on unmount
@@ -86,7 +75,7 @@ const Media = props => {
 
 	const playerProps = { player: player.current, ...playerState, setPlayerState }
 
-	const { currentTime, duration, isPlaying, rate } = playerState
+	const { currentTime, duration, isPlaying, rate, isVideo } = playerState
 
 	// without useMemo, PlayerControls updated too many times on each currentTime update
 	// and buttons not clickable
@@ -105,8 +94,8 @@ const Media = props => {
 				flexWrap: 'wrap'
 			}}
 		>
-			{playerState.isVideo && (
-				<View>
+			<View style={{ width: screenWidth }}>
+				{isVideo && (
 					<Video
 						resizeMode='stretch'
 						useNativeControls
@@ -114,16 +103,12 @@ const Media = props => {
 							width: screenWidth,
 							height: (screenWidth * 9) / 16
 						}}
-						onReadyForDisplay={handleVideoIsReady}
-						ref={videoRef}
-						{...videoSources.current} // {source, posterSource}
+						ref={mediaRef}
+						{...mediaSource.current}
 					/>
-					<View>{playerControlsMemo}</View>
-				</View>
-			)}
-			{playerState.isReady && (
-				<View style={{ width: '100%' }}>{playerControlsMemo}</View>
-			)}
+				)}
+				{!isVideo && <View>{playerControlsMemo}</View>}
+			</View>
 		</View>
 	)
 }

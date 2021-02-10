@@ -29,27 +29,12 @@ class Player {
 		}
 	}
 
-	async init(mode, source, setPlayerState, phrases, setPhrasalPlayerState) {
-		if (source) {
-			let mediaObject = {}
-			if (mode === 'audio') {
-				mediaObject = new Audio.Sound()
-				await mediaObject.loadAsync(source, {
-					shouldCorrectPitch: true,
-					pitchCorrectionQuality: 'High',
-					progressUpdateIntervalMillis: 100
-				})
-			}
-			if (mode === 'video') {
-				mediaObject = source // videoRef
-			}
-			mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
+	async init(mediaRef, setPlayerState) {
+		if (mediaRef.current) {
+			this.mediaObject = mediaRef.current
+			this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
 
 			this.setPlayerState = setPlayerState
-
-			this.mediaObject = mediaObject
-			this.phrases = phrases
-			this.setPhrasalPlayerState = setPhrasalPlayerState
 
 			this.events.emit('isReady', this)
 			this.updateDuration()
