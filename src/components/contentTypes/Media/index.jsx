@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions } from 'react-native'
 import PlayerControls from './PlayerBasicControls'
-import PlayerBasic from './playerBasicClass'
-import { getSourceAndExtensionFromPath } from './utils'
+import { loadDataToPlayer } from './utils'
 
-import { Audio, Video } from 'expo-av'
+import { Video } from 'expo-av'
 
 const Media = props => {
 	const {
@@ -23,48 +22,37 @@ const Media = props => {
 		isVideo: true
 	})
 
-	const player = useRef()
+	const playerRef = useRef()
 	const mediaRef = useRef()
-	const mediaSource = useRef()
+	const mediaSourceRef = useRef()
 
 	useEffect(() => {
 		const initMedia = async () => {
-			const {
-				source,
-				extension,
-				posterSource
-			} = await getSourceAndExtensionFromPath(path)
+			const { isVideo } = await loadDataToPlayer(
+				path,
+				/* mutable objects */
+				playerRef,
+				mediaRef,
+				mediaSourceRef
+			)
 
-			const chooseAndSetVideoOrAudio = async () => {
-				const videoExtensions = ['.mp4'] // for now just one
-				const isVideo = videoExtensions.includes(extension)
-				setPlayerState(prevState => ({ ...prevState, isVideo }))
+			setPlayerState(prevState => ({ ...prevState, isVideo }))
 
-				if (!isVideo) {
-					mediaRef.current = new Audio.Sound()
-				}
-
-				await mediaRef.current.loadAsync(source)
-
-				player.current = new PlayerBasic(mediaRef)
-				player.current.events.on('*', (eventType, eventValue) => {
-					setPlayerState(prevState => ({
-						...prevState,
-						[eventType]: eventValue
-					}))
-				})
-				mediaSource.current = { source, posterSource }
-			}
-			await chooseAndSetVideoOrAudio()
+			playerRef.current.events.on('*', (eventType, eventValue) => {
+				setPlayerState(prevState => ({
+					...prevState,
+					[eventType]: eventValue
+				}))
+			})
 		}
 		initMedia()
 		// on unmount
 		return () => {
-			player.current.unload()
+			playerRef.current.unload()
 		}
 	}, [])
 
-	const playerProps = { player: player.current, ...playerState, setPlayerState }
+	const playerProps = { player: playerRef.current, ...playerState }
 
 	const { currentTime, duration, isPlaying, rate, isVideo } = playerState
 
@@ -95,7 +83,7 @@ const Media = props => {
 							height: (screenWidth * 9) / 16
 						}}
 						ref={mediaRef}
-						{...mediaSource.current}
+						{...mediaSourceRef.current} // source and posterSource
 					/>
 				)}
 				{!isVideo && <View>{playerControlsMemo}</View>}

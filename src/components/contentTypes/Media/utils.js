@@ -1,7 +1,9 @@
 import content from '../../../utils/content'
 import { fetchYoutubeVideoByUrl, isYoutube } from '../../../utils/utils'
+import PlayerBasic from './playerBasicClass'
+import { Audio } from 'expo-av'
 
-export const getSourceAndExtensionFromPath = async path => {
+const getSourceAndExtensionFromPath = async path => {
 	// === is file local and we need require,
 	// or it is external and we need uri ?
 	// for now we check it by .ext - local files don't have it ===
@@ -28,5 +30,30 @@ export const getSourceAndExtensionFromPath = async path => {
 	const { file, uri, extension, uriPoster } =
 		(await extractFileFromPath(path)) || {} // file or uri
 	const source = file ? file : { uri }
-	return { source, extension, posterSource: { uri: uriPoster } }
+
+	const videoExtensions = ['.mp4'] // for now just one
+	const isVideo = videoExtensions.includes(extension)
+
+	return { source, extension, posterSource: { uri: uriPoster }, isVideo }
+}
+
+export const loadDataToPlayer = async (
+	path,
+	/* mutable objects */
+	player,
+	mediaRef,
+	mediaSource
+) => {
+	const { source, posterSource, isVideo } = await getSourceAndExtensionFromPath(
+		path
+	)
+
+	if (!isVideo) {
+		mediaRef.current = new Audio.Sound()
+	}
+
+	await mediaRef.current.loadAsync(source)
+	player.current = new PlayerBasic(mediaRef)
+	mediaSource.current = { source, posterSource }
+	return { isVideo }
 }
