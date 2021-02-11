@@ -3,7 +3,10 @@ import { View } from 'react-native'
 import { Button, Text } from 'react-native-elements'
 
 export default function PhrasalPlayerControls(props) {
-	const { phrasalPlayer, isPlaying } = props
+	const {
+		playerRef: { current: phrasalPlayer },
+		isPlaying
+	} = props
 
 	const handlePlay = () => {
 		phrasalPlayer.play()

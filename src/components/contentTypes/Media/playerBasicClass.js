@@ -6,7 +6,9 @@ class Player {
 		if (mediaRef.current) {
 			this.mediaObject = mediaRef.current
 			this.updateDuration()
-			this.events.emit('isReady', true)
+			this.events = mitt()
+			this.currentTime = 0
+			this.rate = 1
 			this.mediaObject.setOnPlaybackStatusUpdate(this.handleOnPlayAudioUpdate)
 		} else {
 			const messages = [`Audio doesn't exist`, `Please, contact the admin`]
@@ -14,10 +16,6 @@ class Player {
 			Alert(...messages)
 		}
 	}
-	events = mitt()
-	mediaObject = null
-	currentTime = 0
-	rate = 1
 
 	handleOnPlayAudioUpdate = playbackStatus => {
 		const { positionMillis, isPlaying } = playbackStatus
@@ -54,6 +52,10 @@ class Player {
 	}
 	playMinus10() {
 		this.setStatus({ positionMillis: (this.currentTime - 10) * 1000 })
+	}
+	seekStart() {
+		this.shouldPlay = this.isPlaying
+		this.pause()
 	}
 	seek(time) {
 		this.setStatus({ positionMillis: time * 1000 })

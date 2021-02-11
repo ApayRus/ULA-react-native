@@ -5,7 +5,7 @@ export default function PhrasesBlock(props) {
 	const {
 		phrasesArray,
 		phrasesTrArray,
-		phrasalPlayer,
+		playerRef: { current: phrasalPlayer },
 		currentPhraseNum,
 		globalStyles,
 		showTranslation

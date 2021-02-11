@@ -22,6 +22,9 @@ export default function PhrasalPlayerControls(props) {
 	const handleChangeRate = () => {
 		player.changeRate()
 	}
+	const handleSeekStart = () => {
+		player.seekStart()
+	}
 	const handleSeek = time => {
 		player.seek(time)
 	}
@@ -81,6 +84,7 @@ export default function PhrasalPlayerControls(props) {
 				minimumValue={0}
 				value={currentTime}
 				maximumValue={duration ? duration : 100}
+				onSlidingStart={() => handleSeekStart()}
 				onSlidingComplete={value => handleSeek(value)}
 				style={styles.slider}
 				// minimumTrackTintColor='blue'
