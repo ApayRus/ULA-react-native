@@ -35,15 +35,10 @@ const Media = props => {
 				posterSource
 			} = await getSourceAndExtensionFromPath(path)
 
-			const chooseAndSetVideoOrAudio = async (
-				player,
-				mediaRef,
-				mediaSource,
-				source,
-				extension
-			) => {
+			const chooseAndSetVideoOrAudio = async () => {
 				const videoExtensions = ['.mp4'] // for now just one
 				const isVideo = videoExtensions.includes(extension)
+				setPlayerState(prevState => ({ ...prevState, isVideo }))
 
 				if (!isVideo) {
 					mediaRef.current = new Audio.Sound()
@@ -51,20 +46,16 @@ const Media = props => {
 
 				await mediaRef.current.loadAsync(source)
 
-				player.current = new PlayerBasic()
-				await player.current.init(mediaRef, setPlayerState)
-				// setPlayerState(prevState => ({ ...prevState, isReady: true }))
+				player.current = new PlayerBasic(mediaRef)
+				player.current.events.on('*', (eventType, eventValue) => {
+					setPlayerState(prevState => ({
+						...prevState,
+						[eventType]: eventValue
+					}))
+				})
 				mediaSource.current = { source, posterSource }
-				return isVideo
 			}
-			const isVideo = await chooseAndSetVideoOrAudio(
-				player,
-				mediaRef,
-				mediaSource,
-				source,
-				extension
-			)
-			setPlayerState(prevState => ({ ...prevState, isVideo }))
+			await chooseAndSetVideoOrAudio()
 		}
 		initMedia()
 		// on unmount

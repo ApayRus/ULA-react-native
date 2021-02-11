@@ -1,48 +1,30 @@
-import { Audio } from 'expo-av'
 import { Alert } from 'react-native'
 import mitt from 'mitt'
 
 class Player {
-	constructor(audioFile, phrases) {
-		// this.init(audioId, contentType)
-	}
-
-	mediaObject = null
-	currentPhraseNum = 0
-	currentTime = 0
-	rate = 1
-	events = mitt()
-
-	onPlayAudioUpdate = playbackStatus => {
-		const { positionMillis, isPlaying, didJustFinish } = playbackStatus
-		const currentTime = positionMillis / 1000
-		this.currentTime = currentTime
-
-		this.setPlayerState(prevState => ({
-			...prevState,
-			isPlaying,
-			currentTime
-		}))
-
-		if (didJustFinish) {
-			this.events.emit('didJustFinish')
-		}
-	}
-
-	async init(mediaRef, setPlayerState) {
+	constructor(mediaRef) {
 		if (mediaRef.current) {
 			this.mediaObject = mediaRef.current
-			this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
-
-			this.setPlayerState = setPlayerState
-
-			this.events.emit('isReady', this)
 			this.updateDuration()
+			this.events.emit('isReady', true)
+			this.mediaObject.setOnPlaybackStatusUpdate(this.handleOnPlayAudioUpdate)
 		} else {
 			const messages = [`Audio doesn't exist`, `Please, contact the admin`]
 			console.log(...messages)
 			Alert(...messages)
 		}
+	}
+	events = mitt()
+	mediaObject = null
+	currentTime = 0
+	rate = 1
+
+	handleOnPlayAudioUpdate = playbackStatus => {
+		const { positionMillis, isPlaying } = playbackStatus
+		const currentTime = positionMillis / 1000
+		this.currentTime = currentTime
+		this.events.emit('isPlaying', isPlaying)
+		this.events.emit('currentTime', currentTime)
 	}
 
 	async updateDuration() {
@@ -52,10 +34,7 @@ class Player {
 		if (durationMillis) {
 			const duration = durationMillis / 1000
 			this.duration = duration
-			this.setPlayerState(prevState => ({
-				...prevState,
-				duration
-			}))
+			this.events.emit('duration', duration)
 		} else {
 			setTimeout(() => {
 				this.updateDuration()
@@ -65,11 +44,9 @@ class Player {
 
 	async play() {
 		this.mediaObject.playAsync()
-		this.events.emit('play')
 	}
 	async pause() {
 		this.mediaObject.pauseAsync()
-		this.events.emit('pause')
 	}
 
 	playPlus10() {
@@ -79,8 +56,8 @@ class Player {
 		this.setStatus({ positionMillis: (this.currentTime - 10) * 1000 })
 	}
 	seek(time) {
-		this.setPlayerState(prevState => ({ ...prevState, time }))
 		this.setStatus({ positionMillis: time * 1000 })
+		this.events.emit('currentTime', time)
 	}
 	changeRate() {
 		this.rate = this.rate + 0.25
@@ -89,16 +66,15 @@ class Player {
 		this.setStatus({
 			rate,
 			shouldCorrectPitch: true,
-			pitchCorrectionQuality: 'Medium'
+			pitchCorrectionQuality: 'High'
 		})
-		this.setPlayerState(prevState => ({ ...prevState, rate }))
+		this.events.emit('rate', rate)
 	}
 	unload() {
 		if (this.mediaObject) {
 			this.mediaObject.unloadAsync()
 			this.mediaObject = null
 		}
-		this.events.all.clear()
 	}
 
 	async setStatus(settings) {
