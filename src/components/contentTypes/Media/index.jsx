@@ -1,14 +1,44 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions } from 'react-native'
+import { Video } from 'expo-av'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
-
-import { Video } from 'expo-av'
+// === for phrasal media:
+import { objectToArray } from '../../../utils/utils'
+import PhrasalPlayerControls from './PlayerPhrasalControls'
+import PhrasesBlock from './PhrasesBlock'
 
 const Media = props => {
+	// if siple media, from inText
+
+	const { data: { path } = {} } = props
+
+	// ===== if advanced media, from ChapterScreen/subchapter
+
 	const {
-		data: { path }
+		subchapterDoc,
+		subchapterTrDoc,
+		globalStyles,
+		chapterId,
+		subchapterId,
+		showTranslation
 	} = props
+
+	const {
+		title,
+		param, // path/to/media
+		content: { phrases = {} } = {}
+	} = subchapterDoc || {}
+
+	const { title: titleTr, content: { phrases: phrasesTr = {} } = {} } =
+		subchapterTrDoc || {}
+
+	const phrasesArray = objectToArray(phrases)
+	const phrasesTrArray = objectToArray(phrasesTr)
+
+	// ==================
+
+	const mediaPath = path || param || `audios/timing/009-001`
 
 	const { width: screenWidth } = useWindowDimensions()
 
@@ -19,7 +49,8 @@ const Media = props => {
 		duration: 0,
 		isReady: false,
 		rate: 1,
-		isVideo: true
+		isVideo: true,
+		currentPhraseNum: 0
 	})
 
 	const playerRef = useRef()
@@ -29,16 +60,19 @@ const Media = props => {
 	useEffect(() => {
 		const initMedia = async () => {
 			const { isVideo } = await loadDataToPlayer(
-				path,
+				mediaPath,
 				/* mutable objects */
 				playerRef,
 				mediaRef,
-				mediaSourceRef
+				mediaSourceRef,
+				/* for phrasal  player */
+				phrasesArray
 			)
 
 			setPlayerState(prevState => ({ ...prevState, isVideo }))
 
 			playerRef.current.events.on('*', (eventType, eventValue) => {
+				// console.log(eventType, eventValue)
 				setPlayerState(prevState => ({
 					...prevState,
 					[eventType]: eventValue
@@ -54,7 +88,14 @@ const Media = props => {
 
 	const playerProps = { player: playerRef.current, ...playerState }
 
-	const { currentTime, duration, isPlaying, rate, isVideo } = playerState
+	const {
+		currentTime,
+		duration,
+		isPlaying,
+		rate,
+		isVideo,
+		currentPhraseNum
+	} = playerState
 
 	// without useMemo, PlayerControls updated too many times on each currentTime update
 	// and buttons not clickable
@@ -63,7 +104,7 @@ const Media = props => {
 		[duration, isPlaying, rate, currentTime]
 	)
 
-	return (
+	const basicPlayer = (
 		<View
 			style={{
 				flexDirection: 'row',
@@ -88,6 +129,43 @@ const Media = props => {
 				)}
 				{!isVideo && <View>{playerControlsMemo}</View>}
 			</View>
+		</View>
+	)
+
+	// ====== phrasal player
+
+	const phrasalPlayerControlsMemo = useMemo(
+		() => <PhrasalPlayerControls {...{ playerRef, isPlaying }} />,
+		[isPlaying, currentPhraseNum, duration]
+	)
+
+	const phrasesBlockMemo = useMemo(
+		() => (
+			<PhrasesBlock
+				{...{
+					phrasesArray,
+					phrasesTrArray,
+					globalStyles,
+					currentPhraseNum,
+					playerRef,
+					showTranslation
+				}}
+			/>
+		),
+		[currentPhraseNum, duration, showTranslation]
+	)
+
+	// ================
+
+	return (
+		<View>
+			{basicPlayer}
+			{phrasesArray.length ? (
+				<>
+					<>{phrasalPlayerControlsMemo}</>
+					<>{phrasesBlockMemo}</>
+				</>
+			) : null}
 		</View>
 	)
 }

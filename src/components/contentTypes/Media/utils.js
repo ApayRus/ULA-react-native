@@ -1,6 +1,7 @@
 import content from '../../../utils/content'
 import { fetchYoutubeVideoByUrl, isYoutube } from '../../../utils/utils'
 import PlayerBasic from './playerBasicClass'
+import PlayerPhrasal from './playerPhrasalClass'
 import { Audio } from 'expo-av'
 
 const getSourceAndExtensionFromPath = async path => {
@@ -42,7 +43,8 @@ export const loadDataToPlayer = async (
 	/* mutable objects */
 	player,
 	mediaRef,
-	mediaSource
+	mediaSource,
+	phrasesArray
 ) => {
 	const { source, posterSource, isVideo } = await getSourceAndExtensionFromPath(
 		path
@@ -53,7 +55,9 @@ export const loadDataToPlayer = async (
 	}
 
 	await mediaRef.current.loadAsync(source)
-	player.current = new PlayerBasic(mediaRef)
+	player.current = phrasesArray.length
+		? new PlayerPhrasal(mediaRef, phrasesArray)
+		: new PlayerBasic(mediaRef, phrasesArray)
 	mediaSource.current = { source, posterSource }
 	return { isVideo }
 }
