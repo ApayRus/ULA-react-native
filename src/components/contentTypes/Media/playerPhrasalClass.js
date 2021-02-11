@@ -3,7 +3,7 @@ import mitt from 'mitt'
 import { setPlayerState } from '../../../store/playerStateActions'
 import store from '../../../store/rootReducer'
 import contentFiles from '../../../../assets/contentFilesMap'
-import PlayerBasic from '../Media/playerClass'
+import PlayerBasic from './playerBasicClass'
 
 const {
 	content: { audios }
@@ -17,7 +17,7 @@ class PlayerPhrasal extends PlayerBasic {
 
 	events = mitt()
 
-	onPlayAudioUpdate = playbackStatus => {
+	/* 	onPlayAudioUpdate = playbackStatus => {
 		const { positionMillis, didJustFinish, isPlaying } = playbackStatus
 		// console.log('playbackStatus', playbackStatus)
 		const currentTime = positionMillis / 1000
@@ -52,9 +52,9 @@ class PlayerPhrasal extends PlayerBasic {
 			isPlaying,
 			currentTime
 		}))
-	}
+	} */
 
-	onPlayPhraseAudioUpdate = playbackStatus => {
+	/* 	onPlayPhraseAudioUpdate = playbackStatus => {
 		const { positionMillis, isPlaying } = playbackStatus
 		const currentTime = positionMillis / 1000
 		this.currentTime = currentTime
@@ -78,16 +78,16 @@ class PlayerPhrasal extends PlayerBasic {
 			isPlaying,
 			currentTime
 		}))
-	}
+	} */
 
 	play() {
-		this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
+		// this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
 		this.mediaObject.playAsync()
 		this.events.emit('play')
 	}
 
 	async playPhrase(phraseNum) {
-		this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayPhraseAudioUpdate)
+		// this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayPhraseAudioUpdate)
 		this.currentPhraseNum = phraseNum
 		const eventBody = {
 			...this.phrases[this.currentPhraseNum],

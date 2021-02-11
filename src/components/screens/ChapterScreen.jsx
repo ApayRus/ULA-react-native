@@ -6,7 +6,7 @@ import TranslationOnOffSwitcher from '../TranslationShowSwitcher'
 import ChapterHeader from '../ChapterHeader'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
-import SuperMedia from '../contentTypes/SuperMedia'
+import Media from '../contentTypes/Media'
 import NotSet from '../contentTypes/NotSet'
 import content from '../../utils/content'
 import { getContentType } from '../../utils/contentType'
@@ -63,7 +63,7 @@ export default function LessonScreen({ navigation, route }) {
 		const contentTypeComponents = {
 			oneLineOneFile: <OneLineOneFile {...subchapterComponentProps} />,
 			inText: <InText {...subchapterComponentProps} />,
-			superMedia: <SuperMedia {...subchapterComponentProps} />,
+			media: <Media {...subchapterComponentProps} />,
 			default: <NotSet {...subchapterComponentProps} />
 		}
 

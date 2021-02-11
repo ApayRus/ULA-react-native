@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions } from 'react-native'
-import PlayerControls from './PlayerControls'
-import PlayerBasic from './playerClass'
+import PlayerControls from './PlayerBasicControls'
+import PlayerBasic from './playerBasicClass'
 import { getSourceAndExtensionFromPath } from './utils'
 
 import { Audio, Video } from 'expo-av'
