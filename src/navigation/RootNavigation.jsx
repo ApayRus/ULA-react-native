@@ -3,9 +3,11 @@ import HomeScreen from '../components/screens/HomeScreen'
 import AboutScreen from '../components/screens/AboutScreen'
 import TypographyScreen from '../components/screens/TypographyScreen'
 import ChapterScreen from '../components/screens/ChapterScreen'
+import SubChapterScreen from '../components/screens/SubChapterScreen'
 import DrawerContent from '../components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import { createStackNavigator } from '@react-navigation/stack'
 import content from '../utils/content'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
@@ -14,6 +16,7 @@ import globalStyles from '../config/globalStyles'
 import Exercise from '../components/contentTypes/Exercise'
 
 const Drawer = createDrawerNavigator()
+const Stack = createStackNavigator()
 
 const info = content.getInfo()
 const translations = content.getTranslations() // list of available langs
@@ -24,7 +27,7 @@ const gStyles = globalStyles(language.toLocaleLowerCase())
 export default function RootNavigation() {
 	const dispatch = useDispatch()
 
-	const chapters = content.getChapterTitles()
+	const chapters = content.getTableOfContent()
 
 	useEffect(() => {
 		const getTranslationAsync = async () => {
@@ -41,7 +44,7 @@ export default function RootNavigation() {
 	return (
 		<NavigationContainer>
 			<Drawer.Navigator
-				initialRouteName='9. Timing lesson'
+				initialRouteName='Home'
 				drawerContent={props => (
 					<DrawerContent
 						{...props}
@@ -78,17 +81,57 @@ export default function RootNavigation() {
 
 				{/* CHAPTERS */}
 
-				{chapters.map(elem => (
-					<Drawer.Screen
-						key={`lesson-${elem.id}`}
-						name={elem.title}
-						component={ChapterScreen}
-						initialParams={{
-							chapterId: elem.id,
-							globalStyles: gStyles
-						}}
-					/>
-				))}
+				{chapters.map(chapter => {
+					const { id: chapterId, subchapters, title, type } = chapter
+					const name = `chapter-${chapterId}` // chapter-001
+
+					const subchaptersStackNavigator = () => (
+						<Stack.Navigator
+							key={name}
+							initialRouteName='Heading'
+							// screenOptions={{
+							// 	headerShown: false
+							// }}
+						>
+							<Stack.Screen
+								key={name}
+								name='Heading'
+								component={ChapterScreen}
+								initialParams={{ chapterId, title, subchapters }}
+							/>
+							{subchapters.map(subchapter => {
+								const { id: subchapterId } = subchapter
+								const name = `subchapter-${subchapterId}` // subchapter-002
+								return (
+									<Stack.Screen
+										key={name}
+										{...{ name }}
+										component={SubChapterScreen}
+										initialParams={{
+											chapterId,
+											subchapterId,
+											globalStyles: gStyles
+										}}
+									/>
+								)
+							})}
+						</Stack.Navigator>
+					)
+
+					return (
+						<Drawer.Screen
+							key={name}
+							name={name}
+							component={subchaptersStackNavigator}
+							initialParams={{
+								chapterId,
+								title,
+								type,
+								globalStyles: gStyles
+							}}
+						/>
+					)
+				})}
 			</Drawer.Navigator>
 		</NavigationContainer>
 	)

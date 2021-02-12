@@ -60,6 +60,27 @@ export class Content {
 		}
 	}
 
+	// object to array:
+	// [{ id, title, type, content: [{ id, title, type }] }]
+	getTableOfContent() {
+		return Object.keys(this.original.content)
+			.map(key => {
+				const id = key
+				const { title, type, content: contentObject } = this.original.content[
+					key
+				]
+				const subchapters = Object.keys(contentObject)
+					.map(key => {
+						const id = key
+						const { title, type } = contentObject[key]
+						return { id, title, type }
+					})
+					.sort((a, b) => a.id.localeCompare(b.id))
+				return { id, title, type, subchapters }
+			})
+			.sort((a, b) => a.id.localeCompare(b.id))
+	}
+
 	getChapter(chapterId) {
 		const chapterDoc = this.original.content[chapterId]
 		return chapterDoc

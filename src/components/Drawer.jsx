@@ -69,25 +69,29 @@ export default function Drawer(props) {
 							<ListItem.Title>Typography</ListItem.Title>
 						</ListItem.Content>
 					</ListItem>
-					{chapters.map(elem => (
-						<ListItem
-							bottomDivider
-							containerStyle={styles.listItem}
-							key={`lesson-${elem.id}`}
-							onPress={() => navigation.navigate(elem.title)}
-						>
-							<ListItem.Content>
-								<ListItem.Title style={globalStyles.body2}>
-									{elem.title}
-								</ListItem.Title>
-								{showTranslation && (
-									<ListItem.Subtitle>
-										{trChapters[elem.id]?.title}
-									</ListItem.Subtitle>
-								)}
-							</ListItem.Content>
-						</ListItem>
-					))}
+					{chapters.map(elem => {
+						const { id, title } = elem
+						const name = `chapter-${id}`
+						return (
+							<ListItem
+								bottomDivider
+								containerStyle={styles.listItem}
+								key={name}
+								onPress={() => navigation.navigate(name)}
+							>
+								<ListItem.Content>
+									<ListItem.Title style={globalStyles.body2}>
+										{title}
+									</ListItem.Title>
+									{showTranslation && (
+										<ListItem.Subtitle>
+											{trChapters[id]?.title}
+										</ListItem.Subtitle>
+									)}
+								</ListItem.Content>
+							</ListItem>
+						)
+					})}
 				</View>
 			</ScrollView>
 			<TranslationOnOffSwitcher />
