@@ -59,7 +59,8 @@ const SubChapterScreen = props => {
 		subchapterId,
 		files,
 		globalStyles,
-		trLang
+		trLang,
+		navigation
 	}
 
 	return <View>{getComponent(interactivity, subchapterComponentProps)}</View>

@@ -76,6 +76,7 @@ class Player {
 		if (this.mediaObject) {
 			this.mediaObject.unloadAsync()
 			this.mediaObject = null
+			this.events.all.clear()
 		}
 	}
 

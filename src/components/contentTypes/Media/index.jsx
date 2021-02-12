@@ -21,7 +21,8 @@ const Media = props => {
 		globalStyles,
 		chapterId,
 		subchapterId,
-		showTranslation
+		showTranslation,
+		navigation
 	} = props
 
 	const {
@@ -85,6 +86,12 @@ const Media = props => {
 			playerRef.current.unload()
 		}
 	}, [])
+
+	useEffect(() => {
+		return () => {
+			playerRef.current.unload()
+		}
+	}, [navigation])
 
 	const playerProps = { player: playerRef.current, ...playerState }
 
