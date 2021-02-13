@@ -10,8 +10,6 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@expo-google-fonts/inter": "^0.1.0",
-		"@expo-google-fonts/scheherazade": "^0.1.0",
 		"@react-native-async-storage/async-storage": "^1.13.4",
 		"@react-native-community/masked-view": "0.1.10",
 		"@react-native-community/slider": "^3.0.3",

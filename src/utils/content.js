@@ -163,6 +163,19 @@ export class Content {
 		const pathArray = ['content', ...pathString.split('/')]
 		return this.getFilesByPathArray(pathArray)
 	}
+	/**
+	 * prepares fonts for useFont hook
+	 */
+	getFonts() {
+		const { fonts: fontsRaw } = this.getFilesByPathArray(['content'])
+		const fonts = {}
+		// will be: { Inter_400Regular: require(/path), Scheherazade_400Regular: require(/path) }
+		for (let key in fontsRaw) {
+			const { file } = fontsRaw[key]
+			fonts[key] = file
+		}
+		return fonts
+	}
 }
 
 const content = new Content(original, translations, files)
