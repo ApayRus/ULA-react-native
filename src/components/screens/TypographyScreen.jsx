@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, View, useWindowDimensions } from 'react-native'
 import { Text } from 'react-native-elements'
 import HTML from 'react-native-render-html'
-import { styles as globalStyles } from '../../config/globalStyles'
+import globalStyles from '../../config/globalStyles'
 import marked from 'marked'
 import ChapterHeader from '../ChapterHeader'
 

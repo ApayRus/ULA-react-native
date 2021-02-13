@@ -4,9 +4,10 @@ import { View, Image, ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import content from '../utils/content'
+import globalStyles from '../config/globalStyles'
 
 export default function Drawer(props) {
-	const { chapters, navigation, globalStyles } = props
+	const { chapters, navigation } = props
 	const { showTranslation, trLang } = useSelector(state => state.translation)
 
 	const trChapters = content.getChapterTitlesTr(trLang)
@@ -84,7 +85,7 @@ export default function Drawer(props) {
 										{title}
 									</ListItem.Title>
 									{showTranslation && (
-										<ListItem.Subtitle>
+										<ListItem.Subtitle style={globalStyles.translation(trLang)}>
 											{trChapters[id]?.title}
 										</ListItem.Subtitle>
 									)}

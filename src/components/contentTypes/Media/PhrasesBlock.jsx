@@ -1,5 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
+import globalStyles from '../../../config/globalStyles'
 
 export default function PhrasesBlock(props) {
 	const {
@@ -7,7 +8,6 @@ export default function PhrasesBlock(props) {
 		phrasesTrArray,
 		playerRef: { current: phrasalPlayer },
 		currentPhraseNum,
-		globalStyles,
 		showTranslation
 	} = props
 

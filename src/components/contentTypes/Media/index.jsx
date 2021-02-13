@@ -7,6 +7,7 @@ import { loadDataToPlayer } from './utils'
 import { objectToArray } from '../../../utils/utils'
 import PhrasalPlayerControls from './PlayerPhrasalControls'
 import PhrasesBlock from './PhrasesBlock'
+import globalStyles from '../../../config/globalStyles'
 
 const Media = props => {
 	// if siple media, from inText
@@ -18,7 +19,6 @@ const Media = props => {
 	const {
 		subchapterDoc,
 		subchapterTrDoc,
-		globalStyles,
 		chapterId,
 		subchapterId,
 		showTranslation,

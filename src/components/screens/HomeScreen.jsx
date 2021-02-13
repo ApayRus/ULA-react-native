@@ -3,10 +3,11 @@ import React from 'react'
 import { View, Image } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
+import globalStyles from '../../config/globalStyles'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
-		params: { info, translations, globalStyles }
+		params: { info, translations }
 	} = route
 	const { title, author, description, language, level } = info || {}
 

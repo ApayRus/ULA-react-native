@@ -2,9 +2,10 @@ import React from 'react'
 import { View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Text, Header, colors } from 'react-native-elements'
+import globalStyles from '../config/globalStyles'
 
 function ChapterHeader(props) {
-	const { navigation, globalStyles, showTranslation, title, trTitle } = props
+	const { navigation, showTranslation, title, trTitle } = props
 
 	return (
 		<>

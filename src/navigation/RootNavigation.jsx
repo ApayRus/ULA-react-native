@@ -12,7 +12,6 @@ import content from '../utils/content'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
-import globalStyles from '../config/globalStyles'
 import Exercise from '../components/contentTypes/Exercise'
 
 const Drawer = createDrawerNavigator()
@@ -20,9 +19,6 @@ const Stack = createStackNavigator()
 
 const info = content.getInfo()
 const translations = content.getTranslations() // list of available langs
-
-const { language = '' } = info
-const gStyles = globalStyles(language.toLocaleLowerCase())
 
 export default function RootNavigation() {
 	const dispatch = useDispatch()
@@ -46,12 +42,7 @@ export default function RootNavigation() {
 			<Drawer.Navigator
 				initialRouteName='Home'
 				drawerContent={props => (
-					<DrawerContent
-						{...props}
-						chapters={chapters}
-						info={info}
-						globalStyles={gStyles}
-					/>
+					<DrawerContent {...props} chapters={chapters} info={info} />
 				)}
 			>
 				<Drawer.Screen
@@ -59,23 +50,18 @@ export default function RootNavigation() {
 					component={HomeScreen}
 					initialParams={{
 						info: info,
-						translations: translations,
-						globalStyles: gStyles
+						translations: translations
 					}}
 				/>
 				<Drawer.Screen
 					name='About'
 					component={AboutScreen}
-					initialParams={{
-						globalStyles: gStyles
-					}}
+					initialParams={{}}
 				/>
 				<Drawer.Screen
 					name='Exercise'
 					component={Exercise}
-					initialParams={{
-						globalStyles: gStyles
-					}}
+					initialParams={{}}
 				/>
 				<Drawer.Screen name='Typography' component={TypographyScreen} />
 
@@ -109,8 +95,7 @@ export default function RootNavigation() {
 										component={SubChapterScreen}
 										initialParams={{
 											chapterId,
-											subchapterId,
-											globalStyles: gStyles
+											subchapterId
 										}}
 									/>
 								)
@@ -126,8 +111,7 @@ export default function RootNavigation() {
 							initialParams={{
 								chapterId,
 								title,
-								type,
-								globalStyles: gStyles
+								type
 							}}
 						/>
 					)

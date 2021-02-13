@@ -7,12 +7,12 @@ import HTML, {
 	TChildrenRenderer
 } from 'react-native-render-html'
 import { playAudio } from '../../utils/playerShortAudios'
+import globalStyles from '../../config/globalStyles'
 
 function InText(props) {
 	const {
 		subchapterDoc,
 		subchapterTrDoc,
-		globalStyles,
 		chapterId,
 		subchapterId,
 		showTranslation,

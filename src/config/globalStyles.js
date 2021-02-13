@@ -1,130 +1,109 @@
+/**
+ * You can use custom fonts (otf, ttf) in your app.
+ * Why? Read here some theoretical aspects: https://docs.expo.io/guides/using-custom-fonts/
+ * Just add them into /content/fonts folder.
+ * After `npm run generate-assets` they will be displayed in your app.
+ * Here in styles just set {fontFamily: fontFileName} (without extension)
+ */
+
 // import { StyleSheet } from 'react-native'
 import { colors } from 'react-native-elements'
 
-export default lang => {
-    const fontFamilyByLang = lang => {
-        if (lang === 'ar') {
-            return 'Scheherazade_400Regular'
-        }
-        return null
-    }
+class Styles {
+	constructor() {}
+	// general global settings
+	// related to lang of content, witch you know before running the app
+	writingDirection = {
+		writingDirection: 'rtl' // 'ltr' for european languages
+	}
+	align = {
+		alignItems: 'flex-end' // 'flex-start' for european languages
+	}
+	fontFamily = {
+		fontFamily: 'Scheherazade_400Regular'
+	}
 
-    const directionByLang = lang => {
-        const rtlLanguages = ['ar', 'he']
-        if (rtlLanguages.includes(lang)) {
-            return 'rtl'
-        }
-        return null
-    }
+	// styles
+	body1 = {
+		//fontFamily - specify if you want to change default,
+		fontSize: 32,
+		...this.fontFamily,
+		...this.writingDirection
+	}
+	body2 = {
+		fontSize: 30,
+		...this.fontFamily,
+		...this.writingDirection
+	}
+	body3 = {
+		fontSize: 28,
+		...this.fontFamily,
+		...this.writingDirection
+	}
 
-    const alignByLang = lang => {
-        const rtlLanguages = ['ar', 'he']
-        if (rtlLanguages.includes(lang)) {
-            return { alignItems: 'flex-end' }
-        }
-        return { alignItems: 'flex-start' }
-    }
+	h4 = {
+		fontSize: 26,
+		...this.fontFamily,
+		...this.writingDirection,
+		fontWeight: 'bold',
+		marginBottom: 8,
+		marginTop: 12
+	}
+	h5 = {
+		fontSize: 24,
+		...this.fontFamily,
+		...this.writingDirection,
+		fontWeight: 'bold',
+		marginBottom: 6,
+		marginTop: 10
+	}
+	h6 = {
+		fontSize: 22,
+		...this.fontFamily,
+		...this.writingDirection,
+		fontWeight: 'bold',
+		marginBottom: 4,
+		marginTop: 8
+	}
 
-    const writingDirection = directionByLang(lang)
-    const fontFamily = fontFamilyByLang(lang)
-    const align = alignByLang(lang)
+	subchapter = {
+		backgroundColor: colors.primary,
+		paddingLeft: 10,
+		paddingRight: 10,
+		paddingTop: 5,
+		paddingBottom: 5,
+		borderRadius: 10,
+		fontSize: 20,
+		color: 'white'
+	}
+	chapterHeader = {
+		color: colors.primary,
+		display: 'flex',
+		alignItems: 'center',
+		marginTop: 10,
+		marginBottom: 10
+	}
 
-    const fontSizeDelta = lang => {
-        if (lang === 'ar') {
-            return 10
-        }
-        return 0
-    }
-
-    const styles = {
-        body1: {
-            fontFamily,
-            fontSize: 24 + fontSizeDelta(lang)
-        },
-        body2: {
-            fontFamily,
-            fontSize: 18 + fontSizeDelta(lang)
-        },
-        body3: {
-            fontFamily,
-            fontSize: 14 + fontSizeDelta(lang)
-        },
-        h4: {},
-        h5: {},
-        h6: {},
-        writingDirection: {
-            writingDirection
-        },
-        translation: {
-            fontSize: 14,
-            color: colors.grey2
-        },
-        align: {
-            ...align
-        },
-        subchapter: {
-            backgroundColor: colors.primary,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingTop: 5,
-            paddingBottom: 5,
-            borderRadius: 10,
-            fontSize: 20,
-            color: 'white'
-        },
-        chapterHeader: {
-            color: colors.primary,
-            display: 'flex',
-            alignItems: 'center',
-            marginTop: 10,
-            marginBottom: 10
-        }
-    }
-
-    return styles
+	// translations are related to lang, because user can switch between them
+	// so you can specify style for each lang
+	translation(lang) {
+		const defaultStyle = {
+			fontSize: 14,
+			color: colors.grey2,
+			textAlign: 'right'
+		}
+		const langStyles = {
+			ru: {
+				fontSize: 14,
+				color: colors.grey2,
+				fontFamily: 'Inter_400Regular',
+				textAlign: 'right'
+			}
+		}
+		return langStyles?.[lang] || defaultStyle
+	}
 }
 
-export const styles = {
-    body1: {
-        //fontFamily,
-        fontSize: 22 // + fontSizeDelta(lang)
-    },
-    body2: {
-        //fontFamily,
-        fontSize: 20 // + fontSizeDelta(lang)
-    },
-    body3: {
-        //fontFamily,
-        fontSize: 18 // + fontSizeDelta(lang)
-    },
-    h4: { fontSize: 26, fontWeight: 'bold', marginBottom: 8, marginTop: 12 },
-    h5: { fontSize: 24, fontWeight: 'bold', marginBottom: 6, marginTop: 10 },
-    h6: { fontSize: 22, fontWeight: 'bold', marginBottom: 4, marginTop: 8 },
-    writingDirection: {
-        // writingDirection
-    },
-    translation: {
-        fontSize: 14,
-        color: colors.grey2
-    },
-    align: {
-        // ...align
-    },
-    subchapter: {
-        backgroundColor: colors.primary,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 5,
-        paddingBottom: 5,
-        borderRadius: 10,
-        fontSize: 20,
-        color: 'white'
-    },
-    chapterHeader: {
-        color: colors.primary,
-        display: 'flex',
-        alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 10
-    }
-}
+const styles = new Styles()
+
+export default styles

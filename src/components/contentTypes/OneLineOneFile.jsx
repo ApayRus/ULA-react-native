@@ -3,15 +3,16 @@ import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
 import { objectToArray } from '../../utils/utils'
 import { playAudio } from '../../utils/playerShortAudios'
+import globalStyles from '../../config/globalStyles'
 
 function OneLineOneFile(props) {
 	const {
 		subchapterDoc,
 		subchapterTrDoc,
 		contentTypeDoc,
-		globalStyles,
 		files,
-		showTranslation
+		showTranslation,
+		trLang
 	} = props
 
 	const { title, content: phrasesObject = {} } = subchapterDoc
@@ -81,7 +82,7 @@ function OneLineOneFile(props) {
 								<Text
 									style={[
 										{ flex: 1 },
-										globalStyles.translation,
+										globalStyles.translation(trLang),
 										contentTypeStyle.translation,
 										{ opacity: showTranslation ? 1 : 0 }
 									]}

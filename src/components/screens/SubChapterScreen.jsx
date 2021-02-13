@@ -7,6 +7,7 @@ import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
 import content from '../../utils/content'
 import { getContentType } from '../../utils/contentType'
+import globalStyles from '../../config/globalStyles'
 
 // interactivity ==> component
 const getComponent = (interactivity, props) => {
@@ -25,7 +26,7 @@ const getComponent = (interactivity, props) => {
 const SubChapterScreen = props => {
 	const {
 		route: {
-			params: { chapterId, subchapterId, globalStyles }
+			params: { chapterId, subchapterId }
 		},
 		navigation
 	} = props
