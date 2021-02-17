@@ -20,23 +20,23 @@ class Styles {
 		alignItems: 'flex-end' // 'flex-start' for european languages
 	}
 	fontFamily = {
-		fontFamily: 'Scheherazade_400Regular'
+		fontFamily: 'ScheherazadeNew-Regular'
 	}
 
 	// styles
 	body1 = {
 		//fontFamily - specify if you want to change default,
-		fontSize: 32,
+		fontSize: 22,
 		...this.fontFamily,
 		...this.writingDirection
 	}
 	body2 = {
-		fontSize: 30,
+		fontSize: 20,
 		...this.fontFamily,
 		...this.writingDirection
 	}
 	body3 = {
-		fontSize: 28,
+		fontSize: 18,
 		...this.fontFamily,
 		...this.writingDirection
 	}
@@ -88,16 +88,15 @@ class Styles {
 	// so you can specify style for each lang
 	translation(lang) {
 		const defaultStyle = {
-			fontSize: 14,
+			...this.body3,
 			color: colors.grey2,
+			writingDirection: 'ltr',
 			textAlign: 'right'
 		}
 		const langStyles = {
 			ru: {
-				fontSize: 14,
-				color: colors.grey2,
-				fontFamily: 'Inter_400Regular',
-				textAlign: 'right'
+				...defaultStyle,
+				color: colors.grey2
 			}
 		}
 		return langStyles?.[lang] || defaultStyle
