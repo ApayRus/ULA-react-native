@@ -39,7 +39,7 @@ function InText(props) {
 		} = tnode
 		return (
 			<TouchableOpacity
-				onPress={handlePress(text, path)}
+				onPress={handlePress(text.replace(/[,\. ]+/g, '_'), path)}
 				key={`intext-${text}`}
 			>
 				<Text style={[globalStyles.body2, { color: 'darkblue' }]}>{text}</Text>
