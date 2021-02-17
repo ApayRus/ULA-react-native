@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, ScrollView, Text } from 'react-native'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
 import Media from '../contentTypes/Media'
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import content from '../../utils/content'
 import { getContentType } from '../../utils/contentType'
 import globalStyles from '../../config/globalStyles'
+import ChapterHeader from '../ChapterHeader'
 
 // interactivity ==> component
 const getComponent = (interactivity, props) => {
@@ -64,7 +65,12 @@ const SubChapterScreen = props => {
 		navigation
 	}
 
-	return <View>{getComponent(interactivity, subchapterComponentProps)}</View>
+	return (
+		<ScrollView>
+			<ChapterHeader {...{ navigation }} />
+			{getComponent(interactivity, subchapterComponentProps)}
+		</ScrollView>
+	)
 }
 
 export default SubChapterScreen

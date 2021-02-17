@@ -75,9 +75,9 @@ export default function RootNavigation() {
 						<Stack.Navigator
 							key={name}
 							initialRouteName='Heading'
-							// screenOptions={{
-							// 	headerShown: false
-							// }}
+							screenOptions={{
+								headerShown: false
+							}}
 						>
 							<Stack.Screen
 								key={name}
