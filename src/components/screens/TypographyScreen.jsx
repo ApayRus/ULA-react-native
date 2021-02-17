@@ -1,163 +1,167 @@
 import React from 'react'
-import { ScrollView, View, useWindowDimensions } from 'react-native'
-import { Text } from 'react-native-elements'
-import HTML from 'react-native-render-html'
+import { ScrollView, View, useWindowDimensions, Text } from 'react-native'
+import { Image } from 'react-native-elements'
 import globalStyles from '../../config/globalStyles'
 import marked from 'marked'
 import ChapterHeader from '../ChapterHeader'
 
-import { parseTypeInText } from '../../utils/contentType'
+marked.use({
+	gfm: false,
+	smartypants: true, // additional typography like long tire -- , etc
+	breaks: true
+})
 
 const TypographyScreen = ({ navigation }) => {
-	const contentWidth = useWindowDimensions().width
+	const markdownText = `# Header 
+  
+Paragraph1 with nested **bold**, *italic*, and double nested **bold _italic_**. А также русский текст. 
+	
+- list item 1
+- list item 2 
+- list item 3
 
-	const markdownText = `*** 
+paragraph 2
 
-markdown:
+> blockquote line 1
+> blockquote line 2
+> blockquote line 3
+> 
+> -- *Mark Awreliy* 
 
-It's some **bold** text. And some *italic*. 
+А ещё параграф с русским текстом مَعَ كلمات عَرَبِيَّةٍ أيضا чтобы совсем интересно было. **أخرى عربية** И немного *русского курсива* и **жирного русского**. 
 
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, quas.
 
-![image](https://i2.wp.com/www.brainpickings.org/wp-content/uploads/2011/08/typographie1.png?w=500&ssl=1)
+![some image](https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png)
+  `
 
-#### Header 4 
+	const lexerOutput = marked.lexer(markdownText)
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-Dignissimos veniam id tempora blanditiis incidunt dolores alias ullam quae. 
-Sint, iure unde cumque vero dolorem exercitationem?
+	// console.log('lexerOutput', JSON.stringify(lexerOutput, null, '\t'))
+	console.log('lexerOutput', lexerOutput)
 
-- list item 1 with **bold** text
-- list item 2 with *italic* text
-- list item 3 with nothing
-
-[media | videos/videoplayback-1.mp4]
-
-#### Header 5
-
-Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, deserunt.. 
-
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit ipsum expedita distinctio vel..
-
-> Blockquote line1 
-> Blockquote line2 
-> Blockquote line3 
-> -- *Author Name* 
-`
-
-	const jsxText = (
-		<>
-			<Text style={globalStyles.h4}>body1 (h4)</Text>
-			<Text style={globalStyles.body1}>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-				nihil similique pariatur vel facere id, doloribus ullam maxime illum!
-				Esse dignissimos ea nisi quaerat? Nihil.
-			</Text>
-			<Text style={globalStyles.h5}>body2 (h5)</Text>
-			<Text style={globalStyles.body2}>
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores,
-				blanditiis ea minus totam incidunt quam dolores impedit eum ad et,
-				officia vitae. Temporibus, maiores quia!
-			</Text>
-			<Text style={globalStyles.h6}>body3 (h6)</Text>
-			<Text style={globalStyles.body3}>
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maiores,
-				blanditiis ea minus totam incidunt quam dolores impedit eum ad et,
-				officia vitae. Temporibus, maiores quia!
-			</Text>
-		</>
-	)
-
-	const intextContent = parseTypeInText(markdownText)
-
-	const html2 = `<blockquote>
-<p>Blockquote line1 </p>
-<p>Blockquote line2 </p>
-<p>Blockquote line3 </p>
-<p>– <em>Author Name</em> </p>
-</blockquote>`
-
-	const markedHtml = marked(markdownText, { breaks: true })
-
-	// console.log('html', html)
-	console.log('markedHtml', markedHtml)
-
-	const chapterHeaderProps = {
-		navigation,
-		globalStyles,
-		title: 'Typography',
-		trTitle: ' typo examples',
-		showTranslation: true
+	const foldLexerNodes = (nodesArray = [], parrentType) => {
+		return nodesArray.map((elem, index) => {
+			const { tokens, items, type, text, href, depth = '' } = elem
+			/* 
+		items - in list 
+		href - in image
+		depth - in heading 
+		*/
+			const children = tokens || items
+			// at the end of lexer tree (no more children) can be 1) text; 2) space; 3) image
+			if (!children) {
+				switch (type) {
+					case 'text':
+						return text
+					case 'image':
+						return (
+							<Image
+								key={`elem${index}`}
+								style={styles[type]}
+								source={{ uri: href }}
+							/>
+						)
+					case 'space':
+						return parrentType !== 'list_item' ? (
+							<Text key={`elem${index}`} style={styles[type]}></Text>
+						) : null // we don't need "space" in last list_item
+					default:
+						console.log('unexpected thing in marked.lexer')
+				}
+			}
+			// if node has children then we run recursion
+			else {
+				// inline elements:
+				if (type === 'strong' || type === 'em' || type === 'text') {
+					return (
+						<Text key={`elem${index}`} style={styles[`${type}${depth}`]}>
+							{foldLexerNodes(children, type)}
+						</Text>
+					)
+				}
+				// Block elements with Block elements:
+				else if (type === 'list' || type === 'blockquote') {
+					return (
+						<View
+							key={`elem${index}`}
+							style={styles[`${type}${depth}Container`]}
+						>
+							{foldLexerNodes(children, type)}
+						</View>
+					)
+				}
+				// Block elements with Inline elements
+				else {
+					return (
+						<View
+							key={`elem${index}`}
+							style={styles[`${type}${depth}Container`]}
+						>
+							<Text key={`elem${index}`} style={styles[`${type}${depth}`]}>
+								{foldLexerNodes(children, type)}
+							</Text>
+						</View>
+					)
+				}
+			}
+		})
 	}
 
-	const brRenderer = (htmlAttribs, children, passProps) => {
-		console.log('XXXXXXXXXXXXXX', htmlAttribs)
-		return <View style={{ height: 1, width: 1 }}>&nbsp;</View>
-	}
-
-	// const pRenderer = (htmlAttribs, children) => {
-	// 	console.log('XXXXXXXXXXXXXX')
-	// 	return <Text>{children}</Text>
-	// }
-
-	const tagsStyles = {
-		p: {
-			...globalStyles.body2,
-			marginTop: 5,
-			marginBottom: 5
-		},
-		h4: globalStyles.h4,
-		h5: globalStyles.h5,
-		li: globalStyles.body2,
-		small: globalStyles.body3,
-		ul: { marginTop: 10, marginBottom: 0 },
-		img: { width: '100%', marginTop: 10, alignSelf: 'center' },
-		hr: {
-			marginTop: 10,
-			marginBottom: 10,
-			borderStyle: 'solid',
-			borderColor: 'lightgray',
-			borderWidth: 1,
-			width: '95%',
-			alignSelf: 'center'
-		},
-		blockquote: {
-			borderLeftWidth: 10,
-			borderStyle: 'solid',
-			borderLeftColor: '#dfe2e5',
-			padding: 12,
-			paddingBottom: 0,
-			marginTop: 6,
-			marginLeft: 6
-		}
-	}
+	const lexerJsx = foldLexerNodes(lexerOutput)
 
 	return (
 		<ScrollView>
-			<ChapterHeader {...chapterHeaderProps} />
-			<View>
-				{intextContent.map((elem, index) => {
-					const { label, text: html, data } = elem
-					if (label === 'text') {
-						return (
-							<HTML
-								tagsStyles={tagsStyles}
-								contentWidth={contentWidth}
-								renderers={{
-									br: { renderer: brRenderer, wrapper: 'View' }
-									// p: { renderer: pRenderer, wrapper: 'View' }
-								}}
-								source={{ html }}
-							/>
-						)
-					}
-					// if (label === 'quiz') {
-					// 	return <Quiz key={`${label}-${index}`} />
-					// }
-				})}
-			</View>
+			<ChapterHeader {...{ navigation }} />
+			<View>{lexerJsx}</View>
 		</ScrollView>
 	)
+}
+
+const styles = {
+	paragraphContainer: {
+		borderStyle: 'solid',
+		borderColor: 'green',
+		borderWidth: 1
+	},
+	paragraph: {
+		...globalStyles.body3,
+		width: '100%'
+	},
+	listContainer: {
+		borderStyle: 'solid',
+		borderColor: 'blue',
+		borderWidth: 1,
+		marginBottom: 10
+	},
+	list_itemContainer: {
+		borderStyle: 'solid',
+		borderColor: 'red',
+		borderWidth: 1,
+		width: '100%'
+	},
+	blockquoteContainer: {
+		borderLeftColor: 'grey',
+		borderLeftWidth: 5,
+		borderStyle: 'solid',
+		paddingLeft: 10
+	},
+	space: {
+		width: 50,
+		height: 50,
+		backgroundColor: 'red'
+	},
+	image: { width: 100, height: 100 },
+	strong: { fontWeight: 'bold' },
+	em: { fontStyle: 'italic' },
+	text: {
+		borderStyle: 'solid',
+		borderColor: 'orange',
+		borderWidth: 1,
+		flexWrap: 'wrap'
+	},
+	heading1: {
+		color: 'red'
+	}
 }
 
 export default TypographyScreen
