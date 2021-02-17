@@ -83,13 +83,13 @@ const Media = props => {
 		initMedia()
 		// on unmount
 		return () => {
-			playerRef.current.unload()
+			playerRef?.current?.unload()
 		}
 	}, [])
 
 	useEffect(() => {
 		return () => {
-			playerRef.current.unload()
+			playerRef?.current?.unload()
 		}
 	}, [navigation])
 
