@@ -1,5 +1,5 @@
-import React from 'react'
-import { TouchableOpacity, View, Text } from 'react-native'
+import React, { useRef, useEffect } from 'react'
+import { TouchableOpacity, View, Text, ScrollView } from 'react-native'
 import globalStyles from '../../../config/globalStyles'
 
 export default function PhrasesBlock(props) {
@@ -15,6 +15,18 @@ export default function PhrasesBlock(props) {
 	const handlePlayPhrase = phraseNum => () => {
 		phrasalPlayer.playPhrase(phraseNum)
 	}
+
+	const scrollViewRef = useRef() // we will scroll it scrollTo({y})
+	const phrasesPositionYRef = useRef([]) // array of  Y coordinates for scroll to them
+
+	useEffect(() => {
+		const y = phrasesPositionYRef.current[currentPhraseNum]
+		scrollViewRef.current.scrollTo({
+			y,
+			animated: true
+		})
+		return () => {}
+	}, [currentPhraseNum])
 
 	const Phrase = ({
 		text,
@@ -58,33 +70,42 @@ export default function PhrasesBlock(props) {
 	}
 
 	return (
-		<View>
-			{phrasesArray.map((elem, index) => {
-				const { text, voiceName } = elem
-				const { text: trText, voiceName: voiceNameTr } =
-					phrasesTrArray[index] || {}
-				const phraseNum = index
+		<ScrollView ref={scrollViewRef} nestedScrollEnabled>
+			<View>
+				{phrasesArray.map((elem, index) => {
+					const { text, voiceName } = elem
+					const { text: trText, voiceName: voiceNameTr } =
+						phrasesTrArray[index] || {}
+					const phraseNum = index
 
-				return (
-					index > 0 && (
-						<View
-							key={`phrase-${phraseNum}`}
-							style={{ paddingLeft: 10, paddingRight: 10 }}
-						>
-							<Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />
-							<Phrase
-								{...{
-									text,
-									trText,
-									currentPhraseNum,
-									phraseNum,
-									showTranslation
+					return (
+						index > 0 && (
+							<View
+								key={`phrase-${phraseNum}`}
+								style={{ paddingLeft: 10, paddingRight: 10 }}
+								onLayout={({
+									nativeEvent: {
+										layout: { /* x, */ y /* width, height */ }
+									}
+								}) => {
+									phrasesPositionYRef.current[index] = y
 								}}
-							/>
-						</View>
+							>
+								<Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />
+								<Phrase
+									{...{
+										text,
+										trText,
+										currentPhraseNum,
+										phraseNum,
+										showTranslation
+									}}
+								/>
+							</View>
+						)
 					)
-				)
-			})}
-		</View>
+				})}
+			</View>
+		</ScrollView>
 	)
 }

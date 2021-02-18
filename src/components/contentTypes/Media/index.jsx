@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { View, useWindowDimensions, ScrollView } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 import { Video } from 'expo-av'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
@@ -170,7 +170,7 @@ const Media = props => {
 	return isPhrasalPlayer ? (
 		<View style={{ height: screenHeight }}>
 			<View>{basicPlayer}</View>
-			<ScrollView nestedScrollEnabled>{phrasesBlockMemo}</ScrollView>
+			{phrasesBlockMemo}
 			<View>{phrasalPlayerControlsMemo}</View>
 		</View>
 	) : (
