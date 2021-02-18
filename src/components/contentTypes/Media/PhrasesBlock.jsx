@@ -8,7 +8,8 @@ export default function PhrasesBlock(props) {
 		phrasesTrArray,
 		playerRef: { current: phrasalPlayer },
 		currentPhraseNum,
-		showTranslation
+		showTranslation,
+		trLang
 	} = props
 
 	const handlePlayPhrase = phraseNum => () => {
@@ -27,20 +28,29 @@ export default function PhrasesBlock(props) {
 				onPress={handlePlayPhrase(phraseNum)}
 				style={
 					phraseNum === currentPhraseNum
-						? { borderStyle: 'solid', borderWidth: 1, borderColor: 'blue' }
-						: { borderStyle: 'solid', borderWidth: 1, borderColor: 'gray' }
+						? { borderStyle: 'solid', borderWidth: 1, borderColor: 'gray' }
+						: { borderStyle: 'solid', borderWidth: 1, borderColor: 'white' }
 				}
 			>
-				<Text style={globalStyles.body3}>{text}</Text>
-				<Text style={{ opacity: showTranslation ? 1 : 0 }}>{trText}</Text>
-				<Text>{phraseNum}</Text>
+				<View>
+					<Text style={globalStyles.body3}>{text}</Text>
+					<Text
+						style={[
+							{ opacity: showTranslation ? 1 : 0 },
+							globalStyles.translation(trLang)
+						]}
+					>
+						{trText}
+					</Text>
+					<Text style={{ color: 'grey', fontSize: 9 }}>{phraseNum}</Text>
+				</View>
 			</TouchableOpacity>
 		)
 	}
 
 	const Voice = ({ voiceName, voiceNameTr }) => {
 		return (
-			<Text>
+			<Text style={{ color: 'gray' }}>
 				{voiceName}
 				{voiceNameTr ? ` (${voiceNameTr})` : ''}
 			</Text>
@@ -57,7 +67,10 @@ export default function PhrasesBlock(props) {
 
 				return (
 					index > 0 && (
-						<View key={`phrase-${phraseNum}`}>
+						<View
+							key={`phrase-${phraseNum}`}
+							style={{ paddingLeft: 10, paddingRight: 10 }}
+						>
 							<Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />
 							<Phrase
 								{...{

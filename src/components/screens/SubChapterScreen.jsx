@@ -66,7 +66,7 @@ const SubChapterScreen = props => {
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView nestedScrollEnabled>
 			<ChapterHeader {...{ navigation }} />
 			{getComponent(interactivity, subchapterComponentProps)}
 		</ScrollView>

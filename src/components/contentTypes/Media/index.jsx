@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { View, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions, ScrollView } from 'react-native'
 import { Video } from 'expo-av'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
@@ -22,7 +22,8 @@ const Media = props => {
 		chapterId,
 		subchapterId,
 		showTranslation,
-		navigation
+		navigation,
+		trLang
 	} = props
 
 	const {
@@ -41,7 +42,7 @@ const Media = props => {
 
 	const mediaPath = path || param || `audios/timing/009-001`
 
-	const { width: screenWidth } = useWindowDimensions()
+	const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
 	const [playerState, setPlayerState] = useState({
 		isPlaying: false,
@@ -155,25 +156,25 @@ const Media = props => {
 					globalStyles,
 					currentPhraseNum,
 					playerRef,
-					showTranslation
+					showTranslation,
+					trLang
 				}}
 			/>
 		),
 		[currentPhraseNum, duration, showTranslation]
 	)
 
+	const isPhrasalPlayer = Boolean(phrasesArray.length)
 	// ================
 
-	return (
-		<View>
-			{basicPlayer}
-			{phrasesArray.length ? (
-				<>
-					<>{phrasalPlayerControlsMemo}</>
-					<>{phrasesBlockMemo}</>
-				</>
-			) : null}
+	return isPhrasalPlayer ? (
+		<View style={{ height: screenHeight }}>
+			<View>{basicPlayer}</View>
+			<ScrollView nestedScrollEnabled>{phrasesBlockMemo}</ScrollView>
+			<View>{phrasalPlayerControlsMemo}</View>
 		</View>
+	) : (
+		basicPlayer
 	)
 }
 
