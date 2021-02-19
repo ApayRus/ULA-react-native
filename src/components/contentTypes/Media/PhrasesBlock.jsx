@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { TouchableOpacity, View, Text, ScrollView } from 'react-native'
-import { Avatar } from 'react-native-elements'
+import { Avatar, colors } from 'react-native-elements'
 import globalStyles from '../../../config/globalStyles'
 
 export default function PhrasesBlock(props) {
@@ -36,16 +36,17 @@ export default function PhrasesBlock(props) {
 		phraseNum,
 		showTranslation
 	}) => {
+		const isActivePhrase = phraseNum === currentPhraseNum
+		const phraseStyle = isActivePhrase
+			? styles.phraseActive
+			: styles.phraseDefault
+
 		return (
 			<TouchableOpacity
 				onPress={handlePlayPhrase(phraseNum)}
-				style={
-					phraseNum === currentPhraseNum
-						? { borderStyle: 'solid', borderWidth: 1, borderColor: 'gray' }
-						: { borderStyle: 'solid', borderWidth: 1, borderColor: 'white' }
-				}
+				style={phraseStyle}
 			>
-				<View>
+				<View style={{ paddingLeft: 2, paddingRight: 7 }}>
 					<Text style={globalStyles.body3}>{text}</Text>
 					{showTranslation && (
 						<Text style={[globalStyles.translation(trLang)]}>{trText}</Text>
@@ -62,7 +63,9 @@ export default function PhrasesBlock(props) {
 				style={{
 					// writingDirection: 'rtl',
 					flexDirection: 'row-reverse',
-					alignItems: 'center'
+					alignItems: 'center',
+					marginTop: 4,
+					marginBottom: 2
 				}}
 			>
 				<Avatar
@@ -86,7 +89,7 @@ export default function PhrasesBlock(props) {
 
 	return (
 		<ScrollView ref={scrollViewRef} nestedScrollEnabled>
-			<View>
+			<View style={{ marginBottom: 5 }}>
 				{phrasesArray.map((elem, index) => {
 					const { text, voiceName } = elem
 					const { text: trText, voiceName: voiceNameTr } =
@@ -97,7 +100,7 @@ export default function PhrasesBlock(props) {
 						index > 0 && (
 							<View
 								key={`phrase-${phraseNum}`}
-								style={{ paddingLeft: 10, paddingRight: 10 }}
+								style={{ paddingLeft: 3, paddingRight: 3 }}
 								onLayout={({
 									nativeEvent: {
 										layout: { /* x, */ y /* width, height */ }
@@ -125,4 +128,16 @@ export default function PhrasesBlock(props) {
 			</View>
 		</ScrollView>
 	)
+}
+
+const border = color => ({
+	borderColor: color,
+	borderStyle: 'solid',
+	borderRadius: 5,
+	borderWidth: 1
+})
+
+const styles = {
+	phraseActive: { ...border(colors.primary) },
+	phraseDefault: { ...border('rgb(242,242,242)') }
 }
