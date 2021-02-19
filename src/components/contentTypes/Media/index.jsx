@@ -23,7 +23,8 @@ const Media = props => {
 		subchapterId,
 		showTranslation,
 		navigation,
-		trLang
+		trLang,
+		scrollPageTo
 	} = props
 
 	const {
@@ -37,6 +38,7 @@ const Media = props => {
 
 	const phrasesArray = objectToArray(phrases)
 	const phrasesTrArray = objectToArray(phrasesTr)
+	const isPhrasalPlayer = Boolean(phrasesArray.length)
 
 	// ==================
 
@@ -58,6 +60,7 @@ const Media = props => {
 	const playerRef = useRef()
 	const mediaRef = useRef()
 	const mediaSourceRef = useRef()
+	const phrasesBlockPositionYRef = useRef()
 
 	useEffect(() => {
 		const initMedia = async () => {
@@ -82,11 +85,18 @@ const Media = props => {
 			})
 		}
 		initMedia()
+
 		// on unmount
 		return () => {
 			playerRef?.current?.unload()
 		}
 	}, [])
+
+	useEffect(() => {
+		if (phrasesBlockPositionYRef.current) {
+			scrollPageTo(phrasesBlockPositionYRef.current)
+		}
+	}, [phrasesBlockPositionYRef.current])
 
 	useEffect(() => {
 		return () => {
@@ -164,11 +174,19 @@ const Media = props => {
 		[currentPhraseNum, duration, showTranslation]
 	)
 
-	const isPhrasalPlayer = Boolean(phrasesArray.length)
 	// ================
 
 	return isPhrasalPlayer ? (
-		<View style={{ height: screenHeight }}>
+		<View
+			style={{ height: screenHeight }}
+			onLayout={({
+				nativeEvent: {
+					layout: { /* x, */ y /* width, height */ }
+				}
+			}) => {
+				phrasesBlockPositionYRef.current = y
+			}}
+		>
 			<View>{basicPlayer}</View>
 			{phrasesBlockMemo}
 			<View>{phrasalPlayerControlsMemo}</View>

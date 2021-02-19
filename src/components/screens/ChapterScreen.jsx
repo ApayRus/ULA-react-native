@@ -20,18 +20,20 @@ const ChapterScreen = props => {
 		<View>
 			<ChapterHeader {...chapterHeaderProps} />
 			<ScrollView contentContainerStyle={styles.chapterContainer}>
-				{subchapters.map(elem => {
-					const { id, title, type } = elem
-					const name = `subchapter-${id}`
-					return (
-						<Button
-							containerStyle={styles.subchapterButton}
-							key={name}
-							title={`${id}-${title} [${type}]`}
-							onPress={() => navigation.navigate(name)}
-						/>
-					)
-				})}
+				<View>
+					{subchapters.map(elem => {
+						const { id, title, type } = elem
+						const name = `subchapter-${id}`
+						return (
+							<Button
+								containerStyle={styles.subchapterButton}
+								key={name}
+								title={`${id}-${title} [${type}]`}
+								onPress={() => navigation.navigate(name)}
+							/>
+						)
+					})}
+				</View>
 			</ScrollView>
 		</View>
 	)

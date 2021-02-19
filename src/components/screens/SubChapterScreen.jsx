@@ -1,5 +1,12 @@
-import React from 'react'
-import { View, ScrollView, Text } from 'react-native'
+import React, { useRef } from 'react'
+import {
+	View,
+	ScrollView,
+	TouchableOpacity,
+	useWindowDimensions,
+	Platform
+} from 'react-native'
+import { Text, colors } from 'react-native-elements'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
 import Media from '../contentTypes/Media'
@@ -32,7 +39,28 @@ const SubChapterScreen = props => {
 		navigation
 	} = props
 
+	const { height: screenHeight } = useWindowDimensions()
+
 	const { trLang, showTranslation } = useSelector(state => state.translation)
+
+	const pageScrollViewRef = useRef()
+	const phrasalPlayerBlockYRef = useRef()
+
+	const scrollPageTo = y => {
+		phrasalPlayerBlockYRef.current = y
+		// pageScrollViewRef.current.scrollTo({ y, animated: true })
+		setTimeout(() => {
+			handleScrollPhrasalPlayer()
+		}, 1)
+	}
+
+	const handleScrollPhrasalPlayer = () => {
+		const y = phrasalPlayerBlockYRef.current
+		console.log('y', y)
+		pageScrollViewRef.current.scrollTo({ y, animated: true })
+	}
+
+	// const { height: screenHeight } = useWindowDimensions()
 
 	const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
 	const { title, type: typeRaw } = subchapterDoc
@@ -62,14 +90,35 @@ const SubChapterScreen = props => {
 		files,
 		globalStyles,
 		trLang,
-		navigation
+		navigation,
+		scrollPageTo
 	}
 
+	const containerStyle =
+		Platform.OS === 'android' || Platform.OS === 'ios'
+			? {}
+			: { height: screenHeight }
+
 	return (
-		<ScrollView nestedScrollEnabled>
-			<ChapterHeader {...{ navigation }} />
-			{getComponent(interactivity, subchapterComponentProps)}
-		</ScrollView>
+		<View style={containerStyle}>
+			<ScrollView ref={pageScrollViewRef} nestedScrollEnabled>
+				<ChapterHeader {...{ navigation }} />
+				{interactivity === 'media' && (
+					<TouchableOpacity onPress={handleScrollPhrasalPlayer}>
+						<Text
+							style={{
+								color: colors.primary,
+								textAlign: 'right',
+								marginRight: 5
+							}}
+						>
+							Show phrasal buttons
+						</Text>
+					</TouchableOpacity>
+				)}
+				{getComponent(interactivity, subchapterComponentProps)}
+			</ScrollView>
+		</View>
 	)
 }
 

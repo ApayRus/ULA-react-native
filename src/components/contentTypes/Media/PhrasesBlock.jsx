@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { TouchableOpacity, View, Text, ScrollView } from 'react-native'
+import { Avatar } from 'react-native-elements'
 import globalStyles from '../../../config/globalStyles'
 
 export default function PhrasesBlock(props) {
@@ -46,14 +47,9 @@ export default function PhrasesBlock(props) {
 			>
 				<View>
 					<Text style={globalStyles.body3}>{text}</Text>
-					<Text
-						style={[
-							{ opacity: showTranslation ? 1 : 0 },
-							globalStyles.translation(trLang)
-						]}
-					>
-						{trText}
-					</Text>
+					{showTranslation && (
+						<Text style={[globalStyles.translation(trLang)]}>{trText}</Text>
+					)}
 					<Text style={{ color: 'grey', fontSize: 9 }}>{phraseNum}</Text>
 				</View>
 			</TouchableOpacity>
@@ -62,10 +58,29 @@ export default function PhrasesBlock(props) {
 
 	const Voice = ({ voiceName, voiceNameTr }) => {
 		return (
-			<Text style={{ color: 'gray' }}>
-				{voiceName}
-				{voiceNameTr ? ` (${voiceNameTr})` : ''}
-			</Text>
+			<View
+				style={{
+					// writingDirection: 'rtl',
+					flexDirection: 'row-reverse',
+					alignItems: 'center'
+				}}
+			>
+				<Avatar
+					rounded
+					icon={{ name: 'perm-identity', color: 'grey', type: '' }}
+					containerStyle={{
+						backgroundColor: 'lightgrey',
+						width: 20,
+						height: 20,
+						marginLeft: 5 // should be related to writing direction
+					}}
+					size='small'
+				/>
+				<Text style={{ color: 'gray' }}>
+					{voiceName}
+					{voiceNameTr && showTranslation ? ` (${voiceNameTr})` : ''}
+				</Text>
+			</View>
 		)
 	}
 
@@ -91,7 +106,9 @@ export default function PhrasesBlock(props) {
 									phrasesPositionYRef.current[index] = y
 								}}
 							>
-								<Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />
+								{voiceName && (
+									<Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />
+								)}
 								<Phrase
 									{...{
 										text,
