@@ -65,6 +65,9 @@ class Styles {
 		marginBottom: 4,
 		marginTop: 8
 	}
+	fontFamilyCyrillicLatin = {
+		fontFamily: 'Inter-Variable'
+	}
 
 	subchapter = {
 		backgroundColor: colors.primary,
@@ -88,7 +91,7 @@ class Styles {
 	// so you can specify style for each lang
 	translation(lang) {
 		const defaultStyle = {
-			...this.body3,
+			...this.fontFamilyCyrillicLatin,
 			color: colors.grey2,
 			writingDirection: 'ltr',
 			textAlign: 'right'
