@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button } from 'react-native-elements'
-import { View, StyleSheet } from 'react-native'
+import { Button, Text } from 'react-native-elements'
+import { View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
 
@@ -15,26 +15,27 @@ export default function TranslationsSelect(props) {
 	}
 
 	return (
-		<View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap' }}>
-			{translations.map(elem => {
-				return (
-					<Button
-						key={`trLang-${elem}`}
-						type={trLang === elem ? 'solid' : 'outline'}
-						style={styles.trLangButton}
-						title={elem}
-						onPress={handleTrLang(elem)}
-					></Button>
-				)
-			})}
+		<View>
+			<Text>Available translations (choose one)</Text>
+			<View
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'center'
+				}}
+			>
+				{translations.map(elem => {
+					return (
+						<Button
+							key={`trLang-${elem}`}
+							type={trLang === elem ? 'solid' : 'outline'}
+							buttonStyle={{ margin: 5 }}
+							title={elem}
+							onPress={handleTrLang(elem)}
+						></Button>
+					)
+				})}
+			</View>
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	trLangButton: {
-		flex: 1,
-		alignItems: 'center',
-		marginLeft: 10
-	}
-})

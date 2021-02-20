@@ -3,13 +3,14 @@ import React from 'react'
 import { View, Image } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
+import content from '../../utils/content'
 import globalStyles from '../../config/globalStyles'
 
 export default function HomeScreen({ navigation, route }) {
 	const {
 		params: { info, translations }
 	} = route
-	const { title, author, description, language, level } = info || {}
+	const { title, author } = info || {}
 
 	return (
 		<>
@@ -17,17 +18,19 @@ export default function HomeScreen({ navigation, route }) {
 			<View style={styles.container}>
 				<Text style={globalStyles.body1}>{title}</Text>
 				<Text style={globalStyles.body3}>{author}</Text>
-				{/* <Text>{'\n'}</Text> */}
 				<Image
 					style={{ width: 200, height: 200 }}
-					source={require('../../../content/images/logo.png')}
+					source={content.getFilesByPathString('images/logo')?.file}
 				></Image>
-				{/* <Text>{'\n'}</Text> */}
-				<Text>{description}</Text>
-				<Text style={styles.lineBreak}>{'\n'}</Text>
-				<Text>language: {language}</Text>
-				<Text>level: {level}</Text>
-				<Text style={styles.lineBreak}>{'\n'}</Text>
+				{Object.keys(info)
+					.filter(key => key !== 'title' && key !== 'author')
+					.map(key => (
+						<View key={`info-${key}`}>
+							<Text>
+								{key}: {info[key]}
+							</Text>
+						</View>
+					))}
 				<Button
 					onPress={() => navigation.toggleDrawer()}
 					icon={{
@@ -38,12 +41,10 @@ export default function HomeScreen({ navigation, route }) {
 					buttonStyle={styles.tableOfContentButton}
 					title='Table of contents'
 				/>
-				<Text style={styles.lineBreak}>{'\n'}</Text>
-				<Text>Available translations (choose one)</Text>
-				<Text style={styles.lineBreak}>{'\n'}</Text>
 
-				<TranslationsSelect translations={translations} />
-				{/* <Text>{'\n'}</Text> */}
+				{translations.length > 0 && (
+					<TranslationsSelect translations={translations} />
+				)}
 			</View>
 		</>
 	)
@@ -56,8 +57,5 @@ const styles = {
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	lineBreak: {
-		fontSize: 8
-	},
-	tableOfContentButton: { paddingRight: 20 }
+	tableOfContentButton: { paddingRight: 20, margin: 20 }
 }

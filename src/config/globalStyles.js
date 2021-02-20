@@ -14,42 +14,42 @@ class Styles {
 	// general global settings
 	// related to lang of content, witch you know before running the app
 	writingDirection = {
-		writingDirection: 'rtl' // 'ltr' for european languages
+		writingDirection: 'ltr' // 'rtl' for arabic, hebrew, etc
 	}
 	align = {
-		alignItems: 'flex-end' // 'flex-start' for european languages
+		alignItems: 'flex-start' // 'flex-end' for arabic, hebrew, etc
 	}
 	fontFamily = {
-		fontFamily: 'ScheherazadeNew-Regular'
+		fontFamily: 'Inter-Variable' // ScheherezadeNew for arabic (for example)
 	}
 
 	// styles
-	body1 = {
+	body3 = {
 		//fontFamily - specify if you want to change default,
-		fontSize: 22,
+		fontSize: 16,
 		...this.fontFamily,
 		...this.writingDirection
 	}
 	body2 = {
-		fontSize: 20,
-		...this.fontFamily,
-		...this.writingDirection
-	}
-	body3 = {
 		fontSize: 18,
 		...this.fontFamily,
 		...this.writingDirection
 	}
+	body1 = {
+		fontSize: 20,
+		...this.fontFamily,
+		...this.writingDirection
+	}
 
-	h4 = {
-		fontSize: 26,
+	h5 = {
+		fontSize: 22,
 		...this.fontFamily,
 		...this.writingDirection,
 		fontWeight: 'bold',
 		marginBottom: 8,
 		marginTop: 12
 	}
-	h5 = {
+	h4 = {
 		fontSize: 24,
 		...this.fontFamily,
 		...this.writingDirection,
@@ -57,18 +57,14 @@ class Styles {
 		marginBottom: 6,
 		marginTop: 10
 	}
-	h6 = {
-		fontSize: 22,
+	h3 = {
+		fontSize: 26,
 		...this.fontFamily,
 		...this.writingDirection,
 		fontWeight: 'bold',
 		marginBottom: 4,
 		marginTop: 8
 	}
-	fontFamilyCyrillicLatin = {
-		fontFamily: 'Inter-Variable'
-	}
-
 	subchapter = {
 		backgroundColor: colors.primary,
 		paddingLeft: 10,
@@ -91,15 +87,15 @@ class Styles {
 	// so you can specify style for each lang
 	translation(lang) {
 		const defaultStyle = {
-			...this.fontFamilyCyrillicLatin,
+			...this.fontFamily,
 			color: colors.grey2,
-			writingDirection: 'ltr',
-			textAlign: 'right'
+			writingDirection: 'ltr'
+			// textAlign: 'right' // for arabic
 		}
 		const langStyles = {
 			ru: {
 				...defaultStyle,
-				color: colors.grey2
+				color: colors.grey3
 			}
 		}
 		return langStyles?.[lang] || defaultStyle

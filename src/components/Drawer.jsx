@@ -18,7 +18,7 @@ export default function Drawer(props) {
 				<View style={{ display: 'flex', marginTop: 10, alignItems: 'center' }}>
 					<Image
 						style={{ width: 100, height: 100 }}
-						source={require('../../content/images/logo.png')}
+						source={content.getFilesByPathString('images/logo')?.file}
 					></Image>
 				</View>
 				<View>

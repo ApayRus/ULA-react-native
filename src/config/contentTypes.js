@@ -16,8 +16,11 @@ export default {
 
 	phrases: {
 		style: {
+			item: {
+				marginBottom: 5
+			},
 			translation: {
-				textAlign: 'right'
+				textAlign: 'left'
 			}
 		}
 	},
@@ -26,8 +29,5 @@ export default {
 	},
 	media: {
 		interactivity: 'media'
-	},
-	audio: {
-		interactivity: 'audio'
 	}
 }
