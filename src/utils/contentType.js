@@ -27,14 +27,14 @@ marked.use({
  *
  * @param {*} chapterId
  * @param {*} subchapterId
- * @param {*} subchapterDoc
+ * @param {*} contentTypeDoc
  */
-export const parseSubchapter = subchapterDoc => {
-	const { title, type: typeRaw, content } = subchapterDoc
+export const parseSubchapter = contentTypeDoc => {
+	const { title, type: typeRaw, content } = contentTypeDoc
 
 	const type = typeRaw ? typeRaw : title
 
-	const contentTypeDoc = getContentType(type)
+	const contentTypeInfo = getContentType(type)
 
 	// switcher between parsers for each content type
 	const typeParserMap = {
@@ -43,10 +43,10 @@ export const parseSubchapter = subchapterDoc => {
 		inText: parseTypeInText
 	}
 
-	const { interactivity } = contentTypeDoc
+	const { interactivity } = contentTypeInfo
 	const parserFunction = typeParserMap[interactivity]
 	const parsedContent = parserFunction ? parserFunction(content) : content
-	return { ...subchapterDoc, content: parsedContent }
+	return { ...contentTypeDoc, content: parsedContent }
 }
 
 /**

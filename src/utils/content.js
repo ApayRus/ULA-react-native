@@ -118,23 +118,23 @@ export class Content {
 		}
 	}
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
-		const { content: subchapterDoc } = this.original.content[chapterId].content[
-			subchapterId
-		]
+		const { content: contentTypeDoc } = this.original.content[
+			chapterId
+		].content[subchapterId]
 		const phrases = arrayOfIndexes.map(phraseIndex => {
 			const phraseId = prefixedIndex(phraseIndex)
-			const phrase = subchapterDoc[phraseId]
+			const phrase = contentTypeDoc[phraseId]
 			return phrase
 		})
 		return phrases
 	}
 	getPhrasesTr(trLang, chapterId, subchapterId, arrayOfIndexes) {
-		const { content: subchapterDoc } = this.translations[
+		const { content: contentTypeDoc } = this.translations[
 			trLang
 		].default.content[chapterId].content[subchapterId]
 		const phrases = arrayOfIndexes.map(phraseIndex => {
 			const phraseId = prefixedIndex(phraseIndex)
-			const phrase = subchapterDoc[phraseId]
+			const phrase = contentTypeDoc[phraseId]
 			return phrase
 		})
 		return phrases

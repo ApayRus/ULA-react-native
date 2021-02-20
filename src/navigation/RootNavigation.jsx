@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import HomeScreen from '../components/screens/HomeScreen'
 import AboutScreen from '../components/screens/AboutScreen'
 import TypographyScreen from '../components/screens/TypographyScreen'
-import ChapterScreen from '../components/screens/ChapterScreen'
-import SubChapterScreen from '../components/screens/SubChapterScreen'
+import SubchapterList from '../components/screens/SubchapterList'
+import ContentTypeRenderer from '../components/screens/ContentTypeRenderer'
 import DrawerContent from '../components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
@@ -70,44 +70,65 @@ export default function RootNavigation() {
 				{chapters.map(chapter => {
 					const { id: chapterId, subchapters, title, type } = chapter
 					const name = `chapter-${chapterId}` // chapter-001
+					const hasSubchapters = Boolean(subchapters.length)
+					let chapterComponent = null
 
-					const subchaptersStackNavigator = () => (
-						<Stack.Navigator
-							key={name}
-							initialRouteName='Heading'
-							screenOptions={{
-								headerShown: false
-							}}
-						>
-							<Stack.Screen
+					/*  if chapter has subChapters, we render: 
+
+					<Stack.Navigator>
+						<ListOfSubchapters /> aka heading of Chapter
+						[ <SubChapter /> ]- ContentTypeRenderer for each SubChapter k
+					</Stack.Navigator>
+
+					*/
+					if (hasSubchapters) {
+						const subchaptersStackNavigator = () => (
+							<Stack.Navigator
 								key={name}
-								name='Heading'
-								component={ChapterScreen}
-								initialParams={{ chapterId, title, subchapters }}
-							/>
-							{subchapters.map(subchapter => {
-								const { id: subchapterId } = subchapter
-								const name = `subchapter-${subchapterId}` // subchapter-002
-								return (
-									<Stack.Screen
-										key={name}
-										{...{ name }}
-										component={SubChapterScreen}
-										initialParams={{
-											chapterId,
-											subchapterId
-										}}
-									/>
-								)
-							})}
-						</Stack.Navigator>
-					)
+								initialRouteName='Heading'
+								screenOptions={{
+									headerShown: false
+								}}
+							>
+								<Stack.Screen
+									key={name}
+									name='Heading'
+									component={SubchapterList} // list of subchapters aka heading of chapter
+									initialParams={{ chapterId, title, subchapters }}
+								/>
+								{subchapters.map(subchapter => {
+									const { id: subchapterId } = subchapter
+									const name = `subchapter-${subchapterId}` // subchapter-002
+									return (
+										<Stack.Screen
+											key={name}
+											{...{ name }}
+											component={ContentTypeRenderer}
+											initialParams={{
+												chapterId,
+												subchapterId
+											}}
+										/>
+									)
+								})}
+							</Stack.Navigator>
+						)
+
+						chapterComponent = subchaptersStackNavigator
+					} else {
+						chapterComponent = ContentTypeRenderer
+					}
+
+					/* 
+					if chapter has not subChapters, 
+					then we render ContentTypeRenderer directly to chapter screen
+					*/
 
 					return (
 						<Drawer.Screen
 							key={name}
 							name={name}
-							component={subchaptersStackNavigator}
+							component={chapterComponent}
 							initialParams={{
 								chapterId,
 								title,

@@ -7,19 +7,19 @@ import globalStyles from '../../config/globalStyles'
 
 function OneLineOneFile(props) {
 	const {
-		subchapterDoc,
-		subchapterTrDoc,
 		contentTypeDoc,
+		subchapterTrDoc,
+		contentTypeInfo,
 		files,
 		showTranslation,
 		trLang
 	} = props
 
-	const { title, content: phrasesObject = {} } = subchapterDoc
+	const { title, content: phrasesObject = {} } = contentTypeDoc
 	const { content: phrasesTrObject = {} } = subchapterTrDoc
 	const { audios = {}, images = {} } = files || {}
 
-	const { style: contentTypeStyle, type: contentType } = contentTypeDoc
+	const { style: contentTypeStyle, type: contentType } = contentTypeInfo
 
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 

@@ -17,7 +17,7 @@ const Media = props => {
 	// ===== if advanced media, from ChapterScreen/subchapter
 
 	const {
-		subchapterDoc,
+		contentTypeDoc,
 		subchapterTrDoc,
 		chapterId,
 		subchapterId,
@@ -31,7 +31,7 @@ const Media = props => {
 		title,
 		param, // path/to/media
 		content: { phrases = {} } = {}
-	} = subchapterDoc || {}
+	} = contentTypeDoc || {}
 
 	const { title: titleTr, content: { phrases: phrasesTr = {} } = {} } =
 		subchapterTrDoc || {}

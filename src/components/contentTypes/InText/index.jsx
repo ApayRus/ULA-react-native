@@ -11,19 +11,19 @@ import globalStyles from '../../../config/globalStyles'
 
 function InText(props) {
 	const {
-		subchapterDoc,
+		contentTypeDoc,
 		subchapterTrDoc,
 		chapterId,
 		subchapterId,
 		showTranslation,
-		contentTypeDoc,
+		contentTypeInfo,
 		trLang
 	} = props
 
 	const {
 		title,
 		content: subchapterContent // different type of blocks: 'text', 'quiz', 'media'
-	} = subchapterDoc
+	} = contentTypeDoc
 
 	const contentWidth = useWindowDimensions().width
 

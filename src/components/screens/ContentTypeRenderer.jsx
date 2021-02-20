@@ -66,11 +66,11 @@ const ContentTypeRenderer = props => {
 
 	// const { height: screenHeight } = useWindowDimensions()
 
-	const subchapterDoc = content.getSubchapter(chapterId, subchapterId)
-	const { title, type: typeRaw } = subchapterDoc
+	const contentTypeDoc = content.getSubchapter(chapterId, subchapterId)
+	const { title, type: typeRaw } = contentTypeDoc
 	const type = typeRaw ? typeRaw : title
-	const contentTypeDoc = getContentType(type)
-	const { interactivity } = contentTypeDoc || {}
+	const contentTypeInfo = getContentType(type)
+	const { interactivity } = contentTypeInfo || {}
 
 	const subchapterTrDoc = content.getSubchapterTr(
 		trLang,
@@ -85,9 +85,9 @@ const ContentTypeRenderer = props => {
 	])
 
 	const subchapterComponentProps = {
-		subchapterDoc,
-		subchapterTrDoc,
 		contentTypeDoc,
+		subchapterTrDoc,
+		contentTypeInfo,
 		showTranslation,
 		chapterId,
 		subchapterId,
