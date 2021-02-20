@@ -28,7 +28,14 @@ const collapseDirTreeToObject = (dirTree, obj, prefix = '') => {
 	return obj
 }
 
-const treeObject = collapseDirTreeToObject(makeDirTree('content'), {}, '../')
+const treeObject = collapseDirTreeToObject(
+	makeDirTree('content', {
+		normalizePath: true,
+		extensions: /^(?!.*(\.md$))/ // not markdown files, they causes errors on expo-android client
+	}),
+	{},
+	'../'
+)
 
 const fileContent =
 	'export default ' +
