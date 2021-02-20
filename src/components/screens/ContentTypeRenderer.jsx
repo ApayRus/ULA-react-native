@@ -17,6 +17,10 @@ import { getContentType } from '../../utils/contentType'
 import globalStyles from '../../config/globalStyles'
 import ChapterHeader from '../ChapterHeader'
 
+/* 
+	receives a chapterId/subchapterId, and renders proper content type: Cards, Media or Text 
+*/
+
 // interactivity ==> component
 const getComponent = (interactivity, props) => {
 	switch (interactivity) {
@@ -31,7 +35,7 @@ const getComponent = (interactivity, props) => {
 	}
 }
 
-const SubChapterScreen = props => {
+const ContentTypeRenderer = props => {
 	const {
 		route: {
 			params: { chapterId, subchapterId }
@@ -122,4 +126,4 @@ const SubChapterScreen = props => {
 	)
 }
 
-export default SubChapterScreen
+export default ContentTypeRenderer
