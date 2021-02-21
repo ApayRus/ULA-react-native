@@ -9,10 +9,10 @@ import layoutStylesModule from '../config/styles/layout'
 
 export default function Drawer(props) {
 	const { chapters, navigation } = props
-	const { showTranslation, trLang } = useSelector(state => state.translation)
+	const { showTranslation } = useSelector(state => state.translation)
 	const { drawer: layoutStyles } = layoutStylesModule
 
-	const trChapters = content.getChapterTitlesTr(trLang)
+	const trChapters = content.getChapterTitlesTr()
 
 	return (
 		<View style={layoutStyles.containerView}>
@@ -88,7 +88,7 @@ export default function Drawer(props) {
 									</ListItem.Title>
 									{showTranslation && (
 										<ListItem.Subtitle style={layoutStyles.listItemTranslation}>
-											{trChapters[id]?.title}
+											{trChapters?.[id]?.title}
 										</ListItem.Subtitle>
 									)}
 								</ListItem.Content>

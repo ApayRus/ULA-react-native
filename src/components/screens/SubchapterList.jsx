@@ -6,14 +6,14 @@ import ChapterHeader from '../ChapterHeader'
 const ChapterScreen = props => {
 	const {
 		route: {
-			params: { title, subchapters }
+			params: { chapterId, subchapters }
 		},
 		navigation
 	} = props
 
 	const chapterHeaderProps = {
 		navigation,
-		title
+		chapterId
 	}
 
 	return (

@@ -5,6 +5,7 @@ import translations from '../../assets/translations'
 import files from '../../assets/contentFilesMap'
 import { map, orderBy } from 'lodash'
 import { prefixedIndex } from './utils'
+import store from '../store/rootReducer'
 
 export class Content {
 	constructor(original, translations, files) {
@@ -42,7 +43,9 @@ export class Content {
 	}
 
 	// object { chapterId: { title: "Chapter title" }, ... }
-	getChapterTitlesTr(trLang) {
+	getChapterTitlesTr() {
+		const { trLang } = store.getState().translation
+
 		if (!trLang) return {}
 		try {
 			let chapters = this.translations[trLang]['default']['content']
@@ -58,6 +61,42 @@ export class Content {
 			console.log('translation error, ', e)
 			return {}
 		}
+	}
+
+	getChapterTitle(chapterId) {
+		const chapterTitle = this?.original?.content?.[chapterId]?.title
+		return chapterTitle
+	}
+
+	getChapterTitleTr(chapterId) {
+		const { trLang } = store.getState().translation
+		const chapterTitle = this?.translations?.[trLang]?.default?.content?.[
+			chapterId
+		]?.title
+		return chapterTitle
+	}
+
+	getSubchapterTitle(chapterId, subchapterId) {
+		const subchapterTitle = this?.original?.content?.[chapterId]?.content?.[
+			subchapterId
+		]?.title
+		return subchapterTitle
+	}
+
+	getSubchapterTitleTr(chapterId, subchapterId) {
+		const { trLang } = store.getState().translation
+		const chapterTitle = this?.translations?.[trLang]?.default?.content?.[
+			chapterId
+		]?.content?.[subchapterId]?.title
+		return chapterTitle
+	}
+
+	getChapterSubchapterTitlesWithTr(chapterId, subchapterId) {
+		const chapterTitle = this.getChapterTitle(chapterId)
+		const chapterTitleTr = this.getChapterTitleTr(chapterId)
+		const subchapterTitle = this.getSubchapterTitle(chapterId, subchapterId)
+		const subchapterTitleTr = this.getSubchapterTitleTr(chapterId, subchapterId)
+		return { chapterTitle, chapterTitleTr, subchapterTitle, subchapterTitleTr }
 	}
 
 	// object to array:
@@ -87,7 +126,8 @@ export class Content {
 	}
 
 	// array [ { id, title }, ... ]
-	getChapterTr(trLang, chapterId) {
+	getChapterTr(chapterId) {
+		const { trLang } = store.getState().translation
 		if (!(trLang && chapterId)) return {}
 		try {
 			const trDoc =
@@ -104,7 +144,8 @@ export class Content {
 		return subchapterDoc
 	}
 
-	getSubchapterTr(trLang, chapterId, subchapterId) {
+	getSubchapterTr(chapterId, subchapterId) {
+		const { trLang } = store.getState().translation
 		if (!(trLang && chapterId && subchapterId)) return {}
 		try {
 			const subchapterDoc =
@@ -128,7 +169,8 @@ export class Content {
 		})
 		return phrases
 	}
-	getPhrasesTr(trLang, chapterId, subchapterId, arrayOfIndexes) {
+	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
+		const { trLang } = store.getState().translation
 		const { content: contentTypeDoc } = this.translations[
 			trLang
 		].default.content[chapterId].content[subchapterId]

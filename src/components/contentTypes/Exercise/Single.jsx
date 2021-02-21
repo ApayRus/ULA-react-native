@@ -26,12 +26,9 @@ const Exercise = props => {
 			correctIndex
 		])
 
-		const [correctPhraseTr] = content.getPhrasesTr(
-			'ru',
-			chapterId,
-			subchapterId,
-			[correctIndex]
-		)
+		const [correctPhraseTr] = content.getPhrasesTr(chapterId, subchapterId, [
+			correctIndex
+		])
 
 		const phrases = content.getPhrases(
 			chapterId,
@@ -40,7 +37,6 @@ const Exercise = props => {
 		)
 
 		const phrasesTr = content.getPhrasesTr(
-			'ru',
 			chapterId,
 			subchapterId,
 			randomizer.shuffle(phraseIndexes)

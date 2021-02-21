@@ -5,8 +5,6 @@ import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
 import content from '../../utils/content'
 import layoutStylesModule from '../../config/styles/layout'
-// import globalStyles from '../../config/globalStyles'
-const globalStyles = {}
 
 export default function HomeScreen({ navigation, route }) {
 	const {
@@ -30,11 +28,7 @@ export default function HomeScreen({ navigation, route }) {
 				</View>
 				<Button
 					onPress={() => navigation.toggleDrawer()}
-					icon={{
-						name: 'list',
-						// size: 15,
-						color: 'white'
-					}}
+					icon={layoutStyles.tableOfContentButtonIcon}
 					buttonStyle={layoutStyles.tableOfContentButton}
 					title='Table of contents'
 				/>

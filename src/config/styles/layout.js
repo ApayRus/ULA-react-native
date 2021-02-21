@@ -1,24 +1,6 @@
 import { colors } from 'react-native-elements'
 import general from './general'
 
-const subchapterHeader = {
-	backgroundColor: colors.primary,
-	paddingLeft: 10,
-	paddingRight: 10,
-	paddingTop: 5,
-	paddingBottom: 5,
-	borderRadius: 10,
-	fontSize: 20,
-	color: 'white'
-}
-const chapterHeader = {
-	color: colors.primary,
-	display: 'flex',
-	alignItems: 'center',
-	marginTop: 10,
-	marginBottom: 10
-}
-
 export default {
 	homeScreen: {
 		container: {
@@ -38,6 +20,7 @@ export default {
 			paddingRight: 20,
 			margin: 20
 		},
+		tableOfContentButtonIcon: { name: 'list', color: 'white' },
 		translationsContainer: { position: 'absolute', bottom: 0 }
 	},
 
@@ -52,5 +35,13 @@ export default {
 		},
 		listItemText: { ...general.body2 },
 		listItemTranslation: { ...general.translation }
+	},
+	// chapter/subchapter title with translations
+	screenHeader: {
+		container: { margin: 5, alignItems: 'center' },
+		chapterTitle: { ...general.h4, color: colors.primary, marginTop: 5 },
+		subchapterTitle: { ...general.h5, color: colors.primary, marginTop: 5 },
+		chapterTitleTr: { ...general.translation },
+		subchapterTitleTr: { ...general.translation }
 	}
 }

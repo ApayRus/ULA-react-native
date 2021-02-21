@@ -44,7 +44,7 @@ const ContentTypeRenderer = props => {
 
 	const { height: screenHeight } = useWindowDimensions()
 
-	const { trLang, showTranslation } = useSelector(state => state.translation)
+	const { showTranslation } = useSelector(state => state.translation)
 
 	const pageScrollViewRef = useRef()
 	const phrasalPlayerBlockYRef = useRef()
@@ -70,11 +70,7 @@ const ContentTypeRenderer = props => {
 	// const contentTypeInfo = getContentType(type)
 	const { interactivity } = contentTypeStyle[contentType] || {}
 
-	const subchapterTrDoc = content.getSubchapterTr(
-		trLang,
-		chapterId,
-		subchapterId
-	)
+	const subchapterTrDoc = content.getSubchapterTr(chapterId, subchapterId)
 
 	const files = content.getFilesByPathArray([
 		'content',
@@ -90,7 +86,6 @@ const ContentTypeRenderer = props => {
 		chapterId,
 		subchapterId,
 		files,
-		trLang,
 		navigation,
 		scrollPageTo
 	}
@@ -103,7 +98,7 @@ const ContentTypeRenderer = props => {
 	return (
 		<View style={containerStyle}>
 			<ScrollView ref={pageScrollViewRef} nestedScrollEnabled>
-				<ChapterHeader {...{ navigation }} />
+				<ChapterHeader {...{ navigation, chapterId, subchapterId }} />
 				{interactivity === 'media' && (
 					<TouchableOpacity onPress={handleScrollPhrasalPlayer}>
 						<Text
