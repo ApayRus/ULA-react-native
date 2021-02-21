@@ -9,99 +9,98 @@
 // import { StyleSheet } from 'react-native'
 import { colors } from 'react-native-elements'
 
-class Styles {
-	constructor() {}
-	// general global settings
-	// related to lang of content, witch you know before running the app
-	writingDirection = {
-		writingDirection: 'ltr' // 'rtl' for arabic, hebrew, etc
-	}
-	align = {
-		alignItems: 'flex-start' // 'flex-end' for arabic, hebrew, etc
-	}
-	fontFamily = {
-		fontFamily: 'Inter-Variable' // ScheherezadeNew for arabic (for example)
-	}
-
-	// styles
-	body3 = {
-		//fontFamily - specify if you want to change default,
-		fontSize: 16,
-		...this.fontFamily,
-		...this.writingDirection
-	}
-	body2 = {
-		fontSize: 18,
-		...this.fontFamily,
-		...this.writingDirection
-	}
-	body1 = {
-		fontSize: 20,
-		...this.fontFamily,
-		...this.writingDirection
-	}
-
-	h5 = {
-		fontSize: 22,
-		...this.fontFamily,
-		...this.writingDirection,
-		fontWeight: 'bold',
-		marginBottom: 8,
-		marginTop: 12
-	}
-	h4 = {
-		fontSize: 24,
-		...this.fontFamily,
-		...this.writingDirection,
-		fontWeight: 'bold',
-		marginBottom: 6,
-		marginTop: 10
-	}
-	h3 = {
-		fontSize: 26,
-		...this.fontFamily,
-		...this.writingDirection,
-		fontWeight: 'bold',
-		marginBottom: 4,
-		marginTop: 8
-	}
-	subchapter = {
-		backgroundColor: colors.primary,
-		paddingLeft: 10,
-		paddingRight: 10,
-		paddingTop: 5,
-		paddingBottom: 5,
-		borderRadius: 10,
-		fontSize: 20,
-		color: 'white'
-	}
-	chapterHeader = {
-		color: colors.primary,
-		display: 'flex',
-		alignItems: 'center',
-		marginTop: 10,
-		marginBottom: 10
-	}
-
-	// translations are related to lang, because user can switch between them
-	// so you can specify style for each lang
-	translation(lang) {
-		const defaultStyle = {
-			...this.fontFamily,
-			color: colors.grey2,
-			writingDirection: 'ltr'
-			// textAlign: 'right' // for arabic
-		}
-		const langStyles = {
-			ru: {
-				...defaultStyle,
-				color: colors.grey3
-			}
-		}
-		return langStyles?.[lang] || defaultStyle
-	}
+// general global settings
+// related to lang of content, witch you know before running the app
+const basicAlign = {
+	alignItems: 'flex-start' // 'flex-end' for arabic, hebrew, etc
 }
 
-const styles = new Styles()
+const basicWritingDirection = {
+	writingDirection: 'ltr' // 'rtl' for arabic, hebrew, etc
+}
 
-export default styles
+const basicFontFamily = {
+	fontFamily: 'Inter-Variable' // ScheherezadeNew for arabic (for example)
+}
+
+const basicFontSize = 14
+
+const basicFont = fontSizeDelta => ({
+	...basicWritingDirection,
+	...basicFontFamily,
+	fontSize: basicFontSize + fontSizeDelta
+})
+
+// styles
+const body3 = basicFont(0)
+const body2 = basicFont(2)
+const body1 = basicFont(4)
+
+const h5 = {
+	...basicFont(6),
+	fontWeight: 'bold',
+	marginTop: 10,
+	marginBottom: 5
+}
+const h4 = {
+	...basicFont(8),
+	fontWeight: 'bold',
+	marginTop: 12,
+	marginBottom: 6
+}
+const h3 = {
+	...basicFont(10),
+	marginTop: 14,
+	marginBottom: 7
+}
+const subchapterHeader = {
+	backgroundColor: colors.primary,
+	paddingLeft: 10,
+	paddingRight: 10,
+	paddingTop: 5,
+	paddingBottom: 5,
+	borderRadius: 10,
+	fontSize: 20,
+	color: 'white'
+}
+const chapterHeader = {
+	color: colors.primary,
+	display: 'flex',
+	alignItems: 'center',
+	marginTop: 10,
+	marginBottom: 10
+}
+
+// translations are related to lang, because user can switch between them
+// so you can specify style for each lang
+const translation = lang => {
+	const defaultStyle = {
+		...body3,
+		color: colors.grey2
+		// textAlign: 'right' // for arabic
+	}
+	const langStyles = {
+		ru: {
+			...defaultStyle,
+			color: colors.grey3
+		}
+	}
+	return langStyles?.[lang] || defaultStyle
+}
+
+const style = {
+	body1,
+	body2,
+	body3,
+	h3,
+	h4,
+	h5,
+	chapterHeader,
+	subchapterHeader,
+	translation,
+	basicAlign,
+	basicFontFamily,
+	basicWritingDirection
+}
+
+export default style
