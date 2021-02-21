@@ -23,12 +23,7 @@ import general from './general'
 const oneLineOneFile = {
 	interactivity: 'oneLineOneFile',
 	style: {
-		container: {
-			flex: 1,
-			borderStyle: 'solid',
-			borderWidth: 1,
-			borderColor: 'red'
-		},
+		container: { flex: 1, padding: 5 },
 		item: { marginBottom: 10 },
 		image: {},
 		textContainer: {},
@@ -43,6 +38,7 @@ export default {
 			...oneLineOneFile.style,
 
 			container: {
+				...oneLineOneFile.style.container,
 				alignItems: 'center'
 			},
 			item: { marginBottom: 20, alignItems: 'center' },
