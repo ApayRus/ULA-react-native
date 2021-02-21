@@ -38,10 +38,23 @@ export default {
 	},
 	// chapter/subchapter title with translations
 	screenHeader: {
-		container: { margin: 5, alignItems: 'center' },
-		chapterTitle: { ...general.h4, color: colors.primary, marginTop: 5 },
+		container: {
+			marginTop: 10,
+			marginBottom: 10,
+			marginLeft: 5,
+			marginRight: 5,
+			alignItems: 'center'
+		},
+		chapterTitle: { ...general.h4, color: colors.primary },
 		subchapterTitle: { ...general.h5, color: colors.primary, marginTop: 5 },
 		chapterTitleTr: { ...general.translation },
 		subchapterTitleTr: { ...general.translation }
+	},
+	subchaptersListScreen: {
+		screenContainer: { justifyContent: 'center', padding: 5 },
+		listContainer: { marginTop: 10 },
+		subchapterButton: {
+			margin: 10
+		}
 	}
 }

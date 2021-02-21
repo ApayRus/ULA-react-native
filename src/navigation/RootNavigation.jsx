@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import HomeScreen from '../components/screens/HomeScreen'
 import AboutScreen from '../components/screens/AboutScreen'
 import TypographyScreen from '../components/screens/TypographyScreen'
-import SubchapterList from '../components/screens/SubchapterList'
+import ChapterSubchaptersListScreen from '../components/screens/ChapterSubchaptersListScreen'
 import ContentTypeRenderer from '../components/screens/ContentTypeRenderer'
 import DrawerContent from '../components/Drawer'
 import { NavigationContainer } from '@react-navigation/native'
@@ -93,7 +93,7 @@ export default function RootNavigation() {
 								<Stack.Screen
 									key={name}
 									name='Heading'
-									component={SubchapterList} // list of subchapters aka heading of chapter
+									component={ChapterSubchaptersListScreen} // list of subchapters aka heading of chapter
 									initialParams={{ chapterId, title, subchapters }}
 								/>
 								{subchapters.map(subchapter => {
