@@ -7,7 +7,8 @@ import Media from '../Media'
 import { playAudio } from '../../../utils/playerShortAudios'
 import { prefixedIndex } from '../../../utils/utils'
 import content from '../../../utils/content'
-import globalStyles from '../../../config/globalStyles'
+// import globalStyles from '../../../config/globalStyles'
+const globalStyles = {}
 
 function InText(props) {
 	const {

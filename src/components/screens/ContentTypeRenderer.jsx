@@ -13,9 +13,8 @@ import Media from '../contentTypes/Media'
 import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
 import content from '../../utils/content'
-import { getContentType } from '../../utils/contentType'
-import globalStyles from '../../config/globalStyles'
 import ChapterHeader from '../ChapterHeader'
+import contentTypeStyle from '../../config/styles/contentType'
 
 /* 
 	receives a chapterId/subchapterId, and renders proper content type: Cards, Media or Text 
@@ -60,7 +59,6 @@ const ContentTypeRenderer = props => {
 
 	const handleScrollPhrasalPlayer = () => {
 		const y = phrasalPlayerBlockYRef.current
-		console.log('y', y)
 		pageScrollViewRef.current.scrollTo({ y, animated: true })
 	}
 
@@ -68,9 +66,9 @@ const ContentTypeRenderer = props => {
 
 	const contentTypeDoc = content.getSubchapter(chapterId, subchapterId)
 	const { title, type: typeRaw } = contentTypeDoc
-	const type = typeRaw ? typeRaw : title
-	const contentTypeInfo = getContentType(type)
-	const { interactivity } = contentTypeInfo || {}
+	const contentType = typeRaw ? typeRaw : title
+	// const contentTypeInfo = getContentType(type)
+	const { interactivity } = contentTypeStyle[contentType] || {}
 
 	const subchapterTrDoc = content.getSubchapterTr(
 		trLang,
@@ -87,12 +85,11 @@ const ContentTypeRenderer = props => {
 	const subchapterComponentProps = {
 		contentTypeDoc,
 		subchapterTrDoc,
-		contentTypeInfo,
+		contentType,
 		showTranslation,
 		chapterId,
 		subchapterId,
 		files,
-		globalStyles,
 		trLang,
 		navigation,
 		scrollPageTo

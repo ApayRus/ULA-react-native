@@ -1,7 +1,8 @@
 import React from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { Avatar, colors } from 'react-native-elements'
-import globalStyles from '../../../config/globalStyles'
+// import globalStyles from '../../../config/globalStyles'
+const globalStyles = {}
 
 /* 
 <PhraseWrapper>

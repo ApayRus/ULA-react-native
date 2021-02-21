@@ -1,9 +1,10 @@
 import React from 'react'
 import { ScrollView, View, useWindowDimensions, Text } from 'react-native'
 import { Image } from 'react-native-elements'
-import globalStyles from '../../config/globalStyles'
+// import globalStyles from '../../config/globalStyles'
 import marked from 'marked'
 import ChapterHeader from '../ChapterHeader'
+const globalStyles = {}
 
 marked.use({
 	gfm: false,

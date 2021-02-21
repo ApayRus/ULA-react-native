@@ -7,7 +7,8 @@ import { loadDataToPlayer } from './utils'
 import { objectToArray } from '../../../utils/utils'
 import PhrasalPlayerControls from './PlayerPhrasalControls'
 import PhrasesBlock from './PhrasesBlock'
-import globalStyles from '../../../config/globalStyles'
+// import globalStyles from '../../../config/globalStyles'
+const globalStyles = {}
 
 const Media = props => {
 	// if siple media, from inText

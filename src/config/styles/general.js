@@ -8,6 +8,11 @@
 
 // import { StyleSheet } from 'react-native'
 import { colors } from 'react-native-elements'
+import store from '../../store/rootReducer'
+
+const {
+	translation: { trLang }
+} = store.getState()
 
 // general global settings
 // related to lang of content, witch you know before running the app
@@ -36,40 +41,9 @@ const body3 = basicFont(0)
 const body2 = basicFont(2)
 const body1 = basicFont(4)
 
-const h5 = {
-	...basicFont(6),
-	fontWeight: 'bold',
-	marginTop: 10,
-	marginBottom: 5
-}
-const h4 = {
-	...basicFont(8),
-	fontWeight: 'bold',
-	marginTop: 12,
-	marginBottom: 6
-}
-const h3 = {
-	...basicFont(10),
-	marginTop: 14,
-	marginBottom: 7
-}
-const subchapterHeader = {
-	backgroundColor: colors.primary,
-	paddingLeft: 10,
-	paddingRight: 10,
-	paddingTop: 5,
-	paddingBottom: 5,
-	borderRadius: 10,
-	fontSize: 20,
-	color: 'white'
-}
-const chapterHeader = {
-	color: colors.primary,
-	display: 'flex',
-	alignItems: 'center',
-	marginTop: 10,
-	marginBottom: 10
-}
+const h5 = basicFont(6)
+const h4 = basicFont(8)
+const h3 = basicFont(10)
 
 // translations are related to lang, because user can switch between them
 // so you can specify style for each lang
@@ -95,9 +69,7 @@ const style = {
 	h3,
 	h4,
 	h5,
-	chapterHeader,
-	subchapterHeader,
-	translation,
+	translation: translation(trLang),
 	basicAlign,
 	basicFontFamily,
 	basicWritingDirection

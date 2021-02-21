@@ -4,7 +4,9 @@ import { View, Image } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
 import content from '../../utils/content'
-import globalStyles from '../../config/globalStyles'
+import layoutStylesModule from '../../config/styles/layout'
+// import globalStyles from '../../config/globalStyles'
+const globalStyles = {}
 
 export default function HomeScreen({ navigation, route }) {
 	const {
@@ -12,25 +14,20 @@ export default function HomeScreen({ navigation, route }) {
 	} = route
 	const { title, author } = info || {}
 
+	const { homeScreen: layoutStyles } = layoutStylesModule
+
 	return (
 		<>
 			<StatusBar style='auto' />
-			<View style={styles.container}>
-				<Text style={globalStyles.body1}>{title}</Text>
-				<Text style={globalStyles.body3}>{author}</Text>
-				<Image
-					style={{ width: 200, height: 200 }}
-					source={content.getFilesByPathString('images/logo')?.file}
-				></Image>
-				{Object.keys(info)
-					.filter(key => key !== 'title' && key !== 'author')
-					.map(key => (
-						<View key={`info-${key}`}>
-							<Text>
-								{key}: {info[key]}
-							</Text>
-						</View>
-					))}
+			<View style={layoutStyles.container}>
+				<Text style={layoutStyles.title}>{title}</Text>
+				<Text style={layoutStyles.author}>{author}</Text>
+				<View style={layoutStyles.imageContainer}>
+					<Image
+						style={layoutStyles.image}
+						source={content.getFilesByPathString('images/logo')?.file}
+					></Image>
+				</View>
 				<Button
 					onPress={() => navigation.toggleDrawer()}
 					icon={{
@@ -38,24 +35,27 @@ export default function HomeScreen({ navigation, route }) {
 						// size: 15,
 						color: 'white'
 					}}
-					buttonStyle={styles.tableOfContentButton}
+					buttonStyle={layoutStyles.tableOfContentButton}
 					title='Table of contents'
 				/>
+				<View style={layoutStyles.additionalInfoContainer}>
+					{Object.keys(info)
+						.filter(key => key !== 'title' && key !== 'author')
+						.map(key => (
+							<View style={layoutStyles.additionalInfoItem} key={`info-${key}`}>
+								<Text style={layoutStyles.additionalInfoText}>
+									{key}: {info[key]}
+								</Text>
+							</View>
+						))}
+				</View>
 
 				{translations.length > 0 && (
-					<TranslationsSelect translations={translations} />
+					<View style={layoutStyles.translationsContainer}>
+						<TranslationsSelect translations={translations} />
+					</View>
 				)}
 			</View>
 		</>
 	)
-}
-
-const styles = {
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	tableOfContentButton: { paddingRight: 20, margin: 20 }
 }

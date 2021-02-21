@@ -4,20 +4,22 @@ import { View, Image, ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import content from '../utils/content'
-import globalStyles from '../config/globalStyles'
+
+import layoutStylesModule from '../config/styles/layout'
 
 export default function Drawer(props) {
 	const { chapters, navigation } = props
 	const { showTranslation, trLang } = useSelector(state => state.translation)
+	const { drawer: layoutStyles } = layoutStylesModule
 
 	const trChapters = content.getChapterTitlesTr(trLang)
 
 	return (
-		<View style={{ flex: 1 }}>
-			<ScrollView style={globalStyles.writingDirection}>
-				<View style={{ display: 'flex', marginTop: 10, alignItems: 'center' }}>
+		<View style={layoutStyles.containerView}>
+			<ScrollView style={layoutStyles.containerScrollView}>
+				<View style={layoutStyles.imageContainer}>
 					<Image
-						style={{ width: 100, height: 100 }}
+						style={layoutStyles.image}
 						source={content.getFilesByPathString('images/logo')?.file}
 					></Image>
 				</View>
@@ -26,7 +28,7 @@ export default function Drawer(props) {
 						style={{ marginBottom: 5 }}
 						// topDivider
 						bottomDivider
-						containerStyle={styles.listItem}
+						containerStyle={layoutStyles.listItem}
 						onPress={() => navigation.navigate('Home')}
 					>
 						<Icon name='home' color='grey' />
@@ -38,7 +40,7 @@ export default function Drawer(props) {
 						style={{ marginBottom: 5 }}
 						// topDivider
 						bottomDivider
-						containerStyle={styles.listItem}
+						containerStyle={layoutStyles.listItem}
 						onPress={() => navigation.navigate('About')}
 					>
 						<Icon name='info' color='grey' />
@@ -50,7 +52,7 @@ export default function Drawer(props) {
 						style={{ marginBottom: 5 }}
 						// topDivider
 						bottomDivider
-						containerStyle={styles.listItem}
+						containerStyle={layoutStyles.listItem}
 						onPress={() => navigation.navigate('Exercise')}
 					>
 						<Icon name='info' color='grey' />
@@ -62,7 +64,7 @@ export default function Drawer(props) {
 						style={{ marginBottom: 5 }}
 						// topDivider
 						bottomDivider
-						containerStyle={styles.listItem}
+						containerStyle={layoutStyles.listItem}
 						onPress={() => navigation.navigate('Typography')}
 					>
 						<Icon name='text-fields' color='grey' />
@@ -76,16 +78,16 @@ export default function Drawer(props) {
 						return (
 							<ListItem
 								bottomDivider
-								containerStyle={styles.listItem}
+								containerStyle={layoutStyles.listItem}
 								key={name}
 								onPress={() => navigation.navigate(name)}
 							>
 								<ListItem.Content>
-									<ListItem.Title style={globalStyles.body2}>
+									<ListItem.Title style={layoutStyles.listItemText}>
 										{title}
 									</ListItem.Title>
 									{showTranslation && (
-										<ListItem.Subtitle style={globalStyles.translation(trLang)}>
+										<ListItem.Subtitle style={layoutStyles.listItemTranslation}>
 											{trChapters[id]?.title}
 										</ListItem.Subtitle>
 									)}
@@ -98,11 +100,4 @@ export default function Drawer(props) {
 			<TranslationOnOffSwitcher />
 		</View>
 	)
-}
-
-const styles = {
-	listItem: {
-		paddingBottom: 2,
-		paddingTop: 2
-	}
 }
