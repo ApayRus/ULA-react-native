@@ -14,7 +14,7 @@ import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
 import content from '../../utils/content'
 import ChapterHeader from '../ChapterHeader'
-import contentTypeStyle from '../../config/styles/contentType'
+import contentTypeInteractivity from '../../config/contentTypeInteractivity'
 
 /* 
 	receives a chapterId/subchapterId, and renders proper content type: Cards, Media or Text 
@@ -68,7 +68,7 @@ const ContentTypeRenderer = props => {
 	const { title, type: typeRaw } = contentTypeDoc
 	const contentType = typeRaw ? typeRaw : title
 	// const contentTypeInfo = getContentType(type)
-	const { interactivity } = contentTypeStyle[contentType] || {}
+	const interactivity = contentTypeInteractivity?.[contentType]
 
 	const subchapterTrDoc = content.getSubchapterTr(chapterId, subchapterId)
 

@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
 import { objectToArray } from '../../utils/utils'
 import { playAudio } from '../../utils/playerShortAudios'
-import contentTypeModule from '../../config/styles/contentType'
+import contentTypeStyles from '../../config/styles/contentType'
 
 function OneLineOneFile(props) {
 	const {
@@ -16,11 +16,11 @@ function OneLineOneFile(props) {
 
 	const { content: phrasesObject = {} } = contentTypeDoc
 	const { content: phrasesTrObject = {} } = subchapterTrDoc
+
 	const { audios = {}, images = {} } = files || {}
-	console.log('contentType', contentType)
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 
-	const { style: contentTypeStyle } = contentTypeModule[contentType] || {}
+	const contentTypeStyle = contentTypeStyles[contentType] || {}
 
 	const handlePlay = contentLineId => () => {
 		const { file } = audios[`${contentLineId}`] || {}

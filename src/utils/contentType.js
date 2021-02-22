@@ -12,7 +12,7 @@ import {
 	inTextSoundedWordReplacer
 } from 'frazy-parser'
 import { prefixedIndex } from './utils.js'
-import contentTypes from '../config/contentTypes.js'
+import contentTypeInteractivity from '../config/contentTypeInteractivity.js'
 import marked from 'marked'
 
 marked.use({
@@ -34,8 +34,6 @@ export const parseSubchapter = contentTypeDoc => {
 
 	const type = typeRaw ? typeRaw : title
 
-	const contentTypeInfo = getContentType(type)
-
 	// switcher between parsers for each content type
 	const typeParserMap = {
 		oneLineOneFile: parseTypeOneLineOneFile,
@@ -43,7 +41,10 @@ export const parseSubchapter = contentTypeDoc => {
 		inText: parseTypeInText
 	}
 
-	const { interactivity } = contentTypeInfo
+	const interactivity =
+		contentTypeInteractivity[type] ||
+		contentTypeInteractivity?.default ||
+		'oneLineOneFile'
 	const parserFunction = typeParserMap[interactivity]
 	const parsedContent = parserFunction ? parserFunction(content) : content
 	return { ...contentTypeDoc, content: parsedContent }
@@ -115,22 +116,4 @@ export const parseTypeInText = textContent => {
 	)
 	// console.log('content', content)
 	return content
-}
-
-/**
- * content type contain 3 parts: name (key), interactivity, style
- * if something is not set, will be used default values
- * @param {string} type - name of type
- */
-export const getContentType = type => {
-	const { default: defaultTypeObject } = contentTypes
-	// 1) type exist or not
-	const typeObject = contentTypes[type] ? contentTypes[type] : defaultTypeObject
-	// 2) type exist but some parts are not filled (interactivity or style)
-	// and we get them from
-
-	let { interactivity, style } = typeObject
-	if (!interactivity) interactivity = defaultTypeObject.interactivity || {}
-	if (!style) style = defaultTypeObject.style || {}
-	return { type, interactivity, style }
 }

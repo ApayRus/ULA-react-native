@@ -21,71 +21,25 @@ import general from './general'
 // BASIC TYPES
 
 const oneLineOneFile = {
-	interactivity: 'oneLineOneFile',
-	style: {
-		container: { flex: 1, padding: 5 },
-		item: { marginBottom: 10 },
-		image: {},
-		textContainer: {},
-		text: { ...general.body1 },
-		trText: { ...general.translation }
-	}
+	container: { flex: 1, padding: 5 },
+	item: { marginBottom: 10 },
+	image: {},
+	textContainer: {},
+	text: { ...general.body1 },
+	trText: { ...general.translation }
 }
 export default {
 	words: {
 		...oneLineOneFile,
-		style: {
-			...oneLineOneFile.style,
-
-			container: {
-				...oneLineOneFile.style.container,
-				alignItems: 'center'
-			},
-			item: { marginBottom: 20, alignItems: 'center' },
-			image: { width: 100, height: 100, resizeMode: 'contain' },
-			textContainer: { alignItems: 'center' }
-		}
+		container: {
+			...oneLineOneFile.container,
+			alignItems: 'center'
+		},
+		item: { marginBottom: 20, alignItems: 'center' },
+		image: { width: 100, height: 100, resizeMode: 'contain' },
+		textContainer: { alignItems: 'center' }
 	},
 	phrases: {
 		...oneLineOneFile
 	}
 }
-
-/* 
-
-export default {
-	default: {
-		interactivity: 'oneLineOneFile'
-	},
-	words: {
-		style: {
-			container: {
-				alignItems: 'center'
-			},
-			item: { marginBottom: 20, alignItems: 'center' },
-			image: { width: 100, height: 100, resizeMode: 'contain' },
-			text: { alignSelf: 'center' },
-			translation: { alignSelf: 'center' }
-		}
-	},
-
-	phrases: {
-		style: {
-			item: {
-				marginBottom: 5
-			},
-			translation: {
-				textAlign: 'left'
-			}
-		}
-	},
-	text: {
-		interactivity: 'inText'
-	},
-	media: {
-		interactivity: 'media'
-	}
-}
-
-
- */
