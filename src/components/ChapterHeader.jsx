@@ -20,13 +20,6 @@ function ChapterHeader(props) {
 		subchapterTitleTr
 	} = content.getChapterSubchapterTitlesWithTr(chapterId, subchapterId)
 
-	console.log({
-		chapterTitle,
-		chapterTitleTr,
-		subchapterTitle,
-		subchapterTitleTr
-	})
-
 	const leftComponent = () => (
 		<View style={{ flexDirection: 'row' }}>
 			<Icon
