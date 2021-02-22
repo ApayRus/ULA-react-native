@@ -49,6 +49,13 @@ export default function HomeScreen({ navigation, route }) {
 						<TranslationsSelect translations={translations} />
 					</View>
 				)}
+				<View style={layoutStyles.navigateForwardButtonContainer}>
+					<Button
+						{...layoutStyles.navigateForwardButtonType}
+						icon={layoutStyles.navigateForwardButtonIcon}
+						onPress={() => navigation.navigate('chapter-001')}
+					/>
+				</View>
 			</View>
 		</>
 	)

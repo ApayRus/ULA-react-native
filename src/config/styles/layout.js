@@ -21,7 +21,14 @@ export default {
 			margin: 20
 		},
 		tableOfContentButtonIcon: { name: 'list', color: 'white' },
-		translationsContainer: { position: 'absolute', bottom: 0 }
+		translationsContainer: { position: 'absolute', bottom: 0 },
+		navigateForwardButtonContainer: {
+			position: 'absolute',
+			bottom: 0,
+			right: 0
+		},
+		navigateForwardButtonIcon: { name: 'arrow-forward', color: colors.primary },
+		navigateForwardButtonType: { type: 'clear' }
 	},
 
 	drawer: {
