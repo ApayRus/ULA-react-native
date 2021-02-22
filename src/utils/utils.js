@@ -32,6 +32,11 @@ export const prefixedIndex = index => {
 	return index.toString().padStart(3, '0')
 }
 
+export const getNextPrefixedIndex = stringIndex => {
+	const nextNumberIndex = Number(stringIndex) + 1
+	return prefixedIndex(nextNumberIndex)
+}
+
 /**
  *
  * @param {string} inputSeconds

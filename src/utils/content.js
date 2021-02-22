@@ -4,7 +4,7 @@ import original from '../../assets/content'
 import translations from '../../assets/translations'
 import files from '../../assets/contentFilesMap'
 import { map, orderBy } from 'lodash'
-import { prefixedIndex } from './utils'
+import { prefixedIndex, getNextPrefixedIndex } from './utils'
 import store from '../store/rootReducer'
 
 export class Content {
@@ -180,6 +180,40 @@ export class Content {
 			return phrase
 		})
 		return phrases
+	}
+
+	getNextContentItem(chapterId = '', subchapterId = '') {
+		const nextSubchapterId = getNextPrefixedIndex(subchapterId)
+
+		// same chapter, next subchapter
+		const nextSubchapterExist = Boolean(
+			this.getSubchapterTitle(chapterId, nextSubchapterId)
+		)
+
+		const checkNextChapter = chapterId => {
+			const nextChapterId = getNextPrefixedIndex(chapterId)
+			const nextChapterExist = Boolean(this.getChapterTitle(nextChapterId))
+			if (nextChapterExist) {
+				return { nextChapterId }
+			} else {
+				return null // we faced end of the content
+			}
+		}
+
+		if (!subchapterId) {
+			if (nextSubchapterExist) {
+				//we are on chapter page - list of subchapters
+				return { nextChapterId: chapterId, nextSubchapterId }
+			} else {
+				// we are on chapter page without subchapters
+				return checkNextChapter(chapterId)
+			}
+		}
+		if (nextSubchapterExist) {
+			return { nextChapterId: chapterId, nextSubchapterId }
+		} else {
+			return checkNextChapter(chapterId)
+		}
 	}
 
 	/* files is an object like:

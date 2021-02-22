@@ -20,6 +20,25 @@ function ChapterHeader(props) {
 		subchapterTitleTr
 	} = content.getChapterSubchapterTitlesWithTr(chapterId, subchapterId)
 
+	const handleNavigateForward = () => {
+		const { nextChapterId, nextSubchapterId } =
+			content.getNextContentItem(chapterId, subchapterId) || {}
+
+		if (!nextChapterId) {
+			console.log("we are at the end of app. Can't move forward")
+			return
+		}
+		// nextChapterId exist but...
+		if (!nextSubchapterId) {
+			navigation.navigate(`chapter-${nextChapterId}`)
+			return
+		}
+		if (nextSubchapterId) {
+			navigation.navigate(`subchapter-${nextSubchapterId}`)
+			return
+		}
+	}
+
 	const leftComponent = () => (
 		<View style={{ flexDirection: 'row' }}>
 			<Icon
@@ -48,7 +67,7 @@ function ChapterHeader(props) {
 				{...{
 					name: 'arrow-forward',
 					color: '#fff',
-					onPress: () => navigation.goBack()
+					onPress: handleNavigateForward
 				}}
 				iconStyle={{ marginRight: 10 }}
 				Component={TouchableOpacity}
