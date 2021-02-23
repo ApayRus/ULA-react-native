@@ -52,10 +52,15 @@ export default {
 			marginRight: 5,
 			alignItems: 'center'
 		},
-		chapterTitle: { ...general.h4, color: colors.primary },
-		subchapterTitle: { ...general.h5, color: colors.primary, marginTop: 5 },
-		chapterTitleTr: { ...general.translation },
-		subchapterTitleTr: { ...general.translation }
+		chapterTitle: { ...general.h4, color: colors.primary, textAlign: 'center' },
+		subchapterTitle: {
+			...general.body1,
+			color: colors.primary,
+			marginTop: 5,
+			textAlign: 'center'
+		},
+		chapterTitleTr: { ...general.translation, textAlign: 'center' },
+		subchapterTitleTr: { ...general.translation, textAlign: 'center' }
 	},
 	subchaptersListScreen: {
 		screenContainer: { justifyContent: 'center', padding: 5 },
