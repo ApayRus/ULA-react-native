@@ -13,6 +13,12 @@ export const objectToArray = object => {
 }
 
 export const arrayToObject = array => {
+	const isNotObject = typeof array !== 'object' // and not array
+	if (isNotObject) return null
+
+	const isNotArray = !Array.isArray(array)
+	if (isNotArray) return array
+
 	return array.reduce((prev, item, index) => {
 		const id = prefixedIndex(index + 1)
 		return { ...prev, [id]: item }

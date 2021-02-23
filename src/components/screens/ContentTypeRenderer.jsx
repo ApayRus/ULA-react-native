@@ -64,7 +64,9 @@ const ContentTypeRenderer = props => {
 
 	// const { height: screenHeight } = useWindowDimensions()
 
-	const contentTypeDoc = content.getSubchapter(chapterId, subchapterId)
+	const contentTypeDoc = subchapterId
+		? content.getSubchapter(chapterId, subchapterId)
+		: content.getChapter(chapterId)
 	const { title, type: typeRaw } = contentTypeDoc
 	const contentType = typeRaw ? typeRaw : title
 	// const contentTypeInfo = getContentType(type)

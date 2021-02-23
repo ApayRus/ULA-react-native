@@ -114,6 +114,7 @@ export class Content {
 						const { title, type } = contentObject[key]
 						return { id, title, type }
 					})
+					.filter(elem => Boolean(elem.title)) //don't show 'phrases' from media, when chapter is without subchapters
 					.sort((a, b) => a.id.localeCompare(b.id))
 				return { id, title, type, subchapters }
 			})

@@ -65,15 +65,26 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 	const info = { title, ...yaml.parse(infoContent) }
 
 	let chaptersAndSubchapters = chaptersArray
-		.map(elem => {
-			const subchapters = splitMarkdownIntoPartsByTemplate(
-				elem.content,
-				h2template
-			).map(subchapterDoc => parseContentType(subchapterDoc))
+		.map(chapterDoc => {
+			// if type is set => it's end point content (contentType)
+			// and we shouldn't find subchapters
+			if (chapterDoc.type) {
+				const content = parseContentType(chapterDoc, 'chapter')
 
-			return {
-				...elem,
-				content: subchapters
+				return {
+					// ...chapterDoc,
+					...content
+				}
+			} else {
+				const subchapters = splitMarkdownIntoPartsByTemplate(
+					chapterDoc.content,
+					h2template
+				).map(subchapterDoc => parseContentType(subchapterDoc))
+
+				return {
+					...chapterDoc,
+					content: subchapters
+				}
 			}
 		})
 		.map(chapter => {
