@@ -1,9 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { Avatar, colors } from 'react-native-elements'
-// import globalStyles from '../../../config/globalStyles'
-const globalStyles = {}
-
+import general from '../../../config/styles/general'
 /* 
 <PhraseWrapper>
 	<Voice /> 
@@ -15,8 +13,7 @@ const Voice = ({ voiceName, voiceNameTr, showTranslation }) => {
 	return (
 		<View
 			style={{
-				// writingDirection: 'rtl',
-				flexDirection: 'row-reverse',
+				flexDirection: 'row', // for arabic: 'row-reverse'
 				alignItems: 'center',
 				marginTop: 15,
 				marginBottom: 2
@@ -29,7 +26,7 @@ const Voice = ({ voiceName, voiceNameTr, showTranslation }) => {
 					backgroundColor: 'lightgrey',
 					width: 20,
 					height: 20,
-					marginLeft: 5 // should be related to writing direction
+					marginRight: 5 // for arabic: marginRight
 				}}
 				size='small'
 			/>
@@ -47,7 +44,6 @@ const Phrase = ({
 	currentPhraseNum,
 	phraseNum,
 	showTranslation,
-	trLang,
 	handlePlayPhrase
 }) => {
 	const isActivePhrase = phraseNum === currentPhraseNum
@@ -61,15 +57,13 @@ const Phrase = ({
 			style={[phraseStyle, { marginBottom: 6 }]}
 		>
 			<View style={{ paddingLeft: 2, paddingRight: 7 }}>
-				<Text style={globalStyles.body2}>{text}</Text>
+				<Text style={general.body2}>{text}</Text>
 				{showTranslation && (
-					<Text
-						style={[globalStyles.translation(trLang), { paddingBottom: 4 }]}
-					>
+					<Text style={[general.translation, { paddingBottom: 4 }]}>
 						{trText}
 					</Text>
 				)}
-				<View style={{ position: 'absolute', left: 2, bottom: 2 }}>
+				<View style={{ position: 'absolute', right: 2, bottom: 2 }}>
 					<Text style={{ color: 'grey', fontSize: 10 }}>{phraseNum}</Text>
 				</View>
 			</View>

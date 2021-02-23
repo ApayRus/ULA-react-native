@@ -8,8 +8,7 @@ export default function PhrasesBlock(props) {
 		phrasesTrArray,
 		playerRef: { current: phrasalPlayer },
 		currentPhraseNum,
-		showTranslation,
-		trLang
+		showTranslation
 	} = props
 
 	const scrollViewRef = useRef() // we will scroll it scrollTo({y})
@@ -56,7 +55,6 @@ export default function PhrasesBlock(props) {
 									text,
 									currentPhraseNum,
 									phraseNum,
-									trLang,
 									trText,
 									showTranslation,
 									/* event handlers */
