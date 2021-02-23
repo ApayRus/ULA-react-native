@@ -11,7 +11,7 @@ import {
 	quizParser,
 	inTextSoundedWordReplacer
 } from 'frazy-parser'
-import { prefixedIndex } from './utils.js'
+import { prefixedIndex, splitMarkdownIntoPartsByTemplate } from './utils.js'
 import contentTypeInteractivity from '../config/contentTypeInteractivity.js'
 import marked from 'marked'
 
@@ -29,7 +29,7 @@ marked.use({
  * @param {*} subchapterId
  * @param {*} contentTypeDoc
  */
-export const parseSubchapter = contentTypeDoc => {
+export const parseContentType = (contentTypeDoc, level) => {
 	const { title, type: typeRaw, content } = contentTypeDoc
 
 	const type = typeRaw ? typeRaw : title
@@ -37,7 +37,7 @@ export const parseSubchapter = contentTypeDoc => {
 	// switcher between parsers for each content type
 	const typeParserMap = {
 		oneLineOneFile: parseTypeOneLineOneFile,
-		timing: parseTypeTiming,
+		media: parseTypeMedia,
 		inText: parseTypeInText
 	}
 
@@ -46,12 +46,36 @@ export const parseSubchapter = contentTypeDoc => {
 		contentTypeInteractivity?.default ||
 		'oneLineOneFile'
 	const parserFunction = typeParserMap[interactivity]
-	const parsedContent = parserFunction ? parserFunction(content) : content
+	const parsedContent = parserFunction
+		? parserFunction(content, level)
+		: content
 	return { ...contentTypeDoc, content: parsedContent }
 }
 
 /**
+ * Media can have
+ * @param {string} text - markdown text
  *
+ */
+const parseTypeMedia = (text, level) => {
+	const h3template = new RegExp(/^\s*#{3}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
+	const h2template = new RegExp(/^\s*#{2}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
+	const template = level === 'chapter' ? h2template : h3template
+	const splitedMediaBlocks = splitMarkdownIntoPartsByTemplate(text, template)
+
+	const { content: phrasesText } =
+		splitedMediaBlocks.find(elem => {
+			const { title, type } = elem
+			const phrasesSynonyms = ['timing', 'captions', 'phrases', 'subtitles']
+			return phrasesSynonyms.includes(title || type)
+		}) || {}
+
+	const phrases = parseTypeTiming(phrasesText)
+	return { phrases }
+}
+
+/**
+ * it is sub-type for type Media
  * @param {string} subsText
  * @returns {object} - phrases {start, end, text, voiceName}
  */

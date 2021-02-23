@@ -2,5 +2,6 @@
 
 export default {
 	words: 'oneLineOneFile',
-	phrases: 'oneLineOneFile'
+	phrases: 'oneLineOneFile',
+	media: 'media'
 }
