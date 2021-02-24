@@ -30,8 +30,8 @@ export default {
 			imageStyle: { opacity: 0.5, resizeMode: 'stretch' },
 			source: content.getFilesByPathString('images/background')?.file
 		},
-		title: { ...general.h3 },
-		author: { ...general.h5 },
+		title: { ...general.h3, textAlign: 'center' },
+		author: { ...general.h5, textAlign: 'center' },
 		logoImageContainer: { marginTop: 30 },
 		logoImageProps: {
 			style: { width: 200, height: 80 },
@@ -68,7 +68,8 @@ export default {
 		image: { width: 100, height: 100 },
 		listItem: {
 			paddingBottom: 2,
-			paddingTop: 2
+			paddingTop: 2,
+			backgroundColor: 'rgb(242,242,242)'
 			// backgroundColor: 'transparent'
 		},
 		listItemText: { ...general.body2 },
