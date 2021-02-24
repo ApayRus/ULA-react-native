@@ -1,6 +1,6 @@
 import React from 'react'
-import { ListItem, Icon } from 'react-native-elements'
-import { View, Image, ScrollView } from 'react-native'
+import { ListItem, Icon, Image } from 'react-native-elements'
+import { View, /* ImageBackground, */ ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import content from '../utils/content'
@@ -16,6 +16,7 @@ export default function Drawer(props) {
 
 	return (
 		<View style={layoutStyles.containerView}>
+			{/* <ImageBackground {...layoutStyles.backgroundImageProps}> */}
 			<ScrollView style={layoutStyles.containerScrollView}>
 				<View style={layoutStyles.imageContainer}>
 					<Image
@@ -98,6 +99,7 @@ export default function Drawer(props) {
 				</View>
 			</ScrollView>
 			<TranslationOnOffSwitcher />
+			{/* </ImageBackground> */}
 		</View>
 	)
 }

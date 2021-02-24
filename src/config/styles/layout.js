@@ -1,44 +1,63 @@
 import { colors } from 'react-native-elements'
 import general from './general'
+import content from '../../utils/content'
 
 export default {
 	homeScreen: {
 		container: {
-			flex: 1,
-			backgroundColor: '#fff',
-			alignItems: 'center',
-			justifyContent: 'center'
+			flex: 1
+		},
+		backgroundImageProps: {
+			style: {
+				flex: 1,
+				justifyContent: 'center',
+				alignItems: 'center',
+				// backgroundColor: 'rgb(242,242,242)',
+				width: '100%'
+			},
+			imageStyle: { opacity: 0.5, resizeMode: 'stretch' },
+			source: content.getFilesByPathString('images/background')?.file
 		},
 		title: { ...general.h3 },
 		author: { ...general.h5 },
-		imageContainer: { marginTop: 30 },
-		image: { width: 200, height: 80 },
+		logoImageContainer: { marginTop: 30 },
+		logoImageProps: {
+			style: { width: 200, height: 80 },
+			source: content.getFilesByPathString('images/logo')?.file
+		},
 		additionalInfoContainer: { marginTop: 10, alignItems: 'center' },
 		additionalInfoItem: { marginBottom: 2 },
 		additionalInfoText: { ...general.body3 },
-		tableOfContentButton: {
-			paddingRight: 20,
-			margin: 20
+		tableOfContentButtonProps: {
+			icon: { name: 'list', color: 'white' },
+			buttonStyle: {
+				paddingRight: 20,
+				margin: 20,
+				backgroundColor: colors.primary
+			},
+			title: 'Table of contents'
 		},
-		tableOfContentButtonIcon: { name: 'list', color: 'white' },
 		translationsContainer: { position: 'absolute', bottom: 0 },
 		navigateForwardButtonContainer: {
 			position: 'absolute',
 			bottom: 0,
 			right: 0
 		},
-		navigateForwardButtonIcon: { name: 'arrow-forward', color: colors.primary },
-		navigateForwardButtonType: { type: 'clear' }
+		navigateForwardButtonProps: {
+			icon: { name: 'arrow-forward', color: colors.primary },
+			type: 'clear'
+		}
 	},
 
 	drawer: {
-		containerView: { flex: 1 },
+		containerView: { flex: 1, backgroundColor: 'rgb(242,242,242)' },
 		containerScrollView: { ...general.basicWritingDirection },
 		imageContainer: { marginTop: 10, alignItems: 'center' },
 		image: { width: 100, height: 100 },
 		listItem: {
 			paddingBottom: 2,
-			paddingTop: 2
+			paddingTop: 2,
+			backgroundColor: 'transparent'
 		},
 		listItemText: { ...general.body2 },
 		listItemTranslation: { ...general.translation }
