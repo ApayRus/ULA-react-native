@@ -8,14 +8,14 @@ import contentTypeStyles from '../../config/styles/contentType'
 function OneLineOneFile(props) {
 	const {
 		contentTypeDoc,
-		subchapterTrDoc,
+		contentTypeTrDoc,
 		contentType,
 		files,
 		showTranslation
 	} = props
 
 	const { content: phrasesObject = {} } = contentTypeDoc
-	const { content: phrasesTrObject = {} } = subchapterTrDoc
+	const { content: phrasesTrObject = {} } = contentTypeTrDoc
 
 	const { audios = {}, images = {} } = files || {}
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
