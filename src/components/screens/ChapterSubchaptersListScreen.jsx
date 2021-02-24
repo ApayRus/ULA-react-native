@@ -24,13 +24,15 @@ const ChapterSubchaptersListScreen = props => {
 			<ScrollView contentContainerStyle={layoutStyles.screenContainer}>
 				<View style={layoutStyles.listContainer}>
 					{subchapters.map(elem => {
-						const { id, title, type } = elem
+						const { id, title /* type */ } = elem
+						// use type for display icon
 						const name = `subchapter-${id}`
 						return (
 							<Button
 								containerStyle={layoutStyles.subchapterButton}
 								key={name}
-								title={`${id}-${title} [${type}]`}
+								// title={`${id}-${title} [${type}]`}
+								title={title}
 								onPress={() => navigation.navigate(name)}
 							/>
 						)

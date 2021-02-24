@@ -68,8 +68,8 @@ export default {
 		image: { width: 100, height: 100 },
 		listItem: {
 			paddingBottom: 2,
-			paddingTop: 2,
-			backgroundColor: 'transparent'
+			paddingTop: 2
+			// backgroundColor: 'transparent'
 		},
 		listItemText: { ...general.body2 },
 		listItemTranslation: { ...general.translation }
