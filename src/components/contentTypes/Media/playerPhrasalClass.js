@@ -1,13 +1,4 @@
-import { Audio } from 'expo-av'
-import mitt from 'mitt'
-import { setPlayerState } from '../../../store/playerStateActions'
-import store from '../../../store/rootReducer'
-import contentFiles from '../../../../assets/contentFilesMap'
 import PlayerBasic from './playerBasicClass'
-
-const {
-	content: { audios }
-} = contentFiles
 
 class PlayerPhrasal extends PlayerBasic {
 	constructor(mediaRef, phrases) {
@@ -15,21 +6,20 @@ class PlayerPhrasal extends PlayerBasic {
 		super(mediaRef)
 		this.currentPhraseNum = 0
 		this.phrases = phrases
+		this.phrasesCount = phrases.length
+		this.setStatus({ progressUpdateIntervalMillis: 100 })
 	}
 
 	onPlayAudioUpdate = playbackStatus => {
 		const { positionMillis, didJustFinish, isPlaying } = playbackStatus
-		// console.log('playbackStatus', playbackStatus)
 		const currentTime = positionMillis / 1000
-		const phrasesCount = this.phrases.length
-		// const { isPlaying } = playbackStatus
 		this.isPlaying = isPlaying
 		this.currentTime = currentTime
 		const { end: currentPhaseEnd } = this.phrases[this.currentPhraseNum] || {}
 
 		if (
 			currentTime > currentPhaseEnd &&
-			this.currentPhraseNum < phrasesCount - 1
+			this.currentPhraseNum < this.phrasesCount - 1
 		) {
 			this.currentPhraseNum++
 		}
