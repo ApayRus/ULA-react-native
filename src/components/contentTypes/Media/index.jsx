@@ -17,7 +17,7 @@ const Media = props => {
 
 	const {
 		contentTypeDoc,
-		subchapterTrDoc,
+		contentTypeTrDoc,
 		chapterId,
 		subchapterId,
 		showTranslation,
@@ -33,7 +33,7 @@ const Media = props => {
 	} = contentTypeDoc || {}
 
 	const { title: titleTr, content: { phrases: phrasesTr = {} } = {} } =
-		subchapterTrDoc || {}
+		contentTypeTrDoc || {}
 
 	const phrasesArray = objectToArray(phrases)
 	const phrasesTrArray = objectToArray(phrasesTr)

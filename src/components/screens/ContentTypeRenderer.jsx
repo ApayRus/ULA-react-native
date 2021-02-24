@@ -72,7 +72,10 @@ const ContentTypeRenderer = props => {
 	// const contentTypeInfo = getContentType(type)
 	const interactivity = contentTypeInteractivity?.[contentType]
 
-	const subchapterTrDoc = content.getSubchapterTr(chapterId, subchapterId)
+	// if subchapterId is undefined, we opens contentType from 1st level - chapter
+	const contentTypeTrDoc = subchapterId
+		? content.getSubchapterTr(chapterId, subchapterId)
+		: content.getChapterTr(chapterId)
 
 	const files = content.getFilesByPathArray([
 		'content',
@@ -82,7 +85,7 @@ const ContentTypeRenderer = props => {
 
 	const subchapterComponentProps = {
 		contentTypeDoc,
-		subchapterTrDoc,
+		contentTypeTrDoc,
 		contentType,
 		showTranslation,
 		chapterId,
