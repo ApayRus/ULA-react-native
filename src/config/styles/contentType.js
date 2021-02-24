@@ -16,7 +16,7 @@ list:
 	(other items...)
 </container>
 */
-
+import { colors } from 'react-native-elements'
 import general from './general'
 // BASIC TYPES
 
@@ -28,6 +28,61 @@ const oneLineOneFile = {
 	text: { ...general.body1 },
 	trText: { ...general.translation }
 }
+
+const media = {
+	phraseList: {
+		phrasesContainer: { marginBottom: 5 },
+		// phraseWrapper = avatar + texts
+		phraseWrapperContainer: { paddingLeft: 3, paddingRight: 3 },
+		// avatar and name of speaker
+		voiceContainer: {
+			flexDirection: 'row', // for arabic, hebrew: 'row-reverse'
+			alignItems: 'center',
+			marginTop: 15,
+			marginBottom: 2
+		},
+		avatarProps: {
+			rounded: true,
+			icon: { name: 'perm-identity', color: 'grey', type: '' },
+			containerStyle: {
+				backgroundColor: 'lightgrey',
+				width: 20,
+				height: 20,
+				marginRight: 5 // for arabic: marginRight
+			},
+			size: 'small'
+		},
+		voiceNameWrapper: { color: 'gray' },
+		voiceName: {},
+		voiceNameTr: {},
+		phraseDefaultContainer: {
+			borderColor: 'rgb(242,242,242)',
+			borderStyle: 'solid',
+			borderRadius: 5,
+			borderWidth: 1,
+			marginBottom: 6
+		},
+		phraseActiveContainer: {
+			borderColor: colors.primary,
+			borderStyle: 'solid',
+			borderRadius: 5,
+			borderWidth: 1,
+			marginBottom: 6
+		},
+		phraseTextsWrapper: { paddingLeft: 2, paddingRight: 7 }, // for arabic: 7, 2
+		phraseText: { ...general.body2 },
+		phraseTextTr: {
+			...general.body2,
+			...general.translation,
+			paddingBottom: 4
+		},
+		phraseNumContainer: { position: 'absolute', right: 2, bottom: 2 }, // for arabic: left:2
+		phraseNumText: { color: 'grey', fontSize: 10 }
+	}
+}
+
+// here you can create custom content type styles using basic ones
+// for example words and phrases both are extensions upon basic contentType: oneLineOneFile
 export default {
 	words: {
 		...oneLineOneFile,
@@ -41,5 +96,6 @@ export default {
 	},
 	phrases: {
 		...oneLineOneFile
-	}
+	},
+	media
 }

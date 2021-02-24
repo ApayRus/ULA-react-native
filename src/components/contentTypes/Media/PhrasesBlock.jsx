@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { View, ScrollView } from 'react-native'
 import PhraseWrapper from './PhraseWrapper'
+import contentTypeStyles from '../../../config/styles/contentType'
 
 export default function PhrasesBlock(props) {
 	const {
@@ -11,6 +12,9 @@ export default function PhrasesBlock(props) {
 		showTranslation
 	} = props
 
+	const {
+		media: { phraseList: contentTypeStyle }
+	} = contentTypeStyles
 	const scrollViewRef = useRef() // we will scroll it scrollTo({y})
 	const phrasesPositionYRef = useRef([]) // array of  Y coordinates for scroll to them
 
@@ -36,7 +40,7 @@ export default function PhrasesBlock(props) {
 
 	return (
 		<ScrollView ref={scrollViewRef} nestedScrollEnabled>
-			<View style={{ marginBottom: 5 }}>
+			<View style={contentTypeStyle.phrasesContainer}>
 				{phrasesArray.map((elem, index) => {
 					const { text, voiceName } = elem
 					const { text: trText, voiceName: voiceNameTr } =

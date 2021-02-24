@@ -1,7 +1,12 @@
 import React from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
-import { Avatar, colors } from 'react-native-elements'
-import general from '../../../config/styles/general'
+import { Avatar } from 'react-native-elements'
+import contentTypeStyles from '../../../config/styles/contentType'
+
+const {
+	media: { phraseList: contentTypeStyle }
+} = contentTypeStyles
+
 /* 
 <PhraseWrapper>
 	<Voice /> 
@@ -11,28 +16,13 @@ import general from '../../../config/styles/general'
 
 const Voice = ({ voiceName, voiceNameTr, showTranslation }) => {
 	return (
-		<View
-			style={{
-				flexDirection: 'row', // for arabic: 'row-reverse'
-				alignItems: 'center',
-				marginTop: 15,
-				marginBottom: 2
-			}}
-		>
-			<Avatar
-				rounded
-				icon={{ name: 'perm-identity', color: 'grey', type: '' }}
-				containerStyle={{
-					backgroundColor: 'lightgrey',
-					width: 20,
-					height: 20,
-					marginRight: 5 // for arabic: marginRight
-				}}
-				size='small'
-			/>
-			<Text style={{ color: 'gray' }}>
-				{voiceName}
-				{voiceNameTr && showTranslation ? ` (${voiceNameTr})` : ''}
+		<View style={contentTypeStyle.voiceContainer}>
+			<Avatar {...contentTypeStyle.avatarProps} />
+			<Text style={contentTypeStyle.voiceNameWrapper}>
+				<Text style={contentTypeStyle.voiceName}>{voiceName}</Text>
+				{voiceNameTr && showTranslation && (
+					<Text style={contentTypeStyle.voiceNameTr}>({voiceNameTr})</Text>
+				)}
 			</Text>
 		</View>
 	)
@@ -47,24 +37,23 @@ const Phrase = ({
 	handlePlayPhrase
 }) => {
 	const isActivePhrase = phraseNum === currentPhraseNum
-	const phraseStyle = isActivePhrase
-		? styles.phraseActive
-		: styles.phraseDefault
 
 	return (
 		<TouchableOpacity
 			onPress={handlePlayPhrase(phraseNum)}
-			style={[phraseStyle, { marginBottom: 6 }]}
+			style={
+				isActivePhrase
+					? contentTypeStyle.phraseActiveContainer
+					: contentTypeStyle.phraseDefaultContainer
+			}
 		>
-			<View style={{ paddingLeft: 2, paddingRight: 7 }}>
-				<Text style={general.body2}>{text}</Text>
+			<View style={contentTypeStyle.phraseTextsWrapper}>
+				<Text style={contentTypeStyle.phraseText}>{text}</Text>
 				{showTranslation && (
-					<Text style={[general.translation, { paddingBottom: 4 }]}>
-						{trText}
-					</Text>
+					<Text style={contentTypeStyle.phraseTextTr}>{trText}</Text>
 				)}
-				<View style={{ position: 'absolute', right: 2, bottom: 2 }}>
-					<Text style={{ color: 'grey', fontSize: 10 }}>{phraseNum}</Text>
+				<View style={contentTypeStyle.phraseNumContainer}>
+					<Text style={contentTypeStyle.phraseNumText}>{phraseNum}</Text>
 				</View>
 			</View>
 		</TouchableOpacity>
@@ -88,7 +77,7 @@ const PhraseWrapper = props => {
 
 	return (
 		<View
-			style={{ paddingLeft: 3, paddingRight: 3 }}
+			style={contentTypeStyle.phraseWrapperContainer}
 			onLayout={onPhraseLayout(phraseNum)}
 		>
 			{voiceName && <Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />}
@@ -104,18 +93,6 @@ const PhraseWrapper = props => {
 			/>
 		</View>
 	)
-}
-
-const border = color => ({
-	borderColor: color,
-	borderStyle: 'solid',
-	borderRadius: 5,
-	borderWidth: 1
-})
-
-const styles = {
-	phraseActive: { ...border(colors.primary) },
-	phraseDefault: { ...border('rgb(242,242,242)') }
 }
 
 export default PhraseWrapper

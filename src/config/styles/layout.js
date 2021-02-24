@@ -2,6 +2,18 @@ import { colors } from 'react-native-elements'
 import general from './general'
 import content from '../../utils/content'
 
+/* 
+ COLORS
+ you can use:
+ 1) {color: colors.primary}, all available colors here: https://reactnativeelements.com/docs/customization/
+ 2) {color: 'red'}, for more info please visit: https://www.w3schools.com/cssref/css_colors.asp
+
+ ICONS
+ on place of name in: icon: { name: 'list'} you can put any name from: https://www.materialui.co/icons
+ if the name includes several words, use dash as a delimiter, for example: 'arrow-forward'
+ for more info: https://reactnativeelements.com/docs/icon
+*/
+
 export default {
 	homeScreen: {
 		container: {
@@ -84,8 +96,6 @@ export default {
 	subchaptersListScreen: {
 		screenContainer: { justifyContent: 'center', padding: 5 },
 		listContainer: { marginTop: 10 },
-		subchapterButton: {
-			margin: 10
-		}
+		subchapterButton: { margin: 10 }
 	}
 }
