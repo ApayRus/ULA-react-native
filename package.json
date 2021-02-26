@@ -24,7 +24,6 @@
 		"expo-status-bar": "~1.0.3",
 		"expo-updates": "~0.4.1",
 		"mitt": "^2.1.0",
-		"random-js": "^2.1.0",
 		"react": "16.13.1",
 		"react-dom": "16.13.1",
 		"react-native": "0.63.4",
