@@ -47,20 +47,16 @@ export class Content {
 		const { trLang } = store.getState().translation
 
 		if (!trLang) return {}
-		try {
-			let chapters = this.translations[trLang]['default']['content']
-			chapters = map(chapters, (elem, key) => {
-				const { title = '???' } = elem
-				return { id: key, title }
-			})
-			return chapters.reduce(
-				(prev, item) => ({ ...prev, [item.id]: { title: item.title } }),
-				{}
-			)
-		} catch (e) {
-			console.log('translation error, ', e)
-			return {}
-		}
+		let chapters = this?.translations?.[trLang]?.default?.content
+		if (!chapters) return {}
+		chapters = map(chapters, (elem, key) => {
+			const { title = '???' } = elem
+			return { id: key, title }
+		})
+		return chapters.reduce(
+			(prev, item) => ({ ...prev, [item.id]: { title: item.title } }),
+			{}
+		)
 	}
 
 	getChapterTitle(chapterId) {
@@ -122,7 +118,7 @@ export class Content {
 	}
 
 	getChapter(chapterId) {
-		const chapterDoc = this.original.content[chapterId]
+		const chapterDoc = this?.original?.content?.[chapterId]
 		return chapterDoc
 	}
 
@@ -130,34 +126,26 @@ export class Content {
 	getChapterTr(chapterId) {
 		const { trLang } = store.getState().translation
 		if (!(trLang && chapterId)) return {}
-		try {
-			const trDoc =
-				this.translations[trLang]['default']['content'][chapterId] || {}
-			return trDoc
-		} catch (e) {
-			console.log('translation error, ', e)
-			return {}
-		}
+		const trDoc =
+			this?.translations?.[trLang]?.default?.content?.[chapterId] || {}
+		return trDoc
 	}
 
 	getSubchapter(chapterId, subchapterId) {
-		const subchapterDoc = this.original.content[chapterId].content[subchapterId]
+		const subchapterDoc = this?.original?.content?.[chapterId]?.content[
+			subchapterId
+		]
 		return subchapterDoc
 	}
 
 	getSubchapterTr(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
 		if (!(trLang && chapterId && subchapterId)) return {}
-		try {
-			const subchapterDoc =
-				this.translations[trLang].default.content[chapterId].content[
-					subchapterId
-				] || {}
-			return subchapterDoc
-		} catch (e) {
-			console.log('translation error, ', e)
-			return {}
-		}
+		const subchapterDoc =
+			this?.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
+				subchapterId
+			] || {}
+		return subchapterDoc
 	}
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
 		const { content: contentTypeDoc } = this.original.content[
