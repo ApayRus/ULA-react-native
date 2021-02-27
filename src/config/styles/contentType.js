@@ -81,6 +81,51 @@ const media = {
 	}
 }
 
+const inText = {
+	paragraphContainer: {},
+	paragraph: {
+		width: '100%',
+		...general.body2
+	},
+	listContainer: {
+		marginBottom: 10
+	},
+	list_itemContainer: {
+		width: '100%'
+	},
+	ulBullet: {
+		...general.body2,
+		color: 'grey',
+		margin: 2
+	},
+	blockquoteContainer: {
+		borderLeftColor: 'grey',
+		borderLeftWidth: 8,
+		borderStyle: 'solid',
+		paddingLeft: 5,
+		marginLeft: 2
+	},
+	space: {
+		// width: 30,
+		// height: 30,
+		// backgroundColor: 'red'
+	},
+	image: { width: 100, height: 100 },
+	strong: { fontWeight: 'bold' },
+
+	em: { fontStyle: 'italic' },
+	text: {
+		flexWrap: 'wrap',
+		// borderColor: 'orange',
+		// borderWidth: 1,
+		// borderStyle: 'solid',
+		...general.body2
+	},
+	heading2: {
+		...general.h4
+	}
+}
+
 // here you can create custom content type styles using basic ones
 // for example words and phrases both are extensions upon basic contentType: oneLineOneFile
 export default {
@@ -97,5 +142,8 @@ export default {
 	phrases: {
 		...oneLineOneFile
 	},
-	media
+	media,
+	text: {
+		...inText
+	}
 }

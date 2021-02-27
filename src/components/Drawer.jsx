@@ -61,18 +61,6 @@ export default function Drawer(props) {
 							<ListItem.Title>Exercise</ListItem.Title>
 						</ListItem.Content>
 					</ListItem>
-					<ListItem
-						style={{ marginBottom: 5 }}
-						// topDivider
-						bottomDivider
-						containerStyle={layoutStyles.listItem}
-						onPress={() => navigation.navigate('Typography')}
-					>
-						<Icon name='text-fields' color='grey' />
-						<ListItem.Content>
-							<ListItem.Title>Typography</ListItem.Title>
-						</ListItem.Content>
-					</ListItem>
 					{chapters.map(elem => {
 						const { id, title } = elem
 						const name = `chapter-${id}`

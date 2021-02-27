@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import HomeScreen from '../components/screens/HomeScreen'
 import AboutScreen from '../components/screens/AboutScreen'
-import TypographyScreen from '../components/screens/TypographyScreen'
 import ChapterSubchaptersListScreen from '../components/screens/ChapterSubchaptersListScreen'
 import ContentTypeRenderer from '../components/screens/ContentTypeRenderer'
 import DrawerContent from '../components/Drawer'
@@ -63,7 +62,6 @@ export default function RootNavigation() {
 					component={Exercise}
 					initialParams={{}}
 				/>
-				<Drawer.Screen name='Typography' component={TypographyScreen} />
 
 				{/* CHAPTERS */}
 

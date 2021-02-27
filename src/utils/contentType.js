@@ -2,15 +2,7 @@
  * Each content type has its own parser.
  */
 
-import {
-	parseSubs as frazyParseSubs,
-	parseText as frazyParseText,
-	mediaRegex,
-	mediaParser,
-	quizRegex,
-	quizParser,
-	inTextSoundedWordReplacer
-} from 'frazy-parser'
+import { parseSubs as frazyParseSubs } from 'frazy-parser'
 import { prefixedIndex, splitMarkdownIntoPartsByTemplate } from './utils.js'
 import contentTypeInteractivity from '../config/contentTypeInteractivity.js'
 import marked from 'marked'
@@ -127,17 +119,4 @@ const parseTypeOneLineOneFile = text => {
  * @param {string} textContent
  * @returns {string} - html
  */
-export const parseTypeInText = textContent => {
-	const html = marked(textContent)
-	const content = frazyParseText(
-		html,
-		[
-			{ label: 'media', regex: mediaRegex, parser: mediaParser },
-			{ label: 'quiz', regex: quizRegex, parser: quizParser },
-			{ label: 'text', replacers: [inTextSoundedWordReplacer] }
-		],
-		'text'
-	)
-	// console.log('content', content)
-	return content
-}
+export const parseTypeInText = markdownText => ({ markdownText })

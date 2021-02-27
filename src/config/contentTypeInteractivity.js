@@ -3,5 +3,6 @@
 export default {
 	words: 'oneLineOneFile',
 	phrases: 'oneLineOneFile',
-	media: 'media'
+	media: 'media',
+	text: 'inText'
 }

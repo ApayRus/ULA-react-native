@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { Text, colors } from 'react-native-elements'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
-// import InText from '../contentTypes/InText'
+import InText from '../contentTypes/InText'
 import Media from '../contentTypes/Media'
 import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
@@ -25,8 +25,8 @@ const getComponent = (interactivity, props) => {
 	switch (interactivity) {
 		case 'oneLineOneFile':
 			return <OneLineOneFile {...props} />
-		// case 'inText':
-		// 	return <InText {...props} />
+		case 'inText':
+			return <InText {...props} />
 		case 'media':
 			return <Media {...props} />
 		default:
