@@ -136,6 +136,9 @@ const Media = props => {
 					<Video
 						resizeMode='stretch'
 						useNativeControls
+						// usePoster
+						// poster doesn't disappear after video is loaded
+						// and I can't use default controls
 						style={{
 							width: screenWidth,
 							height: (screenWidth * 9) / 16

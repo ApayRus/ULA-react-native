@@ -13,7 +13,7 @@ const getSourceAndExtensionFromPath = async path => {
 		if (isYoutube(uri)) {
 			const youtubeResponse = await fetchYoutubeVideoByUrl(uri) // from direct-link.vercel.app
 			const { urlVideo: uriDirect, thumbnails = [] } = youtubeResponse || {}
-			const uriPoster = thumbnails[thumbnails.length - 1]
+			const { url: uriPoster } = thumbnails[thumbnails.length - 1]
 			const extension = '.mp4' // just guess for small youtube videos
 			return { uri: uriDirect, extension, uriPoster }
 		}
