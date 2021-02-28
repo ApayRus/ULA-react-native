@@ -9,7 +9,12 @@ import marked from 'marked'
 import Media from '../Media'
 import SoundedWord from './SoundedWord'
 import contentTypeStyles from '../../../config/styles/contentType'
-import { mediaParser, textWithSoundedWordsParser } from './subTypeParsers'
+import {
+	mediaParser,
+	textWithSoundedWordsParser,
+	quizParser
+} from './subTypeParsers'
+import Quiz from '../Quiz'
 
 // for better understanding what is happening beyond, may be you need to read this resources:
 // 1) marked.js lexer https://marked.js.org/using_pro#lexer
@@ -39,6 +44,9 @@ const TypographyScreen = props => {
 		content: { markdownText }
 	} = contentTypeDoc
 
+	let quizIndex = 0
+	// we need quizIndex to identify quiz answers (right/wrong) and save them to persistent storage (e.g. localStorage)
+
 	const contentTypeStyle = contentTypeStyles?.[contentType]
 
 	const lexerOutput = marked.lexer(markdownText)
@@ -66,6 +74,19 @@ const TypographyScreen = props => {
 				return <Media key={`type-${index}`} {...mediaParams} />
 			}
 			// 2. quiz
+			if (type === 'list') {
+				const quizParams = quizParser(rawText)
+				if (quizParams) {
+					quizIndex++
+					return (
+						<Quiz
+							key={`type-${index}`}
+							{...{ chapterId, subchapterId, quizIndex }}
+							data={quizParams}
+						/>
+					)
+				}
+			}
 
 			// RENDERERS FOR ORDINARY TEXT
 			const inlineWithInlineRenderer = (index, children, type) => {

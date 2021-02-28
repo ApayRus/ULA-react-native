@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native'
 import { Text, CheckBox } from 'react-native-elements'
 import CheckAnswersButton from '../../CheckAnswersButton'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
+import layoutStylesModule from '../../../config/styles/layout'
 
 const Quiz = props => {
 	const {
@@ -11,6 +12,8 @@ const Quiz = props => {
 		quizId,
 		data: { type, correctAnswers = [], variants }
 	} = props
+
+	const { quiz: layoutStyles } = layoutStylesModule
 
 	const [userAnswers, setUserAnswers] = useState([])
 	const [correctState, setCorrectState] = useState('unknown') // isRight || isWrong
@@ -51,14 +54,13 @@ const Quiz = props => {
 				onPress={handlePressVariant(variantIndex, type)}
 				style={{ marginTop: 5 }}
 			>
-				<Text>
+				<Text style={layoutStyles.variantText}>
 					<CheckBox
-						size={18}
+						{...layoutStyles.checkboxProps}
 						{...(type === 'single'
 							? { checkedIcon: 'dot-circle-o', uncheckedIcon: 'circle-o' }
 							: {})}
 						checked={userAnswers.includes(variantIndex)}
-						containerStyle={{ margin: 0, padding: 0 }}
 						onPress={handlePressVariant(variantIndex, type)}
 					/>
 					{text}

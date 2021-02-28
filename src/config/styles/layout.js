@@ -98,5 +98,12 @@ export default {
 		screenContainer: { justifyContent: 'center', padding: 5 },
 		listContainer: { marginTop: 10 },
 		subchapterButton: { margin: 10 }
+	},
+	quiz: {
+		variantText: { ...general.body2 },
+		checkboxProps: {
+			size: general.body2.fontSize,
+			containerStyle: { margin: 0, padding: 0 }
+		}
 	}
 }

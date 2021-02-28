@@ -38,6 +38,10 @@ const ordinaryWordParser = rawText => {
 	return { text: rawText }
 }
 
+/**
+ * labels content to sounded and ordinary
+ * @param {string} rawText
+ */
 export const textWithSoundedWordsParser = rawText => {
 	return parseText(
 		rawText,
@@ -51,4 +55,25 @@ export const textWithSoundedWordsParser = rawText => {
 		],
 		'ordinaryText'
 	)
+}
+
+export const quizParser = rawText => {
+	const quizRegex = /^\s*[\-\*]\s*([\(\[])(.*?)([\]\)])\s*(.+)$/
+	const matches = [...rawText.matchAll(new RegExp(quizRegex, 'gm'))]
+	if (!matches.length) {
+		return null
+	}
+	const firstBrace = matches[0][1]
+	const type = firstBrace === '(' ? 'single' : 'multiple'
+	const correctAnswers = []
+
+	const variants = matches.map((elem, index) => {
+		const [, , answerSign, , text] = elem
+		if (answerSign.trim()) {
+			correctAnswers.push(index)
+		}
+		return { text }
+	})
+
+	return { variants, correctAnswers, type }
 }
