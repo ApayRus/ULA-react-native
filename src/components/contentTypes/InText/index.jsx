@@ -1,26 +1,20 @@
 import React from 'react'
 import {
-	ScrollView,
 	View,
-	useWindowDimensions,
-	Text,
-	TouchableOpacity
+	// useWindowDimensions,
+	Text
 } from 'react-native'
 import { Image } from 'react-native-elements'
 import marked from 'marked'
 import Media from '../Media'
-import { playAudio } from '../../../utils/playerShortAudios'
-import content from '../../../utils/content'
+import SoundedWord from './SoundedWord'
 import contentTypeStyles from '../../../config/styles/contentType'
+import { mediaParser, textWithSoundedWordsParser } from './subTypeParsers'
 
-const mediaRegex = new RegExp(/\[\s*?media\s*?\|\s*?(.+?)\s*\]/)
-
-const mediaParser = mediaText => {
-	const mediaMatch = mediaText?.match(mediaRegex)
-	const [, paramsString = ''] = mediaMatch || []
-	const [path, ...params] = paramsString.split('|')?.map(elem => elem.trim())
-	return { path, params }
-}
+// for better understanding what is happening beyond, may be you need to read this resources:
+// 1) marked.js lexer https://marked.js.org/using_pro#lexer
+// 2) https://github.com/Aparus/frazy-parser/blob/master/parsers/intext.js
+// 3) as a playground you can use https://codesandbox.io/s/marked-lexer-to-react-components-6enjk?file=/src/App.js
 
 marked.use({
 	gfm: false,
@@ -52,15 +46,9 @@ const TypographyScreen = props => {
 	// console.log('lexerOutput', JSON.stringify(lexerOutput, null, '\t'))
 	// console.log('lexerOutput', lexerOutput)
 
-	const handlePressSoundedWord = (text, path) => () => {
-		const filePath = path || `${chapterId}/${subchapterId}/audios/${text}`
-		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
-		playAudio(audioFile)
-	}
-
 	const renderLexerNodes = (nodesArray = []) => {
 		return nodesArray.map((elem, index) => {
-			const { tokens, items, type, text, href, depth = '', raw } = elem
+			const { tokens, items, type, text, href, depth = '', raw: rawText } = elem
 			/* 
 		items - in list 
 		href - in image
@@ -69,24 +57,15 @@ const TypographyScreen = props => {
 
 			// RENDERERS FOR OUR CUSTOM COMPONENTS
 
-			if (raw.match(mediaRegex)) {
-				const mediaProps = mediaParser(raw)
-				return <Media key={`elem${index}`} data={mediaProps} />
-			}
+			// media and quiz - is a first level nodes, we can render it at first level
+			// sounded text can be deep in lexer tree, then we render it inside recursion, when we met its sign
 
-			// if (raw.match(soundedWordRegex)) {
-			// 	return (
-			// 		<TouchableOpacity
-			// 			onPress={handlePressSoundedWord(
-			// 				text.replace(/[,\. ]+/g, '_'),
-			// 				path
-			// 			)}
-			// 			key={`intext-${text}`}
-			// 		>
-			// 			<Text style={[{ color: 'darkblue' }]}>{text}</Text>
-			// 		</TouchableOpacity>
-			// 	)
-			// }
+			// 1. media - takes whole paragraph
+			const mediaParams = mediaParser(rawText)
+			if (mediaParams) {
+				return <Media key={`type-${index}`} {...mediaParams} />
+			}
+			// 2. quiz
 
 			// RENDERERS FOR ORDINARY TEXT
 			const inlineWithInlineRenderer = (index, children, type) => {
@@ -136,8 +115,27 @@ const TypographyScreen = props => {
 			// if lexer node hasn't children we just render this node
 			if (!children) {
 				switch (type) {
-					case 'text':
-						return text
+					case 'text': {
+						const arrayOfTextBlocks = textWithSoundedWordsParser(text)
+						// contains ordinaryText and soundedWords in it
+						// [{label: 'ordinaryText', data:{text}}, {label: 'soundedText, data:{text, path, params}}]
+						return arrayOfTextBlocks.map((elem, index2) => {
+							const {
+								label,
+								data: { text, path, params }
+							} = elem
+							if (label === 'ordinaryText') {
+								return text
+							} else if (label === 'soundedText') {
+								return (
+									<SoundedWord
+										key={`type-${index}-${index2}`}
+										{...{ text, path, params, chapterId, subchapterId }}
+									/>
+								)
+							}
+						})
+					}
 					case 'image':
 						return (
 							<Image
