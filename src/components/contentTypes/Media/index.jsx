@@ -11,7 +11,7 @@ import PhrasesBlock from './PhrasesBlock'
 const Media = props => {
 	// if siple media, from inText
 
-	const { data: { path } = {} } = props
+	const { path /* params */ } = props
 
 	// ===== if advanced media, from ChapterScreen/subchapter
 
