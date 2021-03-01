@@ -1,3 +1,4 @@
+import matchAll from 'string.prototype.matchall'
 import { parseText } from 'frazy-parser'
 
 /**
@@ -59,7 +60,7 @@ export const textWithSoundedWordsParser = rawText => {
 
 export const quizParser = rawText => {
 	const quizRegex = /^\s*[\-\*]\s*([\(\[])(.*?)([\]\)])\s*(.+)$/
-	const matches = [...rawText.matchAll(new RegExp(quizRegex, 'gm'))]
+	const matches = [...matchAll(rawText, new RegExp(quizRegex, 'gm'))]
 	if (!matches.length) {
 		return null
 	}
