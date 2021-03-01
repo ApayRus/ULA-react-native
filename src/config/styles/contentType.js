@@ -121,6 +121,10 @@ const inText = {
 		// borderStyle: 'solid',
 		...general.body2
 	},
+	soundedWord: {
+		...general.body2,
+		color: colors.primary
+	},
 	heading2: {
 		...general.h4
 	}

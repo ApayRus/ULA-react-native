@@ -1,7 +1,8 @@
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Text } from 'react-native'
 import { playAudio } from '../../../utils/playerShortAudios'
 import content from '../../../utils/content'
+import contentTypeStyles from '../../../config/styles/contentType'
 
 const SoundedWord = props => {
 	const { text = '', path, /* params */ chapterId, subchapterId } = props
@@ -16,11 +17,12 @@ const SoundedWord = props => {
 	}
 
 	return (
-		<TouchableOpacity
+		<Text
 			onPress={handlePressSoundedWord(text.replace(/[,\. ]+/g, '_'), path)}
+			style={contentTypeStyles.text.soundedWord}
 		>
-			<Text style={[{ color: 'darkblue' }]}>{text}</Text>
-		</TouchableOpacity>
+			{text}
+		</Text>
 	)
 }
 
