@@ -54,17 +54,15 @@ const Quiz = props => {
 				onPress={handlePressVariant(variantIndex, type)}
 				style={{ marginTop: 5 }}
 			>
-				<Text style={layoutStyles.variantText}>
-					<CheckBox
-						{...layoutStyles.checkboxProps}
-						{...(type === 'single'
-							? { checkedIcon: 'dot-circle-o', uncheckedIcon: 'circle-o' }
-							: {})}
-						checked={userAnswers.includes(variantIndex)}
-						onPress={handlePressVariant(variantIndex, type)}
-					/>
-					{text}
-				</Text>
+				<CheckBox
+					{...layoutStyles.checkboxProps}
+					{...(type === 'single'
+						? { checkedIcon: 'dot-circle-o', uncheckedIcon: 'circle-o' }
+						: {})}
+					checked={userAnswers.includes(variantIndex)}
+					onPress={handlePressVariant(variantIndex, type)}
+					title={text}
+				/>
 			</TouchableOpacity>
 		)
 	})

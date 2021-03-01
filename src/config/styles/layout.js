@@ -100,10 +100,11 @@ export default {
 		subchapterButton: { margin: 10 }
 	},
 	quiz: {
-		variantText: { ...general.body2 },
+		variantText: { ...general.body2, alignItems: 'baseline' },
 		checkboxProps: {
 			size: general.body2.fontSize,
-			containerStyle: { margin: 0, padding: 0 }
+			containerStyle: { margin: 0, padding: 0, backgroundColor: 'transparent' },
+			textStyle: { ...general.body2, fontWeight: 'normal' }
 		}
 	}
 }
