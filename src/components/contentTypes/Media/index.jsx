@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { View, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions, Platform } from 'react-native'
 import { Video } from 'expo-av'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
@@ -135,8 +135,8 @@ const Media = props => {
 				{isVideo && (
 					<Video
 						resizeMode='stretch'
-						useNativeControls
-						// usePoster
+						// useNativeControls
+						usePoster
 						// poster doesn't disappear after video is loaded
 						// and I can't use default controls
 						style={{
@@ -144,10 +144,13 @@ const Media = props => {
 							height: (screenWidth * 9) / 16
 						}}
 						ref={mediaRef}
-						{...mediaSourceRef.current} // source and posterSource
+						{...Platform.select({
+							native: {},
+							default: mediaSourceRef.current
+						})} // source and posterSource
 					/>
 				)}
-				{!isVideo && <View>{playerControlsMemo}</View>}
+				<View>{playerControlsMemo}</View>
 			</View>
 		</View>
 	)
