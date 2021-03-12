@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import Media from '../Media'
 import { mediaParser, quizParser } from './subTypeParsers'
 import Quiz from '../Quiz'
-import MarkdownRenderer from './MarkdownRenderer'
+import MarkdownRenderer from '../../MarkdownRenderer'
 import marked from 'marked'
 
 // for better understanding what is happening beyond, may be you need to read this resources:

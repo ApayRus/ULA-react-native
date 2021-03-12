@@ -5,9 +5,9 @@ import {
 	Text
 } from 'react-native'
 import { Image } from 'react-native-elements'
-import SoundedWord from './SoundedWord'
-import contentTypeStyles from '../../../config/styles/contentType'
-import { textWithSoundedWordsParser } from './subTypeParsers'
+import SoundedWord from './contentTypes/InText/SoundedWord'
+import contentTypeStyles from '../config/styles/contentType'
+import { textWithSoundedWordsParser } from './contentTypes/InText/subTypeParsers'
 import marked from 'marked'
 
 marked.use({
