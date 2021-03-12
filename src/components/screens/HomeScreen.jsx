@@ -14,34 +14,41 @@ export default function HomeScreen({ navigation, route }) {
 	const { homeScreen: layoutStyles } = layoutStylesModule
 
 	return (
-		<>
-			<StatusBar style='auto' />
-			<View style={layoutStyles.container}>
-				<ImageBackground {...layoutStyles.backgroundImageProps}>
-					<Text style={layoutStyles.title}>{title}</Text>
+		<View style={layoutStyles.root}>
+			<StatusBar style='light' />
+
+			<ImageBackground {...layoutStyles.backgroundImageProps}>
+				{/* before logo container  */}
+				<View style={layoutStyles.beforeLogoContainer}>
+					{title.split(/\\n/).map(titlePart => {
+						return (
+							<Text key={titlePart} style={layoutStyles.title}>
+								{titlePart}
+							</Text>
+						)
+					})}
+
 					<Text style={layoutStyles.author}>{author}</Text>
-					<View style={layoutStyles.logoImageContainer}>
-						<Image {...layoutStyles.logoImageProps} />
-					</View>
+				</View>
+				{/* logo container */}
+				<View style={layoutStyles.logoContainer}>
+					<Image {...layoutStyles.logoImageProps} />
+				</View>
+				{/* after logo container  */}
+				<View style={layoutStyles.afterLogoContainer}>
 					<Button
 						onPress={() => navigation.toggleDrawer()}
 						{...layoutStyles.tableOfContentButtonProps}
 					/>
-					<View style={layoutStyles.additionalInfoContainer}>
-						{Object.keys(info)
-							.filter(key => key !== 'title' && key !== 'author')
-							.map(key => (
-								<View
-									style={layoutStyles.additionalInfoItem}
-									key={`info-${key}`}
-								>
-									<Text style={layoutStyles.additionalInfoText}>
-										{key}: {info[key]}
-									</Text>
-								</View>
-							))}
-					</View>
-
+					{Object.keys(info)
+						.filter(key => key !== 'title' && key !== 'author')
+						.map(key => (
+							<View style={layoutStyles.additionalInfoItem} key={`info-${key}`}>
+								<Text style={layoutStyles.additionalInfoText}>
+									{key}: {info[key]}
+								</Text>
+							</View>
+						))}
 					{translations.length > 0 && (
 						<View style={layoutStyles.translationsContainer}>
 							<TranslationsSelect translations={translations} />
@@ -53,8 +60,8 @@ export default function HomeScreen({ navigation, route }) {
 							onPress={() => navigation.navigate('chapter-001')}
 						/>
 					</View>
-				</ImageBackground>
-			</View>
-		</>
+				</View>
+			</ImageBackground>
+		</View>
 	)
 }

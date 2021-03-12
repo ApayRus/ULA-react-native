@@ -15,9 +15,11 @@ import content from '../../utils/content'
 */
 
 export default {
+	// HOME SCREEN
 	homeScreen: {
-		container: {
+		root: {
 			flex: 1
+			// justifyContent: 'stretch'
 		},
 		backgroundImageProps: {
 			style: {
@@ -30,14 +32,35 @@ export default {
 			imageStyle: { opacity: 0.5, resizeMode: 'stretch' },
 			source: content.getFilesByPathString('images/background')?.file
 		},
+		// first 1/3 before logo
+		beforeLogoContainer: {
+			flex: 2,
+			paddingTop: 20,
+			width: '100%'
+			// borderWidth: 1,
+		},
 		title: { ...general.h3, textAlign: 'center' },
 		author: { ...general.h5, textAlign: 'center' },
-		logoImageContainer: { marginTop: 30 },
+		// middle 1/3 logo
+		logoContainer: {
+			// marginTop: 30,
+			flex: 1,
+			justifyContent: 'center',
+			width: '100%',
+			alignItems: 'center'
+			// borderWidth: 1,
+		},
 		logoImageProps: {
-			style: { width: 200, height: 80 },
+			style: { width: 320, height: 200, resizeMode: 'contain' },
 			source: content.getFilesByPathString('images/logo')?.file
 		},
-		additionalInfoContainer: { marginTop: 10, alignItems: 'center' },
+		afterLogoContainer: {
+			flex: 2,
+			width: '100%',
+			paddingTop: 10,
+			alignItems: 'center'
+			// borderWidth: 1
+		},
 		additionalInfoItem: { marginBottom: 2 },
 		additionalInfoText: { ...general.body3 },
 		tableOfContentButtonProps: {
@@ -60,26 +83,59 @@ export default {
 			type: 'clear'
 		}
 	},
-
+	// DRAWER
 	drawer: {
-		containerView: { flex: 1, backgroundColor: 'rgb(242,242,242)' },
-		containerScrollView: { ...general.basicWritingDirection },
-		imageContainer: { marginTop: 10, alignItems: 'center' },
-		image: { width: 100, height: 100 },
-		listItem: {
-			paddingBottom: 2,
-			paddingTop: 2,
+		containerView: {
+			flex: 1,
 			backgroundColor: 'rgb(242,242,242)'
-			// backgroundColor: 'transparent'
 		},
-		listItemText: { ...general.body2 },
-		listItemTranslation: { ...general.translation }
+		containerScrollView: {},
+
+		containerContainerScrollView: {},
+		imageContainer: { marginTop: 20, marginBottom: 10, alignItems: 'center' },
+		logoImageProps: {
+			style: { width: 200, height: 100, resizeMode: 'contain' },
+			source: content.getFilesByPathString('images/logo')?.file
+		},
+		listItemProps: {
+			containerStyle: {
+				paddingBottom: 2,
+				paddingTop: 2,
+				backgroundColor: 'rgb(242,242,242)',
+				...general.basicWritingDirection
+				// borderWidth: 1,
+				// alignItems: 'center'
+			},
+
+			bottomDivider: true
+
+			// ...general.basicAlign,
+			// flexDirection: 'row-reverse',
+			// backgroundColor: 'transparent',
+		},
+		listItemText: {
+			...general.body2,
+			width: '100%'
+		},
+		listItemTranslation: {
+			...general.translation,
+			width: '100%'
+		},
+		listItemDecorBeforeImageProps: {
+			style: { width: 50, height: 25, resizeMode: 'contain', marginLeft: 20 },
+			source: content.getFilesByPathString('images/titleDecorLeft')?.file
+		},
+		listItemDecorAfterImageProps: {
+			style: { width: 50, height: 25, resizeMode: 'contain', marginRight: 20 },
+			source: content.getFilesByPathString('images/titleDecorRight')?.file
+		}
 	},
-	// chapter/subchapter title with translations
+
+	// CHAPTER/SUBCHAPTER HEADER
 	screenHeader: {
 		container: {
-			marginTop: 10,
-			marginBottom: 10,
+			// marginTop: 10,
+			// marginBottom: 10,
 			marginLeft: 5,
 			marginRight: 5,
 			alignItems: 'center'
@@ -91,14 +147,22 @@ export default {
 			marginTop: 5,
 			textAlign: 'center'
 		},
-		chapterTitleTr: { ...general.translation, textAlign: 'center' },
-		subchapterTitleTr: { ...general.translation, textAlign: 'center' }
+		chapterTitleTr: {
+			...general.translation,
+			textAlign: 'center'
+		},
+		subchapterTitleTr: {
+			...general.translation,
+			textAlign: 'center'
+		}
 	},
 	subchaptersListScreen: {
 		screenContainer: { justifyContent: 'center', padding: 5 },
 		listContainer: { marginTop: 10 },
 		subchapterButton: { margin: 10 }
 	},
+
+	// QUIZ
 	quiz: {
 		variantText: { ...general.body2, alignItems: 'baseline' },
 		checkboxProps: {
