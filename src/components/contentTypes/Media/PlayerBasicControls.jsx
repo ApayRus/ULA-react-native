@@ -5,7 +5,7 @@ import Slider from '@react-native-community/slider'
 import { formatSecondsToTime } from '../../../utils/utils'
 
 export default function PhrasalPlayerControls(props) {
-	const { player, isPlaying, currentTime, duration, rate } = props
+	const { player, isPlaying, currentTime = 0, duration = 100, rate } = props
 
 	const handlePlay = () => {
 		player.play()
@@ -83,7 +83,7 @@ export default function PhrasalPlayerControls(props) {
 			<Slider
 				minimumValue={0}
 				value={currentTime}
-				maximumValue={duration ? duration : 100}
+				maximumValue={duration}
 				onSlidingStart={() => handleSeekStart()}
 				onSlidingComplete={value => handleSeek(value)}
 				style={styles.slider}
