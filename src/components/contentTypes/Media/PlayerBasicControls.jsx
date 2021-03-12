@@ -82,8 +82,8 @@ export default function PhrasalPlayerControls(props) {
 		<View>
 			<Slider
 				minimumValue={0}
-				value={currentTime}
-				maximumValue={duration}
+				value={currentTime ? currentTime : 0}
+				maximumValue={duration ? duration : 100}
 				onSlidingStart={() => handleSeekStart()}
 				onSlidingComplete={value => handleSeek(value)}
 				style={styles.slider}
