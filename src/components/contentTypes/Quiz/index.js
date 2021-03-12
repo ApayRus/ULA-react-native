@@ -49,21 +49,16 @@ const Quiz = props => {
 	const variantsRender = variants.map((elem, variantIndex) => {
 		const { text } = elem
 		return (
-			<TouchableOpacity
+			<CheckBox
 				key={`variant-${variantIndex}`}
+				{...layoutStyles.checkboxProps}
+				{...(type === 'single'
+					? { checkedIcon: 'dot-circle-o', uncheckedIcon: 'circle-o' }
+					: {})}
+				checked={userAnswers.includes(variantIndex)}
 				onPress={handlePressVariant(variantIndex, type)}
-				style={{ marginTop: 5 }}
-			>
-				<CheckBox
-					{...layoutStyles.checkboxProps}
-					{...(type === 'single'
-						? { checkedIcon: 'dot-circle-o', uncheckedIcon: 'circle-o' }
-						: {})}
-					checked={userAnswers.includes(variantIndex)}
-					onPress={handlePressVariant(variantIndex, type)}
-					title={text}
-				/>
-			</TouchableOpacity>
+				title={text}
+			/>
 		)
 	})
 
