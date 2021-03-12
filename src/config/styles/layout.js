@@ -134,8 +134,8 @@ export default {
 	// CHAPTER/SUBCHAPTER HEADER
 	screenHeader: {
 		container: {
-			// marginTop: 10,
-			// marginBottom: 10,
+			marginTop: 10,
+			marginBottom: 10,
 			marginLeft: 5,
 			marginRight: 5,
 			alignItems: 'center'
