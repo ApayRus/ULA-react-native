@@ -14,22 +14,23 @@ export default function Drawer(props) {
 
 	const trChapters = content.getChapterTitlesTr()
 
+	const isTitleDecorLeft = Boolean(
+		content.getFilesByPathString('images/titleDecorLeft')?.file
+	)
+	const isTitleDecorRight = Boolean(
+		content.getFilesByPathString('images/titleDecorRight')?.file
+	)
+
 	return (
 		<View style={layoutStyles.containerView}>
 			{/* <ImageBackground {...layoutStyles.backgroundImageProps}> */}
 			<ScrollView style={layoutStyles.containerScrollView}>
 				<View style={layoutStyles.imageContainer}>
-					<Image
-						style={layoutStyles.image}
-						source={content.getFilesByPathString('images/logo')?.file}
-					></Image>
+					<Image {...layoutStyles.logoImageProps}></Image>
 				</View>
 				<View>
 					<ListItem
-						style={{ marginBottom: 5 }}
-						// topDivider
-						bottomDivider
-						containerStyle={layoutStyles.listItem}
+						{...layoutStyles.listItemProps}
 						onPress={() => navigation.navigate('Home')}
 					>
 						<Icon name='home' color='grey' />
@@ -38,10 +39,7 @@ export default function Drawer(props) {
 						</ListItem.Content>
 					</ListItem>
 					<ListItem
-						style={{ marginBottom: 5 }}
-						// topDivider
-						bottomDivider
-						containerStyle={layoutStyles.listItem}
+						{...layoutStyles.listItemProps}
 						onPress={() => navigation.navigate('About')}
 					>
 						<Icon name='info' color='grey' />
@@ -50,10 +48,7 @@ export default function Drawer(props) {
 						</ListItem.Content>
 					</ListItem>
 					<ListItem
-						style={{ marginBottom: 5 }}
-						// topDivider
-						bottomDivider
-						containerStyle={layoutStyles.listItem}
+						{...layoutStyles.listItemProps}
 						onPress={() => navigation.navigate('Exercise')}
 					>
 						<Icon name='info' color='grey' />
@@ -66,11 +61,13 @@ export default function Drawer(props) {
 						const name = `chapter-${id}`
 						return (
 							<ListItem
-								bottomDivider
-								containerStyle={layoutStyles.listItem}
+								{...layoutStyles.listItemProps}
 								key={name}
 								onPress={() => navigation.navigate(name)}
 							>
+								{isTitleDecorLeft && (
+									<Image {...layoutStyles.listItemDecorBeforeImageProps} />
+								)}
 								<ListItem.Content>
 									<ListItem.Title style={layoutStyles.listItemText}>
 										{title}
@@ -81,6 +78,9 @@ export default function Drawer(props) {
 										</ListItem.Subtitle>
 									)}
 								</ListItem.Content>
+								{isTitleDecorRight && (
+									<Image {...layoutStyles.listItemDecorAfterImageProps} />
+								)}
 							</ListItem>
 						)
 					})}
