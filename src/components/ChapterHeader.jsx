@@ -84,22 +84,24 @@ function ChapterHeader(props) {
 	)
 
 	return (
-		<>
-			<StatusBar style='auto' />
+		<View>
+			<StatusBar style='light' />
 			<Header {...{ leftComponent, rightComponent }} />
 			<View style={layoutStyles.container}>
 				<Text style={layoutStyles.chapterTitle}>{chapterTitle}</Text>
-				{showTranslation && (
+				{showTranslation && Boolean(chapterTitleTr) && (
 					<Text style={layoutStyles.chapterTitleTr}>{chapterTitleTr}</Text>
 				)}
-				<Text style={layoutStyles.subchapterTitle}>{subchapterTitle}</Text>
-				{showTranslation && (
+				{Boolean(subchapterTitle) && (
+					<Text style={layoutStyles.subchapterTitle}>{subchapterTitle}</Text>
+				)}
+				{showTranslation && Boolean(subchapterTitleTr) && (
 					<Text style={layoutStyles.subchapterTitleTr}>
 						{subchapterTitleTr}
 					</Text>
 				)}
 			</View>
-		</>
+		</View>
 	)
 }
 
