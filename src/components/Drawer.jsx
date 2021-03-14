@@ -47,15 +47,6 @@ export default function Drawer(props) {
 							<ListItem.Title>About</ListItem.Title>
 						</ListItem.Content>
 					</ListItem>
-					<ListItem
-						{...layoutStyles.listItemProps}
-						onPress={() => navigation.navigate('Exercise')}
-					>
-						<Icon name='info' color='grey' />
-						<ListItem.Content>
-							<ListItem.Title>Exercise</ListItem.Title>
-						</ListItem.Content>
-					</ListItem>
 					{chapters.map(elem => {
 						const { id, title } = elem
 						const name = `chapter-${id}`

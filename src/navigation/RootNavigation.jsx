@@ -11,7 +11,6 @@ import content from '../utils/content'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
-import Exercise from '../components/contentTypes/Exercise'
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
@@ -55,11 +54,6 @@ export default function RootNavigation() {
 				<Drawer.Screen
 					name='About'
 					component={AboutScreen}
-					initialParams={{}}
-				/>
-				<Drawer.Screen
-					name='Exercise'
-					component={Exercise}
 					initialParams={{}}
 				/>
 
