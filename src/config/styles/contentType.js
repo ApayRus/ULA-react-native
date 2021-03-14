@@ -82,21 +82,21 @@ const media = {
 }
 
 const inText = {
-	paragraphContainer: {},
+	paragraphContainer: { marginTop: 10 },
 	paragraph: {
 		width: '100%',
 		...general.body2
 	},
 	listContainer: {
-		marginBottom: 10
+		marginTop: 10
+		// marginBottom: 10
 	},
 	list_itemContainer: {
 		width: '100%'
 	},
 	ulBullet: {
 		...general.body2,
-		color: 'grey',
-		margin: 2
+		color: 'grey'
 	},
 	blockquoteContainer: {
 		borderLeftColor: 'grey',
@@ -106,6 +106,7 @@ const inText = {
 		marginLeft: 2
 	},
 	space: {
+		height: 0
 		// width: 30,
 		// height: 30,
 		// backgroundColor: 'red'
@@ -127,6 +128,9 @@ const inText = {
 	},
 	heading2: {
 		...general.h4
+	},
+	heading3: {
+		...general.h5
 	}
 }
 

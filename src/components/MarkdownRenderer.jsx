@@ -62,7 +62,7 @@ const MarkdownRenderer = props => {
 		const blockWithInlineRenderer = (index, children, type) => {
 			const listBullet =
 				type === 'list_item' ? (
-					<Text style={contentTypeStyle.ulBullet}>•</Text>
+					<Text style={contentTypeStyle.ulBullet}>• </Text>
 				) : null
 
 			return (
