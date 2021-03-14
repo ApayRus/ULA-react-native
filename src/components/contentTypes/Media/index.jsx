@@ -145,7 +145,7 @@ const Media = props => {
 						}}
 						ref={mediaRef}
 						{...Platform.select({
-							native: {},
+							native: { posterSource: mediaSourceRef?.current?.posterSource },
 							default: mediaSourceRef.current
 						})} // source and posterSource
 					/>
