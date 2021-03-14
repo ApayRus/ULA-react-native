@@ -49,9 +49,7 @@ const Phrase = ({
 			}
 		>
 			<View style={contentTypeStyle.phraseTextsWrapper}>
-				<Text style={contentTypeStyle.phraseText}>
-					<MarkdownRenderer markdownText={text} contentType='text' />
-				</Text>
+				<MarkdownRenderer markdownText={text} contentType='textForMedia' />
 				{/* <MarkdownRenderer markdownText={text} contentType='text' /> */}
 				{showTranslation && (
 					<Text style={contentTypeStyle.phraseTextTr}>{trText}</Text>

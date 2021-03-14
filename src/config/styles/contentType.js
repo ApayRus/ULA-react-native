@@ -82,9 +82,10 @@ const media = {
 }
 
 const inText = {
+	root: { paddingLeft: 10, paddingRight: 10 },
 	paragraphContainer: { marginTop: 10 },
 	paragraph: {
-		width: '100%',
+		// width: '100%',
 		...general.body2
 	},
 	listContainer: {
@@ -99,7 +100,8 @@ const inText = {
 		color: 'grey'
 	},
 	blockquoteContainer: {
-		borderLeftColor: 'grey',
+		marginTop: 10,
+		borderLeftColor: colors.primary,
 		borderLeftWidth: 8,
 		borderStyle: 'solid',
 		paddingLeft: 5,
@@ -153,5 +155,9 @@ export default {
 	media,
 	text: {
 		...inText
+	},
+	textForMedia: {
+		...inText,
+		paragraphContainer: { marginTop: 0 }
 	}
 }

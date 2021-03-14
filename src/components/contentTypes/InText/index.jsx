@@ -5,6 +5,7 @@ import { mediaParser, quizParser } from './subTypeParsers'
 import Quiz from '../Quiz'
 import MarkdownRenderer from '../../MarkdownRenderer'
 import marked from 'marked'
+import contentTypeStyles from '../../../config/styles/contentType'
 
 // for better understanding what is happening beyond, may be you need to read this resources:
 // 1) marked.js lexer https://marked.js.org/using_pro#lexer
@@ -34,12 +35,14 @@ const TypographyScreen = props => {
 		content: { markdownText }
 	} = contentTypeDoc
 
+	const contentTypeStyle = contentTypeStyles[contentType]
+
 	let quizIndex = 0
 	// we need quizIndex to identify quiz answers (right/wrong) and save them to persistent storage (e.g. localStorage)
 
 	const lexerNodesArray = marked.lexer(markdownText)
 
-	return lexerNodesArray.map((elem, index) => {
+	const inTextComponentsArray = lexerNodesArray.map((elem, index) => {
 		const { type, raw: rawText } = elem
 		/* 
 	items - in list 
@@ -71,19 +74,20 @@ const TypographyScreen = props => {
 		}
 		// 3. ordinary markdown text
 		return (
-			<View key={`markdown-${index}`}>
-				<MarkdownRenderer
-					{...{
-						markdownText: rawText,
-						lexerNodesArray: [elem],
-						contentType,
-						chapterId,
-						subchapterId
-					}}
-				/>
-			</View>
+			<MarkdownRenderer
+				key={`markdown-${index}`}
+				{...{
+					markdownText: rawText,
+					lexerNodesArray: [elem],
+					contentType,
+					chapterId,
+					subchapterId
+				}}
+			/>
 		)
 	})
+
+	return <View style={contentTypeStyle.root}>{inTextComponentsArray}</View>
 }
 
 export default TypographyScreen
