@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
-import { Avatar } from 'react-native-elements'
+import { Avatar, Icon } from 'react-native-elements'
 import contentTypeStyles from '../../../config/styles/contentType'
 import MarkdownRenderer from '../../MarkdownRenderer'
 
@@ -40,8 +40,7 @@ const Phrase = ({
 	const isActivePhrase = phraseNum === currentPhraseNum
 
 	return (
-		<TouchableOpacity
-			onPress={handlePlayPhrase(phraseNum)}
+		<View
 			style={
 				isActivePhrase
 					? contentTypeStyle.phraseActiveContainer
@@ -49,16 +48,27 @@ const Phrase = ({
 			}
 		>
 			<View style={contentTypeStyle.phraseTextsWrapper}>
-				<MarkdownRenderer markdownText={text} contentType='textForMedia' />
+				<Text style={contentTypeStyle.phraseText} selectable={true}>
+					<MarkdownRenderer markdownText={text} contentType='text' />
+				</Text>
+
 				{/* <MarkdownRenderer markdownText={text} contentType='text' /> */}
 				{showTranslation && (
-					<Text style={contentTypeStyle.phraseTextTr}>{trText}</Text>
+					<Text style={contentTypeStyle.phraseTextTr} selectable={true}>
+						<MarkdownRenderer markdownText={trText} contentType='text' />
+					</Text>
 				)}
-				<View style={contentTypeStyle.phraseNumContainer}>
-					<Text style={contentTypeStyle.phraseNumText}>{phraseNum}</Text>
-				</View>
+				<TouchableOpacity
+					onPress={handlePlayPhrase(phraseNum)}
+					style={contentTypeStyle.phraseNumContainer}
+				>
+					<Text style={contentTypeStyle.phraseNumText}>
+						<Icon name='play-arrow' color='grey' size={9} />
+						{phraseNum}
+					</Text>
+				</TouchableOpacity>
 			</View>
-		</TouchableOpacity>
+		</View>
 	)
 }
 
