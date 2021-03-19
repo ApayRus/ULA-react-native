@@ -27,8 +27,10 @@ const MarkdownRenderer = props => {
 	const contentTypeStyle = contentTypeStyles?.[contentType]
 
 	const lexerNodes = lexerNodesArray || [
-		...(marked.lexer(markdownText)[0]?.tokens || []) //we use tokens to avoid wrapping paragraph
+		...(marked.lexer(markdownText)[0]?.tokens || [])
 	]
+	//we use [0].tokens to avoid wrapping paragraph,
+	//which appears by default on marked.lexer('any text')
 
 	return lexerNodes.map((elem, index) => {
 		const { tokens, items, type, text, href, depth = '' } = elem
@@ -123,7 +125,7 @@ const MarkdownRenderer = props => {
 					)
 				case 'space':
 					return (
-						<Text key={`elem${index}`} style={contentTypeStyle[type]}></Text>
+						<View key={`elem${index}`} style={contentTypeStyle[type]}></View>
 					)
 				default:
 					console.log('unexpected thing in marked.lexer')

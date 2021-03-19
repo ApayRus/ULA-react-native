@@ -48,16 +48,17 @@ const Phrase = ({
 			}
 		>
 			<View style={contentTypeStyle.phraseTextsWrapper}>
-				<Text style={contentTypeStyle.phraseText} selectable={true}>
+				{/* TEXT */}
+				<Text selectable={true} style={contentTypeStyle.phraseText}>
 					<MarkdownRenderer markdownText={text} contentType='text' />
 				</Text>
-
-				{/* <MarkdownRenderer markdownText={text} contentType='text' /> */}
+				{/* TRANSLATION */}
 				{showTranslation && (
-					<Text style={contentTypeStyle.phraseTextTr} selectable={true}>
+					<Text selectable={true} style={contentTypeStyle.phraseTextTr}>
 						<MarkdownRenderer markdownText={trText} contentType='text' />
 					</Text>
 				)}
+				{/* NUMBER + PLAY small button */}
 				<TouchableOpacity
 					onPress={handlePlayPhrase(phraseNum)}
 					style={contentTypeStyle.phraseNumContainer}
