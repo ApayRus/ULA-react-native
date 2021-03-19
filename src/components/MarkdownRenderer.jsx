@@ -26,11 +26,17 @@ const MarkdownRenderer = props => {
 	} = props
 	const contentTypeStyle = contentTypeStyles?.[contentType]
 
-	const lexerNodes = lexerNodesArray || [
-		...(marked.lexer(markdownText)[0]?.tokens || [])
-	]
 	//we use [0].tokens to avoid wrapping paragraph,
 	//which appears by default on marked.lexer('any text')
+	let lexerNodesFromText = [...(marked.lexer(markdownText) || [])]
+	if (
+		lexerNodesFromText.length === 1 &&
+		lexerNodesFromText?.[0]?.type === 'paragraph'
+	) {
+		lexerNodesFromText = lexerNodesFromText[0]?.tokens || []
+	}
+
+	const lexerNodes = lexerNodesArray || lexerNodesFromText
 
 	return lexerNodes.map((elem, index) => {
 		const { tokens, items, type, text, href, depth = '' } = elem

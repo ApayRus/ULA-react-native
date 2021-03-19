@@ -39,14 +39,14 @@ function AboutScreen({ navigation }) {
 				<MarkdownRenderer {...{ markdownText, contentType: 'text' }} />
 				<Button
 					type='clear'
-					onPress={() => Linking.openURL(`https://github.com/aparus/ulla`)}
+					onPress={() => Linking.openURL(`https://github.com/aparus/ula`)}
 					icon={{
 						name: 'language',
 						size: 20,
 						color: colors.primary
 					}}
 					buttonStyle={{ marginTop: 5 }}
-					title='ULLA - github page'
+					title='ULA - github page'
 				/>
 			</ScrollView>
 		</>
