@@ -76,7 +76,7 @@ const media = {
 			...general.translation,
 			paddingBottom: 4
 		},
-		phraseNumContainer: { position: 'absolute', right: 2, bottom: 2 }, // for arabic: left:2
+		phraseNumContainer: { position: 'absolute', right: 2, bottom: 0 }, // for arabic: left:2
 		phraseNumText: { color: 'grey', fontSize: 10 }
 	}
 }
@@ -155,9 +155,5 @@ export default {
 	media,
 	text: {
 		...inText
-	},
-	textForMedia: {
-		...inText,
-		paragraphContainer: { marginTop: 0 }
 	}
 }
