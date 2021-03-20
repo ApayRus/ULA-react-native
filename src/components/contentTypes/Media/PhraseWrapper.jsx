@@ -41,34 +41,33 @@ const Phrase = ({
 
 	return (
 		<View
-			style={
+			style={[
+				contentTypeStyle.phraseTextsWrapper,
 				isActivePhrase
 					? contentTypeStyle.phraseActiveContainer
 					: contentTypeStyle.phraseDefaultContainer
-			}
+			]}
 		>
-			<View style={contentTypeStyle.phraseTextsWrapper}>
-				{/* TEXT */}
-				<Text selectable={true} style={contentTypeStyle.phraseText}>
-					<MarkdownRenderer markdownText={text} contentType='text' />
+			{/* TEXT */}
+			<Text selectable={true} style={contentTypeStyle.phraseText}>
+				<MarkdownRenderer markdownText={text} contentType='text' />
+			</Text>
+			{/* TRANSLATION */}
+			{showTranslation && (
+				<Text selectable={true} style={contentTypeStyle.phraseTextTr}>
+					<MarkdownRenderer markdownText={trText} contentType='text' />
 				</Text>
-				{/* TRANSLATION */}
-				{showTranslation && (
-					<Text selectable={true} style={contentTypeStyle.phraseTextTr}>
-						<MarkdownRenderer markdownText={trText} contentType='text' />
-					</Text>
-				)}
-				{/* NUMBER + PLAY small button */}
-				<TouchableOpacity
-					onPress={handlePlayPhrase(phraseNum)}
-					style={contentTypeStyle.phraseNumContainer}
-				>
-					<Text style={contentTypeStyle.phraseNumText}>
-						<Icon name='play-arrow' color='grey' size={9} />
-						{phraseNum}
-					</Text>
-				</TouchableOpacity>
-			</View>
+			)}
+			{/* NUMBER + PLAY small button */}
+			<TouchableOpacity
+				onPress={handlePlayPhrase(phraseNum)}
+				style={contentTypeStyle.phraseNumContainer}
+			>
+				<Text style={contentTypeStyle.phraseNumText}>
+					<Icon name='play-arrow' color='grey' size={9} />
+					{phraseNum}
+				</Text>
+			</TouchableOpacity>
 		</View>
 	)
 }
