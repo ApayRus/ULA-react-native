@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { Avatar, Icon } from 'react-native-elements'
 import contentTypeStyles from '../../../config/styles/contentType'
@@ -39,6 +39,13 @@ const Phrase = ({
 }) => {
 	const isActivePhrase = phraseNum === currentPhraseNum
 
+	// this is work around (i hope temporary code)
+	// because selectable don't set without it
+	const [selectable, setSelectable] = useState(false)
+	useEffect(() => {
+		setSelectable(true)
+	}, [])
+
 	return (
 		<View
 			style={[
@@ -49,12 +56,12 @@ const Phrase = ({
 			]}
 		>
 			{/* TEXT */}
-			<Text selectable={true} style={contentTypeStyle.phraseText}>
+			<Text {...{ selectable }} style={contentTypeStyle.phraseText}>
 				<MarkdownRenderer markdownText={text} contentType='text' />
 			</Text>
 			{/* TRANSLATION */}
 			{showTranslation && (
-				<Text selectable={true} style={contentTypeStyle.phraseTextTr}>
+				<Text {...{ selectable }} style={contentTypeStyle.phraseTextTr}>
 					<MarkdownRenderer markdownText={trText} contentType='text' />
 				</Text>
 			)}

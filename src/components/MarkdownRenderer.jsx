@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
 	View,
 	// useWindowDimensions,
@@ -25,6 +25,13 @@ const MarkdownRenderer = props => {
 		subchapterId // - for SounderWord
 	} = props
 	const contentTypeStyle = contentTypeStyles?.[contentType]
+
+	// this is work around (i hope temporary code)
+	// because selectable don't set without it
+	const [selectable, setSelectable] = useState(false)
+	useEffect(() => {
+		setSelectable(true)
+	}, [])
 
 	//we use [0].tokens to avoid wrapping paragraph,
 	//which appears by default on marked.lexer('any text')
@@ -53,7 +60,7 @@ const MarkdownRenderer = props => {
 				<Text
 					key={`elem${index}`}
 					style={contentTypeStyle[`${type}${depth}`]}
-					selectable={true}
+					{...{ selectable }}
 				>
 					<MarkdownRenderer
 						lexerNodesArray={children}
@@ -87,7 +94,7 @@ const MarkdownRenderer = props => {
 					<Text
 						key={`elem${index}`}
 						style={contentTypeStyle[`${type}${depth}`]}
-						selectable={true}
+						{...{ selectable }}
 					>
 						{listBullet}
 						<MarkdownRenderer
