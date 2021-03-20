@@ -50,7 +50,11 @@ const MarkdownRenderer = props => {
 		// RENDERERS FOR ORDINARY TEXT
 		const inlineWithInlineRenderer = (index, children, type) => {
 			return (
-				<Text key={`elem${index}`} style={contentTypeStyle[`${type}${depth}`]}>
+				<Text
+					key={`elem${index}`}
+					style={contentTypeStyle[`${type}${depth}`]}
+					selectable={true}
+				>
 					<MarkdownRenderer
 						lexerNodesArray={children}
 						{...{ contentType, chapterId, subchapterId }}
@@ -83,6 +87,7 @@ const MarkdownRenderer = props => {
 					<Text
 						key={`elem${index}`}
 						style={contentTypeStyle[`${type}${depth}`]}
+						selectable={true}
 					>
 						{listBullet}
 						<MarkdownRenderer
