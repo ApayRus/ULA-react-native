@@ -48,7 +48,11 @@
 */
 
 import yaml from 'yaml'
-import { arrayToObject, splitMarkdownIntoPartsByTemplate } from './utils.js'
+import {
+	arrayToObject,
+	splitMarkdownIntoPartsByTemplate,
+	yamlParams
+} from './utils.js'
 import { parseContentType } from './contentType.js'
 
 const h1template = new RegExp(/^\s*#{1}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
@@ -76,13 +80,25 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 					...content
 				}
 			} else {
-				const subchapters = splitMarkdownIntoPartsByTemplate(
+				const subchaptersRaw = splitMarkdownIntoPartsByTemplate(
 					chapterDoc.content,
 					h2template
-				).map(subchapterDoc => parseContentType(subchapterDoc))
+				)
+				const introText = subchaptersRaw?.[0]?.introText
+
+				let additionalParams = {}
+				if (introText) {
+					subchaptersRaw.shift()
+					additionalParams = yamlParams(introText)
+				}
+
+				const subchapters = subchaptersRaw.map(subchapterDoc =>
+					parseContentType(subchapterDoc)
+				)
 
 				return {
 					...chapterDoc,
+					...additionalParams,
 					content: subchapters
 				}
 			}

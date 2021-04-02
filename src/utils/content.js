@@ -101,9 +101,8 @@ export class Content {
 		return Object.keys(this.original.content)
 			.map(key => {
 				const id = key
-				const { title, type, content: contentObject } = this.original.content[
-					key
-				]
+				const chapterParams = { ...this.original.content[key] }
+				const { content: contentObject } = chapterParams
 				const subchapters = Object.keys(contentObject)
 					.map(key => {
 						const id = key
@@ -112,7 +111,7 @@ export class Content {
 					})
 					.filter(elem => Boolean(elem.title)) //don't show 'phrases' from media, when chapter is without subchapters
 					.sort((a, b) => a.id.localeCompare(b.id))
-				return { id, title, type, subchapters }
+				return { id, ...chapterParams, subchapters }
 			})
 			.sort((a, b) => a.id.localeCompare(b.id))
 	}
