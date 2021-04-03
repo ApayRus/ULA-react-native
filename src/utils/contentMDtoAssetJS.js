@@ -2,10 +2,8 @@
  * 1) first level parser, that split content by # and ## (h1, h2)
  * into chapters and subchapters -- for navigation: cover + drawer
  * 2) deepest parser, content type related, for each type of content
- */
 
-/* 
-  While parsing we aim 2 goals: 
+While parsing we aim 2 goals: 
   1) To make Navigation. Split content to chapters/subchapters (ch/sch)
     which is generally to shape our source markdown into form: 
     { 001: {title, type, params, content} } 
@@ -44,10 +42,8 @@
 
     2) Else we split h1 block into h2 blocks. 
       Then we traverse h2 blocks and run parser for each of them 
-
 */
 
-import yaml from 'yaml'
 import {
 	arrayToObject,
 	splitMarkdownIntoPartsByTemplate,
@@ -65,8 +61,13 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 	)
 
 	const infoBlock = chaptersArray.shift()
-	const { title, content: infoContent } = infoBlock || {}
-	const info = { title, ...yaml.parse(infoContent) }
+	const { title, content: infoContent = '' } = infoBlock || {}
+
+	const paramsArray =
+		infoContent?.split('\n\n').map(elem => elem.split('\n')) || []
+	// array of arrays with extra info, that we can put in different parts of Home page (app-cover)
+
+	const info = { title, paramsArray }
 
 	let chaptersAndSubchapters = chaptersArray
 		.map(chapterDoc => {

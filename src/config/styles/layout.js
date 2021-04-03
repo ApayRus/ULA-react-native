@@ -36,10 +36,12 @@ export default {
 		beforeLogoContainer: {
 			flex: 2,
 			paddingTop: 20,
-			width: '100%'
+			width: '100%',
+			alignItems: 'center'
 			// borderWidth: 1,
 		},
-		title: { ...general.h3, textAlign: 'center' },
+		titleContainer: { alignItems: 'center' },
+		titleText: { ...general.h3, textAlign: 'center' },
 		author: { ...general.h5, textAlign: 'center' },
 		// middle 1/3 logo
 		logoContainer: {
@@ -51,7 +53,7 @@ export default {
 			// borderWidth: 1,
 		},
 		logoImageProps: {
-			style: { width: 320, height: 200, resizeMode: 'contain' },
+			style: { width: 320, height: 100, resizeMode: 'contain' },
 			source: content.getFilesByPathString('images/logo')?.file
 		},
 		afterLogoContainer: {
@@ -61,7 +63,7 @@ export default {
 			alignItems: 'center'
 			// borderWidth: 1
 		},
-		additionalInfoItem: { marginBottom: 2 },
+		additionalInfoItem: { marginBottom: 2, alignItems: 'center' },
 		additionalInfoText: { ...general.body3 },
 		tableOfContentButtonProps: {
 			icon: { name: 'list', color: 'white' },
@@ -72,6 +74,7 @@ export default {
 			},
 			title: 'Table of contents'
 		},
+		translationText: { ...general.translation },
 		translationsContainer: { position: 'absolute', bottom: 0 },
 		navigateForwardButtonContainer: {
 			position: 'absolute',

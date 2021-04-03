@@ -11,7 +11,8 @@ export default function TranslationsSelect(props) {
 	const { trLang } = useSelector(state => state.translation)
 
 	const handleTrLang = langCode => () => {
-		dispatch(setTranslation({ trLang: langCode }))
+		const action = trLang === langCode ? { trLang: '' } : { trLang: langCode }
+		dispatch(setTranslation(action))
 	}
 
 	return (

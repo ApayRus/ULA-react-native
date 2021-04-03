@@ -20,6 +20,11 @@ export class Content {
 		const { info } = this.original
 		return info
 	}
+	getInfoTr(trLang) {
+		if (!trLang) return {}
+		const info = this?.translations?.[trLang]?.default?.info || {}
+		return info
+	}
 
 	/**
 	 * @returns ['ru', 'en', 'es']

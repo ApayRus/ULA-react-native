@@ -4,14 +4,23 @@ import { View, ImageBackground } from 'react-native'
 import { Text, Button, Image } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
 import layoutStylesModule from '../../config/styles/layout'
+import content from '../../utils/content'
+import { useSelector } from 'react-redux'
 
-export default function HomeScreen({ navigation, route }) {
-	const {
-		params: { info, translations }
-	} = route
-	const { title, author } = info || {}
+export default function HomeScreen({ navigation }) {
+	const info = content.getInfo()
+	const { trLang } = useSelector(state => state.translation)
+	const infoTr = content.getInfoTr(trLang)
+	const translations = content.getTranslations()
+
+	const { title, paramsArray } = info || {}
+	const { title: titleTr, paramsArray: paramsArrayTr } = infoTr || {}
 
 	const { homeScreen: layoutStyles } = layoutStylesModule
+
+	// for multiline titles
+	const titleSplit = title.split(/\\n/)
+	const titleSplitTr = titleTr?.split(/\\n/)
 
 	return (
 		<View style={layoutStyles.root}>
@@ -20,19 +29,52 @@ export default function HomeScreen({ navigation, route }) {
 			<ImageBackground {...layoutStyles.backgroundImageProps}>
 				{/* before logo container  */}
 				<View style={layoutStyles.beforeLogoContainer}>
-					{title.split(/\\n/).map(titlePart => {
+					{titleSplit.map((titlePart, index) => {
+						const titlePartTr = titleSplitTr?.[index]
 						return (
-							<Text key={titlePart} style={layoutStyles.title}>
-								{titlePart}
-							</Text>
+							<View
+								key={`titlePart-${index}`}
+								style={layoutStyles.titleContainer}
+							>
+								<Text style={layoutStyles.titleText}>{titlePart}</Text>
+								{titlePartTr ? (
+									<Text style={layoutStyles.translationText}>
+										{titlePartTr}
+									</Text>
+								) : null}
+							</View>
 						)
 					})}
 
-					<Text style={layoutStyles.author}>{author}</Text>
+					{paramsArray[0].map((param, index) => {
+						const paramTr = paramsArrayTr?.[0]?.[index]
+
+						return (
+							<View
+								style={layoutStyles.additionalInfoItem}
+								key={`info-${param}`}
+							>
+								<Text style={layoutStyles.additionalInfoText}>{param}</Text>
+								<Text style={layoutStyles.translationText}>{paramTr}</Text>
+							</View>
+						)
+					})}
 				</View>
 				{/* logo container */}
 				<View style={layoutStyles.logoContainer}>
 					<Image {...layoutStyles.logoImageProps} />
+					{paramsArray[1].map((param, index) => {
+						const paramTr = paramsArrayTr?.[1]?.[index]
+						return (
+							<View
+								style={layoutStyles.additionalInfoItem}
+								key={`info-${param}`}
+							>
+								<Text style={layoutStyles.additionalInfoText}>{param}</Text>
+								<Text style={layoutStyles.translationText}>{paramTr}</Text>
+							</View>
+						)
+					})}
 				</View>
 				{/* after logo container  */}
 				<View style={layoutStyles.afterLogoContainer}>
@@ -40,15 +82,18 @@ export default function HomeScreen({ navigation, route }) {
 						onPress={() => navigation.toggleDrawer()}
 						{...layoutStyles.tableOfContentButtonProps}
 					/>
-					{Object.keys(info)
-						.filter(key => key !== 'title' && key !== 'author')
-						.map(key => (
-							<View style={layoutStyles.additionalInfoItem} key={`info-${key}`}>
-								<Text style={layoutStyles.additionalInfoText}>
-									{key}: {info[key]}
-								</Text>
+					{paramsArray[2].map((param, index) => {
+						const paramTr = paramsArrayTr?.[2]?.[index]
+						return (
+							<View
+								style={layoutStyles.additionalInfoItem}
+								key={`info-${param}`}
+							>
+								<Text style={layoutStyles.additionalInfoText}>{param}</Text>
+								<Text style={layoutStyles.translationText}>{paramTr}</Text>
 							</View>
-						))}
+						)
+					})}
 					{translations.length > 0 && (
 						<View style={layoutStyles.translationsContainer}>
 							<TranslationsSelect translations={translations} />
