@@ -31,7 +31,8 @@ const collapseDirTreeToObject = (dirTree, obj, prefix = '') => {
 const treeObject = collapseDirTreeToObject(
 	makeDirTree('content', {
 		normalizePath: true,
-		extensions: /^(?!.*(\.md$))/ // not markdown files, they causes errors on expo-android client
+		extensions: /^(?!.*(\.md$))/, // not markdown files, they causes errors on expo-android client,
+		exclude: [/.git/]
 	}),
 	{},
 	'../'
