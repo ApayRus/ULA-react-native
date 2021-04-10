@@ -4,5 +4,6 @@ export default {
 	words: 'oneLineOneFile',
 	phrases: 'oneLineOneFile',
 	media: 'media',
-	text: 'inText'
+	text: 'inText',
+	exercise: 'exercise'
 }

@@ -4,7 +4,11 @@ import original from '../../assets/content'
 import translations from '../../assets/translations'
 import files from '../../assets/contentFilesMap'
 import { map, orderBy } from 'lodash'
-import { prefixedIndex, getNextPrefixedIndex } from './utils'
+import {
+	prefixedIndex,
+	getNextPrefixedIndex,
+	getPrevPrefixedIndex
+} from './utils'
 import store from '../store/rootReducer'
 
 export class Content {
@@ -206,6 +210,41 @@ export class Content {
 			return { nextChapterId: chapterId, nextSubchapterId }
 		} else {
 			return checkNextChapter(chapterId)
+		}
+	}
+
+	// prev = previous
+	getPrevContentItem(chapterId = '', subchapterId = '') {
+		const prevSubchapterId = getPrevPrefixedIndex(subchapterId)
+
+		// same chapter, next subchapter
+		const prevSubchapterExist = Boolean(
+			this.getSubchapterTitle(chapterId, prevSubchapterId)
+		)
+
+		const checkPrevChapter = chapterId => {
+			const prevChapterId = getPrevPrefixedIndex(chapterId)
+			const prevChapterExist = Boolean(this.getChapterTitle(prevChapterId))
+			if (prevChapterExist) {
+				return { prevChapterId }
+			} else {
+				return null // we faced end of the content
+			}
+		}
+
+		if (!subchapterId) {
+			if (prevSubchapterExist) {
+				//we are on chapter page - list of subchapters
+				return { prevChapterId: chapterId, prevSubchapterId }
+			} else {
+				// we are on chapter page without subchapters
+				return checkPrevChapter(chapterId)
+			}
+		}
+		if (prevSubchapterExist) {
+			return { prevChapterId: chapterId, prevSubchapterId }
+		} else {
+			return checkPrevChapter(chapterId)
 		}
 	}
 

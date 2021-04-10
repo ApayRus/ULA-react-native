@@ -43,6 +43,11 @@ export const getNextPrefixedIndex = stringIndex => {
 	return prefixedIndex(nextNumberIndex)
 }
 
+export const getPrevPrefixedIndex = stringIndex => {
+	const nextNumberIndex = Number(stringIndex) - 1
+	return prefixedIndex(nextNumberIndex)
+}
+
 /**
  *
  * @param {string} inputSeconds

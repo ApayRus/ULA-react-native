@@ -30,7 +30,8 @@ export const parseContentType = (contentTypeDoc, level) => {
 	const typeParserMap = {
 		oneLineOneFile: parseTypeOneLineOneFile,
 		media: parseTypeMedia,
-		inText: parseTypeInText
+		inText: parseTypeInText,
+		exercise: parseTypeExercise
 	}
 
 	const interactivity =
@@ -112,6 +113,35 @@ const parseTypeOneLineOneFile = text => {
 		return { ...prev, [rowIndex]: { text } }
 	}, {})
 	return obj
+}
+
+const parseTypeExercise = text => {
+	const exerciseTemplate = new RegExp(
+		/^\s*(.+?)\s*-\s*(.+?)\s*-->\s*(.+?)\s*-\s*(.+?)\s+(.+?)\s+(.+?)$/,
+		'gm'
+	)
+	const matches = [...text.matchAll(exerciseTemplate)]
+	const exercises = matches.map(elem => {
+		//givenType-givenLang --> requiredType-requiredLang activityType count
+		const [
+			,
+			givenType,
+			givenLang,
+			requiredType,
+			requiredLang,
+			activityType,
+			count
+		] = elem
+		return {
+			givenType,
+			givenLang,
+			requiredType,
+			requiredLang,
+			activityType,
+			count
+		}
+	})
+	return exercises
 }
 
 /**

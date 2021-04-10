@@ -10,6 +10,7 @@ import { Text, colors } from 'react-native-elements'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
 import InText from '../contentTypes/InText'
 import Media from '../contentTypes/Media'
+import Exercise from '../contentTypes/Exercise'
 import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
 import content from '../../utils/content'
@@ -29,6 +30,8 @@ const getComponent = (interactivity, props) => {
 			return <InText {...props} />
 		case 'media':
 			return <Media {...props} />
+		case 'exercise':
+			return <Exercise {...props} />
 		default:
 			return <NotSet {...props} />
 	}

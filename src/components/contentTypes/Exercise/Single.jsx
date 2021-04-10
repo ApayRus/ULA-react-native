@@ -8,8 +8,8 @@ import { prefixedIndex } from '../../../utils/utils'
 
 const Exercise = props => {
 	const {
-		chapterId = '005',
-		subchapterId = '001',
+		sourceChapterId: chapterId,
+		sourceSubchapterId: subchapterId,
 		type
 		// phraseIndexes = []
 	} = props // phraseIndexes - [8, 20, 2, 15]
@@ -68,8 +68,10 @@ const Exercise = props => {
 	}
 
 	const handlePlay = () => {
-		const audioId = `${chapterId}-${prefixedIndex(randomPhrases.correctIndex)}`
-		playAudio(audioId, 'words')
+		const audioId = prefixedIndex(randomPhrases.correctIndex)
+		const filePath = `${chapterId}/${subchapterId}/audios/${audioId}`
+		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
+		playAudio(audioFile, filePath)
 	}
 
 	const Variant = ({ title, index }) => {
