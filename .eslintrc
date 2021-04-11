@@ -12,6 +12,7 @@
 		"no-unused-vars": "warn",
 		"no-unused-labels": "warn",
 		"react/prop-types": "off",
+		"react/no-unescaped-entities": "off",
 		"no-console": "warn",
 		"no-useless-escape": "warn"
 	}
