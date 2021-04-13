@@ -35,8 +35,8 @@ const Single2 = props => {
 		givenType: 'audio',
 		givenLang: 'original',
 		requiredType: 'text',
-		requiredLang: 'translation',
-		activityType: 'choose-from-4',
+		requiredLang: 'original',
+		activityType: 'write',
 		count: '10',
 		chapterId: '001',
 		subchapterId: '001',
@@ -55,7 +55,7 @@ const Single2 = props => {
 	} = exerciseInfo
 
 	const [phrases, setPhrases] = useState({})
-	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | wrong
+	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
 	const [userAnswer, setUserAnswer] = useState('')
 
 	useEffect(() => {
@@ -93,16 +93,17 @@ const Single2 = props => {
 
 	const placeholderText = getPlaceholderText(requiredLang)
 
-	const TextInput = () => (
-		<Input
-			inputStyle={{ textAlign: 'center' }}
-			containerStyle={{ alignSelf: 'center' }}
-			placeholder={placeholderText} // translation of the word
-		/>
-	)
-
 	const checkUserAnswerCorrectness = () => {
-		if (phrases.correctPhraseId === userAnswer) {
+		let correctAnswer = ''
+		if (activityType === 'write') {
+			correctAnswer = phrases[requiredLang]?.find(
+				phrase => phrase.text === userAnswer
+			)?.text
+		} else {
+			correctAnswer = phrases.correctPhraseId
+		}
+
+		if (correctAnswer === userAnswer) {
 			setUserAnswerCorrectness('correct')
 		} else {
 			setUserAnswerCorrectness('incorrect')
@@ -113,9 +114,19 @@ const Single2 = props => {
 		setUserAnswerCorrectness('unknown')
 	}
 
+	const handleTextInputChange = text => {
+		resetUserAnswerCorrectness()
+		setUserAnswer(text)
+	}
+
 	const userInput =
 		activityType === 'write' ? (
-			<TextInput />
+			<Input
+				inputStyle={{ textAlign: 'center' }}
+				containerStyle={{ alignSelf: 'center' }}
+				placeholder={placeholderText} // translation of the word
+				onChangeText={handleTextInputChange}
+			/>
 		) : (
 			<ChooseFromVariants
 				variants={phrases.original}
