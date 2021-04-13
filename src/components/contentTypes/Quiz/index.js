@@ -16,23 +16,23 @@ const Quiz = props => {
 	const { quiz: layoutStyles } = layoutStylesModule
 
 	const [userAnswers, setUserAnswers] = useState([])
-	const [correctState, setCorrectState] = useState('unknown') // isRight || isWrong
+	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // isRight || isWrong
 	const [errorCount, setErrorCount] = useState(0)
 	// const [stopCounting, setStopCounting] = useState(false)
 
-	const handleCheckAnswers = () => {
+	const handleCheckAnswer = () => {
 		const isCorrect = String(correctAnswers) === String(userAnswers)
 		if (isCorrect) {
-			setCorrectState('correct')
+			setUserAnswerCorrectness('correct')
 		} else {
-			setCorrectState('incorrect')
-			if (correctState === 'unknown') setErrorCount(errorCount + 1)
+			setUserAnswerCorrectness('incorrect')
+			if (userAnswerCorrectness === 'unknown') setErrorCount(errorCount + 1)
 			// if user see that answer is correct or incorrect and press the button at the same time, we don't count this clicks
 		}
 	}
 
 	const handlePressVariant = (variantIndex, type) => () => {
-		setCorrectState('unknown') // if user changed something, we know nothing about it
+		setUserAnswerCorrectness('unknown') // if user changed something, we know nothing about it
 		//if this answer also been set, we remove it
 		if (userAnswers.includes(variantIndex)) {
 			setUserAnswers(userAnswers.filter(elem => elem !== variantIndex))
@@ -73,7 +73,9 @@ const Quiz = props => {
 				}}
 			>
 				<View>
-					<CheckAnswersButton {...{ correctState, handleCheckAnswers }} />
+					<CheckAnswersButton
+						{...{ setUserAnswerCorrectness, handleCheckAnswer }}
+					/>
 				</View>
 				<View>
 					<Text>{errorCount}</Text>

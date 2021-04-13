@@ -1,9 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
 import { Button, colors } from 'react-native-elements'
 
 const CheckAnswersButton = props => {
-	const { correctState, handleCheckAnswers } = props
+	const { userAnswerCorrectness = 'unknown', handleCheckAnswer } = props
 
 	const stateIconTextColorMap = {
 		correct: { name: 'done', color: 'green', title: 'Correct' },
@@ -15,13 +14,13 @@ const CheckAnswersButton = props => {
 		}
 	}
 
-	const { title, color } = stateIconTextColorMap[correctState]
+	const { title, color } = stateIconTextColorMap[userAnswerCorrectness]
 
 	return (
 		<Button
 			iconRight
-			onPress={handleCheckAnswers}
-			icon={stateIconTextColorMap[correctState]}
+			onPress={handleCheckAnswer}
+			icon={stateIconTextColorMap[userAnswerCorrectness]}
 			size='small'
 			type='outline'
 			title={title}
