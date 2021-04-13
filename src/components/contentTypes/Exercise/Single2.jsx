@@ -20,51 +20,27 @@ show progress (position of this exercise in general count)
 redirect to the next exercise
 */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Button, Text, Input } from 'react-native-elements'
+import content from '../../../utils/content'
+import Randomizer from '../../../utils/exercises'
+import { prefixedIndex } from '../../../utils/utils'
+import ChooseFromVariants from './Variants'
+import { getTaskText, getPlaceholderText } from './utils'
+import CheckAnswerButton from '../../CheckAnswersButton'
 
-const Single2 = () => {
+const Single2 = props => {
 	const exerciseInfo = {
 		givenType: 'audio',
 		givenLang: 'original',
 		requiredType: 'text',
 		requiredLang: 'translation',
-		activityType: 'write',
-		count: '10'
-	}
-
-	const getTask1 = (givenType, givenLang = '') => {
-		const mapOfTaskTexts = {
-			'audio-original': 'Listen to the audio',
-			'text-original': 'Read the original text',
-			'text-translation': 'Read the translation text'
-		}
-		const task = `${givenType}-${givenLang}`
-		return mapOfTaskTexts?.[task]
-	}
-
-	const getTask2 = (givenType, requiredType, requiredLang, activityType) => {
-		const activity = activityType === 'write' ? 'write' : 'choose'
-		const mapOfTaskTexts = {
-			'audio-original --> text-original write': 'write what you have heard',
-			'audio-original --> text-translation write': 'write translation',
-			'audio-original --> text-original choose': 'choose the right variant',
-			'audio-original --> text-translation choose':
-				'choose the right translation',
-			'text-original --> text-translation write': 'write translation',
-			'text-translation --> text-original write': 'write original text'
-		}
-		const task = `${givenType}-${givenLang} --> ${requiredType}-${requiredLang} ${activity}`
-		return mapOfTaskTexts?.[task]
-	}
-
-	const getPlaceholderText = requiredLang => {
-		const mapOfTexts = {
-			original: 'original text',
-			translation: 'translation text'
-		}
-		return mapOfTexts?.[requiredLang]
+		activityType: 'choose-from-4',
+		count: '10',
+		chapterId: '001',
+		subchapterId: '001',
+		phraseIndexes: ['001', '002', '003', '004']
 	}
 
 	const {
@@ -72,12 +48,49 @@ const Single2 = () => {
 		givenLang,
 		givenType,
 		requiredLang,
-		requiredType
+		requiredType,
+		chapterId,
+		subchapterId,
+		phraseIndexes
 	} = exerciseInfo
 
-	const task1 = getTask1(givenType, givenLang)
-	const task2 = getTask2(givenType, requiredType, requiredLang, activityType)
-	const taskText = `${task1}, and ${task2}`
+	const [phrases, setPhrases] = useState({})
+	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | wrong
+	const [userAnswer, setUserAnswer] = useState('')
+
+	useEffect(() => {
+		const randomizer = new Randomizer(0) // random-js
+		// const { phraseIndexes = [] } = props
+		const correctPhraseId = prefixedIndex(phraseIndexes[0])
+		const shuffledIndexes = randomizer.shuffle(phraseIndexes)
+
+		const original = content.getPhrases(
+			chapterId,
+			subchapterId,
+			shuffledIndexes
+		)
+
+		const translation = content.getPhrasesTr(
+			chapterId,
+			subchapterId,
+			shuffledIndexes
+		)
+
+		setPhrases({
+			original,
+			translation,
+			correctPhraseId
+		})
+	}, [])
+
+	const taskText = getTaskText(
+		givenType,
+		givenLang,
+		requiredType,
+		requiredLang,
+		activityType
+	)
+
 	const placeholderText = getPlaceholderText(requiredLang)
 
 	const TextInput = () => (
@@ -88,12 +101,30 @@ const Single2 = () => {
 		/>
 	)
 
-	const ChooseFromVariants = () => (
-		<View style={{ width: 100, height: 100, backgroundColor: 'skyblue' }} />
-	)
+	const checkUserAnswerCorrectness = () => {
+		if (phrases.correctPhraseId === userAnswer) {
+			setUserAnswerCorrectness('correct')
+		} else {
+			setUserAnswerCorrectness('incorrect')
+		}
+	}
+
+	const resetUserAnswerCorrectness = () => {
+		setUserAnswerCorrectness('unknown')
+	}
 
 	const userInput =
-		activityType === 'write' ? <TextInput /> : <ChooseFromVariants />
+		activityType === 'write' ? (
+			<TextInput />
+		) : (
+			<ChooseFromVariants
+				variants={phrases.original}
+				setUserAnswer={setUserAnswer}
+				correctPhraseId={phrases.correctPhraseId}
+				userAnswerCorrectness={userAnswerCorrectness}
+				resetUserAnswerCorrectness={resetUserAnswerCorrectness}
+			/>
+		)
 
 	return (
 		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -102,7 +133,12 @@ const Single2 = () => {
 			</View>
 			<Button icon={{ name: 'play-arrow', color: 'white' }} />
 			<View style={styles.inputContainer}>{userInput}</View>
-			<Button title='Check the answer' />
+			<Text>{userAnswer}</Text>
+			<Text>{userAnswerCorrectness}</Text>
+			<CheckAnswerButton
+				userAnswerCorrectness={userAnswerCorrectness}
+				handleCheckAnswer={checkUserAnswerCorrectness}
+			/>
 		</View>
 	)
 }
