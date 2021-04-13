@@ -16,7 +16,7 @@ const Quiz = props => {
 	const { quiz: layoutStyles } = layoutStylesModule
 
 	const [userAnswers, setUserAnswers] = useState([])
-	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // isRight || isWrong
+	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
 	const [errorCount, setErrorCount] = useState(0)
 	// const [stopCounting, setStopCounting] = useState(false)
 
