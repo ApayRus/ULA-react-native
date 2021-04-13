@@ -148,7 +148,7 @@ export class Content {
 
 	getSubchapterTr(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
-		if (!(trLang && chapterId && subchapterId)) return {}
+		if (!(trLang && chapterId && subchapterId && this.translations)) return {}
 		const subchapterDoc =
 			this?.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
 				subchapterId
@@ -156,25 +156,32 @@ export class Content {
 		return subchapterDoc
 	}
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
-		const { content: contentTypeDoc } = this.original.content[
-			chapterId
-		].content[subchapterId]
+		if (!this.original) return {}
+		const { content: contentTypeDoc } = subchapterId
+			? this.original?.content[chapterId]?.content?.[subchapterId]
+			: this.original?.content[chapterId]
+
 		const phrases = arrayOfIndexes.map(phraseIndex => {
 			const phraseId = prefixedIndex(phraseIndex)
-			const phrase = contentTypeDoc[phraseId]
-			return phrase
+			const phrase = contentTypeDoc?.[phraseId]
+			return { id: phraseId, ...phrase }
 		})
 		return phrases
 	}
 	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
 		const { trLang } = store.getState().translation
-		const { content: contentTypeDoc } = this.translations[
-			trLang
-		].default.content[chapterId].content[subchapterId]
+		if (!(this.translations && trLang)) return {}
+		const { content: contentTypeDoc } = subchapterId
+			? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
+					subchapterId
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+			  ]
+			: this.translations?.[trLang]?.default?.content?.[chapterId]
+
 		const phrases = arrayOfIndexes.map(phraseIndex => {
 			const phraseId = prefixedIndex(phraseIndex)
-			const phrase = contentTypeDoc[phraseId]
-			return phrase
+			const phrase = contentTypeDoc?.[phraseId]
+			return { id: phraseId, ...phrase }
 		})
 		return phrases
 	}
