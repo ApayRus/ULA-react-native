@@ -156,7 +156,7 @@ export class Content {
 		return subchapterDoc
 	}
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
-		if (!this.original) return {}
+		if (!this.original) return []
 		const { content: contentTypeDoc } = subchapterId
 			? this.original?.content[chapterId]?.content?.[subchapterId]
 			: this.original?.content[chapterId]
@@ -170,7 +170,7 @@ export class Content {
 	}
 	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
 		const { trLang } = store.getState().translation
-		if (!(this.translations && trLang)) return {}
+		if (!(this.translations && trLang)) return []
 		const { content: contentTypeDoc } = subchapterId
 			? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
 					subchapterId
