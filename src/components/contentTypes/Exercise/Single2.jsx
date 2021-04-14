@@ -29,18 +29,20 @@ import { prefixedIndex } from '../../../utils/utils'
 import ChooseFromVariants from './Variants'
 import { getTaskText, getPlaceholderText } from './utils'
 import CheckAnswerButton from '../../CheckAnswersButton'
+import { playAudio } from '../../../utils/playerShortAudios'
+import { useSelector } from 'react-redux'
 
 const Single2 = props => {
 	const exerciseInfo = {
-		givenType: 'audio',
-		givenLang: 'original',
+		givenType: 'text',
+		givenLang: 'translation',
 		requiredType: 'text',
 		requiredLang: 'original',
-		activityType: 'write',
+		activityType: 'choose-from-4',
 		count: '10',
 		chapterId: '001',
 		subchapterId: '001',
-		phraseIndexes: ['001', '002', '003', '004']
+		phraseIndexes: ['003', '008', '001', '002']
 	}
 
 	const {
@@ -54,9 +56,10 @@ const Single2 = props => {
 		phraseIndexes
 	} = exerciseInfo
 
-	const [phrases, setPhrases] = useState({})
+	const [phrases, setPhrases] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
 	const [userAnswer, setUserAnswer] = useState('')
+	const { trLang } = useSelector(state => state.translation)
 
 	useEffect(() => {
 		const randomizer = new Randomizer(0) // random-js
@@ -81,7 +84,7 @@ const Single2 = props => {
 			translation,
 			correctPhraseId
 		})
-	}, [])
+	}, [trLang])
 
 	const taskText = getTaskText(
 		givenType,
@@ -119,6 +122,30 @@ const Single2 = props => {
 		setUserAnswer(text)
 	}
 
+	const handlePlayAudio = () => {
+		const filePath = `${chapterId}/${subchapterId}/audios/${phrases.correctPhraseId}`
+		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
+		playAudio(audioFile, filePath)
+	}
+
+	let given // text or audio
+
+	if (givenType === 'audio') {
+		given = (
+			<Button
+				icon={{ name: 'play-arrow', color: 'white' }}
+				onPress={handlePlayAudio}
+			/>
+		)
+	} else if (givenType === 'text') {
+		const { text } =
+			phrases?.[givenLang]?.find(
+				phrase => phrase.id === phrases.correctPhraseId
+			) || []
+
+		given = <Button title={text} />
+	}
+
 	const userInput =
 		activityType === 'write' ? (
 			<Input
@@ -129,7 +156,7 @@ const Single2 = props => {
 			/>
 		) : (
 			<ChooseFromVariants
-				variants={phrases.original}
+				variants={phrases[requiredLang]}
 				setUserAnswer={setUserAnswer}
 				correctPhraseId={phrases.correctPhraseId}
 				userAnswerCorrectness={userAnswerCorrectness}
@@ -138,18 +165,30 @@ const Single2 = props => {
 		)
 
 	return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+		<View
+			style={{
+				flex: 1,
+				alignItems: 'center',
+				justifyContent: 'center'
+			}}
+		>
 			<View style={styles.exerciseInstructionContainer}>
 				<Text>{taskText}</Text>
 			</View>
-			<Button icon={{ name: 'play-arrow', color: 'white' }} />
+			{given}
 			<View style={styles.inputContainer}>{userInput}</View>
-			<Text>{userAnswer}</Text>
-			<Text>{userAnswerCorrectness}</Text>
 			<CheckAnswerButton
 				userAnswerCorrectness={userAnswerCorrectness}
 				handleCheckAnswer={checkUserAnswerCorrectness}
 			/>
+			{userAnswerCorrectness === 'correct' && (
+				<View style={styles.nextButton}>
+					<Button
+						title='Go Next'
+						iconRight={{ name: 'chevron', color: 'white' }}
+					/>
+				</View>
+			)}
 		</View>
 	)
 }
@@ -161,6 +200,11 @@ const styles = {
 	inputContainer: {
 		margin: 20,
 		width: '100%'
+	},
+	nextButton: {
+		position: 'absolute',
+		bottom: 2,
+		right: 2
 	}
 }
 

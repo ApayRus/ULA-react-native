@@ -23,7 +23,9 @@ const getTask2 = (
 		'audio-original --> text-translation choose':
 			'choose the right translation',
 		'text-original --> text-translation write': 'write translation',
-		'text-translation --> text-original write': 'write original text'
+		'text-translation --> text-original write': 'write original text',
+		'text-original --> text-translation choose': 'choose the right variant',
+		'text-translation --> text-original choose': 'choose the right variant'
 	}
 	const task = `${givenType}-${givenLang} --> ${requiredType}-${requiredLang} ${activity}`
 	return mapOfTaskTexts?.[task]
