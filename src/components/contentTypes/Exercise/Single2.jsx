@@ -36,7 +36,7 @@ const Single2 = props => {
 	const exerciseInfo = {
 		givenType: 'text',
 		givenLang: 'translation',
-		requiredType: 'text',
+		requiredType: 'audio',
 		requiredLang: 'original',
 		activityType: 'choose-from-4',
 		count: '10',
@@ -156,11 +156,14 @@ const Single2 = props => {
 			/>
 		) : (
 			<ChooseFromVariants
+				variantType={requiredType}
 				variants={phrases[requiredLang]}
 				setUserAnswer={setUserAnswer}
 				correctPhraseId={phrases.correctPhraseId}
 				userAnswerCorrectness={userAnswerCorrectness}
 				resetUserAnswerCorrectness={resetUserAnswerCorrectness}
+				chapterId={chapterId}
+				subchapterId={subchapterId}
 			/>
 		)
 

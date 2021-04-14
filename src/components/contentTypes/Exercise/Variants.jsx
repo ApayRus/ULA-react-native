@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
+import { Text, Icon } from 'react-native-elements'
+import content from '../../../utils/content'
+import { playAudio } from '../../../utils/playerShortAudios'
 
 const Variants = props => {
 	const {
 		variants = [],
+		variantType, // text | audio | image
 		setUserAnswer,
 		resetUserAnswerCorrectness,
-		userAnswerCorrectness
+		userAnswerCorrectness,
+		chapterId,
+		subchapterId
 	} = props
 	const [selectedIndex, setSelectedIndex] = useState(-1)
 
@@ -19,8 +25,17 @@ const Variants = props => {
 		return backgroundMap[userAnswerCorrectness]
 	}
 
-	const handleVariantPress = index => () => {
+	const playPhraseAudio = phraseId => {
+		const filePath = `${chapterId}/${subchapterId}/audios/${phraseId}`
+		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
+		playAudio(audioFile, filePath)
+	}
+
+	const handleVariantPress = (phrase, index) => () => {
 		resetUserAnswerCorrectness()
+		if (variantType === 'audio') {
+			playPhraseAudio(phrase.id)
+		}
 		if (selectedIndex === index) {
 			setSelectedIndex(-1)
 			setUserAnswer('')
@@ -30,14 +45,28 @@ const Variants = props => {
 		}
 	}
 
-	const Variant = ({ title, index }) => {
+	const Variant = props => {
+		const { phrase, index, type } = props
 		const style = [styles.variant]
 		if (selectedIndex === index)
 			style.push(variantBackground(userAnswerCorrectness))
 
+		const getVariantIntext = type => {
+			if (type === 'text') return <Text>{phrase.text}</Text>
+			if (type === 'audio')
+				return (
+					<Text style={{ textAlign: 'center' }}>
+						<Icon name='play-arrow' />
+					</Text>
+				)
+		}
+
 		return (
-			<TouchableOpacity onPress={handleVariantPress(index)} style={style}>
-				<Text>{title}</Text>
+			<TouchableOpacity
+				onPress={handleVariantPress(phrase, index)}
+				style={style}
+			>
+				{getVariantIntext(type)}
 			</TouchableOpacity>
 		)
 	}
@@ -46,7 +75,12 @@ const Variants = props => {
 		<View style={styles.root}>
 			{variants.map((phrase, index) => {
 				return (
-					<Variant key={`variant-${index}`} title={phrase.text} index={index} />
+					<Variant
+						key={`variant-${index}`}
+						phrase={phrase}
+						type={variantType}
+						index={index}
+					/>
 				)
 			})}
 		</View>
