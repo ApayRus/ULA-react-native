@@ -33,17 +33,17 @@ import { playAudio } from '../../../utils/playerShortAudios'
 import { useSelector } from 'react-redux'
 
 const Single2 = props => {
-	const exerciseInfo = {
-		givenType: 'text',
-		givenLang: 'translation',
-		requiredType: 'audio',
-		requiredLang: 'original',
-		activityType: 'choose-from-4',
-		count: '10',
-		chapterId: '001',
-		subchapterId: '001',
-		phraseIndexes: ['003', '008', '001', '002']
-	}
+	// const exerciseInfo = {
+	// 	givenType: 'text',
+	// 	givenLang: 'translation',
+	// 	requiredType: 'audio',
+	// 	requiredLang: 'original',
+	// 	activityType: 'choose-from-4',
+	// 	count: '10',
+	// 	chapterId: '001',
+	// 	subchapterId: '001',
+	// 	phraseIndexes: ['003', '008', '001', '002']
+	// }
 
 	const {
 		activityType,
@@ -51,19 +51,23 @@ const Single2 = props => {
 		givenType,
 		requiredLang,
 		requiredType,
-		chapterId,
-		subchapterId,
-		phraseIndexes
-	} = exerciseInfo
+		sourceChapterId: chapterId,
+		sourceSubchapterId: subchapterId,
+		phraseIndexes,
+		//
+		userAnswerCorrectness,
+		setUserAnswerCorrectness // unknown | correct | incorrect
+	} = props
+
+	// console.log('props')
+	// console.log(props)
 
 	const [phrases, setPhrases] = useState([])
-	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
 	const [userAnswer, setUserAnswer] = useState('')
 	const { trLang } = useSelector(state => state.translation)
 
 	useEffect(() => {
 		const randomizer = new Randomizer(0) // random-js
-		// const { phraseIndexes = [] } = props
 		const correctPhraseId = prefixedIndex(phraseIndexes[0])
 		const shuffledIndexes = randomizer.shuffle(phraseIndexes)
 
@@ -168,13 +172,7 @@ const Single2 = props => {
 		)
 
 	return (
-		<View
-			style={{
-				flex: 1,
-				alignItems: 'center',
-				justifyContent: 'center'
-			}}
-		>
+		<>
 			<View style={styles.exerciseInstructionContainer}>
 				<Text>{taskText}</Text>
 			</View>
@@ -184,30 +182,20 @@ const Single2 = props => {
 				userAnswerCorrectness={userAnswerCorrectness}
 				handleCheckAnswer={checkUserAnswerCorrectness}
 			/>
-			{userAnswerCorrectness === 'correct' && (
-				<View style={styles.nextButton}>
-					<Button
-						title='Go Next'
-						iconRight={{ name: 'chevron', color: 'white' }}
-					/>
-				</View>
-			)}
-		</View>
+		</>
 	)
 }
 
 const styles = {
 	exerciseInstructionContainer: {
-		margin: 20
+		margin: 20,
+		marginLeft: 5,
+		marginRight: 5,
+		textAlign: 'center'
 	},
 	inputContainer: {
 		margin: 20,
 		width: '100%'
-	},
-	nextButton: {
-		position: 'absolute',
-		bottom: 2,
-		right: 2
 	}
 }
 

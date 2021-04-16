@@ -103,10 +103,20 @@ const ContentTypeRenderer = props => {
 			? {}
 			: { height: screenHeight }
 
+	// in exercises there is lots of similar screens
+	// and headers are annoying, then we set them off
+	const hideTitles = interactivity === 'exercise'
+
 	return (
 		<View style={containerStyle}>
-			<ScrollView ref={pageScrollViewRef} nestedScrollEnabled>
-				<ChapterHeader {...{ navigation, chapterId, subchapterId }} />
+			<ScrollView
+				contentContainerStyle={{ flexGrow: 1 }}
+				ref={pageScrollViewRef}
+				nestedScrollEnabled
+			>
+				<ChapterHeader
+					{...{ navigation, chapterId, subchapterId, hideTitles }}
+				/>
 				{interactivity === 'media' && (
 					<TouchableOpacity onPress={handleScrollPhrasalPlayer}>
 						<Text

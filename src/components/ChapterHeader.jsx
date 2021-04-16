@@ -7,7 +7,7 @@ import layoutStylesModule from '../config/styles/layout'
 import content from '../utils/content'
 
 function ChapterHeader(props) {
-	const { navigation, chapterId, subchapterId } = props
+	const { navigation, chapterId, subchapterId, hideTitles } = props
 
 	const { screenHeader: layoutStyles } = layoutStylesModule
 
@@ -87,20 +87,22 @@ function ChapterHeader(props) {
 		<View>
 			<StatusBar style='light' />
 			<Header {...{ leftComponent, rightComponent }} />
-			<View style={layoutStyles.container}>
-				<Text style={layoutStyles.chapterTitle}>{chapterTitle}</Text>
-				{showTranslation && Boolean(chapterTitleTr) && (
-					<Text style={layoutStyles.chapterTitleTr}>{chapterTitleTr}</Text>
-				)}
-				{Boolean(subchapterTitle) && (
-					<Text style={layoutStyles.subchapterTitle}>{subchapterTitle}</Text>
-				)}
-				{showTranslation && Boolean(subchapterTitleTr) && (
-					<Text style={layoutStyles.subchapterTitleTr}>
-						{subchapterTitleTr}
-					</Text>
-				)}
-			</View>
+			{!hideTitles && (
+				<View style={layoutStyles.container}>
+					<Text style={layoutStyles.chapterTitle}>{chapterTitle}</Text>
+					{showTranslation && Boolean(chapterTitleTr) && (
+						<Text style={layoutStyles.chapterTitleTr}>{chapterTitleTr}</Text>
+					)}
+					{Boolean(subchapterTitle) && (
+						<Text style={layoutStyles.subchapterTitle}>{subchapterTitle}</Text>
+					)}
+					{showTranslation && Boolean(subchapterTitleTr) && (
+						<Text style={layoutStyles.subchapterTitleTr}>
+							{subchapterTitleTr}
+						</Text>
+					)}
+				</View>
+			)}
 		</View>
 	)
 }
