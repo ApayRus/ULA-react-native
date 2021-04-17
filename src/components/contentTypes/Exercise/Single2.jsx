@@ -67,9 +67,8 @@ const Single2 = props => {
 	const { trLang } = useSelector(state => state.translation)
 
 	useEffect(() => {
-		const randomizer = new Randomizer(0) // random-js
 		const correctPhraseId = prefixedIndex(phraseIndexes[0])
-		const shuffledIndexes = randomizer.shuffle(phraseIndexes)
+		const shuffledIndexes = Randomizer.shuffle(phraseIndexes)
 
 		const original = content.getPhrases(
 			chapterId,

@@ -13,7 +13,6 @@ import Exercise from './Single2'
 import ExercisesClass from '../../../utils/exercises'
 
 const index = props => {
-	const randomizer = new ExercisesClass(8)
 	const {
 		chapterId,
 		subchapterId,
@@ -70,6 +69,11 @@ const index = props => {
 	useEffect(() => {
 		// 3 level nested array like: [[[3,7,6,1],[5,7,6,4],[6,3,2,1]],[[5,6,8,7],[3,5,8,2]],[[8]]]
 		const randomIndexesArray = exerciseBlocksArray.map(exercisesBlock => {
+			const sourceMaterialPhrasesCount = content.getPhrasesCount(
+				sourceChapterId,
+				sourceSubchapterId
+			)
+			const randomizer = new ExercisesClass(sourceMaterialPhrasesCount)
 			const { count, activityType } = exercisesBlock
 			const variantsCount = activityType.match(/choose-from-(.+?)/)?.[1] || '1'
 			const randomIndexesArray = randomizer.getIndexes(
