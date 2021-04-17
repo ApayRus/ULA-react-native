@@ -15,12 +15,12 @@ export default class Exercises {
 		this.range = range
 	}
 
-	shuffle(inputArray) {
+	static shuffle(inputArray) {
 		const array = [...inputArray]
 		return array.sort(() => 0.5 - Math.random())
 	}
-	sample(array, count) {
-		return this.shuffle(array).slice(0, count)
+	static sample(array, count) {
+		return Exercises.shuffle(array).slice(0, count)
 	}
 
 	/**
@@ -33,7 +33,7 @@ export default class Exercises {
 	getIndexes(exercisesCount, fakeCount = 2) {
 		let phrasesResult = []
 		while (phrasesResult.length < exercisesCount) {
-			const phrasesBasic = this.shuffle(this.range)
+			const phrasesBasic = Exercises.shuffle(this.range)
 			phrasesResult.push(...phrasesBasic)
 		}
 		phrasesResult = phrasesResult.slice(0, exercisesCount)
@@ -44,7 +44,7 @@ export default class Exercises {
 			const possibleFakeElements = this.range.filter(
 				fakeElement => correctElement !== fakeElement
 			)
-			const fakeElements = this.sample(possibleFakeElements, fakeCount)
+			const fakeElements = Exercises.sample(possibleFakeElements, fakeCount)
 			return [correctElement, ...fakeElements] // [14, 7, 16]
 		})
 
