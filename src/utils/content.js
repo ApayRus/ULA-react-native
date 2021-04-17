@@ -220,6 +220,32 @@ export class Content {
 		}
 	}
 
+	/**
+	 *
+	 * @param {string} chapterId
+	 * @param {string} subchapterId
+	 * @param {object} navigation - prop from react-navigation context
+	 * @returns
+	 */
+	navigateToNextItem(chapterId, subchapterId, navigation) {
+		const { nextChapterId, nextSubchapterId } =
+			content.getNextContentItem(chapterId, subchapterId) || {}
+
+		if (!nextChapterId) {
+			console.log("we are at the end of app. Can't move forward")
+			return
+		}
+		// nextChapterId exist but...
+		if (!nextSubchapterId) {
+			navigation.navigate(`chapter-${nextChapterId}`)
+			return
+		}
+		if (nextSubchapterId) {
+			navigation.navigate(`subchapter-${nextSubchapterId}`)
+			return
+		}
+	}
+
 	// prev = previous
 	getPrevContentItem(chapterId = '', subchapterId = '') {
 		const prevSubchapterId = getPrevPrefixedIndex(subchapterId)

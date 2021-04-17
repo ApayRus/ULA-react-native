@@ -21,22 +21,7 @@ function ChapterHeader(props) {
 	} = content.getChapterSubchapterTitlesWithTr(chapterId, subchapterId)
 
 	const handleNavigateForward = () => {
-		const { nextChapterId, nextSubchapterId } =
-			content.getNextContentItem(chapterId, subchapterId) || {}
-
-		if (!nextChapterId) {
-			console.log("we are at the end of app. Can't move forward")
-			return
-		}
-		// nextChapterId exist but...
-		if (!nextSubchapterId) {
-			navigation.navigate(`chapter-${nextChapterId}`)
-			return
-		}
-		if (nextSubchapterId) {
-			navigation.navigate(`subchapter-${nextSubchapterId}`)
-			return
-		}
+		content.navigateToNextItem(chapterId, subchapterId, navigation)
 	}
 
 	const leftComponent = () => (

@@ -20,7 +20,8 @@ const index = props => {
 		contentTypeDoc: {
 			content: exerciseBlocksArray,
 			param: sourceAddress = '' /* chapterId/subchapterId */
-		}
+		},
+		navigation
 	} = props
 
 	const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0)
@@ -93,7 +94,7 @@ const index = props => {
 		return () => {}
 	}, [])
 
-	// joins block info with particular exercise indexes
+	// joins data from block info and particular exercise indexes
 	const getCurrentExerciseProps = index => {
 		const { blockIndex, phraseIndexes } = plainExercisesInfoArray[index] || {}
 		const blockInfo = exerciseBlocksArray[blockIndex] // type of exercise
@@ -110,6 +111,10 @@ const index = props => {
 	const currentExerciseProps = getCurrentExerciseProps(currentExerciseIndex)
 
 	const handlePressNextButton = () => {
+		if (currentExerciseIndex === plainExercisesInfoArray.length - 1) {
+			content.navigateToNextItem(chapterId, subchapterId, navigation)
+			return
+		}
 		setCurrentExerciseIndex(prev => prev + 1)
 		setUserAnswerCorrectness('unknown')
 	}
