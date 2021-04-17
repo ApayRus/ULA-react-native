@@ -7,7 +7,8 @@ import { map, orderBy } from 'lodash'
 import {
 	prefixedIndex,
 	getNextPrefixedIndex,
-	getPrevPrefixedIndex
+	getPrevPrefixedIndex,
+	objectToArray
 } from './utils'
 import store from '../store/rootReducer'
 
@@ -155,35 +156,80 @@ export class Content {
 			] || {}
 		return subchapterDoc
 	}
+
+	/**
+	 *
+	 * @param {string} chapterId
+	 * @param {string} subchapterId
+	 * @param {number[]} arrayOfIndexes
+	 * @returns array of phrases by indexes or all (if indexes are undefined)
+	 */
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
 		if (!this.original) return []
-		const { content: contentTypeDoc } = subchapterId
+		const { content: phrasesDoc } = subchapterId
 			? this.original?.content[chapterId]?.content?.[subchapterId]
 			: this.original?.content[chapterId]
 
-		const phrases = arrayOfIndexes.map(phraseIndex => {
-			const phraseId = prefixedIndex(phraseIndex)
-			const phrase = contentTypeDoc?.[phraseId]
-			return { id: phraseId, ...phrase }
-		})
+		let phrases = []
+		if (arrayOfIndexes) {
+			phrases = arrayOfIndexes.map(phraseIndex => {
+				const phraseId = prefixedIndex(phraseIndex)
+				const phrase = phrasesDoc?.[phraseId]
+				return { id: phraseId, ...phrase }
+			})
+		} else {
+			phrases = objectToArray(phrasesDoc) //all phrases
+		}
+
 		return phrases
 	}
+
+	getPhrasesCount(chapterId, subchapterId) {
+		if (!this.original) return []
+		const { content: phrasesDoc } = subchapterId
+			? this.original?.content[chapterId]?.content?.[subchapterId]
+			: this.original?.content[chapterId]
+
+		const phrasesCount = Object.keys(phrasesDoc).length
+		return phrasesCount
+	}
+
 	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
 		const { trLang } = store.getState().translation
 		if (!(this.translations && trLang)) return []
-		const { content: contentTypeDoc } = subchapterId
+		const { content: phrasesDoc } = subchapterId
 			? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
 					subchapterId
 					// eslint-disable-next-line no-mixed-spaces-and-tabs
 			  ]
 			: this.translations?.[trLang]?.default?.content?.[chapterId]
 
-		const phrases = arrayOfIndexes.map(phraseIndex => {
-			const phraseId = prefixedIndex(phraseIndex)
-			const phrase = contentTypeDoc?.[phraseId]
-			return { id: phraseId, ...phrase }
-		})
+		let phrases = []
+		if (arrayOfIndexes) {
+			phrases = arrayOfIndexes.map(phraseIndex => {
+				const phraseId = prefixedIndex(phraseIndex)
+				const phrase = phrasesDoc?.[phraseId]
+				return { id: phraseId, ...phrase }
+			})
+		} else {
+			phrases = objectToArray(phrasesDoc) //all phrases
+		}
+
 		return phrases
+	}
+
+	getPhrasesTrCount(chapterId, subchapterId) {
+		const { trLang } = store.getState().translation
+		if (!(this.translations && trLang)) return []
+		const { content: phrasesDoc } = subchapterId
+			? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
+					subchapterId
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+			  ]
+			: this.translations?.[trLang]?.default?.content?.[chapterId]
+
+		const phrasesCount = Object.keys(phrasesDoc).length
+		return phrasesCount
 	}
 
 	getNextContentItem(chapterId = '', subchapterId = '') {
