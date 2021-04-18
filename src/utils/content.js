@@ -166,7 +166,9 @@ export class Content {
 	 */
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
 		if (!this.original) return []
-		const { content: phrasesDoc } = subchapterId
+		const {
+			content: { phrases: phrasesDoc }
+		} = subchapterId
 			? this.original?.content[chapterId]?.content?.[subchapterId]
 			: this.original?.content[chapterId]
 
@@ -186,7 +188,9 @@ export class Content {
 
 	getPhrasesCount(chapterId, subchapterId) {
 		if (!this.original) return []
-		const { content: phrasesDoc } = subchapterId
+		const {
+			content: { phrases: phrasesDoc }
+		} = subchapterId
 			? this.original?.content[chapterId]?.content?.[subchapterId]
 			: this.original?.content[chapterId]
 
@@ -197,7 +201,9 @@ export class Content {
 	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
 		const { trLang } = store.getState().translation
 		if (!(this.translations && trLang)) return []
-		const { content: phrasesDoc } = subchapterId
+		const {
+			content: { phrases: phrasesDoc }
+		} = subchapterId
 			? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
 					subchapterId
 					// eslint-disable-next-line no-mixed-spaces-and-tabs
@@ -221,7 +227,9 @@ export class Content {
 	getPhrasesTrCount(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
 		if (!(this.translations && trLang)) return []
-		const { content: phrasesDoc } = subchapterId
+		const {
+			content: { phrases: phrasesDoc }
+		} = subchapterId
 			? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
 					subchapterId
 					// eslint-disable-next-line no-mixed-spaces-and-tabs

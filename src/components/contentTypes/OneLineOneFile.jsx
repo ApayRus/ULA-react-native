@@ -14,8 +14,12 @@ function OneLineOneFile(props) {
 		showTranslation
 	} = props
 
-	const { content: phrasesObject = {} } = contentTypeDoc
-	const { content: phrasesTrObject = {} } = contentTypeTrDoc
+	const {
+		content: { phrases: phrasesObject = {} }
+	} = contentTypeDoc
+	const {
+		content: { phrases: phrasesTrObject = {} }
+	} = contentTypeTrDoc
 
 	const { audios = {}, images = {} } = files || {}
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)

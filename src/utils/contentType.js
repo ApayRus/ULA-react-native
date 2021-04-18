@@ -103,7 +103,7 @@ const parseTypeTiming = subsText => {
 const parseTypeOneLineOneFile = text => {
 	if (!text) return {}
 	const rowsArray = text.split('\n')
-	const obj = rowsArray.reduce((prev, item, index) => {
+	const phrases = rowsArray.reduce((prev, item, index) => {
 		const rowIndex = prefixedIndex(index + 1)
 		const renderer = new marked.Renderer()
 		renderer.paragraph = text => text //by default renderer returns <p></p> for any text line
@@ -112,7 +112,7 @@ const parseTypeOneLineOneFile = text => {
 		})
 		return { ...prev, [rowIndex]: { text } }
 	}, {})
-	return obj
+	return { phrases }
 }
 
 const parseTypeExercise = text => {
