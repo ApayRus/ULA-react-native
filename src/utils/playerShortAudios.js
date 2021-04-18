@@ -1,6 +1,6 @@
 import { Audio } from 'expo-av'
 import { Alert } from 'react-native'
-
+// import * as Speech from 'expo-speech'
 const onAudioUpdate = soundObject => playbackStatus => {
 	if (!playbackStatus.isPlaying && playbackStatus.positionMillis > 0) {
 		soundObject.unloadAsync()
@@ -25,5 +25,9 @@ export const playAudio = async (audioFile, pathArray) => {
 		]
 		console.log(...messages)
 		Alert(...messages)
+		/* 		Speech.speak('اَلسَّلَامُ عَلَيْكُمْ', {
+			language: 'ar',
+			onError: err => console.log('speech error', err)
+		}) */
 	}
 }
