@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Button, Text, colors } from 'react-native-elements'
 import Slider from '@react-native-community/slider'
-import { formatSecondsToTime } from '../../../utils/utils'
+import { formatSecondsToTime } from '../../utils/utils'
 
 export default function PhrasalPlayerControls(props) {
 	const { player, isPlaying, currentTime = 0, duration = 100, rate } = props

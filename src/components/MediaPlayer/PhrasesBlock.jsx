@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { View, ScrollView } from 'react-native'
 import PhraseWrapper from './PhraseWrapper'
-import contentTypeStyles from '../../../config/styles/contentType'
+import contentTypeStyles from '../../config/styles/contentType'
 
 export default function PhrasesBlock(props) {
 	const {

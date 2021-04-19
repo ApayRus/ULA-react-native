@@ -1,5 +1,5 @@
-import content from '../../../utils/content'
-import { fetchYoutubeVideoByUrl, isYoutube } from '../../../utils/utils'
+import content from '../../utils/content'
+import { fetchYoutubeVideoByUrl, isYoutube } from '../../utils/utils'
 import PlayerBasic from './playerBasicClass'
 import PlayerPhrasal from './playerPhrasalClass'
 import { Audio } from 'expo-av'
@@ -34,7 +34,7 @@ const getSourceAndExtensionFromPath = async path => {
 
 	const videoExtensions = ['.mp4'] // for now just one
 	const isVideo = videoExtensions.includes(extension)
-
+	console.log({ source, extension, posterSource: { uri: uriPoster }, isVideo })
 	return { source, extension, posterSource: { uri: uriPoster }, isVideo }
 }
 

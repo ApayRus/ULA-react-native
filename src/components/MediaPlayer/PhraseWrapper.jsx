@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { Avatar, Icon } from 'react-native-elements'
-import contentTypeStyles from '../../../config/styles/contentType'
-import MarkdownRenderer from '../../MarkdownRenderer'
+import contentTypeStyles from '../../config/styles/contentType'
+import MarkdownRenderer from '../MarkdownRenderer'
 
 const {
 	media: { phraseList: contentTypeStyle }
