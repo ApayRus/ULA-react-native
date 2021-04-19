@@ -11,6 +11,7 @@ import {
 	objectToArray
 } from './utils'
 import store from '../store/rootReducer'
+import contentTypeInteractivity from '../config/contentTypeInteractivity'
 
 export class Content {
 	constructor(original, translations, files) {
@@ -238,6 +239,19 @@ export class Content {
 
 		const phrasesCount = Object.keys(phrasesDoc).length
 		return phrasesCount
+	}
+
+	getInteractivity(chapterId, subchapterId) {
+		const doc = subchapterId
+			? this.original?.content[chapterId]?.content?.[subchapterId]
+			: this.original?.content[chapterId]
+
+		const { title, type } = doc
+
+		const contentType = type ? type : title
+		// const contentTypeInfo = getContentType(type)
+		const interactivity = contentTypeInteractivity?.[contentType]
+		return interactivity
 	}
 
 	getNextContentItem(chapterId = '', subchapterId = '') {
