@@ -55,6 +55,7 @@ export const loadDataToPlayer = async (
 	}
 
 	await mediaRef.current.loadAsync(source)
+
 	player.current = phrasesArray.length
 		? new PlayerPhrasal(mediaRef, phrasesArray)
 		: new PlayerBasic(mediaRef, phrasesArray)

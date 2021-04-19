@@ -56,10 +56,10 @@ const Media = props => {
 		currentPhraseNum: 0
 	})
 
-	const playerRef = useRef()
-	const mediaRef = useRef()
-	const mediaSourceRef = useRef()
-	const phrasesBlockPositionYRef = useRef()
+	const mediaRef = useRef() // expo media object instance (expo-av, new Sound(), loadAsync)
+	const playerRef = useRef() // our playerClass instance
+	const mediaSourceRef = useRef() // uri or required , for media and poster
+	const phrasesBlockPositionYRef = useRef() // coordinates of each phrase, so we can scroll screen to them
 
 	useEffect(() => {
 		const initMedia = async () => {
