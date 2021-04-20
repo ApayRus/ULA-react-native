@@ -74,7 +74,11 @@ const Quiz = props => {
 			>
 				<View>
 					<CheckAnswersButton
-						{...{ setUserAnswerCorrectness, handleCheckAnswer }}
+						{...{
+							setUserAnswerCorrectness,
+							userAnswerCorrectness,
+							handleCheckAnswer
+						}}
 					/>
 				</View>
 				<View>
