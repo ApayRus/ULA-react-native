@@ -1,30 +1,50 @@
+/*
+we can use Media component is 3 ways: 
+1) <MediaPlayer pathToMedia='path/to/file' /> 
+where pathToMedia is one of: 
+	1) uri, 
+	2) local file system path in /content or 
+	3) youtube link
+It is simplest player with basic controls
+2) <MediaPlayer chapterId='002' subchapterId='003' /> 
+This component loads every related to media info from  contentType=media material:
+	phrases (captions + subtitles), avatars, quizzes, 
+we can use it as a basic player, but with subtitles and phrasal playback in compact way (e.g. inside contentType=inText)
+3) <MediaPlayer {...props} /> -- from contentType=media page
+
+*/
+
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions, Platform } from 'react-native'
+import { Button } from 'react-native-elements'
 import { Video } from 'expo-av'
+import { useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
 // === for phrasal media:
 import { objectToArray } from '../../utils/utils'
 import PhrasalPlayerControls from './PlayerPhrasalControls'
 import PhrasesBlock from './PhrasesBlock'
+import content from '../../utils/content'
 
 const Media = props => {
-	// if siple media, from inText
-
-	const { path /* params */ } = props
-
-	// ===== if advanced media, from ChapterScreen/subchapter
-
 	const {
-		contentTypeDoc,
-		contentTypeTrDoc,
-		chapterId,
-		subchapterId,
-		showTranslation,
-		navigation,
-		trLang,
-		scrollPageTo
+		//
+		// for simplest media player
+		pathToMedia,
+		chapterId = '',
+		subchapterId = '',
+		scrollPageTo = () => {}
 	} = props
+
+	const navigation = useNavigation()
+	const { trLang, showTranslation } = useSelector(state => state.translation)
+
+	const { contentTypeDoc, contentTypeTrDoc } = content.getContentTypeDocsPair(
+		chapterId,
+		subchapterId
+	)
 
 	const {
 		title,
@@ -41,7 +61,7 @@ const Media = props => {
 
 	// ==================
 
-	const mediaPath = path || param || `audios/timing/009-001`
+	const mediaPath = pathToMedia || param
 
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
@@ -57,7 +77,7 @@ const Media = props => {
 	})
 
 	const mediaRef = useRef() // expo media object instance (expo-av, new Sound(), loadAsync)
-	const playerRef = useRef() // our playerClass instance
+	const playerRef = props.playerRef || useRef() // our playerClass instance
 	const mediaSourceRef = useRef() // uri or required , for media and poster
 	const phrasesBlockPositionYRef = useRef() // coordinates of each phrase, so we can scroll screen to them
 
@@ -180,24 +200,30 @@ const Media = props => {
 
 	// ================
 
-	return isPhrasalPlayer ? (
-		<View
-			style={{ height: screenHeight }}
-			onLayout={({
-				nativeEvent: {
-					layout: { /* x, */ y /* width, height */ }
-				}
-			}) => {
-				phrasesBlockPositionYRef.current = y
-			}}
-		>
-			<View>{basicPlayer}</View>
-			{phrasesBlockMemo}
-			<View>{phrasalPlayerControlsMemo}</View>
-		</View>
-	) : (
-		basicPlayer
-	)
+	if (props.playerRef) {
+		return null // hidden player, for play phrases in exercises
+	} else {
+		if (isPhrasalPlayer) {
+			return (
+				<View
+					style={{ height: screenHeight }}
+					onLayout={({
+						nativeEvent: {
+							layout: { /* x, */ y /* width, height */ }
+						}
+					}) => {
+						phrasesBlockPositionYRef.current = y
+					}}
+				>
+					<View>{basicPlayer}</View>
+					{phrasesBlockMemo}
+					<View>{phrasalPlayerControlsMemo}</View>
+				</View>
+			)
+		} else {
+			return basicPlayer
+		}
+	}
 }
 
 export default Media

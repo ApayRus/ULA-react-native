@@ -158,6 +158,18 @@ export class Content {
 		return subchapterDoc
 	}
 
+	getContentTypeDocsPair(chapterId, subchapterId) {
+		let contentTypeDoc, contentTypeTrDoc
+		if (subchapterId) {
+			contentTypeDoc = this.getSubchapter(chapterId, subchapterId)
+			contentTypeTrDoc = this.getSubchapterTr(chapterId, subchapterId)
+		} else {
+			contentTypeDoc = this.getChapter(chapterId)
+			contentTypeTrDoc = this.getChapterTr(chapterId)
+		}
+		return { contentTypeDoc, contentTypeTrDoc }
+	}
+
 	/**
 	 *
 	 * @param {string} chapterId

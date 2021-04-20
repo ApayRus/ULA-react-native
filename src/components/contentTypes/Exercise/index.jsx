@@ -26,6 +26,7 @@ const index = props => {
 	const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0)
 	const [plainExercisesInfoArray, setPlainExercisesInfoArray] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
+	const [sourceInteractivity, setSourceInteractivity] = useState() // oneLineOneFile | media (phrasal)
 
 	let sourceChapterId, sourceSubchapterId
 
@@ -72,10 +73,12 @@ const index = props => {
 			sourceSubchapterId
 		)
 
-		const sourceInteractivity = content.getInteractivity(
+		const interactivityType = content.getInteractivity(
 			sourceChapterId,
 			sourceSubchapterId
 		)
+
+		setSourceInteractivity(interactivityType)
 
 		// 3 level nested array like: [[[3,7,6,1],[5,7,6,4],[6,3,2,1]],[[5,6,8,7],[3,5,8,2]],[[8]]]
 		const randomIndexesArray = exerciseBlocksArray.map(exercisesBlock => {
@@ -113,6 +116,7 @@ const index = props => {
 			phraseIndexes,
 			sourceChapterId,
 			sourceSubchapterId,
+			sourceInteractivity,
 			userAnswerCorrectness,
 			setUserAnswerCorrectness
 		}

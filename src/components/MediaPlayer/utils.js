@@ -34,7 +34,6 @@ const getSourceAndExtensionFromPath = async path => {
 
 	const videoExtensions = ['.mp4'] // for now just one
 	const isVideo = videoExtensions.includes(extension)
-	console.log({ source, extension, posterSource: { uri: uriPoster }, isVideo })
 	return { source, extension, posterSource: { uri: uriPoster }, isVideo }
 }
 

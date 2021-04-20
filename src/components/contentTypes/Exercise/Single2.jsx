@@ -20,7 +20,7 @@ show progress (position of this exercise in general count)
 redirect to the next exercise
 */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View } from 'react-native'
 import { Button, Text, Input } from 'react-native-elements'
 import content from '../../../utils/content'
@@ -31,6 +31,7 @@ import { getTaskText, getPlaceholderText } from './utils'
 import CheckAnswerButton from '../../CheckAnswersButton'
 import { playAudio } from '../../../utils/playerShortAudios'
 import { useSelector } from 'react-redux'
+import PhrasalPlayer from '../../MediaPlayer'
 
 const Single2 = props => {
 	// const exerciseInfo = {
@@ -53,6 +54,7 @@ const Single2 = props => {
 		requiredType,
 		sourceChapterId: chapterId,
 		sourceSubchapterId: subchapterId,
+		sourceInteractivity,
 		phraseIndexes,
 		//
 		userAnswerCorrectness,
@@ -65,6 +67,7 @@ const Single2 = props => {
 	const [phrases, setPhrases] = useState([])
 	const [userAnswer, setUserAnswer] = useState('')
 	const { trLang } = useSelector(state => state.translation)
+	const playerRef = useRef() // phrasal player
 
 	useEffect(() => {
 		const correctPhraseId = prefixedIndex(phraseIndexes[0])
@@ -126,9 +129,14 @@ const Single2 = props => {
 	}
 
 	const handlePlayAudio = () => {
-		const filePath = `${chapterId}/${subchapterId}/audios/${phrases.correctPhraseId}`
-		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
-		playAudio(audioFile, filePath)
+		if (sourceInteractivity === 'oneLineOneFile') {
+			const filePath = `${chapterId}/${subchapterId}/audios/${phrases.correctPhraseId}`
+			const { file: audioFile } = content.getFilesByPathString(filePath) || {}
+			playAudio(audioFile, filePath)
+		} else {
+			// media (phrasal)
+			playerRef.current.playPhrase(+phrases.correctPhraseId)
+		}
 	}
 
 	let given // text or audio
@@ -173,6 +181,13 @@ const Single2 = props => {
 	return (
 		<>
 			<View style={styles.exerciseInstructionContainer}>
+				{sourceInteractivity === 'media' && (
+					<PhrasalPlayer
+						chapterId={chapterId}
+						subchapterId={subchapterId}
+						playerRef={playerRef}
+					/>
+				)}
 				<Text>{taskText}</Text>
 			</View>
 			{given}

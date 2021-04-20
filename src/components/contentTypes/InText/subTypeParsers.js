@@ -13,8 +13,8 @@ export const mediaParser = rawText => {
 	const [, paramsString = ''] = match || []
 	const paramsArray = paramsString.split('|')?.map(elem => elem.trim())
 	if (paramsArray[0]?.toLowerCase() !== 'media') return null
-	const [, path, ...params] = paramsArray
-	return { path, params }
+	const [, pathToMedia, ...params] = paramsArray
+	return { pathToMedia, params }
 }
 
 const soundedWordRegex = new RegExp(/\{(.+?)\}/g)
