@@ -5,33 +5,53 @@ first task call to action:
 first task source material: 
 						playAudioButton 
 						readTextButton
-
 second task call to action: 
 						"choose the right variant" 
 						"write the text"  
 						"write the translation"
 second task user input: 
 						TextInput 
-						VariantButtons
+						VariantButtons 
+						orderWordsButtons
 check the answer button 
 
 show progress (position of this exercise in general count)
 
-redirect to the next exercise
+redirect to the next exercise 
+
+****
+PHRASES MODE
+if source material is contentType=oneLineOneFile then we play short files
+if SM is media (phrasal) then we play phrases from 1 media 
+in both cases we work with phrases which have 1) text, 2) translation, 3) sound
+and there is many ways to combine them in exercise 
+
+// -- move to separate component --> 
+GLOSSARY MODE
+if SM is inText then we parse text to Glossary 
+	{ 
+		title, // term, idiom etc, 
+		description // definition/explanation
+	}
+and there is only one way to use it in exercise: 
+1) show description 
+2) ask variant from all titles 
 */
 
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { View } from 'react-native'
 import { Button, Text, Input } from 'react-native-elements'
 import content from '../../../utils/content'
 import Randomizer from '../../../utils/exercises'
 import { prefixedIndex } from '../../../utils/utils'
 import ChooseFromVariants from './Variants'
+import Order from './Order'
 import { getTaskText, getPlaceholderText } from './utils'
 import CheckAnswerButton from '../../CheckAnswersButton'
 import { playAudio } from '../../../utils/playerShortAudios'
 import { useSelector } from 'react-redux'
 import PhrasalPlayer from '../../MediaPlayer'
+import { normalizeTextBeforeOrdering } from './utils'
 
 const Single2 = props => {
 	// const exerciseInfo = {
@@ -55,7 +75,7 @@ const Single2 = props => {
 		sourceChapterId: chapterId,
 		sourceSubchapterId: subchapterId,
 		sourceInteractivity,
-		phraseIndexes,
+		phraseIndexes = [],
 		//
 		userAnswerCorrectness,
 		setUserAnswerCorrectness // unknown | correct | incorrect
@@ -70,7 +90,7 @@ const Single2 = props => {
 	const playerRef = useRef() // phrasal player
 
 	useEffect(() => {
-		const correctPhraseId = prefixedIndex(phraseIndexes[0])
+		const correctPhraseId = prefixedIndex(phraseIndexes?.[0])
 		const shuffledIndexes = Randomizer.shuffle(phraseIndexes)
 
 		const original = content.getPhrases(
@@ -85,10 +105,15 @@ const Single2 = props => {
 			shuffledIndexes
 		)
 
+		const phrases0 = { original, translation }
+
+		const { text: correctPhraseText } =
+			phrases0[requiredLang]?.find(elem => elem.id === correctPhraseId) || {}
+
 		setPhrases({
-			original,
-			translation,
-			correctPhraseId
+			...phrases0,
+			correctPhraseId,
+			correctPhraseText
 		})
 	}, [trLang])
 
@@ -105,12 +130,17 @@ const Single2 = props => {
 	const checkUserAnswerCorrectness = () => {
 		let correctAnswer = ''
 		if (activityType === 'write') {
-			correctAnswer = phrases[requiredLang]?.find(
-				phrase => phrase.text === userAnswer
-			)?.text
-		} else {
+			correctAnswer = phrases.correctPhraseText
+		} else if (activityType.match(/choose-from-/i)) {
 			correctAnswer = phrases.correctPhraseId
+		} else if (activityType === 'order') {
+			correctAnswer = normalizeTextBeforeOrdering(phrases.correctPhraseText)
 		}
+
+		console.log('userAnswer')
+		console.log(userAnswer)
+		console.log('correctAnswer')
+		console.log(correctAnswer)
 
 		if (correctAnswer === userAnswer) {
 			setUserAnswerCorrectness('correct')
@@ -157,26 +187,43 @@ const Single2 = props => {
 		given = <Button title={text} />
 	}
 
-	const userInput =
-		activityType === 'write' ? (
-			<Input
-				inputStyle={{ textAlign: 'center' }}
-				containerStyle={{ alignSelf: 'center' }}
-				placeholder={placeholderText} // translation of the word
-				onChangeText={handleTextInputChange}
-			/>
-		) : (
-			<ChooseFromVariants
-				variantType={requiredType}
-				variants={phrases[requiredLang]}
-				setUserAnswer={setUserAnswer}
-				correctPhraseId={phrases.correctPhraseId}
-				userAnswerCorrectness={userAnswerCorrectness}
-				resetUserAnswerCorrectness={resetUserAnswerCorrectness}
-				chapterId={chapterId}
-				subchapterId={subchapterId}
-			/>
-		)
+	const getUserInput = (activityType = '') => {
+		if (activityType.match(/write/i)) {
+			return (
+				<Input
+					inputStyle={{ textAlign: 'center' }}
+					containerStyle={{ alignSelf: 'center' }}
+					placeholder={placeholderText} // translation of the word
+					onChangeText={handleTextInputChange}
+				/>
+			)
+		} else if (activityType.match(/choose/i)) {
+			return (
+				<ChooseFromVariants
+					variantType={requiredType}
+					variants={phrases[requiredLang]}
+					setUserAnswer={setUserAnswer}
+					resetUserAnswerCorrectness={resetUserAnswerCorrectness}
+					correctPhraseId={phrases.correctPhraseId}
+					userAnswerCorrectness={userAnswerCorrectness}
+					chapterId={chapterId}
+					subchapterId={subchapterId}
+				/>
+			)
+		} else if (activityType.match(/order/i)) {
+			return (
+				<Order
+					text={phrases.correctPhraseText}
+					setUserAnswer={setUserAnswer}
+					resetUserAnswerCorrectness={resetUserAnswerCorrectness}
+				/>
+			)
+		} else {
+			return null
+		}
+	}
+
+	const userInput = getUserInput(activityType)
 
 	return (
 		<>

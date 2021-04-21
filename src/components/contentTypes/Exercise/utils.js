@@ -58,3 +58,10 @@ export const getTaskText = (
 	)
 	return `${task1}, and ${task2}`
 }
+
+export const normalizeTextBeforeOrdering = text =>
+	text
+		.trim()
+		.replace(/\s+/g, ' ') // multiple spaces with one space for avoid empty puzzles
+		.replace(/[.?!]+/g, '') //remove sentence-end punctuation (because it is clue -- end of sentence)
+		.toLowerCase() // because Uppercase letter is a clue (beginning of sentence)
