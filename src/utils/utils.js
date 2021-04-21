@@ -34,7 +34,7 @@ export const arrayToObject = array => {
  * prefixedIndex(45) // '045'
  * prefixedIndex(123) // '123'
  */
-export const prefixedIndex = index => {
+export const prefixedIndex = (index = '') => {
 	return index.toString().padStart(3, '0')
 }
 
