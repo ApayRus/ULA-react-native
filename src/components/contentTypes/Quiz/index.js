@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
-import { Text, CheckBox } from 'react-native-elements'
+import { View } from 'react-native'
+import { CheckBox } from 'react-native-elements'
 import CheckAnswersButton from '../../CheckAnswersButton'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 import layoutStylesModule from '../../../config/styles/layout'
 
 const Quiz = props => {
 	const {
-		chapterId,
-		subchapterId,
-		quizId,
+		// chapterId,
+		// subchapterId,
+		// quizId,
 		data: { type, correctAnswers = [], variants }
 	} = props
 
@@ -17,7 +17,7 @@ const Quiz = props => {
 
 	const [userAnswers, setUserAnswers] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
-	const [errorCount, setErrorCount] = useState(0)
+	// const [errorCount, setErrorCount] = useState(0)
 	// const [stopCounting, setStopCounting] = useState(false)
 
 	const handleCheckAnswer = () => {
@@ -26,7 +26,7 @@ const Quiz = props => {
 			setUserAnswerCorrectness('correct')
 		} else {
 			setUserAnswerCorrectness('incorrect')
-			if (userAnswerCorrectness === 'unknown') setErrorCount(errorCount + 1)
+			// if (userAnswerCorrectness === 'unknown') setErrorCount(errorCount + 1)
 			// if user see that answer is correct or incorrect and press the button at the same time, we don't count this clicks
 		}
 	}
@@ -81,9 +81,11 @@ const Quiz = props => {
 						}}
 					/>
 				</View>
+				{/* 				
 				<View>
 					<Text>{errorCount}</Text>
-				</View>
+				</View> 
+				*/}
 			</View>
 		</View>
 	)
