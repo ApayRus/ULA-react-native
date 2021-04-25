@@ -173,5 +173,38 @@ export default {
 			containerStyle: { margin: 0, padding: 0, backgroundColor: 'transparent' },
 			textStyle: { ...general.body2, fontWeight: 'normal' }
 		}
+	},
+
+	// PLAYER CONTROLS
+	playerControls: {
+		timingText: { fontSize: 12, color: colors.grey2 },
+		speedChangeButtonText: { color: colors.grey2, textAlign: 'right' },
+		generalButtonProps: {
+			type: 'clear',
+			buttonStyle: { padding: 2 }
+		},
+		playForwardButtonProps: {
+			icon: { name: 'fast-forward', color: 'grey' }
+		},
+		playBackButtonProps: {
+			icon: { name: 'fast-rewind', color: 'grey' }
+		},
+		playButtonProps: {
+			icon: { name: 'play-arrow', color: 'grey' }
+		},
+		pauseButtonProps: {
+			icon: { name: 'pause', color: 'grey' }
+		},
+		slider: {
+			paddingLeft: 4,
+			paddingRight: 4,
+			width: '100%',
+			alignSelf: 'center'
+		},
+		sliderProps: {
+			minimumTrackTintColor: colors.primary,
+			maximumTrackTintColor: 'grey',
+			thumbTintColor: colors.primary
+		}
 	}
 }

@@ -3,6 +3,9 @@ import { View, TouchableOpacity } from 'react-native'
 import { Button, Text, colors } from 'react-native-elements'
 import Slider from '@react-native-community/slider'
 import { formatSecondsToTime } from '../../utils/utils'
+import layoutStylesModule from '../../config/styles/layout'
+
+const { playerControls: layoutStyles } = layoutStylesModule
 
 export default function PhrasalPlayerControls(props) {
 	const { player, isPlaying, currentTime = 0, duration = 100, rate } = props
@@ -40,7 +43,7 @@ export default function PhrasalPlayerControls(props) {
 
 	const TimeIndicator = (
 		<View>
-			<Text style={{ color: colors.grey2 }}>
+			<Text style={layoutStyles.timingText}>
 				{currentTimeFormatted} / {durationFormatted}
 			</Text>
 		</View>
@@ -48,16 +51,15 @@ export default function PhrasalPlayerControls(props) {
 
 	const SpeedChangeButton = (
 		<TouchableOpacity onPress={handleChangeRate}>
-			<Text style={{ color: colors.grey2, textAlign: 'right' }}>x{rate}</Text>
+			<Text style={layoutStyles.speedChangeButtonText}>x{rate}</Text>
 		</TouchableOpacity>
 	)
 
-	const playerButton = (iconName, onPressHandler) => (
+	const playerButton = (buttonType, onPressHandler) => (
 		<Button
-			type='clear'
-			icon={{ name: iconName, color: 'grey' }}
 			onPress={onPressHandler}
-			buttonStyle={styles.playerButton}
+			{...layoutStyles.generalButtonProps}
+			{...layoutStyles[`${buttonType}ButtonProps`]}
 		/>
 	)
 
@@ -68,13 +70,13 @@ export default function PhrasalPlayerControls(props) {
 				justifyContent: 'space-around'
 			}}
 		>
-			{playerButton('fast-rewind', handlePlayMinus10)}
+			{playerButton('playBack', handlePlayMinus10)}
 
 			{isPlaying
 				? playerButton('pause', handlePause)
-				: playerButton('play-arrow', handlePlay)}
+				: playerButton('play', handlePlay)}
 
-			{playerButton('fast-forward', handlePlayPlus10)}
+			{playerButton('playForward', handlePlayPlus10)}
 		</View>
 	)
 
@@ -86,9 +88,8 @@ export default function PhrasalPlayerControls(props) {
 				maximumValue={duration ? duration : 100}
 				onSlidingStart={() => handleSeekStart()}
 				onSlidingComplete={value => handleSeek(value)}
-				style={styles.slider}
-				// minimumTrackTintColor='blue'
-				// maximumTrackTintColor='gray'
+				style={layoutStyles.slider}
+				{...layoutStyles.sliderProps}
 			/>
 			<View
 				style={{
@@ -107,14 +108,4 @@ export default function PhrasalPlayerControls(props) {
 			</View>
 		</View>
 	)
-}
-
-const styles = {
-	playerButton: { padding: 2 },
-	slider: {
-		paddingLeft: 4,
-		paddingRight: 4,
-		width: '100%',
-		alignSelf: 'center'
-	}
 }
