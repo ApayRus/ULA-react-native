@@ -6,8 +6,8 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
-import { Button } from 'react-native-elements'
+import { View, Image, TouchableOpacity } from 'react-native'
+import { Button, Text } from 'react-native-elements'
 import content from '../../../utils/content'
 import Exercise from './Single2'
 import ExercisesClass from '../../../utils/exercises'
@@ -27,6 +27,7 @@ const index = props => {
 	const [plainExercisesInfoArray, setPlainExercisesInfoArray] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
 	const [sourceInteractivity, setSourceInteractivity] = useState() // oneLineOneFile | media (phrasal)
+	const [giveUp, setGiveUp] = useState(false)
 
 	let sourceChapterId, sourceSubchapterId
 
@@ -113,6 +114,8 @@ const index = props => {
 		const blockInfo = exerciseBlocksArray[blockIndex] // type of exercise
 		return {
 			...blockInfo,
+			giveUp,
+			setGiveUp,
 			phraseIndexes,
 			sourceChapterId,
 			sourceSubchapterId,
@@ -131,6 +134,7 @@ const index = props => {
 		}
 		setCurrentExerciseIndex(prev => prev + 1)
 		setUserAnswerCorrectness('unknown')
+		setGiveUp(false)
 	}
 
 	return (
@@ -154,18 +158,19 @@ const index = props => {
 						}`}
 					/>
 				</View>
-				{userAnswerCorrectness === 'correct' && (
-					<View style={styles.nextButton}>
-						<Button
-							title='Go Next'
-							icon={{ name: 'chevron-right', color: 'white' }}
-							iconRight
-							iconContainerStyle={{ marginRight: 0 }}
-							onPress={handlePressNextButton}
-							buttonStyle={{ paddingRight: 0 }}
-						/>
-					</View>
-				)}
+				{userAnswerCorrectness === 'correct' ||
+					(giveUp && (
+						<View style={styles.nextButton}>
+							<Button
+								title='Go Next'
+								icon={{ name: 'chevron-right', color: 'white' }}
+								iconRight
+								iconContainerStyle={{ marginRight: 0 }}
+								onPress={handlePressNextButton}
+								buttonStyle={{ paddingRight: 0 }}
+							/>
+						</View>
+					))}
 			</View>
 		)
 	)

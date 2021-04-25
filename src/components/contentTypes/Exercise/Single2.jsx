@@ -45,6 +45,7 @@ import content from '../../../utils/content'
 import Randomizer from '../../../utils/exercises'
 import { prefixedIndex } from '../../../utils/utils'
 import ChooseFromVariants from './Variants'
+import GiveUpButton from './GiveUpButton'
 import Order from './Order'
 import { getTaskText, getPlaceholderText } from './utils'
 import CheckAnswerButton from '../../CheckAnswersButton'
@@ -78,7 +79,9 @@ const Single2 = props => {
 		phraseIndexes = [],
 		//
 		userAnswerCorrectness,
-		setUserAnswerCorrectness // unknown | correct | incorrect
+		setUserAnswerCorrectness, // unknown | correct | incorrect
+		giveUp,
+		setGiveUp
 	} = props
 
 	// console.log('props')
@@ -137,11 +140,6 @@ const Single2 = props => {
 			correctAnswer = normalizeTextBeforeOrdering(phrases.correctPhraseText)
 		}
 
-		console.log('userAnswer')
-		console.log(userAnswer)
-		console.log('correctAnswer')
-		console.log(correctAnswer)
-
 		if (correctAnswer === userAnswer) {
 			setUserAnswerCorrectness('correct')
 		} else {
@@ -156,6 +154,10 @@ const Single2 = props => {
 	const handleTextInputChange = text => {
 		resetUserAnswerCorrectness()
 		setUserAnswer(text)
+	}
+
+	const handleGiveUp = () => {
+		setGiveUp(true)
 	}
 
 	const handlePlayAudio = () => {
@@ -243,6 +245,12 @@ const Single2 = props => {
 				userAnswerCorrectness={userAnswerCorrectness}
 				handleCheckAnswer={checkUserAnswerCorrectness}
 			/>
+			<GiveUpButton onPress={handleGiveUp} />
+			<View style={styles.giveUpAnswerContainer}>
+				{giveUp && (
+					<Text style={styles.giveUpText}>{phrases.correctPhraseText}</Text>
+				)}
+			</View>
 		</>
 	)
 }
@@ -257,7 +265,13 @@ const styles = {
 	inputContainer: {
 		margin: 20,
 		width: '100%'
-	}
+	},
+	giveUpAnswerContainer: {
+		height: 20,
+		justifyContent: 'center'
+	},
+
+	giveUpText: { borderWidth: 0.5, borderColor: 'red', padding: 5 }
 }
 
 export default Single2
