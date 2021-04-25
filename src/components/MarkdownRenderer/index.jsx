@@ -17,6 +17,7 @@ marked.use({
 const MarkdownRenderer = props => {
 	const {
 		markdownText = '',
+		parentNodeProps,
 		lexerNodesArray,
 		contentType, // - for styling
 		chapterId, // - for SoundedWord default files
@@ -69,7 +70,7 @@ const MarkdownRenderer = props => {
 	const lexerNodes = lexerNodesArray || lexerNodesFromText
 
 	return lexerNodes.map((elem, index, array) => {
-		const { tokens, items, type, text, href, depth = '' } = elem
+		const { tokens, items, type, text, href, depth = '', ordered } = elem
 
 		const children = tokens || items
 
@@ -102,15 +103,21 @@ const MarkdownRenderer = props => {
 			>
 				<MarkdownRenderer
 					lexerNodesArray={children}
+					parentNodeProps={{ type, ordered }}
 					{...{ contentType, chapterId, subchapterId }}
 				/>
 			</View>
 		)
 
-		const listBullet =
-			type === 'list_item' ? (
-				<Text style={contentTypeStyle.ulBullet}>• </Text>
-			) : null
+		const listBullet = index => {
+			if (type === 'list_item' && parentNodeProps.ordered) {
+				return <Text style={contentTypeStyle.olBullet}>{index + 1}. </Text>
+			}
+			if (type === 'list_item') {
+				return <Text style={contentTypeStyle.ulBullet}>• </Text>
+			}
+			return null
+		}
 
 		const BlockWithInlineRenderer = () => (
 			<View
@@ -118,7 +125,7 @@ const MarkdownRenderer = props => {
 				style={contentTypeStyle[`${type}${depth}Container`]}
 			>
 				<Text style={contentTypeStyle[`${type}${depth}`]} {...{ selectable }}>
-					{listBullet}
+					{listBullet(index)}
 					<MarkdownRenderer
 						lexerNodesArray={children}
 						{...{ contentType, chapterId, subchapterId }}

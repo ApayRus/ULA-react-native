@@ -99,6 +99,10 @@ const inText = {
 		...general.body2,
 		color: 'grey'
 	},
+	olBullet: {
+		...general.body2,
+		color: colors.primary
+	},
 	blockquoteContainer: {
 		marginTop: 10,
 		borderLeftColor: colors.primary,
