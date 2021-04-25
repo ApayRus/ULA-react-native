@@ -113,7 +113,7 @@ const inText = {
 		// height: 30,
 		// backgroundColor: 'red'
 	},
-	image: { width: 100, height: 100 },
+	image: { width: 24, height: 24, resizeMode: 'contain' }, // inline image
 	strong: { fontWeight: 'bold' },
 
 	em: { fontStyle: 'italic' },
@@ -123,6 +123,11 @@ const inText = {
 		// borderWidth: 1,
 		// borderStyle: 'solid',
 		...general.body2
+	},
+	blockImageContainer: {
+		marginTop: 10,
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	soundedWord: {
 		...general.body2,

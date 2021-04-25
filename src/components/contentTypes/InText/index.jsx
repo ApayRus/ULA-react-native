@@ -1,5 +1,5 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, { useMemo } from 'react'
+import { View, Image } from 'react-native'
 import Media from '../Media'
 import { mediaParser, quizParser } from './subTypeParsers'
 import Quiz from '../Quiz'
@@ -43,7 +43,7 @@ const TypographyScreen = props => {
 	const lexerNodesArray = marked.lexer(markdownText)
 
 	const inTextComponentsArray = lexerNodesArray.map((elem, index) => {
-		const { type, raw: rawText } = elem
+		const { type, raw: rawText, href } = elem
 		/* 
 	items - in list 
 	href - in image
@@ -71,6 +71,15 @@ const TypographyScreen = props => {
 					/>
 				)
 			}
+		}
+		if (type === 'image') {
+			return (
+				<Image
+					key={`elem${index}`}
+					style={contentTypeStyle[type]}
+					source={{ uri: href }}
+				/>
+			)
 		}
 		// 3. ordinary markdown text
 		return (
