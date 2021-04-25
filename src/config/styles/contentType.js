@@ -97,7 +97,7 @@ const inText = {
 	},
 	ulBullet: {
 		...general.body2,
-		color: 'grey'
+		color: colors.primary
 	},
 	olBullet: {
 		...general.body2,
