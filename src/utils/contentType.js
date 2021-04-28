@@ -115,33 +115,28 @@ const parseTypeOneLineOneFile = text => {
 	return { phrases }
 }
 
-const parseTypeExercise = text => {
-	const exerciseTemplate = new RegExp(
-		/^\s*(.+?)\s*-\s*(.+?)\s*-->\s*(.+?)\s*-\s*(.+?)\s+(.+?)\s+(.+?)$/,
-		'gm'
-	)
-	const matches = [...text.matchAll(exerciseTemplate)]
-	const exercises = matches.map(elem => {
-		//givenType-givenLang --> requiredType-requiredLang activityType count
-		const [
-			,
-			givenType,
-			givenLang,
-			requiredType,
-			requiredLang,
-			activityType,
-			count
-		] = elem
-		return {
-			givenType,
-			givenLang,
-			requiredType,
-			requiredLang,
-			activityType,
-			count
-		}
+/**
+ * @param {string} text given1, given2, given3, --> required1, required2, required3 activityType count
+ * @example
+ * parseTypeExercise(`image, text-original --> audio, text-translation choose-from-4 100%
+						audio --> text-original write 2`)
+		//will return 
+		[ 
+			{given:['image', 'text-original'], required: ['audio', 'text-translation'], activityType:'choose-from-4', count: '100%'}, 
+			{given:['audio'], required: ['text-original'], activityType: 'write', count:'2'}
+		]
+ */
+const parseTypeExercise = (text = '') => {
+	const exerciseRows = text.trim().split('\n')
+	const exerciseBlocks = exerciseRows.map(exerciseRow => {
+		const [stringBeforeArrow, stringAfterArrow] = exerciseRow.split('-->')
+		const given = stringBeforeArrow.split(/[, ]+/).filter(elem => elem) //non empty
+		const required = stringAfterArrow.split(/[, ]+/).filter(elem => elem)
+		const [activityType, count] = required.splice(-2)
+		return { given, required, activityType, count }
 	})
-	return exercises
+
+	return exerciseBlocks
 }
 
 /**

@@ -1,36 +1,27 @@
-const getTask1 = (givenType, givenLang = '') => {
-	const mapOfTaskTexts = {
-		'audio-original': 'Listen to the audio',
-		'text-original': 'Read the original text',
-		'text-translation': 'Read the translation text'
+export const getTaskText = (givenArray, requiredArray, activityType) => {
+	const [activity] = activityType.split('-') // for extract 'choose' of: choose-from-4
+	// from given type
+	const task1map = {
+		audio: 'listen to the audio',
+		image: 'look at the image',
+		'text-translation': 'read translation text',
+		'text-original': 'read original text'
 	}
-	const task = `${givenType}-${givenLang}`
-	return mapOfTaskTexts?.[task]
-}
+	// from given activity
+	const task2map = {
+		choose: 'choose the right variant',
+		write: 'write the right answer',
+		order: 'put words in right order'
+	}
 
-const getTask2 = (
-	givenType,
-	givenLang,
-	requiredType,
-	requiredLang,
-	activityType
-) => {
-	const activity = activityType === 'write' ? 'write' : 'choose'
-	const mapOfTaskTexts = {
-		'audio-original --> text-original write': 'write what you have heard',
-		'audio-original --> text-translation write': 'write translation',
-		'audio-original --> text-original choose': 'choose the right variant',
-		'audio-original --> text-translation choose':
-			'choose the right translation',
-		'text-original --> text-translation write': 'write translation',
-		'text-translation --> text-original write': 'write original text',
-		'text-original --> text-translation choose': 'choose the right variant',
-		'text-translation --> text-original choose': 'choose the right variant',
-		'text-original --> audio-original choose': 'choose the right variant',
-		'text-translation --> audio-original choose': 'choose the right variant'
-	}
-	const task = `${givenType}-${givenLang} --> ${requiredType}-${requiredLang} ${activity}`
-	return mapOfTaskTexts?.[task]
+	const task1 = givenArray.reduce((prev, elem) => {
+		const task = task1map[elem]
+		return `${prev}${task}, `
+	}, '')
+
+	const task2 = task2map[activity]
+
+	return `${task1}\nand ${task2}`
 }
 
 export const getPlaceholderText = requiredLang => {
@@ -41,24 +32,7 @@ export const getPlaceholderText = requiredLang => {
 	return mapOfTexts?.[requiredLang]
 }
 
-export const getTaskText = (
-	givenType,
-	givenLang,
-	requiredType,
-	requiredLang,
-	activityType
-) => {
-	const task1 = getTask1(givenType, givenLang)
-	const task2 = getTask2(
-		givenType,
-		givenLang,
-		requiredType,
-		requiredLang,
-		activityType
-	)
-	return `${task1}, and ${task2}`
-}
-
+// TOLERANCE TO USER INPUT
 export const normalizeTextBeforeOrdering = text =>
 	text
 		.trim()

@@ -6,8 +6,8 @@
  */
 
 import React, { useState, useEffect } from 'react'
-import { View, Image, TouchableOpacity } from 'react-native'
-import { Button, Text } from 'react-native-elements'
+import { View } from 'react-native'
+import { Button } from 'react-native-elements'
 import content from '../../../utils/content'
 import Exercise from './Single2'
 import ExercisesClass from '../../../utils/exercises'
@@ -49,19 +49,17 @@ const index = props => {
 	
 	exerciseBlocksArray = [
 		{
-			activityType: "choose-from-4"
-			count: "10"
-			givenLang: "original"
-			givenType: "audio"
-			requiredLang: "original"
-			requiredType: "text"
+			given: ["audio", "image"],
+			required: ["text-translation"],
+			activityType: "choose-from-4",
+			count: "10",
 		}
 	]
 
 	they are produced from text in content like this:
 
-	audio-original --> text-original choose-from-4 12
-	audio-original --> text-translation choose-from-4 6
+	audio --> text-original choose-from-4 12
+	audio --> text-translation choose-from-4 6
 	text-translation --> text-original write 3
 
 	now we need to generate from each block in array another array, with particular phrases, 
@@ -158,19 +156,18 @@ const index = props => {
 						}`}
 					/>
 				</View>
-				{userAnswerCorrectness === 'correct' ||
-					(giveUp && (
-						<View style={styles.nextButton}>
-							<Button
-								title='Go Next'
-								icon={{ name: 'chevron-right', color: 'white' }}
-								iconRight
-								iconContainerStyle={{ marginRight: 0 }}
-								onPress={handlePressNextButton}
-								buttonStyle={{ paddingRight: 0 }}
-							/>
-						</View>
-					))}
+				{(userAnswerCorrectness === 'correct' || giveUp) && (
+					<View style={styles.nextButton}>
+						<Button
+							title='Go Next'
+							icon={{ name: 'chevron-right', color: 'white' }}
+							iconRight
+							iconContainerStyle={{ marginRight: 0 }}
+							onPress={handlePressNextButton}
+							buttonStyle={{ paddingRight: 0 }}
+						/>
+					</View>
+				)}
 			</View>
 		)
 	)

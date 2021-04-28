@@ -39,7 +39,7 @@ and there is only one way to use it in exercise:
 */
 
 import React, { useEffect, useState, useRef } from 'react'
-import { View } from 'react-native'
+import { View, Image } from 'react-native'
 import { Button, Text, Input } from 'react-native-elements'
 import content from '../../../utils/content'
 import Randomizer from '../../../utils/exercises'
@@ -56,10 +56,8 @@ import { normalizeTextBeforeOrdering } from './utils'
 
 const Single2 = props => {
 	// const exerciseInfo = {
-	// 	givenType: 'text',
-	// 	givenLang: 'translation',
-	// 	requiredType: 'audio',
-	// 	requiredLang: 'original',
+	// 	givenType: ['image', 'text-original'],
+	// 	required: ['text-translation'],
 	// 	activityType: 'choose-from-4',
 	// 	count: '10',
 	// 	chapterId: '001',
@@ -69,10 +67,8 @@ const Single2 = props => {
 
 	const {
 		activityType,
-		givenLang,
-		givenType,
-		requiredLang,
-		requiredType,
+		given: givenArray = [],
+		required: requiredArray = [],
 		sourceChapterId: chapterId,
 		sourceSubchapterId: subchapterId,
 		sourceInteractivity,
@@ -91,6 +87,13 @@ const Single2 = props => {
 	const [userAnswer, setUserAnswer] = useState('')
 	const { trLang } = useSelector(state => state.translation)
 	const playerRef = useRef() // phrasal player
+
+	const [, givenLang] = givenArray
+		.find(elem => elem.startsWith('text-'))
+		?.split('-') || ['', 'original']
+	const [, requiredLang] = requiredArray
+		.find(elem => elem.startsWith('text-'))
+		?.split('-') || ['', 'original']
 
 	useEffect(() => {
 		const correctPhraseId = prefixedIndex(phraseIndexes?.[0])
@@ -120,13 +123,7 @@ const Single2 = props => {
 		})
 	}, [trLang])
 
-	const taskText = getTaskText(
-		givenType,
-		givenLang,
-		requiredType,
-		requiredLang,
-		activityType
-	)
+	const taskText = getTaskText(givenArray, requiredArray, activityType)
 
 	const placeholderText = getPlaceholderText(requiredLang)
 
@@ -171,22 +168,35 @@ const Single2 = props => {
 		}
 	}
 
-	let given // text or audio
+	const imagePath = `${chapterId}/${subchapterId}/images/${phrases.correctPhraseId}`
+	const { file: imageSource } = content.getFilesByPathString(imagePath) || {}
 
-	if (givenType === 'audio') {
-		given = (
-			<Button
-				icon={{ name: 'play-arrow', color: 'white' }}
-				onPress={handlePlayAudio}
-			/>
+	const given = () => {
+		return (
+			<>
+				{givenArray.includes('image') && imageSource && (
+					<Image
+						source={imageSource}
+						style={{ width: 100, height: 100, resizeMode: 'contain' }}
+					/>
+				)}
+				{givenArray.find(elem => elem.startsWith('text-')) && (
+					<Button
+						title={
+							phrases?.[givenLang]?.find(
+								phrase => phrase.id === phrases.correctPhraseId
+							)?.text
+						}
+					/>
+				)}
+				{givenArray.includes('audio') && (
+					<Button
+						icon={{ name: 'play-arrow', color: 'white' }}
+						onPress={handlePlayAudio}
+					/>
+				)}
+			</>
 		)
-	} else if (givenType === 'text') {
-		const { text } =
-			phrases?.[givenLang]?.find(
-				phrase => phrase.id === phrases.correctPhraseId
-			) || []
-
-		given = <Button title={text} />
 	}
 
 	const getUserInput = (activityType = '') => {
@@ -202,7 +212,7 @@ const Single2 = props => {
 		} else if (activityType.match(/choose/i)) {
 			return (
 				<ChooseFromVariants
-					variantType={requiredType}
+					requiredArray={requiredArray}
 					variants={phrases[requiredLang]}
 					setUserAnswer={setUserAnswer}
 					resetUserAnswerCorrectness={resetUserAnswerCorrectness}
@@ -239,7 +249,7 @@ const Single2 = props => {
 				)}
 				<Text>{taskText}</Text>
 			</View>
-			{given}
+			{given()}
 			<View style={styles.inputContainer}>{userInput}</View>
 			<CheckAnswerButton
 				userAnswerCorrectness={userAnswerCorrectness}

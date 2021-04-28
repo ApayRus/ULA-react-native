@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Image } from 'react-native'
 import { Text, Icon } from 'react-native-elements'
 import content from '../../../utils/content'
 import { playAudio } from '../../../utils/playerShortAudios'
@@ -7,7 +7,7 @@ import { playAudio } from '../../../utils/playerShortAudios'
 const Variants = props => {
 	const {
 		variants = [],
-		variantType, // text | audio | image
+		requiredArray, // ['text-original' , 'audio' , 'image']
 		setUserAnswer,
 		resetUserAnswerCorrectness,
 		userAnswerCorrectness,
@@ -18,9 +18,9 @@ const Variants = props => {
 
 	const variantBackground = userAnswerCorrectness => {
 		const backgroundMap = {
-			correct: { backgroundColor: 'green' },
-			incorrect: { backgroundColor: 'red' },
-			unknown: { backgroundColor: 'yellow' }
+			correct: { backgroundColor: 'rgba(0, 255, 0, 0.5)' },
+			incorrect: { backgroundColor: 'rgba(255, 0, 0, 0.5)' },
+			unknown: { backgroundColor: 'rgba(255, 255, 0, 0.5)' }
 		}
 		return backgroundMap[userAnswerCorrectness]
 	}
@@ -33,7 +33,7 @@ const Variants = props => {
 
 	const handleVariantPress = (phrase, index) => () => {
 		resetUserAnswerCorrectness()
-		if (variantType === 'audio') {
+		if (requiredArray.includes('audio')) {
 			playPhraseAudio(phrase.id)
 		}
 		if (selectedIndex === index) {
@@ -46,27 +46,31 @@ const Variants = props => {
 	}
 
 	const Variant = props => {
-		const { phrase, index, type } = props
+		const { phrase, index, requiredArray } = props
 		const style = [styles.variant]
+
+		const imagePath = `${chapterId}/${subchapterId}/images/${phrase.id}`
+		const { file: imageSource } = content.getFilesByPathString(imagePath) || {}
+
 		if (selectedIndex === index)
 			style.push(variantBackground(userAnswerCorrectness))
-
-		const getVariantIntext = type => {
-			if (type === 'text') return <Text>{phrase.text}</Text>
-			if (type === 'audio')
-				return (
-					<Text style={{ textAlign: 'center' }}>
-						<Icon name='play-arrow' />
-					</Text>
-				)
-		}
 
 		return (
 			<TouchableOpacity
 				onPress={handleVariantPress(phrase, index)}
 				style={style}
 			>
-				{getVariantIntext(type)}
+				{requiredArray.includes('image') && imageSource && (
+					<Image source={imageSource} style={{ width: 50, height: 50 }} />
+				)}
+				{requiredArray.find(elem => elem.startsWith('text-')) && (
+					<Text>{phrase.text}</Text>
+				)}
+				{requiredArray.includes('audio') && (
+					<Text style={{ textAlign: 'center' }}>
+						<Icon name='play-arrow' />
+					</Text>
+				)}
 			</TouchableOpacity>
 		)
 	}
@@ -78,7 +82,7 @@ const Variants = props => {
 					<Variant
 						key={`variant-${index}`}
 						phrase={phrase}
-						type={variantType}
+						requiredArray={requiredArray}
 						index={index}
 					/>
 				)
@@ -97,14 +101,14 @@ const styles = {
 	variant: {
 		marginTop: 5,
 		padding: 5,
-		textAlign: 'center',
+		alignItems: 'center',
 		width: '49%',
 		borderStyle: 'solid',
 		borderWidth: 1,
 		borderColor: 'grey'
 	},
 	selectedVariant: {
-		backgroundColor: 'yellow'
+		// backgroundColor: 'yellow'
 	}
 }
 
