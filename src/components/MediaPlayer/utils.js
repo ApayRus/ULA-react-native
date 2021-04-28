@@ -13,7 +13,7 @@ const getSourceAndExtensionFromPath = async path => {
 		if (isYoutube(uri)) {
 			const youtubeResponse = await fetchYoutubeVideoByUrl(uri) // from direct-link.vercel.app
 			const { urlVideo: uriDirect, thumbnails = [] } = youtubeResponse || {}
-			const { url: uriPoster } = thumbnails[thumbnails.length - 1]
+			const { url: uriPoster } = thumbnails[thumbnails.length - 1] || {}
 			const extension = '.mp4' // just guess for small youtube videos
 			return { uri: uriDirect, extension, uriPoster }
 		}
@@ -30,7 +30,12 @@ const getSourceAndExtensionFromPath = async path => {
 	}
 	const { file, uri, extension, uriPoster } =
 		(await extractFileFromPath(path)) || {} // file or uri
-	const source = file ? file : { uri }
+	const getSource = () => {
+		if (file) return file
+		if (uri) return { uri }
+		else return null
+	}
+	const source = getSource()
 
 	const videoExtensions = ['.mp4'] // for now just one
 	const isVideo = videoExtensions.includes(extension)
@@ -45,15 +50,16 @@ export const loadDataToPlayer = async (
 	mediaSource,
 	phrasesArray
 ) => {
-	const { source, posterSource, isVideo } = await getSourceAndExtensionFromPath(
-		path
-	)
+	const { source, posterSource, isVideo } =
+		(await getSourceAndExtensionFromPath(path)) || {}
 
 	if (!isVideo) {
 		mediaRef.current = new Audio.Sound()
 	}
 
-	await mediaRef.current.loadAsync(source)
+	if (source) {
+		await mediaRef.current.loadAsync(source)
+	}
 
 	player.current = phrasesArray.length
 		? new PlayerPhrasal(mediaRef, phrasesArray)
