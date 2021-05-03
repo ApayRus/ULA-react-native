@@ -17,9 +17,8 @@ function OneLineOneFile(props) {
 	const {
 		content: { phrases: phrasesObject = {} }
 	} = contentTypeDoc
-	const {
-		content: { phrases: phrasesTrObject = {} }
-	} = contentTypeTrDoc
+	const { content: { phrases: phrasesTrObject = {} } = {} } =
+		contentTypeTrDoc || {}
 
 	const { audios = {}, images = {} } = files || {}
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
