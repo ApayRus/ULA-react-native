@@ -22,7 +22,7 @@ redirect to the next exercise
 ****
 PHRASES MODE
 if source material is contentType=fileCard then we play short files
-if SM is media (phrasal) then we play phrases from 1 media 
+if SM is richMedia then we play phrases from 1 media 
 in both cases we work with phrases which have 1) text, 2) translation, 3) sound
 and there is many ways to combine them in exercise 
 
@@ -163,7 +163,7 @@ const Single2 = props => {
 			const { file: audioFile } = content.getFilesByPathString(filePath) || {}
 			playAudio(audioFile, filePath)
 		} else {
-			// media (phrasal)
+			// richMedia
 			playerRef.current.playPhrase(+phrases.correctPhraseId)
 		}
 	}
@@ -240,7 +240,7 @@ const Single2 = props => {
 	return (
 		<>
 			<View style={styles.exerciseInstructionContainer}>
-				{sourceInteractivity === 'media' && (
+				{sourceInteractivity === 'richMedia' && (
 					<PhrasalPlayer
 						chapterId={chapterId}
 						subchapterId={subchapterId}
@@ -280,7 +280,6 @@ const styles = {
 		height: 20,
 		justifyContent: 'center'
 	},
-
 	giveUpText: { borderWidth: 0.5, borderColor: 'red', padding: 5 }
 }
 

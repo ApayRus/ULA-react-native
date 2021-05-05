@@ -9,7 +9,7 @@ import {
 import { Text, colors } from 'react-native-elements'
 import FileCard from '../contentTypes/FileCard'
 import RichText from '../contentTypes/RichText'
-import Media from '../contentTypes/Media'
+import RichMedia from '../contentTypes/RichMedia'
 import Exercise from '../contentTypes/Exercise'
 import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
@@ -18,7 +18,7 @@ import ChapterHeader from '../ChapterHeader'
 import contentTypeInteractivity from '../../config/contentTypeInteractivity'
 
 /* 
-	receives a chapterId/subchapterId, and renders proper content type: Cards, Media or Text 
+	receives a chapterId/subchapterId, and renders proper content type
 */
 
 // interactivity ==> component
@@ -28,8 +28,8 @@ const getComponent = (interactivity, props) => {
 			return <FileCard {...props} />
 		case 'richText':
 			return <RichText {...props} />
-		case 'media':
-			return <Media {...props} />
+		case 'richMedia':
+			return <RichMedia {...props} />
 		case 'exercise':
 			return <Exercise {...props} />
 		default:
@@ -117,7 +117,7 @@ const ContentTypeRenderer = props => {
 				<ChapterHeader
 					{...{ navigation, chapterId, subchapterId, hideTitles }}
 				/>
-				{interactivity === 'media' && (
+				{interactivity === 'richMedia' && (
 					<TouchableOpacity onPress={handleScrollPhrasalPlayer}>
 						<Text
 							style={{

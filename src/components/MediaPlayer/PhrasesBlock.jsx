@@ -13,7 +13,7 @@ export default function PhrasesBlock(props) {
 	} = props
 
 	const {
-		media: { phraseList: contentTypeStyle }
+		richMedia: { phraseList: contentTypeStyle }
 	} = contentTypeStyles
 	const scrollViewRef = useRef() // we will scroll it scrollTo({y})
 	const phrasesPositionYRef = useRef([]) // array of  Y coordinates for scroll to them

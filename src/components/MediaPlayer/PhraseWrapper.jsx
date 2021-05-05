@@ -5,7 +5,7 @@ import contentTypeStyles from '../../config/styles/contentType'
 import MarkdownRenderer from '../MarkdownRenderer'
 
 const {
-	media: { phraseList: contentTypeStyle }
+	richMedia: { phraseList: contentTypeStyle }
 } = contentTypeStyles
 
 /* 

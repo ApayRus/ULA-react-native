@@ -29,7 +29,7 @@ const fileCard = {
 	trText: { ...general.translation }
 }
 
-const media = {
+const richMedia = {
 	phraseList: {
 		phrasesContainer: { marginBottom: 5 },
 		// phraseWrapper = avatar + texts
@@ -161,7 +161,7 @@ export default {
 	phrases: {
 		...fileCard
 	},
-	media,
+	richMedia,
 	text: {
 		...richText
 	}

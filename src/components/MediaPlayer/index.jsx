@@ -7,16 +7,15 @@ where pathToMedia is one of:
 	3) youtube link
 It is simplest player with basic controls
 2) <MediaPlayer chapterId='002' subchapterId='003' /> 
-This component loads every related to media info from  contentType=media material:
+This component loads every related to media info from contentType=richMedia material:
 	phrases (captions + subtitles), avatars, quizzes, 
 we can use it as a basic player, but with subtitles and phrasal playback in compact way (e.g. inside contentType=richText)
-3) <MediaPlayer {...props} /> -- from contentType=media page
+3) <MediaPlayer {...props} /> -- from contentType=richMedia page
 
 */
 
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions, Platform } from 'react-native'
-import { Button } from 'react-native-elements'
 import { Video } from 'expo-av'
 import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'

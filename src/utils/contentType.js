@@ -29,7 +29,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 	// switcher between parsers for each content type
 	const typeParserMap = {
 		fileCard: parseTypeOneLineOneFile,
-		media: parseTypeMedia,
+		richMedia: parseTypeMedia,
 		richText: parseTypeRichText,
 		exercise: parseTypeExercise
 	}
@@ -46,7 +46,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 }
 
 /**
- * Media can have
+ * RichMedia can have blocks inside: subtitles, avatars, quizzes
  * @param {string} text - markdown text
  *
  */
@@ -68,7 +68,7 @@ const parseTypeMedia = (text, level) => {
 }
 
 /**
- * it is sub-type for type Media
+ * it is sub-type for type RichMedia
  * @param {string} subsText
  * @returns {object} - phrases {start, end, text, voiceName}
  */

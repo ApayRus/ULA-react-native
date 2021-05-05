@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Image } from 'react-native'
-import Media from '../Media'
+import RichMedia from '../RichMedia'
 import { mediaParser, quizParser } from './subTypeParsers'
 import Quiz from '../Quiz'
 import MarkdownRenderer from '../../MarkdownRenderer'
@@ -56,7 +56,7 @@ const TypographyScreen = props => {
 		// 1. media - takes whole paragraph
 		const mediaParams = mediaParser(rawText)
 		if (mediaParams) {
-			return <Media key={`type-${index}`} {...mediaParams} />
+			return <RichMedia key={`type-${index}`} {...mediaParams} />
 		}
 		// 2. quiz
 		if (type === 'list') {

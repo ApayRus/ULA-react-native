@@ -3,7 +3,7 @@
 export default {
 	words: 'fileCard',
 	phrases: 'fileCard',
-	media: 'media',
+	media: 'richMedia',
 	text: 'richText',
 	exercise: 'exercise'
 }
