@@ -28,7 +28,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 
 	// switcher between parsers for each content type
 	const typeParserMap = {
-		oneLineOneFile: parseTypeOneLineOneFile,
+		fileCard: parseTypeOneLineOneFile,
 		media: parseTypeMedia,
 		richText: parseTypeRichText,
 		exercise: parseTypeExercise
@@ -37,7 +37,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 	const interactivity =
 		contentTypeInteractivity[type] ||
 		contentTypeInteractivity?.default ||
-		'oneLineOneFile'
+		'fileCard'
 	const parserFunction = typeParserMap[interactivity]
 	const parsedContent = parserFunction
 		? parserFunction(content, level)

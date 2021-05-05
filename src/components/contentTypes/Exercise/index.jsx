@@ -26,7 +26,7 @@ const index = props => {
 	const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0)
 	const [plainExercisesInfoArray, setPlainExercisesInfoArray] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
-	const [sourceInteractivity, setSourceInteractivity] = useState() // oneLineOneFile | media (phrasal)
+	const [sourceInteractivity, setSourceInteractivity] = useState() // fileCard | media (phrasal)
 	const [giveUp, setGiveUp] = useState(false)
 
 	let sourceChapterId, sourceSubchapterId

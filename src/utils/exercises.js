@@ -1,5 +1,5 @@
 // auto excercise is related to lesson (subchapter)
-// with type "oneLineOneFile" or "timing" - both contain phrases
+// with type "fileCard" or "timing" - both contain phrases
 // excercise = { source: lesson, type, count }
 // source: lesson, subchapter
 // type: textToText || soundToText

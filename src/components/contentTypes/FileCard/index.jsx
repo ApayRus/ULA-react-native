@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
-import { objectToArray } from '../../utils/utils'
-import { playAudio } from '../../utils/playerShortAudios'
-import contentTypeStyles from '../../config/styles/contentType'
+import { objectToArray } from '../../../utils/utils'
+import { playAudio } from '../../../utils/playerShortAudios'
+import contentTypeStyles from '../../../config/styles/contentType'
 
-function OneLineOneFile(props) {
+function fileCard(props) {
 	const {
 		contentTypeDoc,
 		contentTypeTrDoc,
@@ -60,4 +60,4 @@ function OneLineOneFile(props) {
 	)
 }
 
-export default OneLineOneFile
+export default fileCard

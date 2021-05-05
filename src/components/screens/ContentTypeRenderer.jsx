@@ -7,7 +7,7 @@ import {
 	Platform
 } from 'react-native'
 import { Text, colors } from 'react-native-elements'
-import OneLineOneFile from '../contentTypes/OneLineOneFile'
+import FileCard from '../contentTypes/FileCard'
 import RichText from '../contentTypes/RichText'
 import Media from '../contentTypes/Media'
 import Exercise from '../contentTypes/Exercise'
@@ -24,8 +24,8 @@ import contentTypeInteractivity from '../../config/contentTypeInteractivity'
 // interactivity ==> component
 const getComponent = (interactivity, props) => {
 	switch (interactivity) {
-		case 'oneLineOneFile':
-			return <OneLineOneFile {...props} />
+		case 'fileCard':
+			return <FileCard {...props} />
 		case 'richText':
 			return <RichText {...props} />
 		case 'media':

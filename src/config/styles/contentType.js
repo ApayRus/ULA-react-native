@@ -1,6 +1,6 @@
 /* 
 here you can customize content type styles, and create new ones, based on existing 
-basic content types is oneLineOneFile, richText, phrasalPlayer, exercise (in development). 
+basic content types is fileCard, richText, phrasalPlayer, exercise (in development). 
 
 For example, you can style phrasalPlayer in different ways for prose, poetry and songs -- 
 with different background color/image, font size, alignment etc. 
@@ -20,7 +20,7 @@ import { colors } from 'react-native-elements'
 import general from './general'
 // BASIC TYPES
 
-const oneLineOneFile = {
+const fileCard = {
 	container: { flex: 1, padding: 5 },
 	item: { marginBottom: 10 },
 	image: {},
@@ -146,12 +146,12 @@ const richText = {
 }
 
 // here you can create custom content type styles using basic ones
-// for example words and phrases both are extensions upon basic contentType: oneLineOneFile
+// for example words and phrases both are extensions upon basic contentType: fileCard
 export default {
 	words: {
-		...oneLineOneFile,
+		...fileCard,
 		container: {
-			...oneLineOneFile.container,
+			...fileCard.container,
 			alignItems: 'center'
 		},
 		item: { marginBottom: 20, alignItems: 'center' },
@@ -159,7 +159,7 @@ export default {
 		textContainer: { alignItems: 'center' }
 	},
 	phrases: {
-		...oneLineOneFile
+		...fileCard
 	},
 	media,
 	text: {

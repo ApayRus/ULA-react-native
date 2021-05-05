@@ -21,7 +21,7 @@ redirect to the next exercise
 
 ****
 PHRASES MODE
-if source material is contentType=oneLineOneFile then we play short files
+if source material is contentType=fileCard then we play short files
 if SM is media (phrasal) then we play phrases from 1 media 
 in both cases we work with phrases which have 1) text, 2) translation, 3) sound
 and there is many ways to combine them in exercise 
@@ -158,7 +158,7 @@ const Single2 = props => {
 	}
 
 	const handlePlayAudio = () => {
-		if (sourceInteractivity === 'oneLineOneFile') {
+		if (sourceInteractivity === 'fileCard') {
 			const filePath = `${chapterId}/${subchapterId}/audios/${phrases.correctPhraseId}`
 			const { file: audioFile } = content.getFilesByPathString(filePath) || {}
 			playAudio(audioFile, filePath)
