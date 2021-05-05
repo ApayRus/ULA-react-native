@@ -22,7 +22,7 @@ While parsing we aim 2 goals:
     Some contentTypes can have several interactivities (and parsers for each of them). 
     For now it is media, which can contain timing and quiz. 
 
-    For some contentTypes (inText) we can't interpret ## as a subchapter, 
+    For some contentTypes (richText) we can't interpret ## as a subchapter, 
     because it is just a header inside text. 
 
 

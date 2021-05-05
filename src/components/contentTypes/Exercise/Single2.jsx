@@ -28,7 +28,7 @@ and there is many ways to combine them in exercise
 
 // -- move to separate component --> 
 GLOSSARY MODE
-if SM is inText then we parse text to Glossary 
+if SM is richText then we parse text to Glossary 
 	{ 
 		title, // term, idiom etc, 
 		description // definition/explanation

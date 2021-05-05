@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, Text, Image, useWindowDimensions } from 'react-native'
-import SoundedWord from '../contentTypes/InText/SoundedWord'
+import SoundedWord from '../contentTypes/RichText/SoundedWord'
 import contentTypeStyles from '../../config/styles/contentType'
 import { getImageSize } from './utils'
-import { textWithSoundedWordsParser } from '../contentTypes/InText/subTypeParsers'
+import { textWithSoundedWordsParser } from '../contentTypes/RichText/subTypeParsers'
 import content from '../../utils/content'
 
 import marked from 'marked'

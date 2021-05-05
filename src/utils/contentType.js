@@ -30,7 +30,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 	const typeParserMap = {
 		oneLineOneFile: parseTypeOneLineOneFile,
 		media: parseTypeMedia,
-		inText: parseTypeInText,
+		richText: parseTypeRichText,
 		exercise: parseTypeExercise
 	}
 
@@ -144,4 +144,4 @@ const parseTypeExercise = (text = '') => {
  * @param {string} textContent
  * @returns {string} - html
  */
-export const parseTypeInText = markdownText => ({ markdownText })
+export const parseTypeRichText = markdownText => ({ markdownText })

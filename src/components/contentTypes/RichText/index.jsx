@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { View, Image } from 'react-native'
 import Media from '../Media'
 import { mediaParser, quizParser } from './subTypeParsers'

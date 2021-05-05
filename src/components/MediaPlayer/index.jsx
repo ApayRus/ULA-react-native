@@ -9,7 +9,7 @@ It is simplest player with basic controls
 2) <MediaPlayer chapterId='002' subchapterId='003' /> 
 This component loads every related to media info from  contentType=media material:
 	phrases (captions + subtitles), avatars, quizzes, 
-we can use it as a basic player, but with subtitles and phrasal playback in compact way (e.g. inside contentType=inText)
+we can use it as a basic player, but with subtitles and phrasal playback in compact way (e.g. inside contentType=richText)
 3) <MediaPlayer {...props} /> -- from contentType=media page
 
 */

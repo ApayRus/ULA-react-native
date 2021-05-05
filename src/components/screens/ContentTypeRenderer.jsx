@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { Text, colors } from 'react-native-elements'
 import OneLineOneFile from '../contentTypes/OneLineOneFile'
-import InText from '../contentTypes/InText'
+import RichText from '../contentTypes/RichText'
 import Media from '../contentTypes/Media'
 import Exercise from '../contentTypes/Exercise'
 import NotSet from '../contentTypes/NotSet'
@@ -26,8 +26,8 @@ const getComponent = (interactivity, props) => {
 	switch (interactivity) {
 		case 'oneLineOneFile':
 			return <OneLineOneFile {...props} />
-		case 'inText':
-			return <InText {...props} />
+		case 'richText':
+			return <RichText {...props} />
 		case 'media':
 			return <Media {...props} />
 		case 'exercise':

@@ -1,6 +1,6 @@
 /* 
 here you can customize content type styles, and create new ones, based on existing 
-basic content types is oneLineOneFile, inText, phrasalPlayer, exercise (in development). 
+basic content types is oneLineOneFile, richText, phrasalPlayer, exercise (in development). 
 
 For example, you can style phrasalPlayer in different ways for prose, poetry and songs -- 
 with different background color/image, font size, alignment etc. 
@@ -81,7 +81,7 @@ const media = {
 	}
 }
 
-const inText = {
+const richText = {
 	root: { paddingLeft: 10, paddingRight: 10 },
 	paragraphContainer: { marginTop: 10 },
 	paragraph: {
@@ -163,6 +163,6 @@ export default {
 	},
 	media,
 	text: {
-		...inText
+		...richText
 	}
 }
