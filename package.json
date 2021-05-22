@@ -2,7 +2,7 @@
 	"main": "node_modules/expo/AppEntry.js",
 	"type": "module",
 	"scripts": {
-		"start": "expo start",
+		"start": "EXPO_USE_DEV_SERVER=1 EXPO_TARGET=managed expo start",
 		"android": "expo start --android",
 		"ios": "expo start --ios",
 		"web": "expo start --web",
