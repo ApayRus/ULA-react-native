@@ -6,10 +6,15 @@ import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import content from '../utils/content'
 import styles from '../utils/styles'
 
-export default function Drawer(props) {
+export default function MyDrawer(props) {
 	const { chapters, navigation } = props
 	const { showTranslation } = useSelector(state => state.translation)
-	const { drawer: layoutStyles } = styles || {} // layout styles
+	const {
+		layout: { drawer: layoutStyles }
+	} = styles || {} // layout styles
+
+	console.log('layoutStyles')
+	console.log(layoutStyles)
 
 	const trChapters = content.getChapterTitlesTr()
 
