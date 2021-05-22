@@ -16,7 +16,9 @@ const ChapterSubchaptersListScreen = props => {
 		navigation,
 		chapterId
 	}
-	const { subchaptersListScreen: layoutStyles } = styles || {} // layout styles
+	const {
+		layout: { subchaptersListScreen: layoutStyles }
+	} = styles || {} // layout styles
 
 	return (
 		<View>

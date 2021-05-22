@@ -13,7 +13,9 @@ const Quiz = props => {
 		data: { type, correctAnswers = [], variants }
 	} = props
 
-	const { quiz: layoutStyles } = styles || {} // layout styles
+	const {
+		layout: { quiz: layoutStyles }
+	} = styles || {} // layout styles
 
 	const [userAnswers, setUserAnswers] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect

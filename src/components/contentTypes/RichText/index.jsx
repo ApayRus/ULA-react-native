@@ -34,7 +34,7 @@ const TypographyScreen = props => {
 		content: { markdownText }
 	} = contentTypeDoc
 
-	const contentTypeStyle = styles?.[contentType] || {} // contentType styles
+	const contentTypeStyle = styles?.contentType?.[contentType] || {} // contentType styles
 
 	let quizIndex = 0
 	// we need quizIndex to identify quiz answers (right/wrong) and save them to persistent storage (e.g. localStorage)

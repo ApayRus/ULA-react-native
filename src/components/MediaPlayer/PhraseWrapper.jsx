@@ -4,7 +4,8 @@ import { Avatar, Icon } from 'react-native-elements'
 import MarkdownRenderer from '../MarkdownRenderer'
 import styles from '../../utils/styles'
 
-const { richMedia: { phraseList: contentTypeStyle } = {} } = styles || {} // contentType styles
+// const { richMedia: { phraseList: contentTypeStyle } = {} } = styles || {} // contentType styles
+const contentTypeStyle = styles?.contentType?.richMedia?.phraseList || {}
 
 /* 
 <PhraseWrapper>

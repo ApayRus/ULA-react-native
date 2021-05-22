@@ -23,7 +23,7 @@ function fileCard(props) {
 	const { audios = {}, images = {} } = files || {}
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 
-	const contentTypeStyle = styles?.[contentType] || {} // contentType styles
+	const contentTypeStyle = styles?.contentType?.[contentType] || {} // contentType styles
 
 	const handlePlay = contentLineId => () => {
 		const { file } = audios[`${contentLineId}`] || {}

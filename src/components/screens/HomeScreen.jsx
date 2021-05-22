@@ -16,7 +16,9 @@ export default function HomeScreen({ navigation }) {
 	const { title, paramsArray } = info || {}
 	const { title: titleTr, paramsArray: paramsArrayTr } = infoTr || {}
 
-	const { homeScreen: layoutStyles } = styles || {} // layout styles
+	const {
+		layout: { homeScreen: layoutStyles }
+	} = styles || {} // layout styles
 
 	// for multiline titles
 	const titleSplit = title.split(/\\n/)

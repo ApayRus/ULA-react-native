@@ -5,7 +5,9 @@ import Slider from '@react-native-community/slider'
 import { formatSecondsToTime } from '../../utils/utils'
 import styles from '../../utils/styles'
 
-const { playerControls: layoutStyles } = styles || {} // layout styles
+const {
+	layout: { playerControls: layoutStyles }
+} = styles || {} // layout styles
 
 export default function PhrasalPlayerControls(props) {
 	const { player, isPlaying, currentTime = 0, duration = 100, rate } = props

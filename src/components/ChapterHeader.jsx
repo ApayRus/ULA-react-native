@@ -9,7 +9,9 @@ import styles from '../utils/styles'
 function ChapterHeader(props) {
 	const { navigation, chapterId, subchapterId, hideTitles } = props
 
-	const { screenHeader: layoutStyles } = styles || {} // layout styles
+	const {
+		layout: { screenHeader: layoutStyles }
+	} = styles || {} // layout styles
 
 	const { showTranslation } = useSelector(state => state.translation)
 

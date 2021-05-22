@@ -19,7 +19,7 @@ const SoundedWord = props => {
 	return (
 		<Text
 			onPress={handlePressSoundedWord(text.replace(/[,\. ]+/g, '_'), path)}
-			style={styles?.text?.soundedWord} // contentType styles
+			style={styles?.contentType?.richText?.soundedWord} // contentType styles
 		>
 			{text}
 		</Text>

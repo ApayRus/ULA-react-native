@@ -27,7 +27,7 @@ const MarkdownRenderer = props => {
 	const { width: windowWidth /* height: windowHeight  */ } =
 		useWindowDimensions()
 
-	const contentTypeStyle = styles?.[contentType] // contentType styles
+	const contentTypeStyle = styles?.contentType?.[contentType] // contentType styles
 
 	// this is work around (i hope temporary code)
 	// because selectable don't set without it
