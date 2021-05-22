@@ -2,8 +2,8 @@ import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
 import { objectToArray } from '../../../utils/utils'
+import styles from '../../../utils/styles'
 import { playAudio } from '../../../utils/playerShortAudios'
-import contentTypeStyles from '../../../config/styles/contentType'
 
 function fileCard(props) {
 	const {
@@ -23,7 +23,7 @@ function fileCard(props) {
 	const { audios = {}, images = {} } = files || {}
 	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
 
-	const contentTypeStyle = contentTypeStyles[contentType] || {}
+	const contentTypeStyle = styles?.[contentType] || {} // contentType styles
 
 	const handlePlay = contentLineId => () => {
 		const { file } = audios[`${contentLineId}`] || {}

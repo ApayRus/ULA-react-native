@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import { playAudio } from '../../../utils/playerShortAudios'
 import content from '../../../utils/content'
-import contentTypeStyles from '../../../config/styles/contentType'
+import styles from '../../../utils/styles'
 
 const SoundedWord = props => {
 	const { text = '', path, /* params */ chapterId, subchapterId } = props
@@ -19,7 +19,7 @@ const SoundedWord = props => {
 	return (
 		<Text
 			onPress={handlePressSoundedWord(text.replace(/[,\. ]+/g, '_'), path)}
-			style={contentTypeStyles.text.soundedWord}
+			style={styles?.text?.soundedWord} // contentType styles
 		>
 			{text}
 		</Text>

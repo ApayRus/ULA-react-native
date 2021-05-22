@@ -2,7 +2,7 @@ import React from 'react'
 import { ScrollView, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import ChapterHeader from '../ChapterHeader'
-import layoutStylesModule from '../../config/styles/layout'
+import styles from '../../utils/styles'
 
 const ChapterSubchaptersListScreen = props => {
 	const {
@@ -16,7 +16,7 @@ const ChapterSubchaptersListScreen = props => {
 		navigation,
 		chapterId
 	}
-	const { subchaptersListScreen: layoutStyles } = layoutStylesModule
+	const { subchaptersListScreen: layoutStyles } = styles || {} // layout styles
 
 	return (
 		<View>

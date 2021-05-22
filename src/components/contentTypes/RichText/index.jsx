@@ -5,8 +5,7 @@ import { mediaParser, quizParser } from './subTypeParsers'
 import Quiz from '../Quiz'
 import MarkdownRenderer from '../../MarkdownRenderer'
 import marked from 'marked'
-import contentTypeStyles from '../../../config/styles/contentType'
-
+import styles from '../../../utils/styles'
 // for better understanding what is happening beyond, may be you need to read this resources:
 // 1) marked.js lexer https://marked.js.org/using_pro#lexer
 // 2) https://github.com/Aparus/frazy-parser/blob/master/parsers/intext.js
@@ -35,7 +34,7 @@ const TypographyScreen = props => {
 		content: { markdownText }
 	} = contentTypeDoc
 
-	const contentTypeStyle = contentTypeStyles[contentType]
+	const contentTypeStyle = styles?.[contentType] || {} // contentType styles
 
 	let quizIndex = 0
 	// we need quizIndex to identify quiz answers (right/wrong) and save them to persistent storage (e.g. localStorage)

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import { Button, Text, colors } from 'react-native-elements'
+import { Button, Text } from 'react-native-elements'
 import Slider from '@react-native-community/slider'
 import { formatSecondsToTime } from '../../utils/utils'
-import layoutStylesModule from '../../config/styles/layout'
+import styles from '../../utils/styles'
 
-const { playerControls: layoutStyles } = layoutStylesModule
+const { playerControls: layoutStyles } = styles || {} // layout styles
 
 export default function PhrasalPlayerControls(props) {
 	const { player, isPlaying, currentTime = 0, duration = 100, rate } = props

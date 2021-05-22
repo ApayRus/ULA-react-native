@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, Text, Image, useWindowDimensions } from 'react-native'
 import SoundedWord from '../contentTypes/RichText/SoundedWord'
-import contentTypeStyles from '../../config/styles/contentType'
 import { getImageSize } from './utils'
 import { textWithSoundedWordsParser } from '../contentTypes/RichText/subTypeParsers'
 import content from '../../utils/content'
+import styles from '../../utils/styles'
 
 import marked from 'marked'
 
@@ -24,11 +24,10 @@ const MarkdownRenderer = props => {
 		subchapterId // - for SounderWord
 	} = props
 
-	const {
-		width: windowWidth /* height: windowHeight  */
-	} = useWindowDimensions()
+	const { width: windowWidth /* height: windowHeight  */ } =
+		useWindowDimensions()
 
-	const contentTypeStyle = contentTypeStyles?.[contentType]
+	const contentTypeStyle = styles?.[contentType] // contentType styles
 
 	// this is work around (i hope temporary code)
 	// because selectable don't set without it

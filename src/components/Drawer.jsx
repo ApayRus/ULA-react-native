@@ -4,13 +4,12 @@ import { View, /* ImageBackground, */ ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import content from '../utils/content'
-
-import layoutStylesModule from '../config/styles/layout'
+import styles from '../utils/styles'
 
 export default function Drawer(props) {
 	const { chapters, navigation } = props
 	const { showTranslation } = useSelector(state => state.translation)
-	const { drawer: layoutStyles } = layoutStylesModule
+	const { drawer: layoutStyles } = styles || {} // layout styles
 
 	const trChapters = content.getChapterTitlesTr()
 

@@ -3,9 +3,9 @@ import React from 'react'
 import { View, ImageBackground, Image } from 'react-native'
 import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
-import layoutStylesModule from '../../config/styles/layout'
-import content from '../../utils/content'
 import { useSelector } from 'react-redux'
+import content from '../../utils/content'
+import styles from '../../utils/styles'
 
 export default function HomeScreen({ navigation }) {
 	const info = content.getInfo()
@@ -16,7 +16,7 @@ export default function HomeScreen({ navigation }) {
 	const { title, paramsArray } = info || {}
 	const { title: titleTr, paramsArray: paramsArrayTr } = infoTr || {}
 
-	const { homeScreen: layoutStyles } = layoutStylesModule
+	const { homeScreen: layoutStyles } = styles || {} // layout styles
 
 	// for multiline titles
 	const titleSplit = title.split(/\\n/)

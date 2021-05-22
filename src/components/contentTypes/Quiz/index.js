@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import CheckAnswersButton from '../../CheckAnswersButton'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
-import layoutStylesModule from '../../../config/styles/layout'
+import styles from '../../../utils/styles'
 
 const Quiz = props => {
 	const {
@@ -13,7 +13,7 @@ const Quiz = props => {
 		data: { type, correctAnswers = [], variants }
 	} = props
 
-	const { quiz: layoutStyles } = layoutStylesModule
+	const { quiz: layoutStyles } = styles || {} // layout styles
 
 	const [userAnswers, setUserAnswers] = useState([])
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect

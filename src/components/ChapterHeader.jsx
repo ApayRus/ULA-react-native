@@ -3,22 +3,18 @@ import { View, TouchableOpacity } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { Text, Header, Icon } from 'react-native-elements'
 import { useSelector } from 'react-redux'
-import layoutStylesModule from '../config/styles/layout'
 import content from '../utils/content'
+import styles from '../utils/styles'
 
 function ChapterHeader(props) {
 	const { navigation, chapterId, subchapterId, hideTitles } = props
 
-	const { screenHeader: layoutStyles } = layoutStylesModule
+	const { screenHeader: layoutStyles } = styles || {} // layout styles
 
 	const { showTranslation } = useSelector(state => state.translation)
 
-	const {
-		chapterTitle,
-		chapterTitleTr,
-		subchapterTitle,
-		subchapterTitleTr
-	} = content.getChapterSubchapterTitlesWithTr(chapterId, subchapterId)
+	const { chapterTitle, chapterTitleTr, subchapterTitle, subchapterTitleTr } =
+		content.getChapterSubchapterTitlesWithTr(chapterId, subchapterId)
 
 	const handleNavigateForward = () => {
 		content.navigateToNextItem(chapterId, subchapterId, navigation)

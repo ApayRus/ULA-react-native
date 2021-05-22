@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, View, Text } from 'react-native'
 import { Avatar, Icon } from 'react-native-elements'
-import contentTypeStyles from '../../config/styles/contentType'
 import MarkdownRenderer from '../MarkdownRenderer'
+import styles from '../../utils/styles'
 
-const {
-	richMedia: { phraseList: contentTypeStyle }
-} = contentTypeStyles
+const { richMedia: { phraseList: contentTypeStyle } = {} } = styles || {} // contentType styles
 
 /* 
 <PhraseWrapper>
