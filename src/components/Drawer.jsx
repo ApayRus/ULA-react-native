@@ -13,9 +13,6 @@ export default function MyDrawer(props) {
 		layout: { drawer: layoutStyles }
 	} = styles || {} // layout styles
 
-	console.log('layoutStyles')
-	console.log(layoutStyles)
-
 	const trChapters = content.getChapterTitlesTr()
 
 	const isTitleDecorLeft = Boolean(
