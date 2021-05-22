@@ -1,13 +1,7 @@
-import { colors } from 'react-native-elements'
 import general from './general'
 import content from '../../utils/content'
 
 /* 
- COLORS
- you can use:
- 1) {color: colors.primary}, all available colors here: https://reactnativeelements.com/docs/customization/
- 2) {color: 'red'}, for more info please visit: https://www.w3schools.com/cssref/css_colors.asp
-
  ICONS
  on place of name in: icon: { name: 'list'} you can put any name from: https://www.materialui.co/icons
  if the name includes several words, use dash as a delimiter, for example: 'arrow-forward'
@@ -70,7 +64,7 @@ export default {
 			buttonStyle: {
 				paddingRight: 20,
 				margin: 20,
-				backgroundColor: colors.primary
+				backgroundColor: general.colors.primary
 			},
 			title: 'Table of contents'
 		},
@@ -82,7 +76,7 @@ export default {
 			right: 0
 		},
 		navigateForwardButtonProps: {
-			icon: { name: 'arrow-forward', color: colors.primary },
+			icon: { name: 'arrow-forward', color: general.colors.primary },
 			type: 'clear'
 		}
 	},
@@ -121,7 +115,7 @@ export default {
 			width: '100%'
 		},
 		listItemTranslation: {
-			...general.translation,
+			...general.translation.default,
 			width: '100%'
 		},
 		listItemDecorBeforeImageProps: {
@@ -143,10 +137,14 @@ export default {
 			marginRight: 5,
 			alignItems: 'center'
 		},
-		chapterTitle: { ...general.h4, color: colors.primary, textAlign: 'center' },
+		chapterTitle: {
+			...general.h4,
+			color: general.colors.primary,
+			textAlign: 'center'
+		},
 		subchapterTitle: {
 			...general.body1,
-			color: colors.primary,
+			color: general.colors.primary,
 			marginTop: 5,
 			textAlign: 'center'
 		},
@@ -177,8 +175,8 @@ export default {
 
 	// PLAYER CONTROLS
 	playerControls: {
-		timingText: { fontSize: 12, color: colors.grey2 },
-		speedChangeButtonText: { color: colors.grey2, textAlign: 'right' },
+		timingText: { fontSize: 12, color: general.colors.grey2 },
+		speedChangeButtonText: { color: general.colors.grey2, textAlign: 'right' },
 		generalButtonProps: {
 			type: 'clear',
 			buttonStyle: { padding: 2 }
@@ -202,9 +200,9 @@ export default {
 			alignSelf: 'center'
 		},
 		sliderProps: {
-			minimumTrackTintColor: colors.primary,
+			minimumTrackTintColor: general.colors.primary,
 			maximumTrackTintColor: 'grey',
-			thumbTintColor: colors.primary
+			thumbTintColor: general.colors.primary
 		}
 	}
 }
