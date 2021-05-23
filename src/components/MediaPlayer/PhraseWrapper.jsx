@@ -56,12 +56,12 @@ const Phrase = ({
 		>
 			{/* TEXT */}
 			<Text {...{ selectable }} style={contentTypeStyle.phraseText}>
-				<MarkdownRenderer markdownText={text} contentType='text' />
+				<MarkdownRenderer markdownText={text} contentType='richText' />
 			</Text>
 			{/* TRANSLATION */}
 			{showTranslation && (
 				<Text {...{ selectable }} style={contentTypeStyle.phraseTextTr}>
-					<MarkdownRenderer markdownText={trText} contentType='text' />
+					<MarkdownRenderer markdownText={trText} contentType='richText' />
 				</Text>
 			)}
 			{/* NUMBER + PLAY small button */}

@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font'
 import { Provider as ReduxProvider } from 'react-redux'
 import { ThemeProvider } from 'react-native-elements'
 import store from './src/store/rootReducer'
-import RootNavigation from './src/navigation/RootNavigation'
+import RootNavigation from './src/components/RootNavigation'
 import content from './src/utils/content'
 
 export default function App() {
