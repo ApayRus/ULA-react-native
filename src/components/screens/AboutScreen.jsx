@@ -36,7 +36,7 @@ function AboutScreen({ navigation }) {
 				}}
 			/>
 			<ScrollView style={{ padding: 20 }}>
-				<MarkdownRenderer {...{ markdownText, contentType: 'text' }} />
+				<MarkdownRenderer {...{ markdownText, contentType: 'richText' }} />
 				<Button
 					type='clear'
 					onPress={() => Linking.openURL(`https://github.com/aparus/ula`)}

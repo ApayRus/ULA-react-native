@@ -1,9 +1,8 @@
 // your custom content types, and their interactivity type
 
 export default {
-	words: 'fileCard',
-	phrases: 'fileCard',
-	media: 'richMedia',
-	text: 'richText',
+	richMedia: 'richMedia',
+	richText: 'richText',
+	fileCard: 'fileCard',
 	exercise: 'exercise'
 }

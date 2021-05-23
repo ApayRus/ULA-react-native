@@ -68,7 +68,7 @@ export default {
 			},
 			title: 'Table of contents'
 		},
-		translationText: { ...general.translation },
+		translationText: { ...general.translation.default },
 		translationsContainer: { position: 'absolute', bottom: 0 },
 		navigateForwardButtonContainer: {
 			position: 'absolute',
@@ -99,7 +99,7 @@ export default {
 				paddingBottom: 2,
 				paddingTop: 2,
 				backgroundColor: 'rgb(242,242,242)',
-				...general.basicWritingDirection
+				writingDirection: general.basicWritingDirection
 				// borderWidth: 1,
 				// alignItems: 'center'
 			},
@@ -149,11 +149,11 @@ export default {
 			textAlign: 'center'
 		},
 		chapterTitleTr: {
-			...general.translation,
+			...general.translation.default,
 			textAlign: 'center'
 		},
 		subchapterTitleTr: {
-			...general.translation,
+			...general.translation.default,
 			textAlign: 'center'
 		}
 	},

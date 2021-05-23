@@ -10,7 +10,7 @@ export default {
 		image: { width: 100, height: 100, resizeMode: 'contain' },
 		textContainer: { alignItems: 'center' },
 		text: { ...general.body1 },
-		trText: { ...general.translation }
+		trText: { ...general.translation.default }
 	},
 
 	// richMedia
@@ -58,7 +58,7 @@ export default {
 			phraseText: { ...general.body2 },
 			phraseTextTr: {
 				...general.body2,
-				...general.translation,
+				...general.translation.default,
 				paddingBottom: 4
 			},
 			phraseNumContainer: { position: 'absolute', right: 2, bottom: 0 }, // for arabic: left:2
