@@ -7,7 +7,7 @@ user can:
 
 */
 
-import layout from '../config/styles/layout'
-import contentType from '../config/styles/contentType'
+import layout from '../styles/layout'
+import contentType from '../styles/contentType'
 
 export default { layout, contentType }

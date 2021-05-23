@@ -1,5 +1,5 @@
 import general from './general'
-import content from '../../utils/content'
+import content from '../utils/content'
 
 /* 
  ICONS
