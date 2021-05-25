@@ -30,24 +30,43 @@ export default function MyDrawer(props) {
 					<Image {...layoutStyles.logoImageProps}></Image>
 				</View>
 				<View>
-					<ListItem
-						{...layoutStyles.listItemProps}
-						onPress={() => navigation.navigate('Home')}
+					<View
+						style={{
+							flexDirection: 'row',
+							padding: 10
+						}}
 					>
-						<Icon name='home' color='grey' />
-						<ListItem.Content>
-							<ListItem.Title>Home</ListItem.Title>
-						</ListItem.Content>
-					</ListItem>
-					<ListItem
-						{...layoutStyles.listItemProps}
-						onPress={() => navigation.navigate('About')}
-					>
-						<Icon name='info' color='grey' />
-						<ListItem.Content>
-							<ListItem.Title>About</ListItem.Title>
-						</ListItem.Content>
-					</ListItem>
+						<ListItem
+							{...layoutStyles.listItemProps}
+							style={{ width: '49%' }}
+							onPress={() => navigation.navigate('Home')}
+						>
+							<ListItem.Content
+								style={{
+									marginBottom: 10,
+									alignItems: 'center'
+								}}
+							>
+								<Icon name='home' color={styles.general.colors.primary} />
+								<ListItem.Title>Home</ListItem.Title>
+							</ListItem.Content>
+						</ListItem>
+						<ListItem
+							{...layoutStyles.listItemProps}
+							style={{ width: '49%' }}
+							onPress={() => navigation.navigate('About')}
+						>
+							<ListItem.Content
+								style={{
+									marginBottom: 10,
+									alignItems: 'center'
+								}}
+							>
+								<Icon name='info' color={styles.general.colors.primary} />
+								<ListItem.Title>About</ListItem.Title>
+							</ListItem.Content>
+						</ListItem>
+					</View>
 					{chapters.map(elem => {
 						const { id, title } = elem
 						const name = `chapter-${id}`
