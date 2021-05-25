@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { Text, Header, Icon } from 'react-native-elements'
 import { useSelector } from 'react-redux'
 import content from '../utils/content'
-import styles from '../utils/styles'
+import styles from '../styles'
 
 function ChapterHeader(props) {
 	const { navigation, chapterId, subchapterId, hideTitles } = props

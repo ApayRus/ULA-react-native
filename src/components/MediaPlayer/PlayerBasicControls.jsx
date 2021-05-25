@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native'
 import { Button, Text } from 'react-native-elements'
 import Slider from '@react-native-community/slider'
 import { formatSecondsToTime } from '../../utils/utils'
-import styles from '../../utils/styles'
+import styles from '../../styles'
 
 const {
 	layout: { playerControls: layoutStyles }

@@ -6,7 +6,7 @@ import MarkdownRenderer from '../MarkdownRenderer'
 
 function AboutScreen({ navigation }) {
 	const markdownText = `### **ULA**
-Это приложение сделано на базе шаблона ULA (_Universal Learning App_). 
+Это приложение сделано на шаблоне ULA (_Universal Learning App_). 
 
 Вы можете создать подобное приложение из своих
 

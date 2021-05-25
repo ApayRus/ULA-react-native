@@ -2,7 +2,7 @@ import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
 import { objectToArray } from '../../../utils/utils'
-import styles from '../../../utils/styles'
+import styles from '../../../styles'
 import { playAudio } from '../../../utils/playerShortAudios'
 
 function fileCard(props) {

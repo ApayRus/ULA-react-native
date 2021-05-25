@@ -4,7 +4,7 @@ import { View, /* ImageBackground, */ ScrollView } from 'react-native'
 import { useSelector } from 'react-redux'
 import TranslationOnOffSwitcher from './TranslationShowSwitcher'
 import content from '../utils/content'
-import styles from '../utils/styles'
+import styles from '../styles'
 
 export default function MyDrawer(props) {
 	const { chapters, navigation } = props

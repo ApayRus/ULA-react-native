@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import { playAudio } from '../../../utils/playerShortAudios'
 import content from '../../../utils/content'
-import styles from '../../../utils/styles'
+import styles from '../../../styles'
 
 const SoundedWord = props => {
 	const { text = '', path, /* params */ chapterId, subchapterId } = props

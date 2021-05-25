@@ -5,7 +5,7 @@ import { mediaParser, quizParser } from './subTypeParsers'
 import Quiz from '../Quiz'
 import MarkdownRenderer from '../../MarkdownRenderer'
 import marked from 'marked'
-import styles from '../../../utils/styles'
+import styles from '../../../styles'
 // for better understanding what is happening beyond, may be you need to read this resources:
 // 1) marked.js lexer https://marked.js.org/using_pro#lexer
 // 2) https://github.com/Aparus/frazy-parser/blob/master/parsers/intext.js

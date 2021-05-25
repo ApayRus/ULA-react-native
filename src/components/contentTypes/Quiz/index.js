@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { CheckBox } from 'react-native-elements'
 import CheckAnswersButton from '../../CheckAnswersButton'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
-import styles from '../../../utils/styles'
+import styles from '../../../styles'
 
 const Quiz = props => {
 	const {

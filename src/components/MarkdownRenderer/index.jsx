@@ -4,7 +4,7 @@ import SoundedWord from '../contentTypes/RichText/SoundedWord'
 import { getImageSize } from './utils'
 import { textWithSoundedWordsParser } from '../contentTypes/RichText/subTypeParsers'
 import content from '../../utils/content'
-import styles from '../../utils/styles'
+import styles from '../../styles'
 
 import marked from 'marked'
 

@@ -5,7 +5,7 @@ import { Text, Button } from 'react-native-elements'
 import TranslationsSelect from '../TranslationsSelect'
 import { useSelector } from 'react-redux'
 import content from '../../utils/content'
-import styles from '../../utils/styles'
+import styles from '../../styles'
 
 export default function HomeScreen({ navigation }) {
 	const info = content.getInfo()
@@ -48,7 +48,7 @@ export default function HomeScreen({ navigation }) {
 						)
 					})}
 
-					{paramsArray[0].map((param, index) => {
+					{paramsArray?.[0].map((param, index) => {
 						const paramTr = paramsArrayTr?.[0]?.[index]
 
 						return (
@@ -65,7 +65,7 @@ export default function HomeScreen({ navigation }) {
 				{/* logo container */}
 				<View style={layoutStyles.logoContainer}>
 					<Image {...layoutStyles.logoImageProps} />
-					{paramsArray[1].map((param, index) => {
+					{paramsArray?.[1]?.map((param, index) => {
 						const paramTr = paramsArrayTr?.[1]?.[index]
 						return (
 							<View
@@ -84,7 +84,7 @@ export default function HomeScreen({ navigation }) {
 						onPress={() => navigation.toggleDrawer()}
 						{...layoutStyles.tableOfContentButtonProps}
 					/>
-					{paramsArray[2].map((param, index) => {
+					{paramsArray?.[2]?.map((param, index) => {
 						const paramTr = paramsArrayTr?.[2]?.[index]
 						return (
 							<View
