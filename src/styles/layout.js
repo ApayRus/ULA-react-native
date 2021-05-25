@@ -1,5 +1,7 @@
+import { merge } from 'lodash'
 import general from './general'
 import content from '../utils/content'
+import customStyles from '../../content/styles/layout'
 
 /* 
  ICONS
@@ -8,7 +10,7 @@ import content from '../utils/content'
  for more info: https://reactnativeelements.com/docs/icon
 */
 
-export default {
+const defaultStyles = {
 	// HOME SCREEN
 	homeScreen: {
 		root: {
@@ -206,3 +208,5 @@ export default {
 		}
 	}
 }
+
+export default merge(defaultStyles, customStyles)

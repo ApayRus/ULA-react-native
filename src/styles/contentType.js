@@ -1,8 +1,9 @@
+import { merge } from 'lodash'
 import general from './general'
-
+import customStyles from '../../content/styles/contentType'
 // BASIC MATERIAL TYPES
 
-export default {
+const defaultStyles = {
 	// fileCard
 	fileCard: {
 		container: { alignItems: 'center', flex: 1, padding: 5 },
@@ -123,3 +124,5 @@ export default {
 		}
 	}
 }
+
+export default merge(defaultStyles, customStyles)

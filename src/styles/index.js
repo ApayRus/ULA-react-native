@@ -6,8 +6,8 @@ user can:
 2) create own styles [content types]
 
 */
+import general from './general'
+import layout from './layout'
+import contentType from './contentType'
 
-import layout from '../styles/layout'
-import contentType from '../styles/contentType'
-
-export default { layout, contentType }
+export default { layout, contentType, general }
