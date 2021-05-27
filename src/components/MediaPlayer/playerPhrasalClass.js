@@ -36,15 +36,15 @@ class PlayerPhrasal extends PlayerBasic {
 		this.currentTime = currentTime
 		const { end: currentPhaseEnd } = this.phrases[this.currentPhraseNum] || {}
 
+		this.events.emit('isPlaying', isPlaying)
+		this.events.emit('currentTime', currentTime)
+		this.events.emit('currentPhraseNum', this.currentPhraseNum)
+
 		if (currentTime >= currentPhaseEnd) {
 			this.mediaObject.pauseAsync()
 			this.mediaObject.setOnPlaybackStatusUpdate(() => {})
 			this.events.emit('isPlaying', false)
 		}
-
-		this.events.emit('isPlaying', isPlaying)
-		this.events.emit('currentTime', currentTime)
-		this.events.emit('currentPhraseNum', this.currentPhraseNum)
 	}
 
 	play() {
