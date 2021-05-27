@@ -24,11 +24,9 @@ class PlayerPhrasal extends PlayerBasic {
 			this.currentPhraseNum++
 		}
 
-		const currentPhraseNum = this.currentPhraseNum
-
 		this.events.emit('isPlaying', isPlaying)
 		this.events.emit('currentTime', currentTime)
-		this.events.emit('currentPhraseNum', currentPhraseNum)
+		this.events.emit('currentPhraseNum', this.currentPhraseNum)
 		this.events.emit('didJustFinish', didJustFinish)
 	}
 
@@ -40,10 +38,13 @@ class PlayerPhrasal extends PlayerBasic {
 
 		if (currentTime >= currentPhaseEnd) {
 			this.mediaObject.pauseAsync()
+			this.mediaObject.setOnPlaybackStatusUpdate(() => {})
+			this.events.emit('isPlaying', false)
 		}
 
 		this.events.emit('isPlaying', isPlaying)
 		this.events.emit('currentTime', currentTime)
+		this.events.emit('currentPhraseNum', this.currentPhraseNum)
 	}
 
 	play() {
@@ -53,14 +54,16 @@ class PlayerPhrasal extends PlayerBasic {
 	}
 
 	async playPhrase(phraseNum) {
-		this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayPhraseAudioUpdate)
 		this.currentPhraseNum = phraseNum
-		this.events.emit('currentPhraseNum', phraseNum)
-
 		const { start } = this.phrases[phraseNum]
-		await this.mediaObject.setStatusAsync({ positionMillis: start * 1000 })
-		this.mediaObject.playAsync()
+		this.currentTime = start
+		await this.mediaObject.setStatusAsync({
+			positionMillis: start * 1000,
+			shouldPlay: true
+		})
+		this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayPhraseAudioUpdate)
 	}
+
 	async playNextPhrase() {
 		this.currentPhraseNum++
 		if (this.currentPhraseNum > this.phrases.length - 1) {
