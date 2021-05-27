@@ -10,7 +10,7 @@ const {
 
 const basicAlignItems = customAlignItems || 'flex-start' // 'flex-end' for arabic, hebrew, etc
 const basicWritingDirection = customWritingDirection || 'ltr' // 'rtl' for arabic, hebrew, etc
-const basicFontFamily = customFontFamily || 'Inter-Variable' // ScheherezadeNew for arabic (for example)
+const basicFontFamily = customFontFamily || 'Inter-Variable' // ScheherazadeNew for arabic (for example)
 const basicFontSize = customFontSize || 14
 
 const defaultFontSetup = fontSizeDelta => ({
@@ -18,6 +18,16 @@ const defaultFontSetup = fontSizeDelta => ({
 	fontFamily: basicFontFamily,
 	fontSize: basicFontSize + fontSizeDelta
 })
+
+/**
+ a default text style after calculation looks like: 
+ {
+	 writingDirection: 'ltr', 
+	 fontFamily: 'Inter-Variable', 
+	 fontsSize: 14
+ }
+ Use template above to change it to your custom style in /content/styles folder 
+ */
 
 const defaultStyles = {
 	h3: defaultFontSetup(10),
