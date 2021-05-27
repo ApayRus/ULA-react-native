@@ -4,5 +4,6 @@ export default {
 	richMedia: 'richMedia',
 	richText: 'richText',
 	fileCard: 'fileCard',
-	exercise: 'exercise'
+	exercise: 'exercise',
+	phrases: 'fileCard'
 }

@@ -125,4 +125,20 @@ const defaultStyles = {
 	}
 }
 
-export default merge(defaultStyles, customStyles)
+const fillCustomTypesWithDefaultStyles = () => {
+	const defaultContentTypes = Object.keys(defaultStyles)
+
+	const customContentTypes = Object.keys(customStyles).filter(
+		type => !defaultContentTypes.includes(type)
+	)
+
+	customContentTypes.forEach(customType => {
+		const { parent } = customStyles[customType]
+		defaultStyles[customType] = defaultStyles[parent]
+	})
+}
+fillCustomTypesWithDefaultStyles()
+
+const styles = merge(defaultStyles, customStyles)
+
+export default styles
