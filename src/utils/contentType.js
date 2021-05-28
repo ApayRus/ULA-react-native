@@ -4,7 +4,7 @@
 
 import { parseSubs as frazyParseSubs } from 'frazy-parser'
 import { prefixedIndex, splitMarkdownIntoPartsByTemplate } from './utils.js'
-import contentTypeInteractivity from '../config/contentTypeInteractivity.js'
+import { getInteractivity } from '../styles/contentType.js'
 import marked from 'marked'
 
 marked.use({
@@ -34,10 +34,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 		exercise: parseTypeExercise
 	}
 
-	const interactivity =
-		contentTypeInteractivity[type] ||
-		contentTypeInteractivity?.default ||
-		'fileCard'
+	const interactivity = getInteractivity(type)
 	const parserFunction = typeParserMap[interactivity]
 	const parsedContent = parserFunction
 		? parserFunction(content, level)

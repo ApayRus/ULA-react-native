@@ -11,7 +11,7 @@ import {
 	objectToArray
 } from './utils'
 import store from '../store/rootReducer'
-import contentTypeInteractivity from '../config/contentTypeInteractivity'
+import { getInteractivity as getInteractivityFromStyles } from '../styles/contentType'
 
 export class Content {
 	constructor(original, translations, files) {
@@ -77,24 +77,23 @@ export class Content {
 
 	getChapterTitleTr(chapterId) {
 		const { trLang } = store.getState().translation
-		const chapterTitle = this?.translations?.[trLang]?.default?.content?.[
-			chapterId
-		]?.title
+		const chapterTitle =
+			this?.translations?.[trLang]?.default?.content?.[chapterId]?.title
 		return chapterTitle
 	}
 
 	getSubchapterTitle(chapterId, subchapterId) {
-		const subchapterTitle = this?.original?.content?.[chapterId]?.content?.[
-			subchapterId
-		]?.title
+		const subchapterTitle =
+			this?.original?.content?.[chapterId]?.content?.[subchapterId]?.title
 		return subchapterTitle
 	}
 
 	getSubchapterTitleTr(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
-		const chapterTitle = this?.translations?.[trLang]?.default?.content?.[
-			chapterId
-		]?.content?.[subchapterId]?.title
+		const chapterTitle =
+			this?.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
+				subchapterId
+			]?.title
 		return chapterTitle
 	}
 
@@ -142,9 +141,8 @@ export class Content {
 	}
 
 	getSubchapter(chapterId, subchapterId) {
-		const subchapterDoc = this?.original?.content?.[chapterId]?.content[
-			subchapterId
-		]
+		const subchapterDoc =
+			this?.original?.content?.[chapterId]?.content[subchapterId]
 		return subchapterDoc
 	}
 
@@ -261,8 +259,9 @@ export class Content {
 		const { title, type } = doc
 
 		const contentType = type ? type : title
-		// const contentTypeInfo = getContentType(type)
-		const interactivity = contentTypeInteractivity?.[contentType]
+		const interactivity = getInteractivityFromStyles(contentType)
+		console.log('interactivity')
+		console.log(interactivity)
 		return interactivity
 	}
 

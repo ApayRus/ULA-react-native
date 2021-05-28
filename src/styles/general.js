@@ -1,5 +1,6 @@
-import { merge } from 'lodash'
-import customStyles from '../../content/styles/general'
+import lodash from 'lodash'
+import customStyles from '../../content/styles/general.js'
+const { merge } = lodash
 
 const {
 	basicAlignItems: customAlignItems,
@@ -50,4 +51,4 @@ const defaultStyles = {
 	}
 }
 
-export default merge(defaultStyles, customStyles)
+export default merge({}, defaultStyles, customStyles)

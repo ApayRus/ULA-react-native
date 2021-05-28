@@ -1,9 +1,11 @@
-import { merge } from 'lodash'
-import general from './general'
-import customStyles from '../../content/styles/contentType'
+import lodash from 'lodash'
+import general from './general.js'
+import customStyles from '../../content/styles/contentType.js'
 // BASIC MATERIAL TYPES
+const { merge } = lodash
 
 const defaultStyles = {
+	default: 'richText',
 	// fileCard
 	fileCard: {
 		container: { alignItems: 'center', flex: 1, padding: 5 },
@@ -137,8 +139,17 @@ const fillCustomTypesWithDefaultStyles = () => {
 		defaultStyles[customType] = defaultStyles[parent]
 	})
 }
+
 fillCustomTypesWithDefaultStyles()
 
-const styles = merge(defaultStyles, customStyles)
+export const getInteractivity = type => {
+	if (!type) {
+		return defaultStyles.default
+	}
+	return customStyles?.[type]?.parent || type
+	// customStyles?.[type]?.parent || customStyles?.default || defaultStyles?.default
+}
+
+const styles = merge({}, defaultStyles, customStyles)
 
 export default styles

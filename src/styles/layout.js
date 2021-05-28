@@ -1,7 +1,9 @@
-import { merge } from 'lodash'
+import lodash from 'lodash'
 import general from './general'
 import content from '../utils/content'
 import customStyles from '../../content/styles/layout'
+
+const { merge } = lodash
 
 /* 
  ICONS

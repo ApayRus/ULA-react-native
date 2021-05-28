@@ -15,7 +15,7 @@ import NotSet from '../contentTypes/NotSet'
 import { useSelector } from 'react-redux'
 import content from '../../utils/content'
 import ChapterHeader from '../ChapterHeader'
-import contentTypeInteractivity from '../../config/contentTypeInteractivity'
+import { getInteractivity } from '../../styles/contentType'
 
 /* 
 	receives a chapterId/subchapterId, and renders proper content type
@@ -73,7 +73,7 @@ const ContentTypeRenderer = props => {
 	const { title, type: typeRaw } = contentTypeDoc
 	const contentType = typeRaw ? typeRaw : title
 	// const contentTypeInfo = getContentType(type)
-	const interactivity = contentTypeInteractivity?.[contentType]
+	const interactivity = getInteractivity(contentType)
 
 	// if subchapterId is undefined, we opens contentType from 1st level - chapter
 	const contentTypeTrDoc = subchapterId
