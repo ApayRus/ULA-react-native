@@ -260,8 +260,6 @@ export class Content {
 
 		const contentType = type ? type : title
 		const interactivity = getInteractivityFromStyles(contentType)
-		console.log('interactivity')
-		console.log(interactivity)
 		return interactivity
 	}
 

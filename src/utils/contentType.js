@@ -35,6 +35,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 	}
 
 	const interactivity = getInteractivity(type)
+	console.log(type, ' => ', interactivity)
 	const parserFunction = typeParserMap[interactivity]
 	const parsedContent = parserFunction
 		? parserFunction(content, level)
@@ -57,7 +58,7 @@ const parseTypeMedia = (text, level) => {
 		splitedMediaBlocks.find(elem => {
 			const { title, type } = elem
 			const phrasesSynonyms = ['timing', 'captions', 'phrases', 'subtitles']
-			return phrasesSynonyms.includes(title || type)
+			return phrasesSynonyms.includes(title) || phrasesSynonyms.includes(type)
 		}) || {}
 
 	const phrases = parseTypeTiming(phrasesText)

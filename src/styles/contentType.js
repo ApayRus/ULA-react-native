@@ -8,6 +8,7 @@ const defaultStyles = {
 	default: 'richText',
 	// fileCard
 	fileCard: {
+		parent: 'fileCard',
 		container: { alignItems: 'center', flex: 1, padding: 5 },
 		item: { marginBottom: 20, alignItems: 'center' },
 		image: { width: 100, height: 100, resizeMode: 'contain' },
@@ -18,6 +19,7 @@ const defaultStyles = {
 
 	// richMedia
 	richMedia: {
+		parent: 'richMedia',
 		phraseList: {
 			phrasesContainer: { marginBottom: 5 },
 			// phraseWrapper = avatar + texts
@@ -71,6 +73,7 @@ const defaultStyles = {
 
 	// richText
 	richText: {
+		parent: 'richText',
 		root: { paddingLeft: 10, paddingRight: 10 },
 		paragraphContainer: { marginTop: 10 },
 		paragraph: {
@@ -124,6 +127,9 @@ const defaultStyles = {
 		heading3: {
 			...general.h5
 		}
+	},
+	exercise: {
+		parent: 'exercise'
 	}
 }
 
@@ -146,8 +152,13 @@ export const getInteractivity = type => {
 	if (!type) {
 		return defaultStyles.default
 	}
-	return customStyles?.[type]?.parent || type
-	// customStyles?.[type]?.parent || customStyles?.default || defaultStyles?.default
+	// return customStyles?.[type]?.parent || type
+	return (
+		customStyles?.[type]?.parent ||
+		defaultStyles?.[type]?.parent ||
+		customStyles?.default ||
+		defaultStyles?.default
+	)
 }
 
 const styles = merge({}, defaultStyles, customStyles)
