@@ -24,59 +24,47 @@ export default function HomeScreen({ navigation }) {
 	const titleSplit = title.split(/\\n/)
 	const titleSplitTr = titleTr?.split(/\\n/)
 
+	const titleBlock = titleSplit.map((titlePart, index) => {
+		const titlePartTr = titleSplitTr?.[index]
+		return (
+			<View key={`titlePart-${index}`} style={layoutStyles.titleContainer}>
+				<Text style={layoutStyles.titleText}>{titlePart}</Text>
+				{titlePartTr ? (
+					<Text style={layoutStyles.translationText}>{titlePartTr}</Text>
+				) : null}
+			</View>
+		)
+	})
+
+	const additionalInfoBlocks = paramsArray?.map((array, index1) =>
+		array?.map((param, index2) => {
+			const paramTr = paramsArrayTr?.[index1]?.[index2]
+
+			return (
+				<View
+					style={layoutStyles.additionalInfoItem}
+					key={`info-${index1}-${index2}`}
+				>
+					<Text style={layoutStyles.additionalInfoText}>{param}</Text>
+					<Text style={layoutStyles.translationText}>{paramTr}</Text>
+				</View>
+			)
+		})
+	)
+
 	return (
 		<View style={layoutStyles.root}>
 			<StatusBar style='light' />
-
 			<ImageBackground {...layoutStyles.backgroundImageProps}>
 				{/* before logo container  */}
 				<View style={layoutStyles.beforeLogoContainer}>
-					{titleSplit.map((titlePart, index) => {
-						const titlePartTr = titleSplitTr?.[index]
-						return (
-							<View
-								key={`titlePart-${index}`}
-								style={layoutStyles.titleContainer}
-							>
-								<Text style={layoutStyles.titleText}>{titlePart}</Text>
-								{titlePartTr ? (
-									<Text style={layoutStyles.translationText}>
-										{titlePartTr}
-									</Text>
-								) : null}
-							</View>
-						)
-					})}
-
-					{paramsArray?.[0].map((param, index) => {
-						const paramTr = paramsArrayTr?.[0]?.[index]
-
-						return (
-							<View
-								style={layoutStyles.additionalInfoItem}
-								key={`info-${param}`}
-							>
-								<Text style={layoutStyles.additionalInfoText}>{param}</Text>
-								<Text style={layoutStyles.translationText}>{paramTr}</Text>
-							</View>
-						)
-					})}
+					{titleBlock}
+					{additionalInfoBlocks[0]}
 				</View>
 				{/* logo container */}
 				<View style={layoutStyles.logoContainer}>
 					<Image {...layoutStyles.logoImageProps} />
-					{paramsArray?.[1]?.map((param, index) => {
-						const paramTr = paramsArrayTr?.[1]?.[index]
-						return (
-							<View
-								style={layoutStyles.additionalInfoItem}
-								key={`info-${param}`}
-							>
-								<Text style={layoutStyles.additionalInfoText}>{param}</Text>
-								<Text style={layoutStyles.translationText}>{paramTr}</Text>
-							</View>
-						)
-					})}
+					{additionalInfoBlocks[1]}
 				</View>
 				{/* after logo container  */}
 				<View style={layoutStyles.afterLogoContainer}>
@@ -84,18 +72,7 @@ export default function HomeScreen({ navigation }) {
 						onPress={() => navigation.toggleDrawer()}
 						{...layoutStyles.tableOfContentButtonProps}
 					/>
-					{paramsArray?.[2]?.map((param, index) => {
-						const paramTr = paramsArrayTr?.[2]?.[index]
-						return (
-							<View
-								style={layoutStyles.additionalInfoItem}
-								key={`info-${param}`}
-							>
-								<Text style={layoutStyles.additionalInfoText}>{param}</Text>
-								<Text style={layoutStyles.translationText}>{paramTr}</Text>
-							</View>
-						)
-					})}
+					{additionalInfoBlocks[2]}
 					{translations.length > 0 && (
 						<View style={layoutStyles.translationsContainer}>
 							<TranslationsSelect translations={translations} />
