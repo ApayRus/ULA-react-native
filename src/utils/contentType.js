@@ -35,7 +35,6 @@ export const parseContentType = (contentTypeDoc, level) => {
 	}
 
 	const interactivity = getInteractivity(type)
-	console.log(type, ' => ', interactivity)
 	const parserFunction = typeParserMap[interactivity]
 	const parsedContent = parserFunction
 		? parserFunction(content, level)
