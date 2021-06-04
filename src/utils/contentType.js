@@ -65,7 +65,8 @@ const parseTypeMedia = (text, level) => {
 }
 
 const parseTypeFileCard = text => {
-	return parsePhrases(text)
+	const phrases = parsePhrases(text)
+	return { phrases }
 }
 
 /**

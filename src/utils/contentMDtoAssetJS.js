@@ -44,11 +44,7 @@ While parsing we aim 2 goals:
       Then we traverse h2 blocks and run parser for each of them 
 */
 
-import {
-	arrayToObject,
-	splitMarkdownIntoPartsByTemplate,
-	yamlParams
-} from './utils.js'
+import { splitMarkdownIntoPartsByTemplate, yamlParams } from './utils.js'
 import { parseContentType } from './contentType.js'
 
 const h1template = new RegExp(/^\s*#{1}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
@@ -69,7 +65,7 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 
 	const info = { title, paramsArray }
 
-	let chaptersAndSubchapters = chaptersArray
+	const content = chaptersArray // chaptersAndSubchapters
 		.map(chapterDoc => {
 			// if type is set => it's end point content (contentType)
 			// and we shouldn't find subchapters
@@ -104,13 +100,6 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 				}
 			}
 		})
-		.map(chapter => {
-			let { content } = chapter
-			content = arrayToObject(content)
-			return { ...chapter, content }
-		})
-
-	const content = arrayToObject(chaptersAndSubchapters)
 
 	return { info, content }
 }

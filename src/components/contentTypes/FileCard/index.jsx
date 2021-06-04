@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
-import { objectToArray } from '../../../utils/utils'
+import { prefixedIndex } from '../../../utils/utils'
 import styles from '../../../styles'
 import { playAudio } from '../../../utils/playerShortAudios'
 
@@ -15,13 +15,16 @@ function fileCard(props) {
 	} = props
 
 	const {
-		content: { phrases: phrasesObject = {} }
-	} = contentTypeDoc
-	const { content: { phrases: phrasesTrObject = {} } = {} } =
+		content: { phrases: phrasesArray = [] }
+	} = contentTypeDoc || {}
+
+	const { content: { phrases: phrasesTrArray = [] } = {} } =
 		contentTypeTrDoc || {}
 
 	const { audios = {}, images = {} } = files || {}
-	const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
+	// const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
+	console.log('audios')
+	console.log(audios)
 
 	const contentTypeStyle = styles?.contentType?.[contentType] || {} // contentType styles
 
@@ -29,14 +32,16 @@ function fileCard(props) {
 		const { file } = audios[`${contentLineId}`] || {}
 		playAudio(file)
 	}
-
+	phrasesArray.shift()
+	phrasesTrArray.shift()
 	return (
 		/* CONTAINER */
 		<View style={contentTypeStyle.container}>
-			{phrasesArray.map(elem => {
-				const { id, text } = elem
+			{phrasesArray.map((elem, index) => {
+				const { text } = elem
+				const id = prefixedIndex(index + 1)
 				const { file: image } = images[`${id}`] || {}
-				const { text: trText } = phrasesTrObject[elem.id] || {}
+				const { text: trText } = phrasesTrArray[index] || {}
 				return (
 					<TouchableOpacity onPress={handlePlay(id)} key={`item-${id}`}>
 						{/* ITEM */}

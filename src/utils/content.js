@@ -105,25 +105,22 @@ export class Content {
 		return { chapterTitle, chapterTitleTr, subchapterTitle, subchapterTitleTr }
 	}
 
-	// object to array:
 	// [{ id, title, type, content: [{ id, title, type }] }]
 	getTableOfContent() {
-		return Object.keys(this.original.content)
-			.map(key => {
-				const id = key
-				const chapterParams = { ...this.original.content[key] }
-				const { content: contentObject } = chapterParams
-				const subchapters = Object.keys(contentObject)
-					.map(key => {
-						const id = key
-						const { title, type } = contentObject[key]
-						return { id, title, type }
-					})
-					.filter(elem => Boolean(elem.title)) //don't show 'phrases' from media, when chapter is without subchapters
-					.sort((a, b) => a.id.localeCompare(b.id))
-				return { id, ...chapterParams, subchapters }
+		return this.original.content.map((chapter, index) => {
+			const id = `${index}`
+			const chapterParams = { ...chapter }
+			const { content: chapterContent } = chapterParams
+			if (!Array.isArray(chapterContent)) {
+				return { id, ...chapterParams, subchapters: [] }
+			} //don't show 'phrases' from media, when chapter is without subchapters}
+			const subchapters = chapterContent.map((subchapter, index) => {
+				const id = `${index}`
+				const { title, type } = subchapter
+				return { id, title, type }
 			})
-			.sort((a, b) => a.id.localeCompare(b.id))
+			return { id, ...chapterParams, subchapters }
+		})
 	}
 
 	getChapter(chapterId) {
