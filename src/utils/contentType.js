@@ -3,7 +3,7 @@
  */
 
 import { parseSubs as frazyParseSubs } from 'frazy-parser'
-import { prefixedIndex, splitMarkdownIntoPartsByTemplate } from './utils.js'
+import { splitMarkdownIntoPartsByTemplate } from './utils.js'
 import { getInteractivity } from '../styles/contentType.js'
 import marked from 'marked'
 
@@ -28,7 +28,7 @@ export const parseContentType = (contentTypeDoc, level) => {
 
 	// switcher between parsers for each content type
 	const typeParserMap = {
-		fileCard: parseTypeOneLineOneFile,
+		fileCard: parseTypeFileCard,
 		richMedia: parseTypeMedia,
 		richText: parseTypeRichText,
 		exercise: parseTypeExercise
@@ -60,56 +60,34 @@ const parseTypeMedia = (text, level) => {
 			return phrasesSynonyms.includes(title) || phrasesSynonyms.includes(type)
 		}) || {}
 
-	const phrases = parseTypeTiming(phrasesText)
+	const phrases = parsePhrases(phrasesText)
 	return { phrases }
 }
 
+const parseTypeFileCard = text => {
+	return parsePhrases(text)
+}
+
 /**
+ * works with subtitles and plainText (in fileCard)
  * it is sub-type for type RichMedia
  * @param {string} subsText
- * @returns {object} - phrases {start, end, text, voiceName}
+ * @returns {object[]} - phrases {start, end, text, voiceName}
  */
-const parseTypeTiming = subsText => {
-	// frazyParseSubs extracts text of phrase into tricky object {start, end, body:[{voice}]} for support multiple voices
-	// we don't need many voices (it's hard to handle this nested array of objects)
-	// then we extract it into plain object {start, end, text, voiceName}
+const parsePhrases = subsText => {
+	const parsedSubs = frazyParseSubs(subsText) || []
+	const emptyPhrase = { start: 0, end: 0, body: [{ text: '' }] } // for add empty space before 1-st phrase
+	parsedSubs.unshift(emptyPhrase)
 
-	const parsedSubs = frazyParseSubs(subsText)
-
-	if (!parsedSubs) return {}
-	const phrasesObject = {}
-
-	for (let key in parsedSubs) {
-		const { start, end, body = [] } = parsedSubs[key] || {}
+	return parsedSubs.map(elem => {
+		// frazyParseSubs extracts text of phrase into object {start, end, body:[{voice}]} with tricky [body] for support multiple voices
+		// we don't need many voices (it's hard to handle this nested array of objects)
+		// then we extract it into plain object {start, end, text, voiceName}
+		const { start, end, body = [] } = elem || {}
 		const [bodyFirstObject] = body
 		const { voice: { name: voiceName } = {}, text = '' } = bodyFirstObject || {}
-		phrasesObject[key] = { start, end, text, voiceName }
-	}
-
-	const emptyPhrase = { start: 0, end: 0, text: '' } // for add empty space before 1-st phrase
-	phrasesObject['000'] = emptyPhrase // empty phrase
-
-	return phrasesObject
-}
-
-/**
- *
- * @param {string} text
- * @returns {object} - phrases {id:{text}}
- */
-const parseTypeOneLineOneFile = text => {
-	if (!text) return {}
-	const rowsArray = text.split('\n')
-	const phrases = rowsArray.reduce((prev, item, index) => {
-		const rowIndex = prefixedIndex(index + 1)
-		const renderer = new marked.Renderer()
-		renderer.paragraph = text => text //by default renderer returns <p></p> for any text line
-		const text = marked(item.trim(), {
-			renderer
-		})
-		return { ...prev, [rowIndex]: { text } }
-	}, {})
-	return { phrases }
+		return { start, end, text, voiceName }
+	})
 }
 
 /**
