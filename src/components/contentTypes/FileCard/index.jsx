@@ -22,27 +22,22 @@ function fileCard(props) {
 		contentTypeTrDoc || {}
 
 	const { audios = {}, images = {} } = files || {}
-	// const phrasesArray = objectToArray(phrasesObject) // contentLines (words, phrases, etc)
-	console.log('audios')
-	console.log(audios)
-
 	const contentTypeStyle = styles?.contentType?.[contentType] || {} // contentType styles
 
 	const handlePlay = contentLineId => () => {
 		const { file } = audios[`${contentLineId}`] || {}
 		playAudio(file)
 	}
-	phrasesArray.shift()
-	phrasesTrArray.shift()
+
 	return (
 		/* CONTAINER */
 		<View style={contentTypeStyle.container}>
 			{phrasesArray.map((elem, index) => {
 				const { text } = elem
-				const id = prefixedIndex(index + 1)
+				const id = prefixedIndex(index)
 				const { file: image } = images[`${id}`] || {}
 				const { text: trText } = phrasesTrArray[index] || {}
-				return (
+				return index === 0 ? null : (
 					<TouchableOpacity onPress={handlePlay(id)} key={`item-${id}`}>
 						{/* ITEM */}
 						<View style={contentTypeStyle.item}>

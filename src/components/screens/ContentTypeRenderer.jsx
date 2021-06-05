@@ -45,7 +45,6 @@ const ContentTypeRenderer = props => {
 		},
 		navigation
 	} = props
-
 	const { height: screenHeight } = useWindowDimensions()
 
 	const { showTranslation } = useSelector(state => state.translation)

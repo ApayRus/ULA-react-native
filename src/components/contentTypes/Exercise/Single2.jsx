@@ -96,7 +96,7 @@ const Single2 = props => {
 		?.split('-') || ['', 'original']
 
 	useEffect(() => {
-		const correctPhraseId = prefixedIndex(phraseIndexes?.[0])
+		const correctPhraseId = phraseIndexes?.[0]
 		const shuffledIndexes = Randomizer.shuffle(phraseIndexes)
 
 		const original = content.getPhrases(
@@ -159,16 +159,20 @@ const Single2 = props => {
 
 	const handlePlayAudio = () => {
 		if (sourceInteractivity === 'fileCard') {
-			const filePath = `${chapterId}/${subchapterId}/audios/${phrases.correctPhraseId}`
+			const filePath = `${prefixedIndex(+chapterId + 1)}/${prefixedIndex(
+				+subchapterId + 1
+			)}/audios/${prefixedIndex(phrases.correctPhraseId)}`
 			const { file: audioFile } = content.getFilesByPathString(filePath) || {}
 			playAudio(audioFile, filePath)
 		} else {
 			// richMedia
-			playerRef.current.playPhrase(+phrases.correctPhraseId)
+			playerRef.current.playPhrase(phrases.correctPhraseId)
 		}
 	}
 
-	const imagePath = `${chapterId}/${subchapterId}/images/${phrases.correctPhraseId}`
+	const imagePath = `${+chapterId + 1}/${+subchapterId + 1}/images/${
+		phrases.correctPhraseId
+	}`
 	const { file: imageSource } = content.getFilesByPathString(imagePath) || {}
 
 	const given = () => {

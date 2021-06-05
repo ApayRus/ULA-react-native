@@ -81,7 +81,7 @@ export default function HomeScreen({ navigation }) {
 					<View style={layoutStyles.navigateForwardButtonContainer}>
 						<Button
 							{...layoutStyles.navigateForwardButtonProps}
-							onPress={() => navigation.navigate('chapter-001')}
+							onPress={() => navigation.navigate('chapter-0')}
 						/>
 					</View>
 				</View>

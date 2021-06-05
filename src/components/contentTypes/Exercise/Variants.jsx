@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import content from '../../../utils/content'
 import { playAudio } from '../../../utils/playerShortAudios'
+import { prefixedIndex } from '../../../utils/utils'
 import Variant from './Variant'
 
 const Variants = props => {
@@ -17,7 +18,9 @@ const Variants = props => {
 	const [selectedIndex, setSelectedIndex] = useState(-1)
 
 	const playPhraseAudio = phraseId => {
-		const filePath = `${chapterId}/${subchapterId}/audios/${phraseId}`
+		const filePath = `${prefixedIndex(+chapterId + 1)}/${prefixedIndex(
+			+subchapterId + 1
+		)}/audios/${prefixedIndex(phraseId)}`
 		const { file: audioFile } = content.getFilesByPathString(filePath) || {}
 		playAudio(audioFile, filePath)
 	}
