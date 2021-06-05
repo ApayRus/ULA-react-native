@@ -67,9 +67,11 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 
 	const content = chaptersArray // chaptersAndSubchapters
 		.map(chapterDoc => {
-			// if type is set => it's end point content (contentType)
-			// and we shouldn't find subchapters
-			if (chapterDoc.type) {
+			// we shouldn't find subchapters if:
+			// 1) type is set => it's end point content (contentType)
+			// 2) chapter hasn't subchapters
+
+			if (chapterDoc.type || !chapterDoc.content.trim()) {
 				const content = parseContentType(chapterDoc, 'chapter')
 
 				return {
@@ -100,8 +102,18 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 				}
 			}
 		})
+	let hiddenContent = []
+	const hiddenSectionStartIndex = content.findIndex(
+		elem =>
+			elem.title.trim().toLowerCase() === 'hidden' &&
+			elem.type.toLowerCase() === 'section'
+	)
 
-	return { info, content }
+	if (hiddenSectionStartIndex >= 0) {
+		hiddenContent = content.splice(hiddenSectionStartIndex)
+	}
+
+	return { info, content, hiddenContent }
 }
 
 export const contentMDtoAssetJS = text =>
