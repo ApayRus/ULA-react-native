@@ -44,7 +44,11 @@ While parsing we aim 2 goals:
       Then we traverse h2 blocks and run parser for each of them 
 */
 
-import { splitMarkdownIntoPartsByTemplate, yamlParams } from './utils.js'
+import {
+	splitMarkdownIntoPartsByTemplate,
+	yamlParams,
+	prefixedIndex
+} from './utils.js'
 import { parseContentType } from './contentType.js'
 
 const h1template = new RegExp(/^\s*#{1}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
@@ -66,14 +70,15 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 	const info = { title, paramsArray }
 
 	const content = chaptersArray // chaptersAndSubchapters
-		.map(chapterDoc => {
+		.map((chapterDoc, chapterIndex) => {
 			// we shouldn't find subchapters if:
 			// 1) type is set => it's end point content (contentType)
 			// 2) chapter hasn't subchapters
+			const id = prefixedIndex(chapterIndex + 1)
 			if (chapterDoc.type || !chapterDoc.content.trim()) {
 				const content = parseContentType(chapterDoc, 'chapter')
 
-				return { ...content }
+				return { ...content, id }
 			} else {
 				const subchaptersRaw = splitMarkdownIntoPartsByTemplate(
 					chapterDoc.content,
@@ -87,14 +92,18 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 					additionalParams = yamlParams(introText)
 				}
 
-				const subchapters = subchaptersRaw.map(subchapterDoc =>
-					parseContentType(subchapterDoc)
+				const subchapters = subchaptersRaw.map(
+					(subchapterDoc, subchapterIndex) => {
+						const id = prefixedIndex(subchapterIndex + 1)
+						parseContentType({ ...subchapterDoc, id })
+					}
 				)
 
 				return {
 					...chapterDoc,
 					...additionalParams,
-					content: subchapters
+					content: subchapters,
+					id
 				}
 			}
 		})
