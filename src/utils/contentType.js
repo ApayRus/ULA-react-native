@@ -22,7 +22,10 @@ marked.use({
  * @param {*} contentTypeDoc
  */
 export const parseContentType = (contentTypeDoc, level) => {
-	const { title, type: typeRaw, content } = contentTypeDoc
+	const { title, type: typeRaw, content = '' } = contentTypeDoc
+	if (!content) {
+		return { ...contentTypeDoc, content }
+	}
 
 	const type = typeRaw ? typeRaw : title
 
@@ -60,7 +63,7 @@ const parseTypeMedia = (text, level) => {
 			return phrasesSynonyms.includes(title) || phrasesSynonyms.includes(type)
 		}) || {}
 
-	const phrases = parsePhrases(phrasesText)
+	const phrases = parsePhrases(phrasesText || text) // if there is no timing header, we all content get as a timing
 	return { phrases }
 }
 

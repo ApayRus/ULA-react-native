@@ -70,14 +70,10 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 			// we shouldn't find subchapters if:
 			// 1) type is set => it's end point content (contentType)
 			// 2) chapter hasn't subchapters
-
 			if (chapterDoc.type || !chapterDoc.content.trim()) {
 				const content = parseContentType(chapterDoc, 'chapter')
 
-				return {
-					// ...chapterDoc,
-					...content
-				}
+				return { ...content }
 			} else {
 				const subchaptersRaw = splitMarkdownIntoPartsByTemplate(
 					chapterDoc.content,

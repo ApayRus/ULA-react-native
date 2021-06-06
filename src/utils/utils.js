@@ -112,7 +112,7 @@ export const splitMarkdownIntoPartsByTemplate = (text, template) => {
 		const nextElem = array[index + 1] || {}
 		const nextIndex = nextElem.index || text.length
 		const [headerText, title = '', , typeString = ''] = elem
-		const [type, param] = typeString.split('|').map(elem => elem.trim())
+		const [type, ...params] = typeString.split('|').map(elem => elem.trim())
 		const { index: curIndex, input } = elem
 		const content = input
 			.slice(curIndex, nextIndex)
@@ -121,12 +121,12 @@ export const splitMarkdownIntoPartsByTemplate = (text, template) => {
 		return {
 			title,
 			type,
-			param,
+			params,
 			content
 		}
 	})
 
-	const { index: zeroIndex } = matches[0]
+	const { index: zeroIndex = 0 } = matches[0] || {}
 	if (zeroIndex > 0) {
 		//we have some data before first header template
 		const introText = text.slice(0, zeroIndex)
