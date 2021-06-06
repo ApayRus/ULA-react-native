@@ -80,17 +80,17 @@ const parseTypeFileCard = text => {
  */
 const parsePhrases = subsText => {
 	const parsedSubs = frazyParseSubs(subsText) || []
-	const emptyPhrase = { start: 0, end: 0, body: [{ text: '' }] } // for add empty space before 1-st phrase
+	const emptyPhrase = { id: '0', start: 0, end: 0, body: [{ text: '' }] } // for add empty space before 1-st phrase
 	parsedSubs.unshift(emptyPhrase)
 
 	return parsedSubs.map(elem => {
 		// frazyParseSubs extracts text of phrase into object {start, end, body:[{voice}]} with tricky [body] for support multiple voices
 		// we don't need many voices (it's hard to handle this nested array of objects)
 		// then we extract it into plain object {start, end, text, voiceName}
-		const { start, end, body = [] } = elem || {}
+		const { id, start, end, body = [] } = elem || {}
 		const [bodyFirstObject] = body
 		const { voice: { name: voiceName } = {}, text = '' } = bodyFirstObject || {}
-		return { start, end, text, voiceName }
+		return { id, start, end, text, voiceName }
 	})
 }
 

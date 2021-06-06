@@ -168,18 +168,12 @@ export class Content {
 	 */
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
 		if (!this.original) return []
+		if (!arrayOfIndexes) return phrases
 		const {
 			content: { phrases }
 		} = this.getItem(chapterId, subchapterId)
 
-		const phrasesWithId = phrases.map((elem, id) => ({
-			...elem,
-			id
-		}))
-
-		if (!arrayOfIndexes) return phrasesWithId
-
-		const result = phrasesWithId.filter((elem, index) =>
+		const result = phrases.filter((elem, index) =>
 			arrayOfIndexes.includes(index)
 		)
 
@@ -201,19 +195,14 @@ export class Content {
 
 	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
 		const { trLang } = store.getState().translation
+		if (!arrayOfIndexes) return phrases
+
 		if (!(this.translations && trLang)) return []
 		const {
 			content: { phrases }
 		} = this.getItemTr(chapterId, subchapterId, trLang)
 
-		const phrasesWithId = phrases.map((elem, id) => ({
-			...elem,
-			id
-		}))
-
-		if (!arrayOfIndexes) return phrasesWithId
-
-		const result = phrasesWithId.filter((elem, index) =>
+		const result = phrases.filter((elem, index) =>
 			arrayOfIndexes.includes(index)
 		)
 
