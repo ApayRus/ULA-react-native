@@ -15,7 +15,7 @@ function fileCard(props) {
 	} = props
 
 	const {
-		content: { phrases: phrasesArray = [] }
+		content: { phrases = [] }
 	} = contentTypeDoc || {}
 
 	const { content: { phrases: phrasesTrArray = [] } = {} } =
@@ -32,7 +32,7 @@ function fileCard(props) {
 	return (
 		/* CONTAINER */
 		<View style={contentTypeStyle.container}>
-			{phrasesArray.map((elem, index) => {
+			{phrases.map((elem, index) => {
 				const { text } = elem
 				const id = prefixedIndex(index)
 				const { file: image } = images[`${id}`] || {}

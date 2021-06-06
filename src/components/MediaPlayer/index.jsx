@@ -22,7 +22,6 @@ import { useNavigation } from '@react-navigation/native'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
 // === for phrasal media:
-import { objectToArray } from '../../utils/utils'
 import PhrasalPlayerControls from './PlayerPhrasalControls'
 import PhrasesBlock from './PhrasesBlock'
 import content from '../../utils/content'
@@ -54,9 +53,7 @@ const Media = props => {
 	const { title: titleTr, content: { phrases: phrasesTr = {} } = {} } =
 		contentTypeTrDoc || {}
 
-	const phrasesArray = objectToArray(phrases)
-	const phrasesTrArray = objectToArray(phrasesTr)
-	const isPhrasalPlayer = Boolean(phrasesArray.length)
+	const isPhrasalPlayer = Boolean(phrases.length)
 
 	// ==================
 
@@ -89,7 +86,7 @@ const Media = props => {
 				mediaRef,
 				mediaSourceRef,
 				/* for phrasal  player */
-				phrasesArray
+				phrases
 			)
 
 			setPlayerState(prevState => ({ ...prevState, isVideo }))
@@ -179,8 +176,8 @@ const Media = props => {
 		() => (
 			<PhrasesBlock
 				{...{
-					phrasesArray,
-					phrasesTrArray,
+					phrases,
+					phrasesTr,
 					currentPhraseNum,
 					playerRef,
 					showTranslation,

@@ -48,7 +48,7 @@ export const loadDataToPlayer = async (
 	player,
 	mediaRef,
 	mediaSource,
-	phrasesArray
+	phrases
 ) => {
 	const { source, posterSource, isVideo } =
 		(await getSourceAndExtensionFromPath(path)) || {}
@@ -61,9 +61,9 @@ export const loadDataToPlayer = async (
 		await mediaRef.current.loadAsync(source)
 	}
 
-	player.current = phrasesArray.length
-		? new PlayerPhrasal(mediaRef, phrasesArray)
-		: new PlayerBasic(mediaRef, phrasesArray)
+	player.current = phrases.length
+		? new PlayerPhrasal(mediaRef, phrases)
+		: new PlayerBasic(mediaRef, phrases)
 	mediaSource.current = { source, posterSource }
 	return { isVideo }
 }

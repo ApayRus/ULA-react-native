@@ -5,8 +5,8 @@ import styles from '../../styles'
 
 export default function PhrasesBlock(props) {
 	const {
-		phrasesArray,
-		phrasesTrArray,
+		phrases,
+		phrasesTr,
 		playerRef: { current: phrasalPlayer },
 		currentPhraseNum,
 		showTranslation
@@ -43,10 +43,10 @@ export default function PhrasesBlock(props) {
 	return (
 		<ScrollView ref={scrollViewRef} nestedScrollEnabled>
 			<View style={contentTypeStyle.phrasesContainer}>
-				{phrasesArray.map((elem, index) => {
+				{phrases.map((elem, index) => {
 					const { text, voiceName } = elem
 					const { text: trText, voiceName: voiceNameTr } =
-						phrasesTrArray[index] || {}
+						phrasesTr[index] || {}
 					const phraseNum = index
 
 					return (
