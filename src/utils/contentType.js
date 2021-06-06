@@ -3,7 +3,7 @@
  */
 
 import { parseSubs as frazyParseSubs } from 'frazy-parser'
-import { splitMarkdownIntoPartsByTemplate } from './utils.js'
+import { splitMarkdownIntoPartsByTemplate, prefixedIndex } from './utils.js'
 import { getInteractivity } from '../styles/contentType.js'
 import marked from 'marked'
 
@@ -90,7 +90,7 @@ const parsePhrases = subsText => {
 		const { id, start, end, body = [] } = elem || {}
 		const [bodyFirstObject] = body
 		const { voice: { name: voiceName } = {}, text = '' } = bodyFirstObject || {}
-		return { id, start, end, text, voiceName }
+		return { id: prefixedIndex(id), start, end, text, voiceName }
 	})
 }
 
