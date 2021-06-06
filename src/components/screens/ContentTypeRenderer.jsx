@@ -67,18 +67,14 @@ const ContentTypeRenderer = props => {
 
 	// const { height: screenHeight } = useWindowDimensions()
 
-	const contentTypeDoc = subchapterId
-		? content.getSubchapter(chapterId, subchapterId)
-		: content.getChapter(chapterId)
+	const contentTypeDoc = content.getItem(chapterId, subchapterId)
 	const { title, type: typeRaw } = contentTypeDoc
 	const contentType = typeRaw ? typeRaw : title
 	// const contentTypeInfo = getContentType(type)
 	const interactivity = getInteractivity(contentType)
 
 	// if subchapterId is undefined, we opens contentType from 1st level - chapter
-	const contentTypeTrDoc = subchapterId
-		? content.getSubchapterTr(chapterId, subchapterId)
-		: content.getChapterTr(chapterId)
+	const contentTypeTrDoc = content.getItemTr(chapterId, subchapterId)
 
 	const files = content.getFilesByPathArray([
 		'content',

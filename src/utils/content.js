@@ -117,45 +117,10 @@ export class Content {
 		})
 	}
 
-	getChapter(chapterId) {
-		const chapterDoc = this?.original?.content?.[chapterId]
-		return chapterDoc
-	}
-
-	// array [ { id, title }, ... ]
-	getChapterTr(chapterId) {
-		const { trLang } = store.getState().translation
-		if (!(trLang && chapterId)) return {}
-		const trDoc =
-			this?.translations?.[trLang]?.default?.content?.[chapterId] || {}
-		return trDoc
-	}
-
-	getSubchapter(chapterId, subchapterId) {
-		const subchapterDoc =
-			this?.original?.content?.[chapterId]?.content[subchapterId]
-		return subchapterDoc
-	}
-
-	getSubchapterTr(chapterId, subchapterId) {
-		const { trLang } = store.getState().translation
-		if (!(trLang && chapterId && subchapterId && this.translations)) return {}
-		const subchapterDoc =
-			this?.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
-				subchapterId
-			] || {}
-		return subchapterDoc
-	}
-
 	getContentTypeDocsPair(chapterId, subchapterId = '') {
 		let contentTypeDoc, contentTypeTrDoc
-		if (subchapterId + '') {
-			contentTypeDoc = this.getSubchapter(chapterId, subchapterId)
-			contentTypeTrDoc = this.getSubchapterTr(chapterId, subchapterId)
-		} else {
-			contentTypeDoc = this.getChapter(chapterId)
-			contentTypeTrDoc = this.getChapterTr(chapterId)
-		}
+		contentTypeDoc = content.getItem(chapterId, subchapterId)
+		contentTypeTrDoc = this.getItemTr(chapterId, subchapterId)
 		return { contentTypeDoc, contentTypeTrDoc }
 	}
 
@@ -234,7 +199,8 @@ export class Content {
 			: this.original?.content?.[chapterId + '']
 	}
 
-	getItemTr(chapterId, subchapterId = '', trLang = '') {
+	getItemTr(chapterId, subchapterId = '') {
+		const { trLang } = store.getState().translation
 		const result =
 			subchapterId + ''
 				? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
