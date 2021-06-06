@@ -117,13 +117,6 @@ export class Content {
 		})
 	}
 
-	getContentTypeDocsPair(chapterId, subchapterId = '') {
-		let contentTypeDoc, contentTypeTrDoc
-		contentTypeDoc = content.getItem(chapterId, subchapterId)
-		contentTypeTrDoc = this.getItemTr(chapterId, subchapterId)
-		return { contentTypeDoc, contentTypeTrDoc }
-	}
-
 	/**
 	 *
 	 * @param {string} chapterId

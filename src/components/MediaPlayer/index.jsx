@@ -39,10 +39,8 @@ const Media = props => {
 	const navigation = useNavigation()
 	const { trLang, showTranslation } = useSelector(state => state.translation)
 
-	const { contentTypeDoc, contentTypeTrDoc } = content.getContentTypeDocsPair(
-		chapterId,
-		subchapterId
-	)
+	const contentTypeDoc = content.getItem(chapterId, subchapterId)
+	const contentTypeTrDoc = content.getItemTr(chapterId, subchapterId)
 
 	const {
 		title,
