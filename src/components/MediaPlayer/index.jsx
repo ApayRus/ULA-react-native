@@ -47,7 +47,7 @@ const Media = props => {
 
 	const {
 		title,
-		param, // path/to/media
+		params = [], // path/to/media
 		content: { phrases = {} } = {}
 	} = contentTypeDoc || {}
 
@@ -60,7 +60,7 @@ const Media = props => {
 
 	// ==================
 
-	const mediaPath = pathToMedia || param
+	const mediaPath = pathToMedia || params?.[0]
 
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
@@ -124,14 +124,8 @@ const Media = props => {
 
 	const playerProps = { player: playerRef.current, ...playerState }
 
-	const {
-		currentTime,
-		duration,
-		isPlaying,
-		rate,
-		isVideo,
-		currentPhraseNum
-	} = playerState
+	const { currentTime, duration, isPlaying, rate, isVideo, currentPhraseNum } =
+		playerState
 
 	// without useMemo, PlayerControls updated too many times on each currentTime update
 	// and buttons not clickable
