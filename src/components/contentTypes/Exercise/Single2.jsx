@@ -80,9 +80,6 @@ const Single2 = props => {
 		setGiveUp
 	} = props
 
-	// console.log('props')
-	// console.log(props)
-
 	const [phrases, setPhrases] = useState([])
 	const [userAnswer, setUserAnswer] = useState('')
 	const { trLang } = useSelector(state => state.translation)
@@ -96,7 +93,7 @@ const Single2 = props => {
 		?.split('-') || ['', 'original']
 
 	useEffect(() => {
-		const correctPhraseId = phraseIndexes?.[0]
+		const correctPhraseId = prefixedIndex(phraseIndexes?.[0])
 		const shuffledIndexes = Randomizer.shuffle(phraseIndexes)
 
 		const original = content.getPhrases(
@@ -159,14 +156,12 @@ const Single2 = props => {
 
 	const handlePlayAudio = () => {
 		if (sourceInteractivity === 'fileCard') {
-			const filePath = `${prefixedIndex(+chapterId + 1)}/${prefixedIndex(
-				+subchapterId + 1
-			)}/audios/${prefixedIndex(phrases.correctPhraseId)}`
+			const filePath = `${chapterId}/${subchapterId}/audios/${phrases.correctPhraseId}`
 			const { file: audioFile } = content.getFilesByPathString(filePath) || {}
 			playAudio(audioFile, filePath)
 		} else {
 			// richMedia
-			playerRef.current.playPhrase(phrases.correctPhraseId)
+			playerRef.current.playPhrase(+phrases.correctPhraseId)
 		}
 	}
 

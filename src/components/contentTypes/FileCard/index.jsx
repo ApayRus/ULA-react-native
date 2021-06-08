@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, TouchableOpacity, Image } from 'react-native'
 import { Text } from 'react-native-elements'
-import { prefixedIndex } from '../../../utils/utils'
 import styles from '../../../styles'
 import { playAudio } from '../../../utils/playerShortAudios'
 
@@ -33,8 +32,7 @@ function fileCard(props) {
 		/* CONTAINER */
 		<View style={contentTypeStyle.container}>
 			{phrases.map((elem, index) => {
-				const { text } = elem
-				const id = prefixedIndex(index)
+				const { text, id } = elem
 				const { file: image } = images[`${id}`] || {}
 				const { text: trText } = phrasesTrArray[index] || {}
 				return index === 0 ? null : (

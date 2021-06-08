@@ -13,7 +13,7 @@ export default function MyDrawer(props) {
 		layout: { drawer: layoutStyles }
 	} = styles || {} // layout styles
 
-	const trChapters = content.getChapterTitlesTr()
+	const chaptersTr = content.getTableOfContentTr()
 
 	const isTitleDecorLeft = Boolean(
 		content.getFilesByPathString('images/titleDecorLeft')?.file
@@ -67,7 +67,7 @@ export default function MyDrawer(props) {
 							</ListItem.Content>
 						</ListItem>
 					</View>
-					{chapters.map(elem => {
+					{chapters.map((elem, chapterIndex) => {
 						const { id, title } = elem
 						const name = `chapter-${id}`
 						return (
@@ -85,7 +85,7 @@ export default function MyDrawer(props) {
 									</ListItem.Title>
 									{showTranslation && (
 										<ListItem.Subtitle style={layoutStyles.listItemTranslation}>
-											{trChapters?.[id]?.title}
+											{chaptersTr?.[chapterIndex]?.title}
 										</ListItem.Subtitle>
 									)}
 								</ListItem.Content>

@@ -2,7 +2,6 @@ import React, { useMemo } from 'react'
 import { TouchableOpacity, Image } from 'react-native'
 import { Text, Icon } from 'react-native-elements'
 import content from '../../../utils/content'
-import { prefixedIndex } from '../../../utils/utils'
 
 const Variant = props => {
 	const {
@@ -17,9 +16,7 @@ const Variant = props => {
 	} = props
 	const style = [styles.variant]
 
-	const imagePath = `${prefixedIndex(+chapterId + 1)}/${prefixedIndex(
-		+subchapterId + 1
-	)}/images/${prefixedIndex(+phrase.id)}`
+	const imagePath = `${chapterId}/${subchapterId}/images/${phrase.id}`
 	const { file: imageSource } = content.getFilesByPathString(imagePath) || {}
 	const memoImage = useMemo(
 		() => <Image source={imageSource} style={{ width: 50, height: 50 }} />,

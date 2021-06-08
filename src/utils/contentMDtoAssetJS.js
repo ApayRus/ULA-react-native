@@ -45,9 +45,9 @@ While parsing we aim 2 goals:
 */
 
 import {
+	prefixedIndex,
 	splitMarkdownIntoPartsByTemplate,
-	yamlParams,
-	prefixedIndex
+	yamlParams
 } from './utils.js'
 import { parseContentType } from './contentType.js'
 
@@ -71,10 +71,10 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 
 	const content = chaptersArray // chaptersAndSubchapters
 		.map((chapterDoc, chapterIndex) => {
+			const id = prefixedIndex(chapterIndex + 1)
 			// we shouldn't find subchapters if:
 			// 1) type is set => it's end point content (contentType)
 			// 2) chapter hasn't subchapters
-			const id = prefixedIndex(chapterIndex + 1)
 			if (chapterDoc.type || !chapterDoc.content.trim()) {
 				const content = parseContentType(chapterDoc, 'chapter')
 
@@ -95,7 +95,7 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 				const subchapters = subchaptersRaw.map(
 					(subchapterDoc, subchapterIndex) => {
 						const id = prefixedIndex(subchapterIndex + 1)
-						parseContentType({ ...subchapterDoc, id })
+						return { id, ...parseContentType(subchapterDoc) }
 					}
 				)
 

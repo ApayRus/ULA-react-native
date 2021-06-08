@@ -16,7 +16,6 @@ import { useSelector } from 'react-redux'
 import content from '../../utils/content'
 import ChapterHeader from '../ChapterHeader'
 import { getInteractivity } from '../../styles/contentType'
-import { prefixedIndex } from '../../utils/utils'
 
 /* 
 	receives a chapterId/subchapterId, and renders proper content type
@@ -46,7 +45,6 @@ const ContentTypeRenderer = props => {
 		navigation
 	} = props
 	const { height: screenHeight } = useWindowDimensions()
-
 	const { showTranslation } = useSelector(state => state.translation)
 
 	const pageScrollViewRef = useRef()
@@ -78,8 +76,8 @@ const ContentTypeRenderer = props => {
 
 	const files = content.getFilesByPathArray([
 		'content',
-		prefixedIndex(+chapterId + 1),
-		prefixedIndex(+subchapterId + 1)
+		chapterId,
+		subchapterId
 	])
 
 	const subchapterComponentProps = {

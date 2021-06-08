@@ -3,9 +3,9 @@
 import original from '../../assets/content'
 import translations from '../../assets/translations'
 import files from '../../assets/contentFilesMap'
-import { map, orderBy } from 'lodash'
 import store from '../store/rootReducer'
 import { getInteractivity as getInteractivityFromStyles } from '../styles/contentType'
+import { prefixedIndex } from './utils'
 
 export class Content {
 	constructor(original, translations, files) {
@@ -34,45 +34,15 @@ export class Content {
 		return translations
 	}
 
-	/**
-	 * @returns titles of chapters
-	 */
-	getChapterTitles() {
-		const { content: chaptersRaw } = this.original
-		let chapters = map(chaptersRaw, (elem, key) => {
-			const { title = '???' } = elem
-			return { id: key, title }
-		})
-		chapters = orderBy(chapters, 'id')
-		return chapters
-	}
-
-	// object { chapterId: { title: "Chapter title" }, ... }
-	getChapterTitlesTr() {
-		const { trLang } = store.getState().translation
-
-		if (!trLang) return {}
-		let chapters = this?.translations?.[trLang]?.default?.content
-		if (!chapters) return {}
-		chapters = map(chapters, (elem, key) => {
-			const { title = '???' } = elem
-			return { id: key, title }
-		})
-		return chapters.reduce(
-			(prev, item) => ({ ...prev, [item.id]: { title: item.title } }),
-			{}
-		)
-	}
-
 	getChapterTitle(chapterId) {
-		const chapterTitle = this?.original?.content?.[chapterId]?.title
+		const chapterTitle = this?.original?.content?.[chapterId - 1]?.title
 		return chapterTitle
 	}
 
 	getChapterTitleTr(chapterId) {
 		const { trLang } = store.getState().translation
 		const chapterTitle =
-			this?.translations?.[trLang]?.default?.content?.[chapterId]?.title
+			this?.translations?.[trLang]?.default?.content?.[chapterId - 1]?.title
 		return chapterTitle
 	}
 
@@ -100,21 +70,27 @@ export class Content {
 	}
 
 	// [{ id, title, type, content: [{ id, title, type }] }]
-	getTableOfContent() {
-		return this.original.content.map((chapter, index) => {
-			const id = `${index}`
-			const chapterParams = { ...chapter }
-			const { content: chapterContent } = chapterParams
+	getTOC(source) {
+		return source?.map(chapter => {
+			const { content: chapterContent, id, type = '', title } = chapter
 			if (!Array.isArray(chapterContent)) {
-				return { id, ...chapterParams, subchapters: [] }
+				return { id, type, title, subchapters: [] }
 			} //don't show 'phrases' from media, when chapter is without subchapters}
-			const subchapters = chapterContent.map((subchapter, index) => {
-				const id = `${index}`
-				const { title, type } = subchapter
+			const subchapters = chapterContent.map(subchapter => {
+				const { id, title, type } = subchapter
 				return { id, title, type }
 			})
-			return { id, ...chapterParams, subchapters }
+			return { id, type, title, subchapters }
 		})
+	}
+
+	getTableOfContent() {
+		return this.getTOC(this.original.content)
+	}
+
+	getTableOfContentTr() {
+		const { trLang } = store.getState().translation
+		return this.getTOC(this.translations?.[trLang]?.default?.content)
 	}
 
 	/**
@@ -187,20 +163,25 @@ export class Content {
 	}
 
 	getItem(chapterId, subchapterId = '') {
-		return subchapterId + ''
-			? this.original?.content?.[chapterId + '']?.content?.[subchapterId + '']
-			: this.original?.content?.[chapterId + '']
+		const chapterIndex = chapterId - 1
+		const subchapterIndex = subchapterId - 1
+		return subchapterIndex >= 0
+			? this.original?.content?.[chapterIndex]?.content?.[subchapterIndex]
+			: this.original?.content?.[chapterIndex]
 	}
 
 	getItemTr(chapterId, subchapterId = '') {
+		const chapterIndex = chapterId - 1
+		const subchapterIndex = subchapterId - 1
 		const { trLang } = store.getState().translation
 		const result =
-			subchapterId + ''
-				? this.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
-						subchapterId
+			subchapterId >= 0
+				? this.translations?.[trLang]?.default?.content?.[chapterIndex]
+						?.content?.[
+						subchapterIndex
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  ]
-				: this.translations?.[trLang]?.default?.content?.[chapterId]
+				: this.translations?.[trLang]?.default?.content?.[chapterIndex]
 		return result
 	}
 
@@ -216,9 +197,9 @@ export class Content {
 	 * @param {object} navigation - prop from react-navigation context
 	 * @returns
 	 */
-	navigateToNextItem(chapterId, subchapterId, navigation) {
-		const nextSubchapterId = +subchapterId + 1 || 0
-		const nextChapterId = +chapterId + 1
+	navigateToNextItem(chapterId, subchapterId = '', navigation) {
+		const nextSubchapterId = prefixedIndex(+subchapterId + 1)
+		const nextChapterId = prefixedIndex(+chapterId + 1)
 		if (this.isItemExists(chapterId, nextSubchapterId)) {
 			navigation.navigate(`subchapter-${nextSubchapterId}`)
 		} else if (this.isItemExists(nextChapterId)) {
@@ -230,8 +211,8 @@ export class Content {
 
 	// prev = previous
 	getPrevContentItem(chapterId = '', subchapterId = '') {
-		const prevSubchapterId = +subchapterId - 1
-		const prevChapterId = +chapterId - 1
+		const prevSubchapterId = prefixedIndex(+subchapterId - 1)
+		const prevChapterId = prefixedIndex(+chapterId - 1)
 		if (this.isItemExists(chapterId, prevSubchapterId)) {
 			return { chapterId, subchapterId: prevSubchapterId }
 		} else if (this.isItemExists(prevChapterId)) {

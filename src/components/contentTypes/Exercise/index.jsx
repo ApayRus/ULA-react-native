@@ -16,10 +16,7 @@ const index = props => {
 	const {
 		chapterId,
 		subchapterId,
-		contentTypeDoc: {
-			content: exerciseBlocksArray,
-			param: sourceAddress = '' /* chapterId/subchapterId */
-		},
+		contentTypeDoc: { content: exerciseBlocksArray, params = [] },
 		navigation
 	} = props
 
@@ -28,7 +25,7 @@ const index = props => {
 	const [userAnswerCorrectness, setUserAnswerCorrectness] = useState('unknown') // correct | incorrect
 	const [sourceInteractivity, setSourceInteractivity] = useState() // fileCard | richMedia
 	const [giveUp, setGiveUp] = useState(false)
-
+	const [sourceAddress = ''] = params /* chapterId/subchapterId */
 	let sourceChapterId, sourceSubchapterId
 
 	if (sourceAddress) {
