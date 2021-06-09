@@ -116,8 +116,12 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 
 	if (hiddenSectionStartIndex >= 0) {
 		hiddenContent = content.splice(hiddenSectionStartIndex)
+		hiddenContent.shift() // remove # Hidden string
+		hiddenContent = hiddenContent.map(elem => {
+			const id = prefixedIndex(elem.id - content.length - 1)
+			return { ...elem, id }
+		})
 	}
-
 	return { info, content, hiddenContent }
 }
 
