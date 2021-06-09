@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { View, ScrollView } from 'react-native'
+import { useSelector } from 'react-redux'
 import PhraseWrapper from './PhraseWrapper'
 import styles from '../../styles'
 
@@ -8,10 +9,12 @@ export default function PhrasesBlock(props) {
 		phrases,
 		phrasesTr,
 		playerRef: { current: phrasalPlayer },
-		currentPhraseNum,
-		showTranslation
+		currentPhraseNum
 	} = props
 
+	const { /* trLang ,*/ showTranslation } = useSelector(
+		state => state.translation
+	)
 	// const { contentType:{richMedia: { phraseList: contentTypeStyle = {} } = {}} = {}} = styles || {} // contentType styles
 	const contentTypeStyle = styles?.contentType?.richMedia?.phraseList || {}
 

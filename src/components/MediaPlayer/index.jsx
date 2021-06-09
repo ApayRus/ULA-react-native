@@ -17,7 +17,6 @@ we can use it as a basic player, but with subtitles and phrasal playback in comp
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { View, useWindowDimensions, Platform } from 'react-native'
 import { Video } from 'expo-av'
-import { useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import PlayerControls from './PlayerBasicControls'
 import { loadDataToPlayer } from './utils'
@@ -31,13 +30,13 @@ const Media = props => {
 		//
 		// for simplest media player
 		pathToMedia,
+		// for advanced (phrasal) player
 		chapterId = '',
 		subchapterId = '',
 		scrollPageTo = () => {}
 	} = props
 
 	const navigation = useNavigation()
-	const { trLang, showTranslation } = useSelector(state => state.translation)
 
 	const contentTypeDoc = content.getItem(chapterId, subchapterId)
 	const contentTypeTrDoc = content.getItemTr(chapterId, subchapterId)
@@ -177,13 +176,11 @@ const Media = props => {
 					phrases,
 					phrasesTr,
 					currentPhraseNum,
-					playerRef,
-					showTranslation,
-					trLang
+					playerRef
 				}}
 			/>
 		),
-		[currentPhraseNum, duration, showTranslation]
+		[currentPhraseNum, duration]
 	)
 
 	// ================
