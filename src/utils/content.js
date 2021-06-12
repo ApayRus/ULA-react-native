@@ -1,28 +1,30 @@
 // text of book and its translations
 
-import original from '../../assets/content'
-import translations from '../../assets/translations'
+import textContentModules from '../../assets/textContentMap'
 import files from '../../assets/contentFilesMap'
 import store from '../store/rootReducer'
 import { getInteractivity as getInteractivityFromStyles } from '../styles/contentType'
 import { prefixedIndex } from './utils'
 
 export class Content {
-	constructor(original, translations, files) {
-		this.original = original
-		this.translations = translations
+	constructor(textContentModules, files) {
+		this.textContent = Object.keys(textContentModules).reduce(
+			(prev, langCode) => {
+				return { ...prev, [langCode]: textContentModules[langCode].default }
+			},
+			{}
+		)
 		this.files = files
 	}
 
 	// main content
 
-	getInfo() {
-		const { info } = this.original
-		return info
+	getTranslationLangs() {
+		return Object.keys(textContentModules).filter(elem => elem !== 'oo')
 	}
-	getInfoTr(trLang) {
-		if (!trLang) return {}
-		const info = this?.translations?.[trLang]?.default?.info || {}
+
+	getInfo(lang = 'oo') {
+		const { info } = this.textContent[lang]
 		return info
 	}
 
@@ -38,7 +40,6 @@ export class Content {
 		const chapterTitle = this?.original?.content?.[chapterId - 1]?.title
 		return chapterTitle
 	}
-
 	getChapterTitleTr(chapterId) {
 		const { trLang } = store.getState().translation
 		const chapterTitle =
@@ -85,12 +86,12 @@ export class Content {
 	}
 
 	getTableOfContent() {
-		return this.getTOC(this.original.content)
+		return this.getTOC(this.textContent['oo'].content)
 	}
 
 	getTableOfContentTr() {
 		const { trLang } = store.getState().translation
-		return this.getTOC(this.translations?.[trLang]?.default?.content)
+		return this.getTOC(this.textContent?.[trLang]?.content)
 	}
 
 	/**
@@ -101,7 +102,7 @@ export class Content {
 	 * @returns array of phrases by indexes or all (if indexes are undefined)
 	 */
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
-		if (!this.original) return []
+		if (!this.textContent['oo']) return []
 		if (!arrayOfIndexes) return phrases
 		const {
 			content: { phrases }
@@ -117,7 +118,7 @@ export class Content {
 	getPhrasesCount(chapterId, subchapterId) {
 		const contentItem = this.getItem(chapterId, subchapterId)
 
-		if (!this.original) return []
+		if (!this.textContent['oo']) return []
 		const {
 			content: { phrases }
 		} = contentItem
@@ -131,7 +132,7 @@ export class Content {
 		const { trLang } = store.getState().translation
 		if (!arrayOfIndexes) return phrases
 
-		if (!(this.translations && trLang)) return []
+		if (!(this.textContent && trLang)) return []
 		const {
 			content: { phrases }
 		} = this.getItemTr(chapterId, subchapterId, trLang)
@@ -145,7 +146,7 @@ export class Content {
 
 	getPhrasesTrCount(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
-		if (!(this.translations && trLang)) return []
+		if (!(this.textContent && trLang)) return []
 		const {
 			content: { phrases }
 		} = this.getItemTr(chapterId, subchapterId, trLang)
@@ -176,12 +177,11 @@ export class Content {
 		const { trLang } = store.getState().translation
 		const result =
 			subchapterId >= 0
-				? this.translations?.[trLang]?.default?.content?.[chapterIndex]
-						?.content?.[
+				? this.textContent?.[trLang]?.content?.[chapterIndex]?.content?.[
 						subchapterIndex
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  ]
-				: this.translations?.[trLang]?.default?.content?.[chapterIndex]
+				: this.textContent?.[trLang]?.content?.[chapterIndex]
 		return result
 	}
 
@@ -263,6 +263,6 @@ export class Content {
 	}
 }
 
-const content = new Content(original, translations, files)
+const content = new Content(textContentModules, files)
 
 export default content

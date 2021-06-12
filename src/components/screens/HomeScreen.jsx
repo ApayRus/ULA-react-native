@@ -8,10 +8,10 @@ import content from '../../utils/content'
 import styles from '../../styles'
 
 export default function HomeScreen({ navigation }) {
-	const info = content.getInfo()
 	const { trLang } = useSelector(state => state.translation)
-	const infoTr = content.getInfoTr(trLang)
-	const translations = content.getTranslations()
+	const info = content.getInfo()
+	const infoTr = content.getInfo(trLang)
+	const translations = content.getTranslationLangs()
 
 	const { title, paramsArray } = info || {}
 	const { title: titleTr, paramsArray: paramsArrayTr } = infoTr || {}
