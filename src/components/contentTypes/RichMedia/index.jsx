@@ -1,4 +1,6 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import content from '../../../utils/content'
 import MediaPlayer from '../../MediaPlayer'
 // import { parseSecondsInterval } from './utils'
 
@@ -20,9 +22,25 @@ const RichMedia = props => {
 	// 	sourceMaterialInterval = parseSecondsInterval(sourceMaterialInterval)
 	// }
 
+	const { chapterId, subchapterId } = props
+	let { contentTypeDoc = {}, contentTypeTrDoc = {} } = props
+	const { trLang } = useSelector(state => state.translation)
+	if (chapterId) {
+		contentTypeDoc = content.getItem({ chapterId, subchapterId })
+		contentTypeTrDoc = content.getItem({
+			chapterId,
+			subchapterId,
+			lang: trLang
+		})
+	}
+
 	return (
 		<MediaPlayer
-			{...{ ...props /* sourceMaterialTitle, sourceMaterialInterval  */ }}
+			{...{
+				...props /* sourceMaterialTitle, sourceMaterialInterval  */,
+				contentTypeDoc,
+				contentTypeTrDoc
+			}}
 		/>
 	)
 }

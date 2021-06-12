@@ -23,7 +23,6 @@ import { loadDataToPlayer } from './utils'
 // === for phrasal media:
 import PhrasalPlayerControls from './PlayerPhrasalControls'
 import PhrasesBlock from './PhrasesBlock'
-import content from '../../utils/content'
 
 const Media = props => {
 	const {
@@ -31,15 +30,12 @@ const Media = props => {
 		// for simplest media player
 		pathToMedia,
 		// for advanced (phrasal) player
-		chapterId = '',
-		subchapterId = '',
+		contentTypeDoc = {},
+		contentTypeTrDoc = {},
 		scrollPageTo = () => {}
 	} = props
 
 	const navigation = useNavigation()
-
-	const contentTypeDoc = content.getItem(chapterId, subchapterId)
-	const contentTypeTrDoc = content.getItemTr(chapterId, subchapterId)
 
 	const {
 		title,

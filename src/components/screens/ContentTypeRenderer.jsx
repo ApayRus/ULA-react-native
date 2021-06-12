@@ -45,7 +45,7 @@ const ContentTypeRenderer = props => {
 		navigation
 	} = props
 	const { height: screenHeight } = useWindowDimensions()
-	const { showTranslation } = useSelector(state => state.translation)
+	const { showTranslation, trLang } = useSelector(state => state.translation)
 
 	const pageScrollViewRef = useRef()
 	const phrasalPlayerBlockYRef = useRef()
@@ -65,14 +65,19 @@ const ContentTypeRenderer = props => {
 
 	// const { height: screenHeight } = useWindowDimensions()
 
-	const contentTypeDoc = content.getItem(chapterId, subchapterId)
+	const contentTypeDoc = content.getItem({ chapterId, subchapterId })
+
 	const { title, type: typeRaw } = contentTypeDoc
 	const contentType = typeRaw ? typeRaw : title
 	// const contentTypeInfo = getContentType(type)
 	const interactivity = getInteractivity(contentType)
 
 	// if subchapterId is undefined, we opens contentType from 1st level - chapter
-	const contentTypeTrDoc = content.getItemTr(chapterId, subchapterId)
+	const contentTypeTrDoc = content.getItem({
+		chapterId,
+		subchapterId,
+		lang: trLang
+	})
 
 	const files = content.getFilesByPathArray([
 		'content',

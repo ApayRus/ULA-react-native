@@ -21,44 +21,20 @@ export class Content {
 	}
 
 	getInfo(lang = 'oo') {
-		const { info } = this.text[lang]
+		const { info } = this.text?.[lang] || {}
 		return info
 	}
 
-	/**
-	 * @returns ['ru', 'en', 'es']
-	 */
+	getChapterSubchapterTitlesWithTr(trLang, chapterId, subchapterId) {
+		// prettier-ignore
+		const {title: chapterTitle} = this.getItemByPath(`oo/content/${chapterId}`) || {}
+		// prettier-ignore
+		const {title: chapterTitleTr} = this.getItemByPath(`${trLang}/content/${chapterId}`)|| {}
+		// prettier-ignore
+		const {title: subchapterTitle} = this.getItemByPath(`oo/content/${chapterId}/${subchapterId}`)|| {}
+		// prettier-ignore
+		const {title: subchapterTitleTr} = this.getItemByPath(`${trLang}/content/${chapterId}/${subchapterId}`)|| {}
 
-	getChapterTitle(chapterId) {
-		const chapterTitle = this.text['oo'].content?.[chapterId - 1]?.title
-		return chapterTitle
-	}
-	getChapterTitleTr(chapterId) {
-		const { trLang } = store.getState().translation
-		const chapterTitle = this.text?.[trLang]?.content?.[chapterId - 1]?.title
-		return chapterTitle
-	}
-
-	getSubchapterTitle(chapterId, subchapterId) {
-		const subchapterTitle =
-			this.text['oo'].content?.[chapterId - 1]?.content?.[subchapterId - 1]
-				?.title
-		return subchapterTitle
-	}
-
-	getSubchapterTitleTr(chapterId, subchapterId) {
-		const { trLang } = store.getState().translation
-		const chapterTitle =
-			this.text?.[trLang]?.content?.[chapterId - 1]?.content?.[subchapterId - 1]
-				?.title
-		return chapterTitle
-	}
-
-	getChapterSubchapterTitlesWithTr(chapterId, subchapterId) {
-		const chapterTitle = this.getChapterTitle(chapterId)
-		const chapterTitleTr = this.getChapterTitleTr(chapterId)
-		const subchapterTitle = this.getSubchapterTitle(chapterId, subchapterId)
-		const subchapterTitleTr = this.getSubchapterTitleTr(chapterId, subchapterId)
 		return { chapterTitle, chapterTitleTr, subchapterTitle, subchapterTitleTr }
 	}
 
@@ -98,7 +74,7 @@ export class Content {
 		if (!arrayOfIndexes) return phrases
 		const {
 			content: { phrases }
-		} = this.getItem(chapterId, subchapterId)
+		} = this.getItem({ chapterId, subchapterId })
 
 		const result = phrases.filter((elem, index) =>
 			arrayOfIndexes.includes(index)
@@ -108,7 +84,7 @@ export class Content {
 	}
 
 	getPhrasesCount(chapterId, subchapterId) {
-		const contentItem = this.getItem(chapterId, subchapterId)
+		const contentItem = this.getItem({ chapterId, subchapterId })
 
 		if (!this.text['oo']) return []
 		const {
@@ -127,7 +103,7 @@ export class Content {
 		if (!(this.text && trLang)) return []
 		const {
 			content: { phrases }
-		} = this.getItemTr(chapterId, subchapterId, trLang)
+		} = this.getItem({ chapterId, subchapterId, lang: trLang })
 
 		const result = phrases.filter((elem, index) =>
 			arrayOfIndexes.includes(index)
@@ -141,47 +117,57 @@ export class Content {
 		if (!(this.text && trLang)) return []
 		const {
 			content: { phrases }
-		} = this.getItemTr(chapterId, subchapterId, trLang)
+		} = this.getItem({ chapterId, subchapterId, lang: trLang })
 
 		const phrasesCount = phrases.length - 1 // because first phrase is fake
 		return phrasesCount
 	}
 
 	getInteractivity(chapterId, subchapterId = '') {
-		const doc = this.getItem(chapterId, subchapterId)
+		const doc = this.getItem({ chapterId, subchapterId })
 		const { title, type } = doc
 		const contentType = type ? type : title
 		const interactivity = getInteractivityFromStyles(contentType)
 		return interactivity
 	}
 
-	getItem(chapterId, subchapterId = '') {
-		const chapterIndex = chapterId - 1
-		const subchapterIndex = subchapterId - 1
-		return subchapterIndex >= 0
-			? this.text['oo'].content?.[chapterIndex]?.content?.[
-					subchapterIndex
-					// eslint-disable-next-line no-mixed-spaces-and-tabs
-			  ]
-			: this.text['oo'].content?.[chapterIndex]
+	getItem(params) {
+		const {
+			chapterId,
+			subchapterId = '',
+			lang = 'oo',
+			source = 'content'
+		} = params
+		const pathEnd = subchapterId
+			? `${chapterId}/${subchapterId}`
+			: `${chapterId}`
+		return this.getItemByPath(`${lang}/${source}/${pathEnd}`)
 	}
 
-	getItemTr(chapterId, subchapterId = '') {
-		const chapterIndex = chapterId - 1
-		const subchapterIndex = subchapterId - 1
-		const { trLang } = store.getState().translation
-		const result =
-			subchapterId >= 0
-				? this.text?.[trLang]?.content?.[chapterIndex]?.content?.[
-						subchapterIndex
-						// eslint-disable-next-line no-mixed-spaces-and-tabs
-				  ]
-				: this.text?.[trLang]?.content?.[chapterIndex]
-		return result
+	/**
+	 *
+	 * @param {string} path - // ru/content/chapterId/subchapterId
+	 * @returns object with chapter or subchapter doc
+	 */
+	getItemByPath(path) {
+		const pathArray = path.split('/') // [lang, source, chapterId, subchapterId]
+
+		const [lang, source, chapterId, subchapterId] = pathArray
+
+		if (!lang) return {}
+
+		const item = subchapterId
+			? this.text?.[lang]?.[source]?.[chapterId - 1]?.content?.[
+					subchapterId - 1
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+			  ]
+			: this.text?.[lang]?.[source]?.[chapterId - 1]
+
+		return item
 	}
 
 	isItemExists(chapterId, subchapterId = '') {
-		const item = this.getItem(chapterId, subchapterId)
+		const item = this.getItem({ chapterId, subchapterId })
 		return Boolean(item)
 	}
 
@@ -209,10 +195,13 @@ export class Content {
 		const prevSubchapterId = prefixedIndex(+subchapterId - 1)
 		const prevChapterId = prefixedIndex(+chapterId - 1)
 		if (this.isItemExists(chapterId, prevSubchapterId)) {
-			return { chapterId, subchapterId: prevSubchapterId }
+			const result = { chapterId, subchapterId: prevSubchapterId }
+
+			return result
 		} else if (this.isItemExists(prevChapterId)) {
 			const result = { chapterId: prevChapterId }
-			const subchapterCount = this.getItem(prevChapterId)?.content?.length
+			const subchapterCount = this.getItem({ chapterId: prevChapterId })
+				?.content?.length
 			if (subchapterCount > 0) {
 				result.subchapterId = subchapterCount - 1
 			}

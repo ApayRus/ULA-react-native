@@ -50,7 +50,7 @@ const getYoutubeId = url => {
  * Checks is url from youtube or not
  * @param {string} url
  */
-export const isYoutube = url => {
+export const isYoutube = (url = '') => {
 	return Boolean(
 		url.match(/^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/)
 	)

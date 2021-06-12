@@ -51,7 +51,7 @@ import { getTaskText, getPlaceholderText } from './utils'
 import CheckAnswerButton from '../../CheckAnswersButton'
 import { playAudio } from '../../../utils/playerShortAudios'
 import { useSelector } from 'react-redux'
-import PhrasalPlayer from '../../MediaPlayer'
+import PhrasalPlayer from '../../contentTypes/RichMedia'
 import { normalizeTextBeforeOrdering } from './utils'
 
 const Single2 = props => {

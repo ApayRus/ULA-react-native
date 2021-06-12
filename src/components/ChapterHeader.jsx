@@ -13,10 +13,10 @@ function ChapterHeader(props) {
 		layout: { screenHeader: layoutStyles }
 	} = styles || {} // layout styles
 
-	const { showTranslation } = useSelector(state => state.translation)
+	const { showTranslation, trLang } = useSelector(state => state.translation)
 
 	const { chapterTitle, chapterTitleTr, subchapterTitle, subchapterTitleTr } =
-		content.getChapterSubchapterTitlesWithTr(chapterId, subchapterId)
+		content.getChapterSubchapterTitlesWithTr(trLang, chapterId, subchapterId)
 
 	const handleNavigateForward = () => {
 		content.navigateToNextItem(chapterId, subchapterId, navigation)
