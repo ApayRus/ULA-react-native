@@ -61,10 +61,10 @@ const index = props => {
 	*/
 
 	useEffect(() => {
-		const sourceMaterialPhrasesCount = content.getPhrasesCount(
-			sourceChapterId,
-			sourceSubchapterId
-		)
+		const sourceMaterialPhrasesCount = content.getPhrasesCount({
+			chapterId: sourceChapterId,
+			subchapterId: sourceSubchapterId
+		})
 
 		const interactivityType = content.getInteractivity(
 			sourceChapterId,

@@ -8,12 +8,12 @@ import styles from '../styles'
 
 export default function MyDrawer(props) {
 	const { chapters, navigation } = props
-	const { showTranslation } = useSelector(state => state.translation)
+	const { showTranslation, trLang } = useSelector(state => state.translation)
 	const {
 		layout: { drawer: layoutStyles }
 	} = styles || {} // layout styles
 
-	const chaptersTr = content.getTableOfContentTr()
+	const chaptersTr = content.getTableOfContent(trLang)
 
 	const isTitleDecorLeft = Boolean(
 		content.getFilesByPathString('images/titleDecorLeft')?.file

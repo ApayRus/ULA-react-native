@@ -2,7 +2,6 @@
 
 import textContentModules from '../../assets/textContentMap'
 import files from '../../assets/contentFilesMap'
-import store from '../store/rootReducer'
 import { getInteractivity as getInteractivityFromStyles } from '../styles/contentType'
 import { prefixedIndex } from './utils'
 
@@ -39,7 +38,8 @@ export class Content {
 	}
 
 	// [{ id, title, type, content: [{ id, title, type }] }]
-	getTOC(source) {
+	getTableOfContent(lang = 'oo') {
+		const source = this.text?.[lang]?.content
 		return source?.map(chapter => {
 			const { content: chapterContent, id, type = '', title } = chapter
 			if (!Array.isArray(chapterContent)) {
@@ -53,74 +53,26 @@ export class Content {
 		})
 	}
 
-	getTableOfContent() {
-		return this.getTOC(this.text['oo'].content)
-	}
-
-	getTableOfContentTr() {
-		const { trLang } = store.getState().translation
-		return this.getTOC(this.text?.[trLang]?.content)
-	}
-
 	/**
 	 *
 	 * @param {string} chapterId
 	 * @param {string} subchapterId
-	 * @param {number[]} arrayOfIndexes
+	 * @param {number[]} indexes
 	 * @returns array of phrases by indexes or all (if indexes are undefined)
 	 */
-	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
-		if (!this.text['oo']) return []
-		if (!arrayOfIndexes) return phrases
+	getPhrases({ chapterId, subchapterId, indexes, lang = 'oo' }) {
+		if (!this.text[lang]) return []
 		const {
 			content: { phrases }
-		} = this.getItem({ chapterId, subchapterId })
-
-		const result = phrases.filter((elem, index) =>
-			arrayOfIndexes.includes(index)
-		)
-
+		} = this.getItem({ chapterId, subchapterId, lang })
+		if (!indexes) return phrases
+		const result = phrases.filter((elem, index) => indexes.includes(index))
 		return result
 	}
 
-	getPhrasesCount(chapterId, subchapterId) {
-		const contentItem = this.getItem({ chapterId, subchapterId })
-
-		if (!this.text['oo']) return []
-		const {
-			content: { phrases }
-		} = contentItem
-
-		const phrasesCount = phrases.length - 1 // because first phrase is fake
-
-		return phrasesCount
-	}
-
-	getPhrasesTr(chapterId, subchapterId, arrayOfIndexes) {
-		const { trLang } = store.getState().translation
-		if (!arrayOfIndexes) return phrases
-
-		if (!(this.text && trLang)) return []
-		const {
-			content: { phrases }
-		} = this.getItem({ chapterId, subchapterId, lang: trLang })
-
-		const result = phrases.filter((elem, index) =>
-			arrayOfIndexes.includes(index)
-		)
-
-		return result
-	}
-
-	getPhrasesTrCount(chapterId, subchapterId) {
-		const { trLang } = store.getState().translation
-		if (!(this.text && trLang)) return []
-		const {
-			content: { phrases }
-		} = this.getItem({ chapterId, subchapterId, lang: trLang })
-
-		const phrasesCount = phrases.length - 1 // because first phrase is fake
-		return phrasesCount
+	getPhrasesCount({ chapterId, subchapterId, lang = 'oo' }) {
+		const phrases = this.getPhrases({ chapterId, subchapterId, lang })
+		return phrases.length - 1 // because first phrase is fake
 	}
 
 	getInteractivity(chapterId, subchapterId = '') {

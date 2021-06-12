@@ -96,17 +96,18 @@ const Single2 = props => {
 		const correctPhraseId = prefixedIndex(phraseIndexes?.[0])
 		const shuffledIndexes = Randomizer.shuffle(phraseIndexes)
 
-		const original = content.getPhrases(
+		const original = content.getPhrases({
 			chapterId,
 			subchapterId,
-			shuffledIndexes
-		)
+			indexes: shuffledIndexes
+		})
 
-		const translation = content.getPhrasesTr(
+		const translation = content.getPhrases({
 			chapterId,
 			subchapterId,
-			shuffledIndexes
-		)
+			indexes: shuffledIndexes,
+			lang: trLang
+		})
 
 		const phrases0 = { original, translation }
 
