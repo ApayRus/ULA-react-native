@@ -11,16 +11,17 @@ import content from '../utils/content'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
 import { setTranslation } from '../store/translationActions'
+import AppLoading from 'expo-app-loading'
 
 const Drawer = createDrawerNavigator()
 const Stack = createStackNavigator()
 
 const info = content.getInfo()
-const translations = content.getTranslations() // list of available langs
+const translations = content.getTranslationLangs() // list of available langs
 
 export default function RootNavigation() {
 	const dispatch = useDispatch()
-
+	const [isAsyncDataLoaded, setIsAsyncDataLoaded] = useState(false)
 	const chapters = content.getTableOfContent()
 
 	useEffect(() => {
@@ -30,12 +31,13 @@ export default function RootNavigation() {
 			showTranslation =
 				showTranslation === 'true' || showTranslation === null ? true : false
 			dispatch(setTranslation({ trLang, showTranslation }))
+			setIsAsyncDataLoaded(true)
 		}
 		getTranslationAsync()
 		return () => {}
 	}, [])
 
-	return (
+	return isAsyncDataLoaded ? (
 		<NavigationContainer>
 			<Drawer.Navigator
 				initialRouteName='Home'
@@ -131,5 +133,7 @@ export default function RootNavigation() {
 				})}
 			</Drawer.Navigator>
 		</NavigationContainer>
+	) : (
+		<AppLoading />
 	)
 }

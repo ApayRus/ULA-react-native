@@ -8,12 +8,9 @@ import { prefixedIndex } from './utils'
 
 export class Content {
 	constructor(textContentModules, files) {
-		this.textContent = Object.keys(textContentModules).reduce(
-			(prev, langCode) => {
-				return { ...prev, [langCode]: textContentModules[langCode].default }
-			},
-			{}
-		)
+		this.text = Object.keys(textContentModules).reduce((prev, langCode) => {
+			return { ...prev, [langCode]: textContentModules[langCode].default }
+		}, {})
 		this.files = files
 	}
 
@@ -24,41 +21,36 @@ export class Content {
 	}
 
 	getInfo(lang = 'oo') {
-		const { info } = this.textContent[lang]
+		const { info } = this.text[lang]
 		return info
 	}
 
 	/**
 	 * @returns ['ru', 'en', 'es']
 	 */
-	getTranslations() {
-		const { translations } = this.original
-		return translations
-	}
 
 	getChapterTitle(chapterId) {
-		const chapterTitle = this?.original?.content?.[chapterId - 1]?.title
+		const chapterTitle = this.text['oo'].content?.[chapterId - 1]?.title
 		return chapterTitle
 	}
 	getChapterTitleTr(chapterId) {
 		const { trLang } = store.getState().translation
-		const chapterTitle =
-			this?.translations?.[trLang]?.default?.content?.[chapterId - 1]?.title
+		const chapterTitle = this.text?.[trLang]?.content?.[chapterId - 1]?.title
 		return chapterTitle
 	}
 
 	getSubchapterTitle(chapterId, subchapterId) {
 		const subchapterTitle =
-			this?.original?.content?.[chapterId]?.content?.[subchapterId]?.title
+			this.text['oo'].content?.[chapterId - 1]?.content?.[subchapterId - 1]
+				?.title
 		return subchapterTitle
 	}
 
 	getSubchapterTitleTr(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
 		const chapterTitle =
-			this?.translations?.[trLang]?.default?.content?.[chapterId]?.content?.[
-				subchapterId
-			]?.title
+			this.text?.[trLang]?.content?.[chapterId - 1]?.content?.[subchapterId - 1]
+				?.title
 		return chapterTitle
 	}
 
@@ -86,12 +78,12 @@ export class Content {
 	}
 
 	getTableOfContent() {
-		return this.getTOC(this.textContent['oo'].content)
+		return this.getTOC(this.text['oo'].content)
 	}
 
 	getTableOfContentTr() {
 		const { trLang } = store.getState().translation
-		return this.getTOC(this.textContent?.[trLang]?.content)
+		return this.getTOC(this.text?.[trLang]?.content)
 	}
 
 	/**
@@ -102,7 +94,7 @@ export class Content {
 	 * @returns array of phrases by indexes or all (if indexes are undefined)
 	 */
 	getPhrases(chapterId, subchapterId, arrayOfIndexes) {
-		if (!this.textContent['oo']) return []
+		if (!this.text['oo']) return []
 		if (!arrayOfIndexes) return phrases
 		const {
 			content: { phrases }
@@ -118,7 +110,7 @@ export class Content {
 	getPhrasesCount(chapterId, subchapterId) {
 		const contentItem = this.getItem(chapterId, subchapterId)
 
-		if (!this.textContent['oo']) return []
+		if (!this.text['oo']) return []
 		const {
 			content: { phrases }
 		} = contentItem
@@ -132,7 +124,7 @@ export class Content {
 		const { trLang } = store.getState().translation
 		if (!arrayOfIndexes) return phrases
 
-		if (!(this.textContent && trLang)) return []
+		if (!(this.text && trLang)) return []
 		const {
 			content: { phrases }
 		} = this.getItemTr(chapterId, subchapterId, trLang)
@@ -146,7 +138,7 @@ export class Content {
 
 	getPhrasesTrCount(chapterId, subchapterId) {
 		const { trLang } = store.getState().translation
-		if (!(this.textContent && trLang)) return []
+		if (!(this.text && trLang)) return []
 		const {
 			content: { phrases }
 		} = this.getItemTr(chapterId, subchapterId, trLang)
@@ -167,8 +159,11 @@ export class Content {
 		const chapterIndex = chapterId - 1
 		const subchapterIndex = subchapterId - 1
 		return subchapterIndex >= 0
-			? this.original?.content?.[chapterIndex]?.content?.[subchapterIndex]
-			: this.original?.content?.[chapterIndex]
+			? this.text['oo'].content?.[chapterIndex]?.content?.[
+					subchapterIndex
+					// eslint-disable-next-line no-mixed-spaces-and-tabs
+			  ]
+			: this.text['oo'].content?.[chapterIndex]
 	}
 
 	getItemTr(chapterId, subchapterId = '') {
@@ -177,11 +172,11 @@ export class Content {
 		const { trLang } = store.getState().translation
 		const result =
 			subchapterId >= 0
-				? this.textContent?.[trLang]?.content?.[chapterIndex]?.content?.[
+				? this.text?.[trLang]?.content?.[chapterIndex]?.content?.[
 						subchapterIndex
 						// eslint-disable-next-line no-mixed-spaces-and-tabs
 				  ]
-				: this.textContent?.[trLang]?.content?.[chapterIndex]
+				: this.text?.[trLang]?.content?.[chapterIndex]
 		return result
 	}
 
