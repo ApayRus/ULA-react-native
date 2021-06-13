@@ -32,7 +32,8 @@ const Media = props => {
 		// for advanced (phrasal) player
 		contentTypeDoc = {},
 		contentTypeTrDoc = {},
-		scrollPageTo = () => {}
+		scrollPageTo = () => {},
+		secondsInterval
 	} = props
 
 	const navigation = useNavigation()
@@ -72,15 +73,16 @@ const Media = props => {
 
 	useEffect(() => {
 		const initMedia = async () => {
-			const { isVideo } = await loadDataToPlayer(
-				mediaPath,
+			const { isVideo } = await loadDataToPlayer({
+				path: mediaPath,
 				/* mutable objects */
-				playerRef,
+				player: playerRef,
 				mediaRef,
-				mediaSourceRef,
+				mediaSource: mediaSourceRef,
 				/* for phrasal  player */
-				phrases
-			)
+				phrases,
+				secondsInterval
+			})
 
 			setPlayerState(prevState => ({ ...prevState, isVideo }))
 

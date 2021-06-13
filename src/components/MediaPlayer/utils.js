@@ -42,14 +42,15 @@ const getSourceAndExtensionFromPath = async path => {
 	return { source, extension, posterSource: { uri: uriPoster }, isVideo }
 }
 
-export const loadDataToPlayer = async (
+export const loadDataToPlayer = async ({
 	path,
 	/* mutable objects */
 	player,
 	mediaRef,
 	mediaSource,
-	phrases
-) => {
+	phrases,
+	secondsInterval
+}) => {
 	const { source, posterSource, isVideo } =
 		(await getSourceAndExtensionFromPath(path)) || {}
 
@@ -62,8 +63,8 @@ export const loadDataToPlayer = async (
 	}
 
 	player.current = phrases.length
-		? new PlayerPhrasal(mediaRef, phrases)
-		: new PlayerBasic(mediaRef, phrases)
+		? new PlayerPhrasal({ mediaRef, secondsInterval, phrases })
+		: new PlayerBasic({ mediaRef, secondsInterval })
 	mediaSource.current = { source, posterSource }
 	return { isVideo }
 }

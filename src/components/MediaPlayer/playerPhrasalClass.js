@@ -1,9 +1,9 @@
 import PlayerBasic from './playerBasicClass'
 
 class PlayerPhrasal extends PlayerBasic {
-	constructor(mediaRef, phrases) {
-		// this.init(audioId, contentType)
-		super(mediaRef)
+	constructor(props) {
+		super(props)
+		const { phrases } = props
 		this.currentPhraseNum = 0
 		this.phrases = phrases
 		this.phrasesCount = phrases.length

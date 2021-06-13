@@ -2,13 +2,17 @@ import { Alert } from 'react-native'
 import mitt from 'mitt'
 
 class Player {
-	constructor(mediaRef) {
+	constructor(props) {
+		const { mediaRef, secondsInterval } = props
 		if (mediaRef.current) {
 			this.mediaObject = mediaRef.current
 			this.updateDuration()
 			this.events = mitt()
 			this.currentTime = 0
 			this.rate = 1
+			this.secondsInterval = secondsInterval
+			console.log('secondsInterval', this.secondsInterval)
+
 			this.mediaObject.setOnPlaybackStatusUpdate(this.handleOnPlayAudioUpdate)
 		} else {
 			const messages = [`Audio doesn't exist`, `Please, contact the admin`]
