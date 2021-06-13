@@ -50,7 +50,7 @@ const Media = props => {
 
 	// ==================
 
-	const mediaPath = pathToMedia || params?.[0]
+	const mediaPath = params?.[0] || pathToMedia
 
 	const { width: screenWidth, height: screenHeight } = useWindowDimensions()
 
