@@ -7,6 +7,17 @@ class PlayerPhrasal extends PlayerBasic {
 		this.currentPhraseNum = 0
 		this.phrases = phrases
 		this.phrasesCount = phrases.length
+		if (this.secondsInterval) {
+			const { start, end } = this.secondsInterval
+			const phraseStart = this.findCurrentPhraseNum(start)
+			const phraseEnd = this.findCurrentPhraseNum(end)
+			this.phraseStart = phraseStart
+			this.phraseEnd = phraseEnd
+			this.phrases = this.phrases.filter(
+				(elem, index) => index + 1 >= phraseStart && index <= phraseEnd
+				// eslint-disable-next-line no-mixed-spaces-and-tabs
+			)
+		}
 		this.setStatus({ progressUpdateIntervalMillis: 100 })
 	}
 
@@ -30,6 +41,31 @@ class PlayerPhrasal extends PlayerBasic {
 		this.events.emit('didJustFinish', didJustFinish)
 	}
 
+	onPlayAudioUpdateSecondsInterval = playbackStatus => {
+		const { positionMillis, didJustFinish, isPlaying } = playbackStatus
+		const currentTime = positionMillis / 1000
+		this.isPlaying = isPlaying
+		this.currentTime = currentTime
+		const { end: currentPhaseEnd } = this.phrases[this.currentPhraseNum] || {}
+
+		if (
+			currentTime > currentPhaseEnd &&
+			this.currentPhraseNum < this.phrasesCount - 1
+		) {
+			this.currentPhraseNum++
+		}
+
+		this.events.emit('isPlaying', isPlaying)
+		this.events.emit('currentTime', currentTime)
+		this.events.emit('currentPhraseNum', this.currentPhraseNum)
+		this.events.emit('didJustFinish', didJustFinish)
+
+		if (currentTime >= this.secondsInterval.end) {
+			this.pause()
+			this.events.emit('didJustFinished', true)
+		}
+	}
+
 	onPlayPhraseAudioUpdate = playbackStatus => {
 		const { positionMillis, isPlaying } = playbackStatus
 		const currentTime = positionMillis / 1000
@@ -48,7 +84,13 @@ class PlayerPhrasal extends PlayerBasic {
 	}
 
 	play() {
-		this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
+		if (this.secondsInterval) {
+			this.mediaObject.setOnPlaybackStatusUpdate(
+				this.onPlayAudioUpdateSecondsInterval
+			)
+		} else {
+			this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
+		}
 		this.mediaObject.playAsync()
 		this.events.emit('play')
 	}

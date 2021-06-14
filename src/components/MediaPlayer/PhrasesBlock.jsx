@@ -43,37 +43,44 @@ export default function PhrasesBlock(props) {
 			phrasesPositionYRef.current[index] = y
 		}
 
+	let phrasesTrFiltered = phrasesTr
+	if (phrasalPlayer?.secondsInterval) {
+		const { phraseStart, phraseEnd } = phrasalPlayer || {}
+		phrasesTrFiltered = phrasesTr.slice(phraseStart - 1, phraseEnd + 1)
+	}
+
 	return (
 		<ScrollView ref={scrollViewRef} nestedScrollEnabled>
 			<View style={contentTypeStyle.phrasesContainer}>
-				{phrases.map((elem, index) => {
-					const { text, voiceName } = elem
-					const { text: trText, voiceName: voiceNameTr } =
-						phrasesTr[index] || {}
-					const phraseNum = index
+				{phrasalPlayer &&
+					phrasalPlayer.phrases.map((elem, index) => {
+						const { text, voiceName } = elem
+						const { text: trText, voiceName: voiceNameTr } =
+							phrasesTrFiltered[index] || {}
+						const phraseNum = index
 
-					return (
-						index > 0 && (
-							<PhraseWrapper
-								key={`phrase-${phraseNum}`}
-								{...{
-									/* voice:  */
-									voiceName,
-									voiceNameTr,
-									/* phrase: */
-									text,
-									currentPhraseNum,
-									phraseNum,
-									trText,
-									showTranslation,
-									/* event handlers */
-									onPhraseLayout,
-									handlePlayPhrase
-								}}
-							/>
+						return (
+							index > 0 && (
+								<PhraseWrapper
+									key={`phrase-${phraseNum}`}
+									{...{
+										/* voice:  */
+										voiceName,
+										voiceNameTr,
+										/* phrase: */
+										text,
+										currentPhraseNum,
+										phraseNum,
+										trText,
+										showTranslation,
+										/* event handlers */
+										onPhraseLayout,
+										handlePlayPhrase
+									}}
+								/>
+							)
 						)
-					)
-				})}
+					})}
 			</View>
 		</ScrollView>
 	)

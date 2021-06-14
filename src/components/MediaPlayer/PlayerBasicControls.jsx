@@ -2,7 +2,7 @@ import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { Button, Text } from 'react-native-elements'
 import Slider from '@react-native-community/slider'
-import { formatSecondsToTime } from '../../utils/utils'
+import { formatSecondsToTime } from './utils'
 import styles from '../../styles'
 
 const {
@@ -11,6 +11,9 @@ const {
 
 export default function PhrasalPlayerControls(props) {
 	const { player, isPlaying, currentTime = 0, duration = 100, rate } = props
+
+	const { secondsInterval } = player || {}
+	const { start, end } = secondsInterval || {}
 
 	const handlePlay = () => {
 		player.play()
@@ -39,9 +42,11 @@ export default function PhrasalPlayerControls(props) {
 	// 		player.unload()
 	// 	}
 	// }, [])
+	const curTime = secondsInterval ? currentTime - start : currentTime
+	const durTime = secondsInterval ? end - start : duration
 
-	const currentTimeFormatted = formatSecondsToTime(currentTime)
-	const durationFormatted = duration ? formatSecondsToTime(duration) : ''
+	const currentTimeFormatted = formatSecondsToTime(curTime)
+	const durationFormatted = duration ? formatSecondsToTime(durTime) : ''
 
 	const TimeIndicator = (
 		<View>
@@ -85,9 +90,9 @@ export default function PhrasalPlayerControls(props) {
 	return (
 		<View>
 			<Slider
-				minimumValue={0}
+				minimumValue={start || 0}
 				value={currentTime ? currentTime : 0}
-				maximumValue={duration ? duration : 100}
+				maximumValue={end || duration || 100}
 				onSlidingStart={() => handleSeekStart()}
 				onSlidingComplete={value => handleSeek(value)}
 				style={layoutStyles.slider}

@@ -10,10 +10,17 @@ class Player {
 			this.events = mitt()
 			this.currentTime = 0
 			this.rate = 1
-			this.secondsInterval = secondsInterval
-			console.log('secondsInterval', this.secondsInterval)
-
 			this.mediaObject.setOnPlaybackStatusUpdate(this.handleOnPlayAudioUpdate)
+			if (secondsInterval) {
+				this.secondsInterval = secondsInterval
+				this.currentTime = secondsInterval.start
+				this.mediaObject.setStatusAsync({
+					positionMillis: this.currentTime * 1000
+				})
+				this.mediaObject.setOnPlaybackStatusUpdate(
+					this.handleOnPlayAudioUpdateSecondsInterval
+				)
+			}
 		} else {
 			const messages = [`Audio doesn't exist`, `Please, contact the admin`]
 			console.log(...messages)
@@ -27,6 +34,18 @@ class Player {
 		this.currentTime = currentTime
 		this.events.emit('isPlaying', isPlaying)
 		this.events.emit('currentTime', currentTime)
+	}
+	// if we have secondsInterval
+	handleOnPlayAudioUpdateSecondsInterval = playbackStatus => {
+		const { positionMillis, isPlaying } = playbackStatus
+		const currentTime = positionMillis / 1000
+		this.currentTime = currentTime
+		this.events.emit('isPlaying', isPlaying)
+		this.events.emit('currentTime', currentTime)
+		if (currentTime >= this.secondsInterval.end) {
+			this.pause()
+			this.events.emit('didJustFinish', true)
+		}
 	}
 
 	async updateDuration() {
