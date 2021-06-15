@@ -1,6 +1,7 @@
 import content from '../../utils/content'
 import PlayerBasic from './playerBasicClass'
 import PlayerPhrasal from './playerPhrasalClass'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Audio } from 'expo-av'
 
 const getSourceAndExtensionFromPath = async path => {
@@ -10,8 +11,33 @@ const getSourceAndExtensionFromPath = async path => {
 	const extractFileFromPath = async uri => {
 		// 1) it is youtube link
 		if (isYoutube(uri)) {
-			const youtubeResponse = await fetchYoutubeVideoByUrl(uri) // from direct-link.vercel.app
+			let youtubeResponse = {}
+			const fetchFromYoutubeAndWriteToAsyncStorage = async uri => {
+				const youtubeResponse = await fetchYoutubeVideoByUrl(uri) // from direct-link.vercel.app
+				AsyncStorage.setItem(uri, JSON.stringify(youtubeResponse))
+				return youtubeResponse
+			}
+
+			const youtubeResponseFromAsyncStorage = await AsyncStorage.getItem(uri)
+
+			if (youtubeResponseFromAsyncStorage) {
+				console.log('youtube link from  storage')
+				youtubeResponse = JSON.parse(youtubeResponseFromAsyncStorage)
+				const { urlVideo: uriDirect } = youtubeResponse || {}
+				const [, expire] = uriDirect.match(/expire=(\d+)/) // 10 signs
+				if (Date.now() >= +(expire + '000') || !uriDirect) {
+					console.log(
+						'link from storage expired, then we do new call to Youtube'
+					)
+					youtubeResponse = await fetchFromYoutubeAndWriteToAsyncStorage(uri)
+				}
+			} else {
+				console.log('first call to youtube')
+				youtubeResponse = await fetchFromYoutubeAndWriteToAsyncStorage(uri)
+			}
+
 			const { urlVideo: uriDirect, thumbnails = [] } = youtubeResponse || {}
+
 			const { url: uriPoster } = thumbnails[thumbnails.length - 1] || {}
 			const extension = '.mp4' // just guess for small youtube videos
 			return { uri: uriDirect, extension, uriPoster }
