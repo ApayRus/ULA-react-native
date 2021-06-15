@@ -10,7 +10,7 @@ class Player {
 			this.events = mitt()
 			this.currentTime = 0
 			this.rate = 1
-			this.mediaObject.setOnPlaybackStatusUpdate(this.handleOnPlayAudioUpdate)
+			this.mediaObject.setOnPlaybackStatusUpdate(this.onPlayAudioUpdate)
 			if (secondsInterval) {
 				this.secondsInterval = secondsInterval
 				this.currentTime = secondsInterval.start
@@ -18,7 +18,7 @@ class Player {
 					positionMillis: this.currentTime * 1000
 				})
 				this.mediaObject.setOnPlaybackStatusUpdate(
-					this.handleOnPlayAudioUpdateSecondsInterval
+					this.onPlayAudioUpdateSecondsInterval
 				)
 			}
 		} else {
@@ -28,23 +28,26 @@ class Player {
 		}
 	}
 
-	handleOnPlayAudioUpdate = playbackStatus => {
+	onPlayAudioUpdate = playbackStatus => {
 		const { positionMillis, isPlaying } = playbackStatus
 		const currentTime = positionMillis / 1000
 		this.currentTime = currentTime
 		this.events.emit('isPlaying', isPlaying)
 		this.events.emit('currentTime', currentTime)
 	}
+
 	// if we have secondsInterval
-	handleOnPlayAudioUpdateSecondsInterval = playbackStatus => {
+	onPlayAudioUpdateSecondsInterval = async playbackStatus => {
 		const { positionMillis, isPlaying } = playbackStatus
 		const currentTime = positionMillis / 1000
 		this.currentTime = currentTime
 		this.events.emit('isPlaying', isPlaying)
 		this.events.emit('currentTime', currentTime)
 		if (currentTime >= this.secondsInterval.end) {
-			this.pause()
-			this.events.emit('didJustFinish', true)
+			await this.mediaObject.pauseAsync()
+			// this.mediaObject.setOnPlaybackStatusUpdate(() => {})
+			this.events.emit('isPlaying', false)
+			this.events.emit('didJustFinished', true)
 		}
 	}
 

@@ -8,15 +8,12 @@ class PlayerPhrasal extends PlayerBasic {
 		this.phrases = phrases
 		this.phrasesCount = phrases.length
 		if (this.secondsInterval) {
+			const zeroPhrase = { start: 0, end: 0, text: '' }
 			const { start, end } = this.secondsInterval
-			const phraseStart = this.findCurrentPhraseNum(start)
-			const phraseEnd = this.findCurrentPhraseNum(end)
-			this.phraseStart = phraseStart
-			this.phraseEnd = phraseEnd
-			this.phrases = this.phrases.filter(
-				(elem, index) => index + 1 >= phraseStart && index <= phraseEnd
-				// eslint-disable-next-line no-mixed-spaces-and-tabs
-			)
+			this.phrases = [
+				zeroPhrase,
+				...this.phrases.filter(elem => elem.start >= start && elem.end <= end)
+			]
 		}
 		this.setStatus({ progressUpdateIntervalMillis: 100 })
 	}
@@ -41,7 +38,7 @@ class PlayerPhrasal extends PlayerBasic {
 		this.events.emit('didJustFinish', didJustFinish)
 	}
 
-	onPlayAudioUpdateSecondsInterval = playbackStatus => {
+	onPlayAudioUpdateSecondsInterval = async playbackStatus => {
 		const { positionMillis, didJustFinish, isPlaying } = playbackStatus
 		const currentTime = positionMillis / 1000
 		this.isPlaying = isPlaying
@@ -54,19 +51,19 @@ class PlayerPhrasal extends PlayerBasic {
 		) {
 			this.currentPhraseNum++
 		}
-
+		if (currentTime >= this.secondsInterval.end) {
+			await this.pause()
+			this.mediaObject.setOnPlaybackStatusUpdate(() => {})
+			this.events.emit('isPlaying', false)
+			this.events.emit('didJustFinished', true)
+		}
 		this.events.emit('isPlaying', isPlaying)
 		this.events.emit('currentTime', currentTime)
 		this.events.emit('currentPhraseNum', this.currentPhraseNum)
 		this.events.emit('didJustFinish', didJustFinish)
-
-		if (currentTime >= this.secondsInterval.end) {
-			this.pause()
-			this.events.emit('didJustFinished', true)
-		}
 	}
 
-	onPlayPhraseAudioUpdate = playbackStatus => {
+	onPlayPhraseAudioUpdate = async playbackStatus => {
 		const { positionMillis, isPlaying } = playbackStatus
 		const currentTime = positionMillis / 1000
 		this.currentTime = currentTime
@@ -77,7 +74,7 @@ class PlayerPhrasal extends PlayerBasic {
 		this.events.emit('currentPhraseNum', this.currentPhraseNum)
 
 		if (currentTime >= currentPhaseEnd) {
-			this.mediaObject.pauseAsync()
+			await this.pause()
 			this.mediaObject.setOnPlaybackStatusUpdate(() => {})
 			this.events.emit('isPlaying', false)
 		}

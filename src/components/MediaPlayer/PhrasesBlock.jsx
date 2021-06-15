@@ -9,7 +9,8 @@ export default function PhrasesBlock(props) {
 		phrases,
 		phrasesTr,
 		playerRef: { current: phrasalPlayer },
-		currentPhraseNum
+		currentPhraseNum,
+		secondsInterval
 	} = props
 
 	const { /* trLang ,*/ showTranslation } = useSelector(
@@ -43,44 +44,52 @@ export default function PhrasesBlock(props) {
 			phrasesPositionYRef.current[index] = y
 		}
 
+	let phrasesFiltered = phrases
 	let phrasesTrFiltered = phrasesTr
-	if (phrasalPlayer?.secondsInterval) {
-		const { phraseStart, phraseEnd } = phrasalPlayer || {}
-		phrasesTrFiltered = phrasesTr.slice(phraseStart - 1, phraseEnd + 1)
+	const zeroPhrase = { start: 0, end: 0, text: '' }
+	if (secondsInterval) {
+		const { start, end } = secondsInterval || {}
+		phrasesFiltered = [
+			zeroPhrase,
+			...phrases.filter(phrase => phrase.start >= start && phrase.end <= end)
+		]
+		const phraseIds = phrasesFiltered.map(elem => elem.id)
+		phrasesTrFiltered = [
+			zeroPhrase,
+			...phrasesTr.filter(phrase => phraseIds.includes(phrase.id))
+		]
 	}
-
 	return (
 		<ScrollView ref={scrollViewRef} nestedScrollEnabled>
 			<View style={contentTypeStyle.phrasesContainer}>
-				{phrasalPlayer &&
-					phrasalPlayer.phrases.map((elem, index) => {
-						const { text, voiceName } = elem
-						const { text: trText, voiceName: voiceNameTr } =
-							phrasesTrFiltered[index] || {}
-						const phraseNum = index
+				{phrasesFiltered.map((elem, index) => {
+					const { text, voiceName } = elem
+					const { text: trText, voiceName: voiceNameTr } =
+						phrasesTrFiltered[index] || {}
+					const phraseNum = index
 
-						return (
-							index > 0 && (
-								<PhraseWrapper
-									key={`phrase-${phraseNum}`}
-									{...{
-										/* voice:  */
-										voiceName,
-										voiceNameTr,
-										/* phrase: */
-										text,
-										currentPhraseNum,
-										phraseNum,
-										trText,
-										showTranslation,
-										/* event handlers */
-										onPhraseLayout,
-										handlePlayPhrase
-									}}
-								/>
-							)
+					return (
+						index > 0 && (
+							<PhraseWrapper
+								key={`phrase-${phraseNum}`}
+								{...{
+									/* voice:  */
+									voiceName,
+									voiceNameTr,
+									/* phrase: */
+									text,
+									currentPhraseNum,
+									phraseNum,
+									trText,
+									showTranslation,
+									/* event handlers */
+									onPhraseLayout,
+									handlePlayPhrase
+								}}
+							/>
 						)
-					})}
+					)
+				})}
 			</View>
 		</ScrollView>
 	)

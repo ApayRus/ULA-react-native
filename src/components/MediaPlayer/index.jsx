@@ -174,7 +174,8 @@ const Media = props => {
 					phrases,
 					phrasesTr,
 					currentPhraseNum,
-					playerRef
+					playerRef,
+					secondsInterval
 				}}
 			/>
 		),
