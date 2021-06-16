@@ -29,22 +29,27 @@ const defaultStyles = {
 				flexDirection: 'row', // for arabic, hebrew: 'row-reverse'
 				alignItems: 'center',
 				marginTop: 15,
-				marginBottom: 2
+				marginBottom: 2,
+				borderColor: 'grey',
+				borderWidth: 0.5,
+				borderRadius: 10
 			},
 			avatarProps: {
 				rounded: true,
 				icon: { name: 'perm-identity', color: 'grey', type: '' },
 				containerStyle: {
 					backgroundColor: 'lightgrey',
-					width: 20,
-					height: 20,
 					marginRight: 5 // for arabic: marginRight
 				},
-				size: 'small'
+				size: 'small',
+				flex: 1,
+				flexShrink: 0
 			},
-			voiceNameWrapper: { color: 'gray' },
-			voiceName: {},
-			voiceNameTr: {},
+			voiceNameWrapper: { flex: 10 },
+			voiceNameContainer: {},
+			voiceNameTrContainer: {},
+			voiceName: { ...general.body3, color: general.colors.primary },
+			voiceNameTr: { ...general.translation.default },
 			phraseDefaultContainer: {
 				borderColor: 'rgb(242,242,242)',
 				borderStyle: 'solid',

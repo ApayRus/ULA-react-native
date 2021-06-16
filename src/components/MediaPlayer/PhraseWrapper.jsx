@@ -18,12 +18,16 @@ const Voice = ({ voiceName, voiceNameTr, showTranslation }) => {
 	return (
 		<View style={contentTypeStyle.voiceContainer}>
 			<Avatar {...contentTypeStyle.avatarProps} />
-			<Text style={contentTypeStyle.voiceNameWrapper}>
-				<Text style={contentTypeStyle.voiceName}>{voiceName}</Text>
+			<View style={contentTypeStyle.voiceNameWrapper}>
+				<View style={contentTypeStyle.voiceNameContainer}>
+					<Text style={contentTypeStyle.voiceName}>{voiceName}</Text>
+				</View>
 				{voiceNameTr && showTranslation && (
-					<Text style={contentTypeStyle.voiceNameTr}>({voiceNameTr})</Text>
+					<View style={contentTypeStyle.voiceNameTrContainer}>
+						<Text style={contentTypeStyle.voiceNameTr}>{voiceNameTr}</Text>
+					</View>
 				)}
-			</Text>
+			</View>
 		</View>
 	)
 }
@@ -98,7 +102,7 @@ const PhraseWrapper = props => {
 			style={contentTypeStyle.phraseWrapperContainer}
 			onLayout={onPhraseLayout(phraseNum)}
 		>
-			{voiceName && <Voice voiceName={voiceName} voiceNameTr={voiceNameTr} />}
+			{voiceName && <Voice {...{ voiceName, voiceNameTr, showTranslation }} />}
 			<Phrase
 				{...{
 					text,
