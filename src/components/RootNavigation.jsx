@@ -26,7 +26,10 @@ export default function RootNavigation() {
 
 	useEffect(() => {
 		const getTranslationAsync = async () => {
-			const trLang = await AsyncStorage.getItem('trLang')
+			let trLang = await AsyncStorage.getItem('trLang')
+			if (!trLang && translations.length > 0) {
+				trLang = translations?.[0]
+			}
 			let showTranslation = await AsyncStorage.getItem('showTranslation')
 			showTranslation =
 				showTranslation === 'true' || showTranslation === null ? true : false
