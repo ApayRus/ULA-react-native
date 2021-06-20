@@ -41,10 +41,10 @@ const Media = props => {
 	const {
 		title,
 		params = [], // path/to/media
-		content: { phrases = {} } = {}
+		content: { phrases = [] } = {}
 	} = contentTypeDoc || {}
 
-	const { title: titleTr, content: { phrases: phrasesTr = {} } = {} } =
+	const { title: titleTr, content: { phrases: phrasesTr = [] } = {} } =
 		contentTypeTrDoc || {}
 
 	const isPhrasalPlayer = Boolean(phrases.length)
