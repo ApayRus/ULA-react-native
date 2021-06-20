@@ -23,6 +23,7 @@ import { loadDataToPlayer } from './utils'
 // === for phrasal media:
 import PhrasalPlayerControls from './PlayerPhrasalControls'
 import PhrasesBlock from './PhrasesBlock'
+import style from '../../styles/contentType'
 
 const Media = props => {
 	const {
@@ -41,7 +42,8 @@ const Media = props => {
 	const {
 		title,
 		params = [], // path/to/media
-		content: { phrases = [] } = {}
+		content: { phrases = [] } = {},
+		type
 	} = contentTypeDoc || {}
 
 	const { title: titleTr, content: { phrases: phrasesTr = [] } = {} } =
@@ -146,7 +148,7 @@ const Media = props => {
 						// and I can't use default controls
 						style={{
 							width: screenWidth,
-							height: (screenWidth * 9) / 16
+							height: screenWidth / style?.[type]?.aspectRatio
 						}}
 						ref={mediaRef}
 						{...Platform.select({

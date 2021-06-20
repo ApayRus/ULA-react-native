@@ -19,6 +19,7 @@ const defaultStyles = {
 
 	// richMedia
 	richMedia: {
+		aspectRatio: 16 / 9,
 		parent: 'richMedia',
 		phraseList: {
 			phrasesContainer: { marginBottom: 5 },
