@@ -50,6 +50,7 @@ import {
 	yamlParams
 } from './utils.js'
 import { parseContentType } from './contentType.js'
+import { parseChapters } from 'frazy-parser'
 
 const h1template = new RegExp(/^\s*#{1}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
 const h2template = new RegExp(/^\s*#{2}\s+(.+?)\s*(\[(.+?)\])?\s*$/, 'gm')
@@ -69,7 +70,7 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 
 	const info = { title, paramsArray }
 
-	const content = chaptersArray // chaptersAndSubchapters
+	let content = chaptersArray // chaptersAndSubchapters
 		.map((chapterDoc, chapterIndex) => {
 			const id = prefixedIndex(chapterIndex + 1)
 			// we shouldn't find subchapters if:
@@ -122,6 +123,28 @@ const parseMarkdown = (markdownText, h1template, h2template) => {
 			return { ...elem, id }
 		})
 	}
+
+	if (content.length === 0 && hiddenContent.length == 1) {
+		// in case of vtt subtitles, we can put chapters into vtt text
+		// then extract them to content, directly from text
+		// we don't write content/chapters in markdown, but in vtt (sometimes)
+		const vttText = chaptersArray?.[1]?.content
+		const vttChapters = parseChapters(vttText)
+
+		content = vttChapters.map((elem, index, array) => {
+			const { title, start } = elem
+			const end = elem?.end || array?.[index + 1]?.start
+			const id = prefixedIndex(index + 1)
+			return {
+				title,
+				type: 'richMedia',
+				params: ['hiddenContent/001', `s${start}-${end}`],
+				content: '',
+				id
+			}
+		})
+	}
+
 	return { info, content, hiddenContent }
 }
 
