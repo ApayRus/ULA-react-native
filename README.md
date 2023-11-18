@@ -1,3 +1,5 @@
+DEPRICATED. Please visit <https://github.com/apayrus/ula>
+
 # ULA -- Universal Learning App
 
 ULA is a template for an educational app (android/iOS/web).
